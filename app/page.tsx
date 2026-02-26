@@ -230,7 +230,7 @@ export default function Home() {
           NAVBAR
       ════════════════════════════════════════════════════════ */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 h-[4rem] flex items-center justify-between gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-14 sm:h-16 flex items-center justify-between gap-4 sm:gap-6">
 
           {/* Logo */}
           <a
@@ -244,7 +244,7 @@ export default function Home() {
               width={520}
               height={200}
               priority
-              className="h-[72px] w-auto object-contain -my-1"
+              className="h-10 sm:h-12 md:h-14 w-auto object-contain"
             />
           </a>
 
@@ -295,14 +295,14 @@ export default function Home() {
           HERO
       ════════════════════════════════════════════════════════ */}
       <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-24 lg:pt-24 lg:pb-28 grid lg:grid-cols-[1fr_1.1fr] gap-14 xl:gap-24 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 sm:pt-16 pb-16 sm:pb-20 lg:pt-24 lg:pb-28 grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-14 xl:gap-20 items-center">
 
           {/* Left — copy */}
           <div>
             <Eyebrow>IPO Intelligence Platform</Eyebrow>
 
             <h1
-              className="text-[2.75rem] lg:text-[3.25rem] font-semibold leading-[1.12] tracking-[-0.022em] text-[#0f172a] mb-6"
+              className="text-2xl sm:text-3xl lg:text-[3.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#0f172a] mb-5 sm:mb-6"
               style={{ fontFamily: "var(--font-playfair)" }}
             >
               Structured IPO
@@ -310,12 +310,12 @@ export default function Home() {
               <em className="not-italic text-[#1e3a8a]">Data & Insights</em>
             </h1>
 
-            <BodyText className="max-w-[27rem] mb-9">
+            <BodyText className="max-w-full sm:max-w-[27rem] mb-7 sm:mb-9">
               Structured IPO data, grey market premium tracking, and SME IPO information — organised for investors who prefer clarity over noise. IPOCraft provides informational content only and does not offer investment advice.
             </BodyText>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-3 mb-14">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 mb-10 sm:mb-14">
               <a
                 href="#"
                 className="inline-flex items-center gap-2 bg-[#1e3a8a] hover:bg-[#1a327a] text-white text-[13px] font-medium px-6 py-[0.7rem] rounded-[4px] transition-colors duration-150"
@@ -336,7 +336,7 @@ export default function Home() {
             </div>
 
             {/* Stat strip */}
-            <div className="flex flex-wrap items-start gap-x-10 gap-y-5 pt-8 border-t border-[#e2e8f0]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-6 sm:pt-8 border-t border-[#e2e8f0]">
               {[
                 { value: "Mainboard & SME", note: "Both segments covered" },
                 { value: "Exchange Sourced", note: "Official filings only" },
@@ -445,7 +445,7 @@ export default function Home() {
           PILLARS — separated by hairline grid
       ════════════════════════════════════════════════════════ */}
       <section className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#e2e8f0]">
             {PLATFORM_PILLARS.map((p, i) => (
               <div
@@ -475,7 +475,7 @@ export default function Home() {
           LATEST IPOS
       ════════════════════════════════════════════════════════ */}
       <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 sm:pt-16 pb-16 sm:pb-20">
 
           {/* Section header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
@@ -500,7 +500,7 @@ export default function Home() {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {SAMPLE_IPOS.map((ipo) => (
               <a
                 key={ipo.id}
@@ -589,7 +589,7 @@ export default function Home() {
           PLATFORM FEATURES
       ════════════════════════════════════════════════════════ */}
       <section className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 sm:pt-16 pb-16 sm:pb-20">
 
           {/* Two-column header */}
           <div className="grid lg:grid-cols-[1fr_1.7fr] gap-10 items-start mb-16">
@@ -643,7 +643,7 @@ export default function Home() {
           DATA PHILOSOPHY CALLOUT
       ════════════════════════════════════════════════════════ */}
       <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
           <div className="border border-[#dce4ef] bg-white rounded-lg overflow-hidden grid md:grid-cols-[1fr_auto]">
             <div className="px-9 py-10 md:py-12">
               <Eyebrow>Our Data Philosophy</Eyebrow>
@@ -683,7 +683,7 @@ export default function Home() {
           CTA
       ════════════════════════════════════════════════════════ */}
       <section className="bg-[#1e3a8a]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 text-center">
           <Eyebrow light>Research Before You Apply</Eyebrow>
           <h2
             className="text-[2.25rem] lg:text-[2.7rem] font-semibold text-white leading-[1.14] tracking-[-0.018em] mb-5 max-w-2xl mx-auto"
@@ -719,7 +719,7 @@ export default function Home() {
           FOOTER
       ════════════════════════════════════════════════════════ */}
       <footer className="bg-[#0c1526]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
           {/* Main grid */}
           <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_1fr_1fr] gap-10 py-16 border-b border-[#1a2640]">
@@ -732,7 +732,7 @@ export default function Home() {
                 alt="IPOCraft"
                 width={300}
                 height={110}
-                className="h-[64px] w-auto object-contain"
+                className="h-12 sm:h-14 w-auto object-contain"
               />
             </div>
               <p
