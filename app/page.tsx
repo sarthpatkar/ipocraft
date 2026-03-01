@@ -1,7 +1,8 @@
-"use client";
-
+import type { Metadata } from "next";
+import Link from "next/link";
 import { Playfair_Display, Inter } from "next/font/google";
-import Image from "next/image";
+import IpoList from "@/components/IpoList";
+import BrokerList from "@/components/BrokerList";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -17,823 +18,364 @@ const inter = Inter({
   display: "swap",
 });
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-type ExchangeType = "NSE" | "BSE" | "NSE SME" | "BSE SME";
-type StatusType = "Open" | "Upcoming" | "Listed" | "Closed";
-
-interface IPO {
-  id: number;
-  company: string;
-  exchange: ExchangeType;
-  sector: string;
-  priceBand: string;
-  openDate: string;
-  closeDate: string;
-  lotSize: number;
-  gmpLabel: string; // Indicative only — not financial advice
-  status: StatusType;
-}
-
-// ─── Sample IPO Data ──────────────────────────────────────────────────────────
-// ALL data below is ILLUSTRATIVE only — for UI layout demonstration.
-// It does NOT represent real companies, real prices, or real market data.
-const SAMPLE_IPOS: IPO[] = [
-  {
-    id: 1,
-    company: "Sample Technology Ltd.",
-    exchange: "NSE",
-    sector: "Technology",
-    priceBand: "₹XXX – ₹XXX",
-    openDate: "DD Mon YYYY",
-    closeDate: "DD Mon YYYY",
-    lotSize: 50,
-    gmpLabel: "—",
-    status: "Upcoming",
+export const metadata: Metadata = {
+  title: "IPOCraft | Smart IPO Research Platform",
+  description:
+    "IPOCraft provides structured IPO data, Grey Market Premium (GMP) trends, subscription insights, allotment timelines, listing performance, and broker comparisons for research purposes.",
+  keywords: [
+    "IPO GMP",
+    "IPO subscription",
+    "IPO allotment status",
+    "IPO listing gain",
+    "SME IPO",
+    "Mainboard IPO",
+    "IPO calendar",
+    "Grey Market Premium",
+    "IPO research",
+  ],
+  openGraph: {
+    title: "IPOCraft | Smart IPO Research Platform",
+    description:
+      "Structured IPO data, GMP trends, subscription insights, allotment timelines, and listing information in one place.",
+    url: "https://ipocraft.com",
+    siteName: "IPOCraft",
+    type: "website",
   },
-  {
-    id: 2,
-    company: "Sample Infrastructure Corp.",
-    exchange: "BSE",
-    sector: "Infrastructure",
-    priceBand: "₹XXX – ₹XXX",
-    openDate: "DD Mon YYYY",
-    closeDate: "DD Mon YYYY",
-    lotSize: 100,
-    gmpLabel: "—",
-    status: "Open",
+  alternates: {
+    canonical: "https://ipocraft.com",
   },
-  {
-    id: 3,
-    company: "Sample Chemicals Pvt. Ltd.",
-    exchange: "NSE SME",
-    sector: "Chemicals",
-    priceBand: "₹XXX – ₹XXX",
-    openDate: "DD Mon YYYY",
-    closeDate: "DD Mon YYYY",
-    lotSize: 2000,
-    gmpLabel: "—",
-    status: "Listed",
-  },
-  {
-    id: 4,
-    company: "Sample Finance Services Ltd.",
-    exchange: "BSE",
-    sector: "NBFC",
-    priceBand: "₹XXX – ₹XXX",
-    openDate: "DD Mon YYYY",
-    closeDate: "DD Mon YYYY",
-    lotSize: 75,
-    gmpLabel: "—",
-    status: "Listed",
-  },
-  {
-    id: 5,
-    company: "Sample EV Solutions Ltd.",
-    exchange: "NSE",
-    sector: "EV / Auto",
-    priceBand: "₹XXX – ₹XXX",
-    openDate: "DD Mon YYYY",
-    closeDate: "DD Mon YYYY",
-    lotSize: 40,
-    gmpLabel: "—",
-    status: "Upcoming",
-  },
-  {
-    id: 6,
-    company: "Sample Healthcare Pvt. Ltd.",
-    exchange: "BSE SME",
-    sector: "Healthcare",
-    priceBand: "₹XXX – ₹XXX",
-    openDate: "DD Mon YYYY",
-    closeDate: "DD Mon YYYY",
-    lotSize: 1200,
-    gmpLabel: "—",
-    status: "Closed",
-  },
-];
-
-// ─── Status styles ────────────────────────────────────────────────────────────
-const STATUS_STYLES: Record<StatusType, string> = {
-  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-  Upcoming: "bg-blue-50 text-blue-700 border border-blue-200",
-  Listed: "bg-slate-100 text-slate-500 border border-slate-200",
-  Closed: "bg-rose-50 text-rose-600 border border-rose-200",
 };
 
-// ─── Static content ───────────────────────────────────────────────────────────
-const PLATFORM_FEATURES = [
-  {
-    index: "01",
-    title: "GMP Tracking",
-    body: "Grey Market Premium data aggregated and presented in a structured format to help investors understand pre-listing sentiment. GMP is unofficial and indicative only — it does not represent guaranteed listing outcomes.",
-  },
-  {
-    index: "02",
-    title: "SME IPO Coverage",
-    body: "Dedicated section for SME board listings — NSE SME and BSE SME — with offer documents, subscription figures, and allotment information, a segment often under-covered by mainstream financial portals.",
-  },
-  {
-    index: "03",
-    title: "Subscription Analytics",
-    body: "Category-wise subscription data — QIB, NII, and RII — sourced from official exchange disclosures and updated at each publishing cycle during the offer period, giving investors a structured view of demand.",
-  },
-];
-
-const PLATFORM_PILLARS = [
-  {
-    label: "Data Source",
-    value: "Exchange Filings",
-    note: "Sourced from official SEBI and exchange documents",
-  },
-  {
-    label: "Coverage",
-    value: "Mainboard & SME",
-    note: "NSE, BSE, NSE SME, and BSE SME segments",
-  },
-  {
-    label: "GMP Data",
-    value: "Indicative Only",
-    note: "Unofficial grey market data — not investment advice",
-  },
-  {
-    label: "Updates",
-    value: "Each Trading Day",
-    note: "Data refreshed on working days during offer periods",
-  },
-];
-
-const NAV_LINKS = ["Home", "IPO Listings", "GMP", "SME IPO", "Allotment"];
-
-// ─── Reusable atoms ───────────────────────────────────────────────────────────
-function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
-  return (
-    <p
-      className={`text-[10.5px] font-semibold tracking-[0.22em] uppercase mb-4 ${light ? "text-[#93c5fd]" : "text-[#2563eb]"}`}
-      style={{ fontFamily: "var(--font-inter)" }}
-    >
-      {children}
-    </p>
-  );
-}
-
-function SectionHeading({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
-  return (
-    <h2
-      className={`text-[2rem] font-semibold leading-[1.2] tracking-[-0.01em] ${light ? "text-white" : "text-[#0f172a]"}`}
-      style={{ fontFamily: "var(--font-playfair)" }}
-    >
-      {children}
-    </h2>
-  );
-}
-
-function BodyText({
-  children,
-  className = "",
-  light = false,
+export default async function Home({
+  searchParams,
 }: {
-  children: React.ReactNode;
-  className?: string;
-  light?: boolean;
+  searchParams: Promise<{ status?: string; search?: string; type?: string }>;
 }) {
-  return (
-    <p
-      className={`text-[14.5px] leading-[1.78] ${light ? "text-[#bfdbfe]" : "text-[#475569]"} ${className}`}
-      style={{ fontFamily: "var(--font-inter)" }}
-    >
-      {children}
-    </p>
-  );
-}
-
-function DataLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p
-      className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] mb-1.5"
-      style={{ fontFamily: "var(--font-inter)" }}
-    >
-      {children}
-    </p>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// PAGE
-// ─────────────────────────────────────────────────────────────────────────────
-export default function Home() {
+  const params = await searchParams;
   return (
     <div
       className={`${playfair.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
-      {/* ════════════════════════════════════════════════════════
-          NAVBAR
-      ════════════════════════════════════════════════════════ */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-14 sm:h-16 flex items-center justify-between gap-4 sm:gap-6">
+      {/* Structured Data for SEO & GEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "IPOCraft",
+            url: "https://ipocraft.com",
+            description:
+              "IPOCraft is a research-focused platform providing IPO GMP trends, subscription data, allotment timelines, and listing insights.",
+          }),
+        }}
+      />
 
-          {/* Logo */}
-          <a
-            href="/"
-            aria-label="IPOCraft"
-            className="flex items-center shrink-0 h-full"
-          >
-            <Image
-              src="/logo2.png"
-              alt="IPOCraft"
-              width={520}
-              height={200}
-              priority
-              className="h-10 sm:h-12 md:h-14 w-auto object-contain"
-            />
-          </a>
-
-          {/* Nav links */}
-          <nav className="hidden lg:flex items-center gap-7" aria-label="Primary navigation">
-            {NAV_LINKS.map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="text-[13px] font-medium text-[#64748b] hover:text-[#0f172a] transition-colors duration-150 whitespace-nowrap"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                {item}
-              </a>
-            ))}
-          </nav>
-
-          {/* Right actions */}
-          <div className="flex items-center gap-3 shrink-0">
-            <a
-              href="#"
-              className="hidden md:inline-flex items-center text-[12.5px] font-medium text-[#475569] hover:text-[#0f172a] transition-colors px-3 py-1.5"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              Sign in
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center gap-1.5 bg-[#1e3a8a] hover:bg-[#1a327a] text-white text-[12.5px] font-medium px-4 py-[0.45rem] rounded-[4px] transition-colors duration-150 whitespace-nowrap"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              View GMP Data
-              <svg className="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-            {/* Mobile menu */}
-            <button className="lg:hidden ml-1 text-[#475569] hover:text-[#0f172a] transition-colors" aria-label="Open menu">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h10M4 18h16" />
-              </svg>
-            </button>
-          </div>
+      {/* HERO */}
+      <section className="relative overflow-hidden border-b border-[#e2e8f0] bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff]">
+        <div className="absolute inset-0 opacity-[0.35] pointer-events-none">
+          <div className="absolute -top-24 -left-24 w-72 h-72 bg-blue-200 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-indigo-200 rounded-full blur-3xl animate-pulse" />
         </div>
-      </header>
 
-      {/* ════════════════════════════════════════════════════════
-          HERO
-      ════════════════════════════════════════════════════════ */}
-      <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 sm:pt-16 pb-16 sm:pb-20 lg:pt-24 lg:pb-28 grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-14 xl:gap-20 items-center">
-
-          {/* Left — copy */}
-          <div>
-            <Eyebrow>IPO Intelligence Platform</Eyebrow>
-
-            <h1
-              className="text-2xl sm:text-3xl lg:text-[3.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#0f172a] mb-5 sm:mb-6"
-              style={{ fontFamily: "var(--font-playfair)" }}
-            >
-              Structured IPO
-              <br />
-              <em className="not-italic text-[#1e3a8a]">Data & Insights</em>
-            </h1>
-
-            <BodyText className="max-w-full sm:max-w-[27rem] mb-7 sm:mb-9">
-              Structured IPO data, grey market premium tracking, and SME IPO information — organised for investors who prefer clarity over noise. IPOCraft provides informational content only and does not offer investment advice.
-            </BodyText>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 mb-10 sm:mb-14">
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 bg-[#1e3a8a] hover:bg-[#1a327a] text-white text-[13px] font-medium px-6 py-[0.7rem] rounded-[4px] transition-colors duration-150"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                Explore IPO Listings
-                <svg className="w-3.5 h-3.5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 bg-white border border-[#d1d9e6] hover:border-[#94a3b8] text-[#0f172a] text-[13px] font-medium px-6 py-[0.7rem] rounded-[4px] transition-colors duration-150"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                View GMP Data
-              </a>
-            </div>
-
-            {/* Stat strip */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-6 sm:pt-8 border-t border-[#e2e8f0]">
-              {[
-                { value: "Mainboard & SME", note: "Both segments covered" },
-                { value: "Exchange Sourced", note: "Official filings only" },
-                { value: "Updated Daily", note: "Every trading day" },
-              ].map((s) => (
-                <div key={s.note}>
-                  <p
-                    className="text-[14.5px] font-semibold text-[#0f172a] leading-tight"
-                    style={{ fontFamily: "var(--font-playfair)" }}
-                  >
-                    {s.value}
-                  </p>
-                  <p
-                    className="text-[11px] text-[#94a3b8] mt-1.5"
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    {s.note}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right — sample dashboard card */}
-          <div className="hidden lg:block">
-            <div className="bg-white border border-[#e2e8f0] rounded-xl shadow-[0_4px_28px_rgba(0,0,0,0.06)] overflow-hidden">
-
-              {/* Card header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[#f1f5f9]">
-                <div>
-                  <p
-                    className="text-[11.5px] font-semibold text-[#0f172a]"
-                    style={{ fontFamily: "var(--font-playfair)" }}
-                  >
-                    IPO Overview
-                  </p>
-                  <p
-                    className="text-[10px] font-medium text-[#94a3b8] mt-0.5 tracking-wide"
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    Illustrative layout · Not real data
-                  </p>
-                </div>
-                <span
-                  className="inline-flex items-center gap-1.5 text-[10.5px] font-medium text-[#94a3b8] bg-[#f8fafc] border border-[#e2e8f0] rounded px-2.5 py-1"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                  Sample Data
-                </span>
-              </div>
-
-              {/* Table head */}
-              <div className="grid grid-cols-[2fr_1.2fr_0.8fr_0.85fr] gap-3 px-6 py-3 bg-[#f8fafc] border-b border-[#f1f5f9]">
-                {["Company", "Price Band", "GMP*", "Status"].map((h) => (
-                  <p key={h} className="text-[9.5px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8]" style={{ fontFamily: "var(--font-inter)" }}>
-                    {h}
-                  </p>
-                ))}
-              </div>
-
-              {/* Rows */}
-              {SAMPLE_IPOS.slice(0, 5).map((ipo, i) => (
-                <div
-                  key={ipo.id}
-                  className={`grid grid-cols-[2fr_1.2fr_0.8fr_0.85fr] gap-3 px-6 py-3.5 items-center hover:bg-[#fafbfd] transition-colors ${i < 4 ? "border-b border-[#f8fafc]" : ""}`}
-                >
-                  <div className="min-w-0">
-                    <p className="text-[12.5px] font-medium text-[#0f172a] truncate leading-tight" style={{ fontFamily: "var(--font-inter)" }}>
-                      {ipo.company}
-                    </p>
-                    <p className="text-[10px] text-[#94a3b8] mt-0.5" style={{ fontFamily: "var(--font-inter)" }}>
-                      {ipo.exchange}
-                    </p>
-                  </div>
-                  <p className="text-[12px] text-[#475569]" style={{ fontFamily: "var(--font-inter)" }}>
-                    {ipo.priceBand}
-                  </p>
-                  <p className="text-[12px] text-[#94a3b8] italic" style={{ fontFamily: "var(--font-inter)" }}>
-                    {ipo.gmpLabel}
-                  </p>
-                  <span
-                    className={`inline-flex items-center text-[9.5px] font-semibold tracking-wide px-2 py-0.5 rounded ${STATUS_STYLES[ipo.status]}`}
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    {ipo.status}
-                  </span>
-                </div>
-              ))}
-
-              {/* Footer */}
-              <div className="px-6 py-3.5 bg-[#f8fafc] border-t border-[#f1f5f9] flex items-center justify-between">
-                <p className="text-[10.5px] text-[#94a3b8] italic" style={{ fontFamily: "var(--font-inter)" }}>
-                  *GMP is unofficial and indicative only
-                </p>
-                <a href="#" className="text-[12px] font-medium text-[#2563eb] hover:text-[#1e3a8a] transition-colors" style={{ fontFamily: "var(--font-inter)" }}>
-                  All IPOs →
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-          PILLARS — separated by hairline grid
-      ════════════════════════════════════════════════════════ */}
-      <section className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#e2e8f0]">
-            {PLATFORM_PILLARS.map((p, i) => (
-              <div
-                key={p.label}
-                className={`px-8 py-10 ${i === 0 ? "pl-0" : ""} ${i === 3 ? "pr-0" : ""}`}
-              >
-                <DataLabel>{p.label}</DataLabel>
-                <p
-                  className="text-[17px] font-semibold text-[#0f172a] leading-snug mb-2.5 mt-0.5"
-                  style={{ fontFamily: "var(--font-playfair)" }}
-                >
-                  {p.value}
-                </p>
-                <p
-                  className="text-[12px] text-[#94a3b8] leading-relaxed"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                >
-                  {p.note}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-          LATEST IPOS
-      ════════════════════════════════════════════════════════ */}
-      <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 sm:pt-16 pb-16 sm:pb-20">
-
-          {/* Section header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
-            <div>
-              <Eyebrow>IPO Listings</Eyebrow>
-              <SectionHeading>Recent &amp; Upcoming IPOs</SectionHeading>
-              <BodyText className="mt-3 max-w-md">
-                Sample layout. Live IPO data will populate here once the
-                platform is connected to exchange feeds.
-              </BodyText>
-            </div>
-            <a
-              href="#"
-              className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#2563eb] hover:text-[#1e3a8a] transition-colors whitespace-nowrap shrink-0 self-start sm:self-auto"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              View all IPOs
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
-
-          {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {SAMPLE_IPOS.map((ipo) => (
-              <a
-                key={ipo.id}
-                href="#"
-                className="group bg-white border border-[#e2e8f0] rounded-lg overflow-hidden hover:border-[#b8c9e0] hover:shadow-[0_6px_28px_rgba(0,0,0,0.07)] transition-all duration-200 flex flex-col"
-              >
-                {/* Card header */}
-                <div className="flex items-start justify-between px-5 pt-5 pb-4 border-b border-[#f8fafc]">
-                  <div className="flex-1 min-w-0 pr-3">
-                    <p
-                      className="text-[14px] font-semibold text-[#0f172a] leading-snug truncate group-hover:text-[#1e3a8a] transition-colors"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      {ipo.company}
-                    </p>
-                    <p
-                      className="text-[11px] text-[#94a3b8] mt-1"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      {ipo.exchange} &middot; {ipo.sector}
-                    </p>
-                  </div>
-                  <span
-                    className={`shrink-0 inline-flex items-center text-[10px] font-semibold tracking-wide px-2.5 py-0.5 rounded ${STATUS_STYLES[ipo.status]}`}
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    {ipo.status}
-                  </span>
-                </div>
-
-                {/* Card body */}
-                <div className="px-5 py-5 grid grid-cols-2 gap-x-6 gap-y-5 flex-1">
-                  {[
-                    { label: "Price Band", value: ipo.priceBand, dimmed: false },
-                    { label: "GMP (Indicative)", value: ipo.gmpLabel, dimmed: true },
-                    { label: "Open Date", value: ipo.openDate, dimmed: false },
-                    { label: "Close Date", value: ipo.closeDate, dimmed: false },
-                  ].map((field) => (
-                    <div key={field.label}>
-                      <DataLabel>{field.label}</DataLabel>
-                      <p
-                        className={`text-[13px] font-semibold leading-tight ${field.dimmed ? "text-[#94a3b8] font-normal italic" : "text-[#0f172a]"}`}
-                        style={{ fontFamily: "var(--font-inter)" }}
-                      >
-                        {field.value}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Card footer */}
-                <div className="px-5 py-3.5 border-t border-[#f8fafc] bg-[#fafbfd] flex items-center justify-between">
-                  <p
-                    className="text-[11px] text-[#94a3b8]"
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    Lot size:{" "}
-                    <span className="text-[#64748b] font-medium">{ipo.lotSize} shares</span>
-                  </p>
-                  <span
-                    className="text-[11.5px] font-medium text-[#2563eb] group-hover:text-[#1e3a8a] transition-colors"
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    Details →
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-
-          {/* GMP note */}
-          <p
-            className="mt-8 text-[11.5px] text-[#94a3b8] leading-relaxed max-w-2xl"
-            style={{ fontFamily: "var(--font-inter)" }}
-          >
-            <strong className="font-medium text-[#64748b]">Note:</strong> Grey Market
-            Premium (GMP) is sourced from unofficial channels, is unregulated, and is
-            indicative only. It does not reflect guaranteed listing prices and should
-            not be used as a basis for investment decisions. All other data above is
-            illustrative for layout purposes. IPOCraft does not participate in grey market transactions.
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-14 lg:py-16">
+          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] mb-3">
+            Smart IPO Research Platform
           </p>
-        </div>
-      </section>
 
-      {/* ════════════════════════════════════════════════════════
-          PLATFORM FEATURES
-      ════════════════════════════════════════════════════════ */}
-      <section className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 sm:pt-16 pb-16 sm:pb-20">
-
-          {/* Two-column header */}
-          <div className="grid lg:grid-cols-[1fr_1.7fr] gap-10 items-start mb-16">
-            <div>
-              <Eyebrow>Platform</Eyebrow>
-              <SectionHeading>Built for the Discerning Investor</SectionHeading>
-            </div>
-            <BodyText className="lg:pt-[2.7rem] max-w-prose">
-              IPOCraft is a structured data and research platform — not a
-              broker, and not a SEBI-registered advisor. Our role is to
-              organise publicly available IPO information into formats that
-              help investors do their own research more efficiently.
-            </BodyText>
-          </div>
-
-          {/* Feature cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {PLATFORM_FEATURES.map((f) => (
-              <div
-                key={f.title}
-                className="border border-[#e2e8f0] rounded-lg px-8 py-9 bg-[#f8fafc] flex flex-col"
-              >
-                <div className="flex items-center gap-4 mb-8">
-                  <span
-                    className="text-[10px] font-semibold tracking-[0.22em] uppercase text-[#cbd5e1]"
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    {f.index}
-                  </span>
-                  <div className="flex-1 h-px bg-[#e8ecf2]" />
-                </div>
-                <h3
-                  className="text-[1.2rem] font-semibold text-[#0f172a] mb-4 leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
-                >
-                  {f.title}
-                </h3>
-                <p
-                  className="text-[13.5px] text-[#64748b] leading-[1.78] flex-1"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                >
-                  {f.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-          DATA PHILOSOPHY CALLOUT
-      ════════════════════════════════════════════════════════ */}
-      <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
-          <div className="border border-[#dce4ef] bg-white rounded-lg overflow-hidden grid md:grid-cols-[1fr_auto]">
-            <div className="px-9 py-10 md:py-12">
-              <Eyebrow>Our Data Philosophy</Eyebrow>
-              <h2
-                className="text-[1.5rem] font-semibold text-[#0f172a] mb-4 leading-snug"
-                style={{ fontFamily: "var(--font-playfair)" }}
-              >
-                Accuracy Starts With the Right Sources
-              </h2>
-              <BodyText className="max-w-2xl">
-                All structured IPO data on IPOCraft — price bands, offer
-                dates, lot sizes, subscription figures, and allotment
-                outcomes — is drawn from official exchange disclosures and
-                SEBI filings. We do not fabricate or extrapolate structured
-                data. GMP figures, where displayed, are clearly marked as
-                unofficial and indicative. IPOCraft does not participate in or facilitate grey market trading activities. While we strive for accuracy, information may contain errors, omissions, or delays.
-              </BodyText>
-            </div>
-            <div className="hidden md:flex flex-col items-center justify-center bg-[#f8fafc] border-l border-[#e2e8f0] px-12 gap-3 text-center min-w-[11rem]">
-              <div className="w-12 h-12 rounded-full border border-[#dce4ef] flex items-center justify-center">
-                <svg className="w-5 h-5 text-[#1e3a8a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                </svg>
-              </div>
-              <p
-                className="text-[11px] font-medium text-[#94a3b8] leading-relaxed max-w-[9rem]"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                Exchange-sourced data only
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-          CTA
-      ════════════════════════════════════════════════════════ */}
-      <section className="bg-[#1e3a8a]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 text-center">
-          <Eyebrow light>Research Before You Apply</Eyebrow>
-          <h2
-            className="text-[2.25rem] lg:text-[2.7rem] font-semibold text-white leading-[1.14] tracking-[-0.018em] mb-5 max-w-2xl mx-auto"
+          <h1
+            className="text-2xl sm:text-3xl lg:text-[2.6rem] font-semibold leading-tight tracking-[-0.01em]"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            Make Better-Informed IPO Decisions
-          </h2>
-          <BodyText light className="max-w-[34rem] mx-auto mb-10">
-            Access structured IPO data, GMP trackers, subscription analytics,
-            and allotment status — organised for investors who research before
-            they act.
-          </BodyText>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 bg-white hover:bg-[#f1f5f9] text-[#1e3a8a] text-[13px] font-semibold px-7 py-3 rounded-[4px] transition-colors duration-150"
-              style={{ fontFamily: "var(--font-inter)" }}
+            IPOCraft — IPO GMP, Subscription & Listing Insights
+          </h1>
+
+          <p className="mt-4 text-sm sm:text-[15px] text-[#475569] max-w-3xl leading-relaxed">
+            IPOCraft provides structured IPO data including Grey Market Premium (GMP)
+            trends, subscription demand insights, price bands, allotment timelines,
+            and listing performance information sourced from publicly available
+            filings and disclosures. Designed for research clarity across Mainboard
+            and SME IPOs in India.
+          </p>
+
+          {/* TRUST BADGES */}
+          <div className="flex flex-wrap gap-3 mt-6 text-xs">
+            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+              SEBI Filings Referenced
+            </span>
+            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+              Structured IPO Data
+            </span>
+            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+              Research‑Focused Platform
+            </span>
+          </div>
+
+          {/* CTA */}
+          <div className="flex flex-wrap gap-3 mt-7">
+            <Link
+              href="/ipo"
+              className="inline-flex items-center justify-center bg-[#1e3a8a] hover:bg-[#1a327a] text-white text-sm font-semibold px-5 py-2 rounded-md transition"
             >
-              Explore IPO Database
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 bg-transparent border border-[#3b5fad] hover:border-[#5272c0] text-white text-[13px] font-medium px-7 py-3 rounded-[4px] transition-colors duration-150"
-              style={{ fontFamily: "var(--font-inter)" }}
+              Explore IPOs
+            </Link>
+
+            <Link
+              href="/gmp"
+              className="inline-flex items-center justify-center border border-[#cbd5e1] hover:border-[#94a3b8] text-[#0f172a] text-sm font-semibold px-5 py-2 rounded-md transition"
             >
               View GMP Tracker
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          FOOTER
-      ════════════════════════════════════════════════════════ */}
-      <footer className="bg-[#0c1526]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-
-          {/* Main grid */}
-          <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_1fr_1fr] gap-10 py-16 border-b border-[#1a2640]">
-
-            {/* Brand */}
+      <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-10 sm:pt-12 pb-12 sm:pb-14">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-            <div className="mb-5">
-              <Image
-                src="/logo2.png"
-                alt="IPOCraft"
-                width={300}
-                height={110}
-                className="h-12 sm:h-14 w-auto object-contain"
-              />
-            </div>
+              <h2
+                className="text-[1.5rem] sm:text-[1.75rem] font-semibold leading-[1.2] text-[#0f172a]"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                Latest IPO Listings
+              </h2>
               <p
-                className="text-[12.5px] text-[#475569] leading-relaxed max-w-[17rem]"
+                className="mt-2 text-[13.5px] text-[#64748b] leading-[1.75] max-w-2xl"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                A structured IPO data and information platform. Not a broker. Not SEBI-registered. Content is for informational purposes only and should not be considered financial advice.
+                Track offer dates, price bands, lot sizes, subscription trends,
+                and GMP snapshots.
+              </p>
+            </div>
+            <Link
+              href="/ipo"
+              className="inline-flex items-center justify-center gap-2 bg-[#1e3a8a] hover:bg-[#1a327a] text-white text-[13px] font-semibold px-5 py-[0.62rem] rounded-[4px] transition-colors duration-150"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              View All IPOs
+            </Link>
+          </div>
+          {/* Instant Search Bar (auto submit) */}
+          <form
+            id="homeSearchForm"
+            action="/"
+            method="get"
+            className="flex flex-col sm:flex-row gap-3 mb-6 w-full"
+          >
+            <input
+              id="homeSearchInput"
+              type="search"
+              name="search"
+              defaultValue={params?.search || ""}
+              placeholder="Search IPO by company name..."
+              className="flex-1 border border-[#cbd5e1] rounded px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </form>
+
+          {/* Auto-submit script with debounce */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  const input = document.getElementById('homeSearchInput');
+                  const form = document.getElementById('homeSearchForm');
+                  if (!input || !form) return;
+
+                  let timer;
+                  input.addEventListener('input', function () {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => {
+                      form.submit();
+                    }, 400);
+                  });
+                })();
+              `,
+            }}
+          />
+          <div className="flex flex-wrap gap-2 mb-6">
+
+            {/* IPO Type Filters */}
+            <Link
+              href="/?type=mainboard"
+              className="px-3 py-1.5 text-xs font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded"
+            >
+              Mainboard
+            </Link>
+
+            <Link
+              href="/?type=sme"
+              className="px-3 py-1.5 text-xs font-medium bg-purple-600 hover:bg-purple-700 text-white rounded"
+            >
+              SME
+            </Link>
+
+            {/* Status Filters */}
+            <Link
+              href="/?status=open"
+              className="px-3 py-1.5 text-xs font-medium bg-green-600 hover:bg-green-700 text-white rounded"
+            >
+              Open
+            </Link>
+
+            <Link
+              href="/?status=upcoming"
+              className="px-3 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded"
+            >
+              Upcoming
+            </Link>
+
+            <Link
+              href="/?status=closed"
+              className="px-3 py-1.5 text-xs font-medium bg-gray-600 hover:bg-gray-700 text-white rounded"
+            >
+              Closed
+            </Link>
+
+            <Link
+              href="/"
+              className="px-3 py-1.5 text-xs font-medium bg-black hover:bg-gray-900 text-white rounded"
+            >
+              All
+            </Link>
+          </div>
+          <IpoList
+            status={params?.status}
+            search={params?.search}
+            type={params?.type}
+          />
+
+          {/* SEO + GEO CONTENT */}
+          <div className="mt-10 grid md:grid-cols-2 gap-6">
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
+              <h3
+                className="text-lg font-semibold mb-3"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                What is IPO GMP?
+              </h3>
+              <p className="text-sm text-[#475569] leading-relaxed">
+                Grey Market Premium (GMP) represents unofficial price indications
+                observed before IPO listing. It is widely used by market
+                participants to estimate potential listing sentiment, although it
+                is not an official metric. IPOCraft presents GMP data strictly for
+                informational and research purposes.
               </p>
             </div>
 
-            {/* Link columns */}
-            {[
-              {
-                heading: "Platform",
-                links: ["IPO Listings", "GMP Tracker", "SME IPO", "Allotment Status", "Subscription Data"],
-              },
-              {
-                heading: "Company",
-                links: ["About", "Data Methodology", "Blog", "Contact"],
-              },
-              {
-                heading: "Legal",
-                links: ["Disclaimer", "Privacy Policy", "Terms of Use", "Cookie Policy"],
-              },
-            ].map((col) => (
-              <div key={col.heading}>
-                <p
-                  className="text-[10px] font-semibold tracking-[0.18em] uppercase text-[#334155] mb-5"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                >
-                  {col.heading}
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
+              <h3
+                className="text-lg font-semibold mb-3"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                Data Transparency
+              </h3>
+              <p className="text-sm text-[#475569] leading-relaxed">
+                IPOCraft aggregates IPO information from publicly available
+                sources including exchange filings, company disclosures, and
+                registrar announcements. Users should verify information from
+                official documents before making financial decisions.
+              </p>
+            </div>
+          </div>
+
+          {/* Additional SEO Content */}
+          <div className="mt-6 bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
+            <h3
+              className="text-lg font-semibold mb-3"
+              style={{ fontFamily: "var(--font-playfair)" }}
+            >
+              IPO Research Insights
+            </h3>
+            <p className="text-sm text-[#475569] leading-relaxed">
+              IPOCraft helps users understand IPO timelines, demand indicators,
+              and listing expectations through structured data presentation.
+              Key elements such as price bands, subscription demand, and GMP
+              movements are commonly monitored by investors to interpret market
+              sentiment before listing. This platform is designed to improve
+              clarity and accessibility of publicly available IPO information.
+            </p>
+          </div>
+
+          {/* LEGAL DISCLAIMER */}
+          <div className="mt-6 text-xs text-[#64748b] leading-relaxed bg-[#f1f5f9] border border-[#e2e8f0] rounded-lg p-4">
+            IPOCraft is an informational platform and is not registered with SEBI
+            or any financial regulatory authority. This content does not
+            constitute investment advice, recommendations, or solicitation.
+            Investors should conduct independent research and consult qualified
+            financial advisors before investing.
+          </div>
+
+          {/* FAQ for GEO */}
+          <div className="mt-8 bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
+            <h3
+              className="text-lg font-semibold mb-4"
+              style={{ fontFamily: "var(--font-playfair)" }}
+            >
+              Frequently Asked Questions
+            </h3>
+
+            <div className="space-y-4 text-sm text-[#475569]">
+              <div>
+                <strong>What is IPO GMP?</strong>
+                <p>
+                  IPO GMP refers to unofficial price indications observed before
+                  listing. It is not an official metric and should be used only
+                  for informational research purposes.
                 </p>
-                <ul className="space-y-3">
-                  {col.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-[12.5px] text-[#475569] hover:text-[#64748b] transition-colors duration-150"
-                        style={{ fontFamily: "var(--font-inter)" }}
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
               </div>
-            ))}
-          </div>
 
-          {/* Legal disclaimer */}
-          <div className="py-8 border-b border-[#1a2640]">
-            <p
-              className="text-[10px] font-semibold tracking-[0.18em] uppercase text-[#334155] mb-3"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              Important Disclaimer
-            </p>
-            <p
-              className="text-[11.5px] text-[#334155] leading-[1.85] max-w-5xl"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              IPOCraft is an independent informational platform and is{" "}
-              <strong className="font-medium text-[#475569]">not registered with SEBI</strong>{" "}
-              as an investment advisor, research analyst, or stockbroker. IPOCraft does not participate in or facilitate grey market trading activities. Nothing on this
-              platform constitutes investment advice, a solicitation to buy or sell
-              securities, or a recommendation of any kind. Grey Market Premium (GMP) data is
-              sourced from unofficial, unregulated channels and is provided for informational
-              reference only — it does not reflect guaranteed listing prices or future returns.
-              Structured IPO data (price bands, dates, lot sizes, subscription figures) is
-              sourced from publicly available exchange filings on a best-effort basis and may
-              contain errors or omissions. Investors are strongly advised to read the official
-              offer documents (DRHP / RHP) and consult a SEBI-registered financial advisor
-              before applying to any IPO. Past subscription activity or listing performance
-              is not indicative of future results. IPOCraft assumes no liability for any
-              financial decisions made based on information displayed on this platform. While we aim to keep information accurate and up to date, data may contain inaccuracies or delays. This page may contain affiliate links, and IPOCraft may earn a commission at no additional cost to users.
-            </p>
-          </div>
+              <div>
+                <strong>How is IPO subscription data used?</strong>
+                <p>
+                  Subscription data indicates demand levels across investor
+                  categories and may help interpret interest levels in a public
+                  offering.
+                </p>
+              </div>
 
-          {/* Bottom bar */}
-          <div className="py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <p
-              className="text-[11px] text-[#2a3a52]"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              © {new Date().getFullYear()} IPOCraft. All rights reserved.
-            </p>
-            <div className="flex items-center gap-5">
-              {["Disclaimer", "Privacy", "Terms"].map((l) => (
-                <a
-                  key={l}
-                  href="#"
-                  className="text-[11px] text-[#2a3a52] hover:text-[#475569] transition-colors"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                >
-                  {l}
-                </a>
-              ))}
+              <div>
+                <strong>Is IPOCraft a financial advisor?</strong>
+                <p>
+                  No. IPOCraft is an informational platform providing structured
+                  data derived from publicly available sources.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      <section className="bg-white border-b border-[#e2e8f0]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-10 sm:pt-12 pb-12 sm:pb-14">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <h2
+                className="text-[1.5rem] sm:text-[1.75rem] font-semibold leading-[1.2] text-[#0f172a]"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                Top Brokers
+              </h2>
+              <p
+                className="mt-2 text-[13.5px] text-[#64748b] leading-[1.75] max-w-2xl"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                Compare core broker charges and quickly access broker account
+                links.
+              </p>
+            </div>
+            <Link
+              href="/brokers"
+              className="inline-flex items-center justify-center gap-2 bg-[#1e3a8a] hover:bg-[#1a327a] text-white text-[13px] font-semibold px-5 py-[0.62rem] rounded-[4px] transition-colors duration-150"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              View All Brokers
+            </Link>
+          </div>
+          <BrokerList limit={4} />
+        </div>
+      </section>
     </div>
   );
 }
