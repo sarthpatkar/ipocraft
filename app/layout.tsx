@@ -32,8 +32,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${inter.variable}`}
+      className={`${playfair.variable} ${inter.variable} bg-[#f8fafc]`}
+      style={{ colorScheme: "light" }}
     >
+      <head>
+        <meta name="color-scheme" content="light" />
+      </head>
       <body
         className="bg-[#f8fafc] text-[#0f172a] antialiased"
         style={{ fontFamily: "var(--font-inter), sans-serif" }}
