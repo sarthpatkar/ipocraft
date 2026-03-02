@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Site: https://ipocraft.com
+Name: IPOCraft
+Description: IPOCraft provides structured IPO data, GMP trends, subscription insights, and IPO analysis for Indian investors.
+
+Primary-content:
+https://ipocraft.com/
+https://ipocraft.com/gmp
+https://ipocraft.com/ipo
+https://ipocraft.com/ipo-calendar
+
+Contact: https://ipocraft.com/contact
