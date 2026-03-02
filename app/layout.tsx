@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Script from "next/script";
 import { Playfair_Display, Inter } from "next/font/google";
 
 const playfair = Playfair_Display({
@@ -43,6 +44,19 @@ export default function RootLayout({
         className="bg-[#f8fafc] text-[#0f172a] antialiased"
         style={{ fontFamily: "var(--font-inter), sans-serif" }}
       >
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-V2DGFHC1DY"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-V2DGFHC1DY');
+          `}
+        </Script>
         <Navbar />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8">
