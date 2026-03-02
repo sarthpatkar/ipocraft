@@ -37,6 +37,7 @@ export default function RootLayout({
     >
       <head>
         <meta name="color-scheme" content="light" />
+      <meta name="google-site-verification" content="abcdef123456" />
       </head>
       <body
         className="bg-[#f8fafc] text-[#0f172a] antialiased"
