@@ -19,9 +19,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "IPOCraft | Smart IPO Research Platform",
+  title: "IPOCraft — IPO GMP, Subscription & Listing Insights Platform",
   description:
-    "IPOCraft provides structured IPO data, Grey Market Premium (GMP) trends, subscription insights, allotment timelines, listing performance, and broker comparisons for research purposes.",
+    "Track IPO GMP, subscription status, allotment dates, and listing performance with IPOCraft. Data-driven IPO insights for smarter investing decisions.",
   keywords: [
     "IPO GMP",
     "IPO subscription",
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
     "IPO research",
   ],
   openGraph: {
-    title: "IPOCraft | Smart IPO Research Platform",
+    title: "IPOCraft — IPO GMP, Subscription & Listing Insights Platform",
     description:
-      "Structured IPO data, GMP trends, subscription insights, allotment timelines, and listing information in one place.",
+      "Track IPO GMP, subscription status, allotment dates, and listing performance with IPOCraft in one place.",
     url: "https://ipocraft.com",
     siteName: "IPOCraft",
     type: "website",
