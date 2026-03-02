@@ -39,6 +39,24 @@ export default function RootLayout({
       <head>
         <meta name="color-scheme" content="light" />
       <meta name="google-site-verification" content="abcdef123456" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "IPOCraft",
+              url: "https://ipocraft.com",
+              logo: "https://ipocraft.com/logo.png",
+              sameAs: [
+                "https://www.instagram.com/ipocraft_official",
+                "https://t.me/ipocraft"
+              ],
+              description:
+                "IPOCraft provides structured IPO data, GMP trends, and subscription insights for Indian investors.",
+            }),
+          }}
+        />
       </head>
       <body
         className="bg-[#f8fafc] text-[#0f172a] antialiased"
