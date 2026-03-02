@@ -116,6 +116,12 @@ export default async function IPODetail({
     .eq("slug", slug)
     .single();
 
+  const { data: subscriptionHistory } = await supabase
+    .from("subscription_history")
+    .select("*")
+    .eq("ipo_id", ipo?.id)
+    .order("day", { ascending: true });
+
   if (!ipo) return notFound();
 
   const { data: gmpHistory } = await supabase
@@ -183,7 +189,7 @@ export default async function IPODetail({
     : null;
   const hasGmpHistory = gmpSeries.length > 0;
 
-  // ===== Allotment & Listed Logic =====
+  // ===== Allotment & Listed Logic (Priority System Fixed) =====
   const today = new Date();
 
   const listingDateObj =
@@ -192,24 +198,46 @@ export default async function IPODetail({
   const allotmentDateObj =
     ipo.allotment_date ? new Date(ipo.allotment_date) : null;
 
+  // Listed detection (status OR date)
   const isListed =
-    listingDateObj && listingDateObj <= today;
+    ipo.status === "Listed" ||
+    (listingDateObj && listingDateObj <= today);
 
+  // Allotment day reached
   const isAllotmentDayReached =
     allotmentDateObj && allotmentDateObj <= today;
 
-  const allotmentOut =
-    ipo.allotment_out === true ||
+  /**
+   * Admin override detection
+   * Handles:
+   * boolean true
+   * string "true"
+   * number 1
+   * allotment_status = "out"
+   */
+  const adminMarkedOut =
+    Boolean(ipo.allotment_out) ||
     ipo.allotment_out === "true" ||
     ipo.allotment_out === 1 ||
-    ipo.allotment_out === "1";
+    ipo.allotment_out === "1" ||
+    (typeof ipo.allotment_status === "string" &&
+      ipo.allotment_status.toLowerCase() === "out");
 
+  /**
+   * PRIORITY ORDER
+   * 1. Admin marked OUT → always show OUT
+   * 2. If Listed → always show OUT
+   * 3. If allotment date reached → Awaited
+   * 4. Else → nothing
+   */
   let allotmentBadge: "Allotment Out" | "Allotment Awaited" | null = null;
 
-  if (!isListed && isAllotmentDayReached) {
-    allotmentBadge = allotmentOut
-      ? "Allotment Out"
-      : "Allotment Awaited";
+  if (adminMarkedOut) {
+    allotmentBadge = "Allotment Out";
+  } else if (isListed) {
+    allotmentBadge = "Allotment Out";
+  } else if (isAllotmentDayReached) {
+    allotmentBadge = "Allotment Awaited";
   }
 
   function timeAgo(date: Date | null) {
@@ -248,6 +276,39 @@ export default async function IPODetail({
     const parsedValue = Number(value);
     if (Number.isNaN(parsedValue)) return String(value);
     return `₹${parsedValue.toLocaleString("en-IN")}`;
+  }
+
+  function renderPoints(text?: string) {
+    if (!text) return null;
+
+    const cleaned = text.trim();
+
+    // Detect if admin actually intended bullets or numbered points
+    const hasBulletFormat =
+      /(\d+\.\s)|•|^\-\s/m.test(cleaned);
+
+    // If no bullets detected → render exactly as admin wrote (no auto breaking)
+    if (!hasBulletFormat) {
+      return (
+        <p className="whitespace-pre-line">
+          {cleaned}
+        </p>
+      );
+    }
+
+    // If bullets exist → convert to list
+    const points = cleaned
+      .split(/\d+\.\s|•|^\-\s/m)
+      .map((p) => p.trim())
+      .filter(Boolean);
+
+    return (
+      <ul className="list-disc pl-5 space-y-2">
+        {points.map((point, i) => (
+          <li key={i}>{point}</li>
+        ))}
+      </ul>
+    );
   }
 
   function linkOrNull(value: unknown) {
@@ -589,6 +650,62 @@ export default async function IPODetail({
               </div>
             </section>
 
+            {/* Anchor Investors */}
+            {ipo.anchor_investors && (
+              <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
+                <div className="pb-4 border-b border-[#f1f5f9]">
+                  <Eyebrow>Investors</Eyebrow>
+                  <h2
+                    className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
+                    style={{ fontFamily: "var(--font-playfair)" }}
+                  >
+                    Anchor Investors
+                  </h2>
+                </div>
+
+                <p
+                  className="text-[14.5px] text-[#475569] leading-[1.78]"
+                  style={{ fontFamily: "var(--font-inter)" }}
+                >
+                  {valueOrDash(ipo.anchor_investors)}
+                </p>
+              </section>
+            )}
+
+            {/* SME Market Maker Details */}
+            {ipo.ipo_type?.toLowerCase() === "sme" && (
+              <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
+                <div className="pb-4 border-b border-[#f1f5f9]">
+                  <Eyebrow>SME Specific</Eyebrow>
+                  <h2
+                    className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
+                    style={{ fontFamily: "var(--font-playfair)" }}
+                  >
+                    Market Maker Details
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  <div>
+                    <DataLabel>Market Maker Shares Offered</DataLabel>
+                    <p>{valueOrDash(ipo.market_maker_shares)}</p>
+                  </div>
+
+                  <div>
+                    <DataLabel>Market Maker Reservation (%)</DataLabel>
+                    <p>{percentOrDash(ipo.market_maker_reservation)}</p>
+                  </div>
+                </div>
+
+                <p
+                  className="text-[11.5px] text-[#94a3b8] pt-2 border-t border-[#f1f5f9]"
+                  style={{ fontFamily: "var(--font-inter)" }}
+                >
+                  Applicable only for SME IPOs where a market maker is appointed to provide liquidity post listing.
+                </p>
+              </section>
+            )}
+
             {/* GMP Card */}
             <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
@@ -675,7 +792,7 @@ export default async function IPODetail({
               </div>
             </section>
 
-            {/* Lot Size Table */}
+            {/* Market Lot Details (Structured) */}
             <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Investment</Eyebrow>
@@ -685,7 +802,7 @@ export default async function IPODetail({
               </div>
 
               <div className="w-full overflow-x-auto mt-4">
-                <table className="min-w-[520px] w-full text-sm border">
+                <table className="min-w-[620px] w-full text-sm border">
                   <thead className="bg-[#f8fafc]">
                     <tr>
                       <th className="p-2 border">Application</th>
@@ -708,20 +825,36 @@ export default async function IPODetail({
                       <td className="p-2 border">{ipo.retail_max_amount ?? "—"}</td>
                     </tr>
                     <tr>
-                      <td className="p-2 border">SHNI</td>
+                      <td className="p-2 border">sNII (Min)</td>
                       <td className="p-2 border">{ipo.shni_lots ?? "—"}</td>
                       <td className="p-2 border">{ipo.shni_shares ?? "—"}</td>
                       <td className="p-2 border">{ipo.shni_amount ?? "—"}</td>
                     </tr>
                     <tr>
-                      <td className="p-2 border">BHNI</td>
+                      <td className="p-2 border">bNII (Min)</td>
                       <td className="p-2 border">{ipo.bhni_lots ?? "—"}</td>
                       <td className="p-2 border">{ipo.bhni_shares ?? "—"}</td>
                       <td className="p-2 border">{ipo.bhni_amount ?? "—"}</td>
                     </tr>
+                    <tr>
+                      <td className="p-2 border">sNII (Max)</td>
+                      <td className="p-2 border">{ipo.shni_max_lots ?? "—"}</td>
+                      <td className="p-2 border">{ipo.shni_max_shares ?? "—"}</td>
+                      <td className="p-2 border">{ipo.shni_max_amount ?? "—"}</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 border">bNII (Max)</td>
+                      <td className="p-2 border">{ipo.bhni_max_lots ?? "—"}</td>
+                      <td className="p-2 border">{ipo.bhni_max_shares ?? "—"}</td>
+                      <td className="p-2 border">{ipo.bhni_max_amount ?? "—"}</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
+
+              <p className="text-[11.5px] text-[#94a3b8] mt-3">
+                Investors can bid in multiples of the lot size. Final investment depends on the cutoff price.
+              </p>
             </section>
 
             {/* Valuations */}
@@ -781,12 +914,12 @@ export default async function IPODetail({
                   Objectives of Issue
                 </h2>
               </div>
-              <p
+              <div
                 className="text-[14.5px] text-[#475569] leading-[1.78]"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                {valueOrDash(ipo.objectives)}
-              </p>
+                {renderPoints(ipo.objectives)}
+              </div>
             </section>
 
             {/* Promoter Holdings */}
@@ -951,21 +1084,21 @@ export default async function IPODetail({
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <DataLabel>Company Strengths</DataLabel>
-                  <p
+                  <div
                     className="text-[14.5px] text-[#475569] leading-[1.78]"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
-                    {valueOrDash(ipo.company_strengths)}
-                  </p>
+                    {renderPoints(ipo.company_strengths)}
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <DataLabel>Company Risks</DataLabel>
-                  <p
+                  <div
                     className="text-[14.5px] text-[#475569] leading-[1.78]"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
-                    {valueOrDash(ipo.company_risks)}
-                  </p>
+                    {renderPoints(ipo.company_risks)}
+                  </div>
                 </div>
               </div>
             </section>
@@ -1025,7 +1158,7 @@ export default async function IPODetail({
               </p>
             </div>
 
-            {/* Subscription */}
+            {/* Subscription (Structured Table) */}
             <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Subscription</Eyebrow>
@@ -1037,24 +1170,110 @@ export default async function IPODetail({
                 </h2>
               </div>
 
-              <div className="divide-y divide-[#f1f5f9]">
-                {[
-                  { category: "QIB", value: ipo.sub_qib ?? "—" },
-                  { category: "NII", value: ipo.sub_nii ?? "—" },
-                  { category: "BHNI", value: ipo.sub_bhni ?? "—" },
-                  { category: "SHNI", value: ipo.sub_shni ?? "—" },
-                  { category: "Retail", value: ipo.sub_rii ?? "—" },
-                  { category: "Total", value: ipo.sub_total ?? "—" },
-                ].map((row) => (
-                  <div key={row.category} className="flex items-center justify-between py-3">
-                    <p className="text-[14.5px] text-[#475569]">{row.category}</p>
-                    <p className="text-[15px] font-semibold text-[#0f172a]">{row.value}</p>
-                  </div>
-                ))}
+              <div className="w-full overflow-x-auto">
+                <table className="min-w-[720px] w-full text-sm border">
+                  <thead className="bg-[#f8fafc]">
+                    <tr>
+                      <th className="p-2 border">Day</th>
+                      <th className="p-2 border">QIB</th>
+                      <th className="p-2 border">NII</th>
+                      <th className="p-2 border">sNII (&lt; ₹10L)</th>
+                      <th className="p-2 border">bNII (&gt; ₹10L)</th>
+                      <th className="p-2 border">Retail</th>
+                      <th className="p-2 border">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {subscriptionHistory && subscriptionHistory.length > 0 ? (
+                      subscriptionHistory.map((row: any, idx: number) => (
+                        <tr key={idx}>
+                          <td className="p-2 border">{row.day ?? "Day"}</td>
+                          <td className="p-2 border">{row.qib ?? "—"}x</td>
+                          <td className="p-2 border">{row.nii ?? "—"}x</td>
+                          <td className="p-2 border">{row.shni ?? "—"}x</td>
+                          <td className="p-2 border">{row.bhni ?? "—"}x</td>
+                          <td className="p-2 border">{row.rii ?? "—"}x</td>
+                          <td className="p-2 border font-semibold">{row.total ?? "—"}x</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td className="p-2 border">{ipo.subscription_updated_at ?? "Latest"}</td>
+                        <td className="p-2 border">{ipo.sub_qib ?? "—"}x</td>
+                        <td className="p-2 border">{ipo.sub_nii ?? "—"}x</td>
+                        <td className="p-2 border">{ipo.sub_shni ?? "—"}x</td>
+                        <td className="p-2 border">{ipo.sub_bhni ?? "—"}x</td>
+                        <td className="p-2 border">{ipo.sub_rii ?? "—"}x</td>
+                        <td className="p-2 border font-semibold">{ipo.sub_total ?? "—"}x</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
 
+              {/* Subscription Progress Bars */}
+              {(() => {
+                const latest =
+                  subscriptionHistory && subscriptionHistory.length > 0
+                    ? subscriptionHistory[subscriptionHistory.length - 1]
+                    : {
+                        qib: ipo.sub_qib,
+                        nii: ipo.sub_nii,
+                        shni: ipo.sub_shni,
+                        bhni: ipo.sub_bhni,
+                        rii: ipo.sub_rii,
+                        total: ipo.sub_total,
+                      };
+
+                const categories = [
+                  { label: "QIB", value: Number(latest?.qib) || 0 },
+                  { label: "NII", value: Number(latest?.nii) || 0 },
+                  { label: "sNII", value: Number(latest?.shni) || 0 },
+                  { label: "bNII", value: Number(latest?.bhni) || 0 },
+                  { label: "Retail", value: Number(latest?.rii) || 0 },
+                ];
+
+                const maxValue = Math.max(
+                  ...categories.map((c) => c.value),
+                  1
+                );
+
+                return (
+                  <div className="mt-6 space-y-3">
+                    <p
+                      className="text-[12px] font-semibold text-[#475569]"
+                      style={{ fontFamily: "var(--font-inter)" }}
+                    >
+                      Subscription Progress
+                    </p>
+
+                    {categories.map((cat) => {
+                      const width = (cat.value / maxValue) * 100;
+
+                      return (
+                        <div key={cat.label} className="space-y-1">
+                          <div className="flex justify-between text-[12px]">
+                            <span>{cat.label}</span>
+                            <span className="font-semibold">
+                              {cat.value || "—"}x
+                            </span>
+                          </div>
+
+                          <div className="w-full h-2 bg-[#e2e8f0] rounded overflow-hidden">
+                            <div
+                              className="h-full bg-[#2563eb] rounded transition-all"
+                              style={{ width: `${width}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+
               <p className="text-[11.5px] text-[#94a3b8] pt-2 border-t border-[#f1f5f9]">
-                Last updated: {ipo.subscription_updated_at ?? "—"}
+                Subscription data sourced from exchange updates. Values represent times subscribed (x).
               </p>
             </section>
 

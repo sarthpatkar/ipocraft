@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 
 function toNullableText(value: any) {
@@ -17,6 +17,17 @@ function toNullableNumber(value: any) {
 
   const parsedValue = Number(value);
   return Number.isNaN(parsedValue) ? null : parsedValue;
+}
+
+function formatINR(value: any) {
+  if (value === null || value === undefined || value === "") return "";
+  const num = Number(value);
+  if (Number.isNaN(num)) return "";
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(num);
 }
 
 export default function AdminForm({ ipo, onClose }: any) {
@@ -71,6 +82,9 @@ export default function AdminForm({ ipo, onClose }: any) {
     face_value: ipo?.face_value || "",
     issue_size: ipo?.issue_size || "",
     fresh_issue: ipo?.fresh_issue || "",
+    anchor_investors: ipo?.anchor_investors || "",
+    market_maker_shares_offered: ipo?.market_maker_shares_offered?.toString?.() || "",
+    reserved_market_maker: ipo?.reserved_market_maker?.toString?.() || "",
 
     // Lot table
     retail_min_lots: ipo?.retail_min_lots?.toString?.() || "",
@@ -79,12 +93,19 @@ export default function AdminForm({ ipo, onClose }: any) {
     retail_max_lots: ipo?.retail_max_lots?.toString?.() || "",
     retail_max_shares: ipo?.retail_max_shares?.toString?.() || "",
     retail_max_amount: ipo?.retail_max_amount?.toString?.() || "",
-    shni_lots: ipo?.shni_lots?.toString?.() || "",
-    shni_shares: ipo?.shni_shares?.toString?.() || "",
-    shni_amount: ipo?.shni_amount?.toString?.() || "",
-    bhni_lots: ipo?.bhni_lots?.toString?.() || "",
-    bhni_shares: ipo?.bhni_shares?.toString?.() || "",
-    bhni_amount: ipo?.bhni_amount?.toString?.() || "",
+    shni_min_lots: ipo?.shni_min_lots?.toString?.() || "",
+    shni_min_shares: ipo?.shni_min_shares?.toString?.() || "",
+    shni_min_amount: ipo?.shni_min_amount?.toString?.() || "",
+    shni_max_lots: ipo?.shni_max_lots?.toString?.() || "",
+    shni_max_shares: ipo?.shni_max_shares?.toString?.() || "",
+    shni_max_amount: ipo?.shni_max_amount?.toString?.() || "",
+
+    bhni_min_lots: ipo?.bhni_min_lots?.toString?.() || "",
+    bhni_min_shares: ipo?.bhni_min_shares?.toString?.() || "",
+    bhni_min_amount: ipo?.bhni_min_amount?.toString?.() || "",
+    bhni_max_lots: ipo?.bhni_max_lots?.toString?.() || "",
+    bhni_max_shares: ipo?.bhni_max_shares?.toString?.() || "",
+    bhni_max_amount: ipo?.bhni_max_amount?.toString?.() || "",
 
     // Valuation
     eps_pre: ipo?.eps_pre?.toString?.() || "",
@@ -115,6 +136,53 @@ export default function AdminForm({ ipo, onClose }: any) {
       [name]: value,
     }));
   };
+
+  // ===== AUTO CALCULATION: shares = lots * lot_size, amount = shares * price_max =====
+  useEffect(() => {
+    const lotSize = Number(form.lot_size);
+    const priceMax = Number(form.price_max);
+
+    if (!lotSize || !priceMax) return;
+
+    const calc = (lots: any) => {
+      const l = Number(lots);
+      if (!l) return { shares: "", amount: "" };
+      const shares = l * lotSize;
+      const amount = shares * priceMax;
+      return { shares: String(shares), amount: String(amount) };
+    };
+
+    setForm((prev) => ({
+      ...prev,
+
+      // Retail
+      retail_min_shares: calc(prev.retail_min_lots).shares,
+      retail_min_amount: calc(prev.retail_min_lots).amount,
+      retail_max_shares: calc(prev.retail_max_lots).shares,
+      retail_max_amount: calc(prev.retail_max_lots).amount,
+
+      // SHNI
+      shni_min_shares: calc(prev.shni_min_lots).shares,
+      shni_min_amount: calc(prev.shni_min_lots).amount,
+      shni_max_shares: calc(prev.shni_max_lots).shares,
+      shni_max_amount: calc(prev.shni_max_lots).amount,
+
+      // BHNI
+      bhni_min_shares: calc(prev.bhni_min_lots).shares,
+      bhni_min_amount: calc(prev.bhni_min_lots).amount,
+      bhni_max_shares: calc(prev.bhni_max_lots).shares,
+      bhni_max_amount: calc(prev.bhni_max_lots).amount,
+    }));
+  }, [
+    form.lot_size,
+    form.price_max,
+    form.retail_min_lots,
+    form.retail_max_lots,
+    form.shni_min_lots,
+    form.shni_max_lots,
+    form.bhni_min_lots,
+    form.bhni_max_lots,
+  ]);
 
   const generateSlug = (name: string) => {
     return (
@@ -253,11 +321,20 @@ export default function AdminForm({ ipo, onClose }: any) {
         allotment_date: toNullableText(form.allotment_date),
         refund_date: toNullableText(form.refund_date),
         allotment_status: toNullableText(form.allotment_status),
-        allotment_out: form.allotment_status === "out",
+        allotment_out: form.allotment_status === "out" ? true : false,
 
         face_value: toNullableText(form.face_value),
         issue_size: toNullableText(form.issue_size),
         fresh_issue: toNullableText(form.fresh_issue),
+        anchor_investors: toNullableText(form.anchor_investors),
+        market_maker_shares_offered:
+          form.ipo_type === "sme"
+            ? toNullableNumber(form.market_maker_shares_offered)
+            : null,
+        reserved_market_maker:
+          form.ipo_type === "sme"
+            ? toNullableNumber(form.reserved_market_maker)
+            : null,
 
         retail_min_lots: toNullableNumber(form.retail_min_lots),
         retail_min_shares: toNullableNumber(form.retail_min_shares),
@@ -265,12 +342,19 @@ export default function AdminForm({ ipo, onClose }: any) {
         retail_max_lots: toNullableNumber(form.retail_max_lots),
         retail_max_shares: toNullableNumber(form.retail_max_shares),
         retail_max_amount: toNullableNumber(form.retail_max_amount),
-        shni_lots: toNullableNumber(form.shni_lots),
-        shni_shares: toNullableNumber(form.shni_shares),
-        shni_amount: toNullableNumber(form.shni_amount),
-        bhni_lots: toNullableNumber(form.bhni_lots),
-        bhni_shares: toNullableNumber(form.bhni_shares),
-        bhni_amount: toNullableNumber(form.bhni_amount),
+        shni_min_lots: toNullableNumber(form.shni_min_lots),
+        shni_min_shares: toNullableNumber(form.shni_min_shares),
+        shni_min_amount: toNullableNumber(form.shni_min_amount),
+        shni_max_lots: toNullableNumber(form.shni_max_lots),
+        shni_max_shares: toNullableNumber(form.shni_max_shares),
+        shni_max_amount: toNullableNumber(form.shni_max_amount),
+
+        bhni_min_lots: toNullableNumber(form.bhni_min_lots),
+        bhni_min_shares: toNullableNumber(form.bhni_min_shares),
+        bhni_min_amount: toNullableNumber(form.bhni_min_amount),
+        bhni_max_lots: toNullableNumber(form.bhni_max_lots),
+        bhni_max_shares: toNullableNumber(form.bhni_max_shares),
+        bhni_max_amount: toNullableNumber(form.bhni_max_amount),
 
         eps_pre: toNullableNumber(form.eps_pre),
         eps_post: toNullableNumber(form.eps_post),
@@ -761,20 +845,145 @@ export default function AdminForm({ ipo, onClose }: any) {
         <input name="fresh_issue" placeholder="Fresh Issue" value={form.fresh_issue} onChange={handleChange} className="border p-2 rounded w-full" />
       </div>
 
+      {/* Anchor Investors */}
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-medium text-gray-700">
+          Anchor Investors (Optional)
+        </label>
+        <textarea
+          name="anchor_investors"
+          placeholder="Enter anchor investors (comma separated or paragraph)"
+          value={form.anchor_investors}
+          onChange={handleChange}
+          className="border p-2 rounded w-full min-h-20"
+        />
+      </div>
+
+      {/* SME Conditional Fields */}
+      {form.ipo_type === "sme" && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              Market Maker Shares Offered
+            </label>
+            <input
+              name="market_maker_shares_offered"
+              placeholder="Market Maker Shares"
+              value={form.market_maker_shares_offered}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              Reserved for Market Maker (%)
+            </label>
+            <input
+              name="reserved_market_maker"
+              placeholder="Reserved Market Maker (%)"
+              value={form.reserved_market_maker}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+            />
+          </div>
+
+          <p className="text-xs text-gray-500 sm:col-span-2">
+            These fields apply only to SME IPOs and will not appear for Mainboard IPOs.
+          </p>
+        </div>
+      )}
+
       {/* Lot Table */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <input name="retail_min_lots" placeholder="Retail Min Lots" value={form.retail_min_lots} onChange={handleChange} className="border p-2 rounded w-full" />
         <input name="retail_min_shares" placeholder="Retail Min Shares" value={form.retail_min_shares} onChange={handleChange} className="border p-2 rounded w-full" />
-        <input name="retail_min_amount" placeholder="Retail Min Amount" value={form.retail_min_amount} onChange={handleChange} className="border p-2 rounded w-full" />
+        <div className="flex flex-col">
+          <input
+            name="retail_min_amount"
+            placeholder="Retail Min Amount"
+            value={form.retail_min_amount}
+            readOnly
+            className="border p-2 rounded w-full bg-gray-50"
+          />
+          <p className="text-xs text-gray-500">
+            {formatINR(form.retail_min_amount)}
+          </p>
+        </div>
         <input name="retail_max_lots" placeholder="Retail Max Lots" value={form.retail_max_lots} onChange={handleChange} className="border p-2 rounded w-full" />
         <input name="retail_max_shares" placeholder="Retail Max Shares" value={form.retail_max_shares} onChange={handleChange} className="border p-2 rounded w-full" />
-        <input name="retail_max_amount" placeholder="Retail Max Amount" value={form.retail_max_amount} onChange={handleChange} className="border p-2 rounded w-full" />
-        <input name="shni_lots" placeholder="SHNI Lots" value={form.shni_lots} onChange={handleChange} className="border p-2 rounded w-full" />
-        <input name="shni_shares" placeholder="SHNI Shares" value={form.shni_shares} onChange={handleChange} className="border p-2 rounded w-full" />
-        <input name="shni_amount" placeholder="SHNI Amount" value={form.shni_amount} onChange={handleChange} className="border p-2 rounded w-full" />
-        <input name="bhni_lots" placeholder="BHNI Lots" value={form.bhni_lots} onChange={handleChange} className="border p-2 rounded w-full" />
-        <input name="bhni_shares" placeholder="BHNI Shares" value={form.bhni_shares} onChange={handleChange} className="border p-2 rounded w-full" />
-        <input name="bhni_amount" placeholder="BHNI Amount" value={form.bhni_amount} onChange={handleChange} className="border p-2 rounded w-full" />
+        <div className="flex flex-col">
+          <input
+            name="retail_max_amount"
+            placeholder="Retail Max Amount"
+            value={form.retail_max_amount}
+            readOnly
+            className="border p-2 rounded w-full bg-gray-50"
+          />
+          <p className="text-xs text-gray-500">
+            {formatINR(form.retail_max_amount)}
+          </p>
+        </div>
+        {/* SHNI Min */}
+        <input name="shni_min_lots" placeholder="SHNI Min Lots" value={form.shni_min_lots} onChange={handleChange} className="border p-2 rounded w-full" />
+        <input name="shni_min_shares" placeholder="SHNI Min Shares" value={form.shni_min_shares} onChange={handleChange} className="border p-2 rounded w-full" />
+        <div className="flex flex-col">
+          <input
+            name="shni_min_amount"
+            placeholder="SHNI Min Amount"
+            value={form.shni_min_amount}
+            readOnly
+            className="border p-2 rounded w-full bg-gray-50"
+          />
+          <p className="text-xs text-gray-500">
+            {formatINR(form.shni_min_amount)}
+          </p>
+        </div>
+        {/* SHNI Max */}
+        <input name="shni_max_lots" placeholder="SHNI Max Lots" value={form.shni_max_lots} onChange={handleChange} className="border p-2 rounded w-full" />
+        <input name="shni_max_shares" placeholder="SHNI Max Shares" value={form.shni_max_shares} onChange={handleChange} className="border p-2 rounded w-full" />
+        <div className="flex flex-col">
+          <input
+            name="shni_max_amount"
+            placeholder="SHNI Max Amount"
+            value={form.shni_max_amount}
+            readOnly
+            className="border p-2 rounded w-full bg-gray-50"
+          />
+          <p className="text-xs text-gray-500">
+            {formatINR(form.shni_max_amount)}
+          </p>
+        </div>
+        {/* BHNI Min */}
+        <input name="bhni_min_lots" placeholder="BHNI Min Lots" value={form.bhni_min_lots} onChange={handleChange} className="border p-2 rounded w-full" />
+        <input name="bhni_min_shares" placeholder="BHNI Min Shares" value={form.bhni_min_shares} onChange={handleChange} className="border p-2 rounded w-full" />
+        <div className="flex flex-col">
+          <input
+            name="bhni_min_amount"
+            placeholder="BHNI Min Amount"
+            value={form.bhni_min_amount}
+            readOnly
+            className="border p-2 rounded w-full bg-gray-50"
+          />
+          <p className="text-xs text-gray-500">
+            {formatINR(form.bhni_min_amount)}
+          </p>
+        </div>
+        {/* BHNI Max */}
+        <input name="bhni_max_lots" placeholder="BHNI Max Lots" value={form.bhni_max_lots} onChange={handleChange} className="border p-2 rounded w-full" />
+        <input name="bhni_max_shares" placeholder="BHNI Max Shares" value={form.bhni_max_shares} onChange={handleChange} className="border p-2 rounded w-full" />
+        <div className="flex flex-col">
+          <input
+            name="bhni_max_amount"
+            placeholder="BHNI Max Amount"
+            value={form.bhni_max_amount}
+            readOnly
+            className="border p-2 rounded w-full bg-gray-50"
+          />
+          <p className="text-xs text-gray-500">
+            {formatINR(form.bhni_max_amount)}
+          </p>
+        </div>
       </div>
 
       {/* Valuation */}

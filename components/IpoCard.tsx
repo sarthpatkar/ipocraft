@@ -67,18 +67,11 @@ function getFinalStatus(ipo: IPOListItem) {
 function getAllotmentBadge(ipo: IPOListItem) {
   const today = new Date();
 
-  // If IPO is already listed → do NOT show allotment badges
-  if (ipo.listing_date) {
-    const list = new Date(ipo.listing_date);
-    if (!isNaN(list.getTime()) && today >= list) {
-      return null;
-    }
-  }
-
-  // Admin marked as OUT (highest priority) — force boolean conversion (Supabase may return "true"/"false")
+  // Force boolean conversion (Supabase may return truthy values)
   const allotmentOut =
     Boolean(ipo.allotment_out) || ipo.allotment_status === "out";
 
+  // 1️⃣ Admin marked OUT → always show
   if (allotmentOut) {
     return {
       text: "Allotment Out",
@@ -87,7 +80,19 @@ function getAllotmentBadge(ipo: IPOListItem) {
     };
   }
 
-  // Date reached but admin not updated yet
+  // 2️⃣ If listed → always show (fallback when admin forgot to update)
+  if (ipo.listing_date) {
+    const list = new Date(ipo.listing_date);
+    if (!isNaN(list.getTime()) && today >= list) {
+      return {
+        text: "Allotment Out",
+        className:
+          "bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse",
+      };
+    }
+  }
+
+  // 3️⃣ Allotment date reached → Awaited
   if (ipo.allotment_date) {
     const allot = new Date(ipo.allotment_date);
     if (!isNaN(allot.getTime()) && today >= allot) {
@@ -99,6 +104,7 @@ function getAllotmentBadge(ipo: IPOListItem) {
     }
   }
 
+  // 4️⃣ Else → nothing
   return null;
 }
 
