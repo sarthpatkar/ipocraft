@@ -280,6 +280,35 @@ export default async function IPODetail({
       className={`${playfair.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased overflow-x-hidden`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://ipocraft.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "IPO",
+                item: "https://ipocraft.com/ipo",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: ipo.name,
+                item: `https://ipocraft.com/ipo/${slug}`,
+              },
+            ],
+          }),
+        }}
+      />
 
       {/* ── Breadcrumb ── */}
       <div className="bg-white border-b border-[#e2e8f0]">
