@@ -18,21 +18,37 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Best Stock Brokers in India (Charges Comparison) | IPOCraft",
+  title:
+    "Best Stock Brokers in India 2026 — Charges, Fees & IPO Support Comparison | IPOCraft",
   description:
-    "Compare top stock brokers in India including Zerodha, Groww, Angel One and others. See brokerage charges, account fees, features and choose the best broker for IPO investing.",
+    "Compare the best stock brokers in India including Zerodha, Groww, Angel One and others. Review brokerage charges, account fees, platform features, and IPO application support to choose the right broker.",
   keywords: [
-    "best broker india",
-    "broker comparison india",
-    "ipo brokers india",
-    "zerodha vs groww",
-    "stock broker charges india",
+    "best stock broker India",
+    "broker comparison India",
+    "IPO brokers India",
+    "Zerodha vs Groww",
+    "brokerage charges India",
+    "Demat account comparison",
+    "Angel One charges",
   ],
+  alternates: {
+    canonical: "https://ipocraft.com/brokers",
+  },
   openGraph: {
-    title: "Best Stock Brokers in India | IPOCraft",
+    title:
+      "Best Stock Brokers in India — Charges & IPO Comparison | IPOCraft",
     description:
-      "Compare brokerage charges, fees and IPO features across leading Indian brokers.",
+      "Compare brokerage fees, features, and IPO support across leading Indian brokers.",
+    url: "https://ipocraft.com/brokers",
+    siteName: "IPOCraft",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Best Stock Brokers in India — Charges & IPO Comparison | IPOCraft",
+    description:
+      "Compare brokerage charges and IPO features across top brokers — IPOCraft.",
   },
 };
 

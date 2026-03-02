@@ -20,18 +20,38 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "IPO GMP Today — Grey Market Premium & Listing Insights | IPOCraft",
+  title: "IPO GMP Today — Grey Market Premium, Subscription & Listing Dates India | IPOCraft",
   description:
-    "Track IPO Grey Market Premium (GMP), subscription demand, price bands, allotment dates, and listing schedules. IPOCraft provides structured IPO data for research and informational purposes.",
+    "Check latest IPO Grey Market Premium (GMP) today with subscription data, price bands, allotment dates, and expected listing gains for Mainboard and SME IPOs. Updated regularly by IPOCraft.",
   keywords: [
     "IPO GMP today",
-    "Grey Market Premium",
+    "Grey Market Premium India",
     "IPO listing gain",
     "SME IPO GMP",
-    "Mainboard IPO",
-    "IPO subscription data",
+    "Mainboard IPO GMP",
+    "IPO subscription status",
     "IPO allotment date",
+    "IPO listing date",
   ],
+  alternates: {
+    canonical: "https://ipocraft.com/gmp",
+  },
+  openGraph: {
+    title:
+      "IPO GMP Today — Grey Market Premium & Listing Insights India | IPOCraft",
+    description:
+      "Track IPO GMP today with subscription demand, price bands, and listing timelines across Mainboard and SME IPOs.",
+    url: "https://ipocraft.com/gmp",
+    siteName: "IPOCraft",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "IPO GMP Today — Grey Market Premium & Listing Insights India | IPOCraft",
+    description:
+      "Latest IPO GMP today with subscription data and listing insights — IPOCraft.",
+  },
 };
 
 function getStatus(open?: string | null, close?: string | null) {

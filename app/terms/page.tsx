@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 
-export const metadata = {
-  title: "Terms & Conditions | IPOCraft",
+export const metadata: Metadata = {
+  title:
+    "Terms & Conditions — Legal Disclaimer, Usage & Liability | IPOCraft",
   description:
-    "Terms and conditions for using IPOCraft — an informational IPO data platform covering IPO timelines, GMP insights, subscription data, and public issue research in India.",
+    "Review IPOCraft’s terms and conditions including legal disclaimers, informational use policy, liability limitations, affiliate disclosures, and platform usage guidelines.",
   keywords: [
     "IPOCraft terms",
     "IPO website terms India",
@@ -11,7 +13,27 @@ export const metadata = {
     "financial data disclaimer India",
     "IPO information platform terms",
     "IPO data platform India",
+    "investment disclaimer India",
   ],
+  alternates: {
+    canonical: "https://ipocraft.com/terms",
+  },
+  openGraph: {
+    title:
+      "Terms & Conditions — Legal Disclaimer & Usage | IPOCraft",
+    description:
+      "Understand the legal terms, disclaimers, and usage policies governing IPOCraft.",
+    url: "https://ipocraft.com/terms",
+    siteName: "IPOCraft",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Terms & Conditions — Legal Disclaimer & Usage | IPOCraft",
+    description:
+      "Read IPOCraft’s legal terms, disclaimers, and platform usage policies.",
+  },
 };
 
 const playfair = Playfair_Display({
@@ -192,7 +214,7 @@ export default function TermsPage() {
   );
 }
 
-function Section({ title, text }) {
+function Section({ title, text }: { title: string; text: string }) {
   return (
     <section className="space-y-3">
       <h2

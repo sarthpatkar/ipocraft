@@ -1,10 +1,13 @@
+import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 
-export const metadata = {
-  title: "About IPOCraft — IPO GMP, Subscription & IPO Research Platform India",
+export const metadata: Metadata = {
+  title:
+    "About IPOCraft — IPO GMP, Subscription & IPO Research Platform India",
   description:
-    "IPOCraft is an independent IPO information platform providing IPO GMP trends, subscription data, allotment timelines, and IPO insights sourced from publicly available filings for informational purposes.",
+    "Learn about IPOCraft, an independent IPO information platform providing IPO GMP trends, subscription data, allotment timelines, and structured IPO insights sourced from publicly available filings.",
   keywords: [
+    "IPOCraft",
     "IPO GMP India",
     "IPO calendar India",
     "Grey market premium",
@@ -14,11 +17,22 @@ export const metadata = {
     "IPO listing gain",
     "IPO research platform",
   ],
+  alternates: {
+    canonical: "https://ipocraft.com/about",
+  },
   openGraph: {
-    title: "About IPOCraft",
+    title: "About IPOCraft — IPO Research Platform India",
     description:
-      "Learn about IPOCraft — an IPO research platform providing structured IPO data and GMP tracking.",
+      "Understand IPOCraft’s mission, data sources, and platform features for tracking IPO GMP and subscription insights.",
+    url: "https://ipocraft.com/about",
+    siteName: "IPOCraft",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About IPOCraft — IPO Research Platform India",
+    description:
+      "Learn about IPOCraft, a platform for tracking IPO GMP and subscription insights.",
   },
 };
 

@@ -1,3 +1,41 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title:
+    "IPO Calendar India 2026 — Upcoming, Open & Listed IPO Dates | IPOCraft",
+  description:
+    "View the IPO calendar for India with upcoming, open, and recently listed IPO dates, subscription timelines, allotment schedules, and listing information across Mainboard and SME segments.",
+  keywords: [
+    "IPO calendar India",
+    "Upcoming IPO 2026",
+    "Open IPO list",
+    "IPO dates India",
+    "IPO allotment date",
+    "IPO listing date",
+    "SME IPO calendar",
+    "Mainboard IPO calendar",
+  ],
+  alternates: {
+    canonical: "https://ipocraft.com/ipo-calendar",
+  },
+  openGraph: {
+    title:
+      "IPO Calendar India — Upcoming, Open & Listed IPO Dates | IPOCraft",
+    description:
+      "Track IPO timelines including opening, closing, allotment, and listing schedules across Indian IPOs.",
+    url: "https://ipocraft.com/ipo-calendar",
+    siteName: "IPOCraft",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "IPO Calendar India — Upcoming, Open & Listed IPO Dates | IPOCraft",
+    description:
+      "Latest IPO calendar with key dates and timelines across India — IPOCraft.",
+  },
+};
+
 import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { Playfair_Display, Inter } from "next/font/google";

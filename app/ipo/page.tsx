@@ -64,12 +64,31 @@ export async function generateMetadata({
   const status = params.status ?? "All";
   const type = (params.type ?? "").toString();
 
+  const baseTitle =
+    (type ? `${type.toUpperCase()} ` : "") +
+    buildTitle(status);
+
   return {
-    title:
-      (type ? `${type.toUpperCase()} ` : "") +
-      buildTitle(status),
+    title: `${baseTitle} — IPO GMP, Upcoming & Current IPO List India | IPOCraft`,
     description:
-      "Track open, upcoming and recently listed IPOs with GMP updates, offer dates, and subscription trends on IPOCraft.",
+      "Explore the latest IPO listings in India including open, upcoming, and listed IPOs with GMP, price bands, subscription data, and key dates. Updated regularly by IPOCraft.",
+    alternates: {
+      canonical: "https://ipocraft.com/ipo",
+    },
+    openGraph: {
+      title: `${baseTitle} — IPO Listings India | IPOCraft`,
+      description:
+        "Track open, upcoming, and listed IPOs with GMP insights, subscription trends, and offer details in one place.",
+      url: "https://ipocraft.com/ipo",
+      siteName: "IPOCraft",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${baseTitle} — IPO Listings India | IPOCraft`,
+      description:
+        "Latest IPO list with GMP, subscription data, and timelines — IPOCraft.",
+    },
   };
 }
 
@@ -183,7 +202,7 @@ export default async function IPOPage({
             provider: {
               "@type": "Organization",
               name: "IPOCraft",
-              url: "https://ipocraft.in",
+              url: "https://ipocraft.com",
             },
             description:
               "Latest IPO listings in India including open, upcoming, and listed IPOs with price bands, dates, and subscription insights.",

@@ -1,7 +1,37 @@
-export const metadata = {
-  title: "Privacy Policy | IPOCraft",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title:
+    "Privacy Policy — Data Protection, Cookies & User Rights | IPOCraft",
   description:
-    "Learn how IPOCraft collects, uses, and protects user information, including analytics data, cookies, and third‑party services.",
+    "Read IPOCraft’s privacy policy covering data collection, cookies, analytics usage, user rights, and compliance with GDPR and India DPDP regulations.",
+  keywords: [
+    "IPOCraft privacy policy",
+    "IPO website privacy India",
+    "data protection IPOCraft",
+    "cookies policy India",
+    "GDPR compliance India",
+    "DPDP Act privacy",
+  ],
+  alternates: {
+    canonical: "https://ipocraft.com/privacy",
+  },
+  openGraph: {
+    title:
+      "Privacy Policy — Data Protection & User Rights | IPOCraft",
+    description:
+      "Understand how IPOCraft handles data, cookies, analytics, and user privacy rights.",
+    url: "https://ipocraft.com/privacy",
+    siteName: "IPOCraft",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Privacy Policy — Data Protection & User Rights | IPOCraft",
+    description:
+      "Learn how IPOCraft collects, uses, and protects user data.",
+  },
 };
 
 import { Playfair_Display, Inter } from "next/font/google";

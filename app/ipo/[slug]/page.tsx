@@ -19,6 +19,8 @@ export async function generateMetadata({
     ? `Latest GMP, price band, dates, subscription, and listing insights for ${ipo.name} IPO. Data sourced from public filings and exchange disclosures.`
     : "IPO details including GMP, price band, dates, subscription, and listing insights.";
 
+  const canonicalUrl = `https://ipocraft.com/ipo/${slug}`;
+
   return {
     title,
     description,
@@ -29,10 +31,20 @@ export async function generateMetadata({
       "Grey Market Premium India",
       ipo?.name,
     ],
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title,
       description,
+      url: canonicalUrl,
+      siteName: "IPOCraft",
       type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
     },
     robots: {
       index: true,
@@ -383,6 +395,7 @@ export default async function IPODetail({
                   provider: {
                     "@type": "Organization",
                     name: "IPOCraft",
+                    url: "https://ipocraft.com",
                   },
                 }),
               }}

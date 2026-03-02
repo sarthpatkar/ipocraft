@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 
 const playfair = Playfair_Display({
@@ -14,22 +15,37 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata = {
-  title: "Contact IPOCraft | Platform Support & Business Communication",
+export const metadata: Metadata = {
+  title:
+    "Contact IPOCraft — Support, Partnerships & Business Enquiries India",
   description:
-    "Contact IPOCraft for platform issues, data corrections, partnerships, or business communication. IPO GMP and IPO data platform in India.",
+    "Contact IPOCraft for platform support, IPO data corrections, partnerships, advertising opportunities, or business communication related to IPO research and GMP tracking.",
   keywords: [
     "IPOCraft contact",
     "IPO GMP support",
-    "IPO data India",
-    "SME IPO information",
-    "IPO platform contact",
+    "IPO data corrections",
+    "IPO partnerships",
+    "IPO platform contact India",
+    "stock market contact India",
   ],
+  alternates: {
+    canonical: "https://ipocraft.com/contact",
+  },
   openGraph: {
-    title: "Contact IPOCraft",
+    title:
+      "Contact IPOCraft — Support & Business Communication",
     description:
-      "Reach IPOCraft for platform support, corrections, partnerships, or business communication.",
+      "Reach IPOCraft for platform support, corrections, partnerships, or business enquiries.",
+    url: "https://ipocraft.com/contact",
+    siteName: "IPOCraft",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Contact IPOCraft — Support & Business Communication",
+    description:
+      "Contact IPOCraft for support, partnerships, or business communication.",
   },
 };
 
