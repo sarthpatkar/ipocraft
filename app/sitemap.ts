@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const { data: ipos } = await supabase
     .from("ipos")
-    .select("slug, updated_at");
+    .select("slug");
 
   const staticPages = [
     "",
@@ -41,9 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const dynamicUrls =
     ipos?.map((ipo) => ({
       url: `${baseUrl}/ipo/${ipo.slug}`,
-      lastModified: ipo.updated_at
-        ? new Date(ipo.updated_at)
-        : new Date(),
+      lastModified: new Date(),
       changeFrequency: "daily" as const,
       priority: 0.8,
     })) || [];
