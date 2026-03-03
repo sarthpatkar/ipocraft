@@ -144,7 +144,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-[env(safe-area-inset-top)] z-50 h-14 pt-[env(safe-area-inset-top)] transition-all ${
+      className={`sticky top-0 z-50 h-14 pt-[env(safe-area-inset-top)] transition-all ${
         scrolled
           ? "bg-white/80 backdrop-blur-md shadow-md"
           : "bg-white"
