@@ -360,13 +360,13 @@ export default async function IPOPage({
               About IPO Listings in India
             </h2>
             <p className="mb-3">
-              Initial Public Offerings (IPOs) allow companies to raise capital by offering shares to the public. Investors track IPO open dates, price bands, allotment timelines, and listing performance to make informed decisions.
+              Initial Public Offerings (IPOs) allow companies to raise capital by offering shares to the public. Investors typically monitor open dates, price bands, <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">allotment timelines</Link>, and listing performance to make structured decisions based on publicly available data.
             </p>
             <p className="mb-3">
-              IPOCraft provides structured information about ongoing, upcoming, and recently listed IPOs in India. Data is compiled from publicly available company disclosures, exchange filings, and market updates.
+              IPOCraft provides structured information about ongoing, upcoming, and recently listed IPOs. You can also track indicative demand sentiment through the <Link href="/gmp" className="text-[#2563eb] hover:underline font-medium">IPO GMP tracker</Link> and understand subscription category allocation in our guide on <Link href="/qib-hni-retail-explained" className="text-[#2563eb] hover:underline font-medium">QIB, HNI, and Retail IPO structure</Link>.
             </p>
             <p>
-              Investors should independently verify details from official sources such as exchange filings and prospectus documents before making financial decisions.
+              For educational context on grey market mechanics, see <Link href="/what-is-ipo-gmp" className="text-[#2563eb] hover:underline font-medium">what IPO GMP means</Link> and our <Link href="/ipo-grey-market-guide" className="text-[#2563eb] hover:underline font-medium">grey market premium guide</Link>. Always verify details directly through official exchange filings and offer documents before making financial decisions.
             </p>
           </div>
         </div>

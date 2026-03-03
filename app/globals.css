@@ -27,3 +27,8 @@ body {
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* Global anchor offset for sticky headers */
+html {
+  scroll-padding-top: 120px;
+}

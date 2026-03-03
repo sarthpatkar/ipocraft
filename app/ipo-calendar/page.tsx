@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
@@ -36,7 +37,6 @@ export const metadata: Metadata = {
   },
 };
 
-import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { Playfair_Display, Inter } from "next/font/google";
 
@@ -121,8 +121,8 @@ export default async function IpoCalendarPage() {
           </h1>
 
           <p className="mt-4 text-sm sm:text-[15px] text-[#475569] max-w-2xl leading-relaxed">
-            Explore upcoming IPOs, ongoing IPO subscriptions, allotment timelines,
-            and listing schedules across Mainboard and SME segments in India.
+            Explore upcoming IPOs, ongoing IPO subscriptions, <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">allotment timelines</Link>,
+            and listing schedules across Mainboard and SME segments. You can also track indicative demand sentiment using the <Link href="/gmp" className="text-[#2563eb] hover:underline font-medium">IPO GMP tracker</Link>.
             IPOCraft provides structured IPO data for research and informational purposes only.
           </p>
 
@@ -160,9 +160,10 @@ export default async function IpoCalendarPage() {
             </h2>
             <p className="text-sm text-[#475569] leading-relaxed">
               An IPO calendar tracks key public offering milestones including
-              opening dates, closing dates, allotment timelines, and listing schedules.
-              Investors use IPO calendars to monitor opportunities and plan participation
-              across Mainboard and SME IPOs.
+              opening dates, closing dates, <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">allotment timelines</Link>, and listing schedules.
+              Investors use IPO calendars alongside <Link href="/ipo-subscription-meaning" className="text-[#2563eb] hover:underline font-medium">subscription demand data</Link>
+              and <Link href="/ipo-grey-market-guide" className="text-[#2563eb] hover:underline font-medium">grey market premium analysis</Link>
+              to monitor opportunities in both Mainboard and SME IPOs.
             </p>
           </div>
 
@@ -175,8 +176,9 @@ export default async function IpoCalendarPage() {
             </h2>
             <p className="text-sm text-[#475569] leading-relaxed">
               IPOCraft aggregates IPO information from publicly available filings,
-              exchange disclosures, and registrar announcements. Users should always
-              verify details with official sources before making financial decisions.
+              exchange disclosures, and registrar announcements. For structured explanations of
+              category allocation, see our <Link href="/qib-hni-retail-explained" className="text-[#2563eb] hover:underline font-medium">QIB, HNI and Retail IPO guide</Link>.
+              Users should always verify details with official sources before making financial decisions.
             </p>
           </div>
         </div>

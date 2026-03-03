@@ -177,21 +177,17 @@ export default async function GMPPage({
                 IPO GMP Today — Grey Market Premium & Listing Insights
               </h1>
               <p className="mt-3 text-[13.5px] sm:text-[14px] text-gray-300 leading-[1.6] max-w-xl">
-                Track latest Grey Market Premium (GMP), subscription demand,
-                price bands, allotment timelines, and IPO listing schedules across
-                Mainboard and SME offerings. IPOCraft presents structured IPO data
-                for research and informational purposes only.
+                Track latest IPO Grey Market Premium (GMP), subscription momentum, price bands, allotment timelines, and listing schedules across Mainboard and SME IPOs in India. Data is updated regularly for research and informational purposes.
               </p>
-
-              <div className="hidden sm:flex flex-wrap gap-2 mt-4">
-                <span className="px-3 py-1 text-xs rounded-full bg-white/10 border border-white/20">
-                  Data Sources: Public Market Sources
+              <div className="mt-4 flex flex-wrap gap-2 text-[11px]">
+                <span className="px-2 py-1 rounded-full bg-white/10 border border-white/20">
+                  Live IPO Tracking
                 </span>
-                <span className="px-3 py-1 text-xs rounded-full bg-white/10 border border-white/20">
-                  SEBI Filings Cross‑Check
+                <span className="px-2 py-1 rounded-full bg-white/10 border border-white/20">
+                  Mainboard & SME Coverage
                 </span>
-                <span className="px-3 py-1 text-xs rounded-full bg-white/10 border border-white/20">
-                  Real‑Time Updates
+                <span className="px-2 py-1 rounded-full bg-white/10 border border-white/20">
+                  Subscription & Listing Insights
                 </span>
               </div>
             </div>
@@ -214,20 +210,6 @@ export default async function GMPPage({
         </div>
       </section>
 
-      {/* Secondary Info Row (moved from hero to reduce height) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-4">
-        <div className="flex flex-wrap gap-2 text-xs">
-          <span className="px-3 py-1 rounded-full bg-white border border-[#e2e8f0] shadow-sm">
-            Data Sources: Public Market Sources
-          </span>
-          <span className="px-3 py-1 rounded-full bg-white border border-[#e2e8f0] shadow-sm">
-            SEBI Filings Cross‑Check
-          </span>
-          <span className="px-3 py-1 rounded-full bg-white border border-[#e2e8f0] shadow-sm">
-            Real‑Time Updates
-          </span>
-        </div>
-      </section>
 
       {/* Main Layout */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 items-start">
@@ -240,10 +222,7 @@ export default async function GMPPage({
             Latest IPO Grey Market Premium (GMP)
           </h2>
           <p className="text-sm text-[#475569] max-w-3xl">
-            Grey Market Premium (GMP) reflects unofficial demand for IPO shares before listing.
-            It is often used to estimate potential listing performance, but it is not an official
-            or guaranteed indicator. Investors should always verify IPO details through SEBI filings,
-            exchange disclosures, and company prospectuses before making financial decisions.
+            GMP is frequently referenced to gauge demand dynamics prior to listing, but it remains unofficial and unregulated. For deeper understanding, read our <Link href="/ipo-grey-market-guide" className="text-blue-600 hover:underline font-medium">IPO Grey Market Guide</Link> and <Link href="/what-is-ipo-gmp" className="text-blue-600 hover:underline font-medium">IPO GMP explanation</Link>. Always verify IPO details through official exchange filings.
           </p>
         </div>
         {/* LEFT — TABLE */}
@@ -335,7 +314,7 @@ export default async function GMPPage({
                 Understanding IPO Grey Market Premium
               </h3>
               <p className="text-xs text-[#64748b]">
-                IPO GMP reflects unofficial demand before listing and is often used to estimate potential listing gains.
+                IPO GMP reflects unofficial pre‑listing market sentiment. For a detailed conceptual breakdown of how grey market premiums form and how they should be interpreted responsibly, read our <Link href="/ipo-grey-market-guide" className="text-blue-600 hover:underline font-medium">IPO Grey Market Guide</Link>. If you are new to the concept, you may also review our foundational explanation on <Link href="/what-is-ipo-gmp" className="text-blue-600 hover:underline font-medium">what IPO GMP means</Link>.
               </p>
             </div>
 
@@ -347,7 +326,7 @@ export default async function GMPPage({
                 How Reliable is GMP?
               </h3>
               <p className="text-xs text-[#64748b]">
-                GMP is market sentiment only. Actual listing price depends on institutional demand and market conditions.
+                GMP is an informal sentiment indicator and should not be treated as a pricing forecast. Actual listing outcomes depend on multiple regulated market factors beyond unofficial premium discussions.
               </p>
             </div>
 
@@ -365,10 +344,7 @@ export default async function GMPPage({
           </div>
 
           <p className="mt-6 text-[12px] text-[#64748b] leading-relaxed max-w-3xl">
-            Disclaimer: Grey Market Premium (GMP) figures are unofficial estimates shared for informational purposes only.
-            IPOCraft is not a SEBI‑registered investment advisor or broker and does not provide investment recommendations.
-            Users should verify IPO data through official filings such as SEBI, stock exchanges, and company prospectuses
-            before making investment decisions. IPOCraft assumes no responsibility for financial outcomes based on this data.
+            Disclaimer: Grey Market Premium (GMP) data shown on IPOCraft is derived from informal market discussions and publicly available sources. It is not official, not exchange‑verified, and not regulated. IPOCraft is not a SEBI‑registered investment advisor, broker, or intermediary. The platform does not provide investment advice, recommendations, or portfolio guidance. Users must conduct independent research and consult qualified financial professionals before making investment decisions. IPOCraft assumes no liability for financial losses or outcomes arising from reliance on this information.
           </p>
         </div>
 
@@ -383,7 +359,7 @@ export default async function GMPPage({
               Apply for IPO
             </h3>
             <p className="text-sm text-[#475569] mb-3">
-              Open a demat account with trusted brokers and apply for IPOs easily.
+              Open a demat account with trusted brokers and apply for IPOs easily. Before applying, you may review the <Link href="/how-ipo-allotment-works" className="text-blue-700 hover:underline font-medium">IPO allotment process</Link> to understand how share allocation works.
             </p>
             <Link
               href="/brokers"
@@ -397,8 +373,7 @@ export default async function GMPPage({
           <div className="bg-white border border-[#e2e8f0] rounded-lg p-4">
             <h3 className="font-semibold mb-3">What is GMP?</h3>
             <p className="text-sm text-[#475569]">
-              GMP (Grey Market Premium) indicates the estimated listing gain
-              based on unofficial market demand before IPO listing.
+              GMP (Grey Market Premium) indicates unofficial market sentiment before IPO listing. It is not exchange‑verified pricing. For structured learning, refer to our <Link href="/what-is-ipo-gmp" className="text-blue-600 hover:underline font-medium">IPO GMP explanation guide</Link> and the more advanced <Link href="/ipo-grey-market-guide" className="text-blue-600 hover:underline font-medium">Grey Market analysis article</Link>.
             </p>
           </div>
 

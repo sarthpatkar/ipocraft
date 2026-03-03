@@ -586,6 +586,12 @@ export default async function IPODetail({
                   ? valueOrDash(ipo.about_company ?? ipo.description)
                   : "Detailed company information will appear here once the data is available from official exchange filings and the offer document (DRHP / RHP)."}
               </p>
+              <p
+                className="text-[12.5px] text-[#64748b] mt-3"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                New to IPO analysis? You may review our structured guides on <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">how IPO allotment works</Link> and <Link href="/ipo-subscription-meaning" className="text-[#2563eb] hover:underline font-medium">IPO subscription meaning</Link> to better understand demand and allocation mechanics.
+              </p>
             </section>
 
             {/* Financials */}
@@ -648,6 +654,12 @@ export default async function IPODetail({
                 <div><DataLabel>Registrar</DataLabel><p>{valueOrDash(ipo.registrar)}</p></div>
                 <div><DataLabel>Lot Size</DataLabel><p>{ipo.lot_size ?? "—"}</p></div>
               </div>
+              <p
+                className="text-[12.5px] text-[#64748b] mt-4"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                For category-wise quota breakdown such as QIB, HNI, and Retail allocation, refer to our <Link href="/qib-hni-retail-explained" className="text-[#2563eb] hover:underline font-medium">IPO quota structure explanation</Link>.
+              </p>
             </section>
 
             {/* Anchor Investors */}
@@ -763,6 +775,12 @@ export default async function IPODetail({
 
                 <p className="text-[11.5px] text-[#94a3b8]">
                   GMP is unofficial and indicative only. It does not guarantee listing price or returns.
+                </p>
+                <p
+                  className="text-[12px] text-[#64748b] mt-2"
+                  style={{ fontFamily: "var(--font-inter)" }}
+                >
+                  GMP is unofficial and indicative. To understand interpretation logic and limitations, read our <Link href="/ipo-grey-market-guide" className="text-[#2563eb] hover:underline font-medium">IPO Grey Market Guide</Link> or begin with <Link href="/what-is-ipo-gmp" className="text-[#2563eb] hover:underline font-medium">what IPO GMP means</Link>.
                 </p>
               </div>
             </section>
@@ -1275,6 +1293,15 @@ export default async function IPODetail({
               <p className="text-[11.5px] text-[#94a3b8] pt-2 border-t border-[#f1f5f9]">
                 Subscription data sourced from exchange updates. Values represent times subscribed (x).
               </p>
+              <p className="text-[12px] text-[#64748b] mt-2" style={{ fontFamily: "var(--font-inter)" }}>
+                Learn how subscription categories are allocated by reading our guide on <Link href="/qib-hni-retail-explained" className="text-[#2563eb] hover:underline font-medium">QIB, HNI and Retail IPO quota structure</Link>.
+              </p>
+              <p
+                className="text-[12px] text-[#64748b] mt-2"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                If you are tracking GMP alongside subscription demand, see our <Link href="/ipo-grey-market-guide" className="text-[#2563eb] hover:underline font-medium">grey market premium guide</Link> for a structured comparison framework.
+              </p>
             </section>
 
             {/* How to Apply */}
@@ -1333,6 +1360,9 @@ export default async function IPODetail({
                   </div>
                 ))}
               </div>
+              <p className="text-[12px] text-[#64748b] pt-4 border-t border-[#f1f5f9]" style={{ fontFamily: "var(--font-inter)" }}>
+                You may also review the complete <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">IPO allotment process explanation</Link> to understand lottery mechanics and refund timelines.
+              </p>
             </section>
 
             {/* Risk Disclosure */}

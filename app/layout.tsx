@@ -3,17 +3,22 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Script from "next/script";
 import { Playfair_Display, Inter } from "next/font/google";
+import Image from "next/image";
+import Link from "next/link";
+
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["600"],
   variable: "--font-playfair",
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -21,8 +26,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "IPOCraft — IPO GMP & SME IPO Updates",
   description:
-    "Latest IPO GMP, SME IPO insights, subscription data, and upcoming IPO alerts for Indian investors.",
-  metadataBase: new URL("https://ipocraft.com"),
+    "Latest IPO GMP, SME IPO insights, subscription data, and upcoming IPO alerts.",
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({
@@ -39,24 +47,6 @@ export default function RootLayout({
       <head>
         <meta name="color-scheme" content="light" />
       <meta name="google-site-verification" content="abcdef123456" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "IPOCraft",
-              url: "https://ipocraft.com",
-              logo: "https://ipocraft.com/logo.png",
-              sameAs: [
-                "https://www.instagram.com/ipocraft_official",
-                "https://t.me/ipocraft"
-              ],
-              description:
-                "IPOCraft provides structured IPO data, GMP trends, and subscription insights for Indian investors.",
-            }),
-          }}
-        />
       </head>
       <body
         className="bg-[#f8fafc] text-[#0f172a] antialiased"
@@ -75,6 +65,25 @@ export default function RootLayout({
             gtag('config', 'G-V2DGFHC1DY');
           `}
         </Script>
+        <Script
+          id="org-schema"
+          type="application/ld+json"
+          strategy="afterInteractive"
+        >
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "IPOCraft",
+            url: siteUrl,
+            logo: `${siteUrl}/logo2.png`,
+            sameAs: [
+              "https://www.instagram.com/ipocraft_official",
+              "https://t.me/ipocraft"
+            ],
+            description:
+              "IPOCraft provides structured IPO data, GMP trends, and subscription insights for Indian investors.",
+          })}
+        </Script>
         <Navbar />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8">
@@ -88,21 +97,46 @@ export default function RootLayout({
 
               {/* Brand */}
               <div>
-                <h3 className="text-lg font-semibold text-[#0f172a]">
-                  IPOCraft
-                </h3>
+                <Image
+                  src="/logo2.png"
+                  alt="IPOCraft Logo"
+                  width={140}
+                  height={40}
+                  priority
+                  className="h-auto w-auto"
+                />
                 <p className="mt-2 text-sm text-[#64748b] max-w-md">
                   IPOCraft provides structured IPO data, GMP trends, and subscription insights
                   for educational and research purposes.
                 </p>
               </div>
 
-              {/* Links */}
-              <div className="flex flex-wrap gap-6 text-sm text-[#475569]">
-                <a href="/about" className="hover:text-[#1e3a8a]">About</a>
-                <a href="/contact" className="hover:text-[#1e3a8a]">Contact</a>
-                <a href="/privacy" className="hover:text-[#1e3a8a]">Privacy Policy</a>
-                <a href="/terms" className="hover:text-[#1e3a8a]">Terms</a>
+              {/* Footer Navigation */}
+              <div className="grid grid-cols-2 gap-8 text-sm text-[#475569]">
+
+                {/* Quick Links */}
+                <div>
+                  <h4 className="font-semibold text-[#0f172a] mb-3">Quick Links</h4>
+                  <ul className="space-y-2">
+                    <li><Link href="/about" className="hover:text-[#1e3a8a]">About</Link></li>
+                    <li><Link href="/contact" className="hover:text-[#1e3a8a]">Contact</Link></li>
+                    <li><Link href="/privacy" className="hover:text-[#1e3a8a]">Privacy Policy</Link></li>
+                    <li><Link href="/terms" className="hover:text-[#1e3a8a]">Terms</Link></li>
+                  </ul>
+                </div>
+
+                {/* Learning Guides */}
+                <div>
+                  <h4 className="font-semibold text-[#0f172a] mb-3">Learning Guides</h4>
+                  <ul className="space-y-2">
+                    <li><Link href="/what-is-ipo-gmp" className="hover:text-[#2563eb]">What is IPO GMP?</Link></li>
+                    <li><Link href="/how-ipo-allotment-works" className="hover:text-[#2563eb]">How IPO Allotment Works</Link></li>
+                    <li><Link href="/qib-hni-retail-explained" className="hover:text-[#2563eb]">QIB vs HNI vs Retail</Link></li>
+                    <li><Link href="/ipo-grey-market-guide" className="hover:text-[#2563eb]">Grey Market Guide</Link></li>
+                    <li><Link href="/ipo-subscription-meaning" className="hover:text-[#2563eb]">IPO Subscription Meaning</Link></li>
+                  </ul>
+                </div>
+
               </div>
 
               {/* Social */}

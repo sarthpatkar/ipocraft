@@ -92,12 +92,21 @@ export default async function Home({
           </h1>
 
           <p className="mt-4 text-sm sm:text-[15px] text-[#475569] max-w-3xl leading-relaxed">
-            IPOCraft provides structured IPO data including Grey Market Premium (GMP)
-            trends, subscription demand insights, price bands, allotment timelines,
-            and listing performance information sourced from publicly available
-            filings and disclosures. Designed for research clarity across Mainboard
-            and SME IPOs in India.
+            IPOCraft provides structured IPO data including <Link href="/what-is-ipo-gmp" className="text-[#2563eb] hover:underline font-medium">Grey Market Premium (GMP)</Link>
+            trends, <Link href="/ipo-subscription-meaning" className="text-[#2563eb] hover:underline font-medium">subscription demand insights</Link>, price bands, <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">allotment timelines</Link>,
+            and listing performance information sourced from publicly available filings and disclosures.
+            Designed for research clarity across Mainboard and SME IPOs in India.
           </p>
+
+          {/* Contextual Learning Link */}
+          <div className="mt-4">
+            <Link
+              href="/what-is-ipo-gmp"
+              className="text-sm font-medium text-[#2563eb] hover:underline"
+            >
+              Learn what IPO GMP means →
+            </Link>
+          </div>
 
           {/* TRUST BADGES */}
           <div className="flex flex-wrap gap-3 mt-6 text-xs">
@@ -248,7 +257,10 @@ export default async function Home({
 
           {/* SEO + GEO CONTENT */}
           <div className="mt-10 grid md:grid-cols-2 gap-6">
-            <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
+            <Link
+              href="/what-is-ipo-gmp"
+              className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6 block hover:shadow-md transition"
+            >
               <h3
                 className="text-lg font-semibold mb-3"
                 style={{ fontFamily: "var(--font-playfair)" }}
@@ -262,7 +274,7 @@ export default async function Home({
                 is not an official metric. IPOCraft presents GMP data strictly for
                 informational and research purposes.
               </p>
-            </div>
+            </Link>
 
             <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
               <h3
@@ -291,10 +303,10 @@ export default async function Home({
             <p className="text-sm text-[#475569] leading-relaxed">
               IPOCraft helps users understand IPO timelines, demand indicators,
               and listing expectations through structured data presentation.
-              Key elements such as price bands, subscription demand, and GMP
-              movements are commonly monitored by investors to interpret market
-              sentiment before listing. This platform is designed to improve
-              clarity and accessibility of publicly available IPO information.
+              Key elements such as price bands, <Link href="/ipo-subscription-meaning" className="text-[#2563eb] hover:underline font-medium">subscription demand</Link>, and
+              <Link href="/ipo-grey-market-guide" className="text-[#2563eb] hover:underline font-medium">GMP interpretation</Link>
+              are commonly monitored by investors to interpret market sentiment before listing.
+              For investor category allocation mechanics, see our <Link href="/qib-hni-retail-explained" className="text-[#2563eb] hover:underline font-medium">QIB, HNI and Retail IPO guide</Link>.
             </p>
           </div>
 
@@ -329,9 +341,8 @@ export default async function Home({
               <div>
                 <strong>How is IPO subscription data used?</strong>
                 <p>
-                  Subscription data indicates demand levels across investor
-                  categories and may help interpret interest levels in a public
-                  offering.
+                  Subscription data indicates demand levels across investor categories and may help interpret interest levels in a public offering.
+                  Learn more in our detailed guide on <Link href="/ipo-subscription-meaning" className="text-[#2563eb] hover:underline font-medium">IPO subscription meaning</Link>.
                 </p>
               </div>
 
