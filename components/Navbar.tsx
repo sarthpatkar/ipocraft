@@ -144,20 +144,19 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 h-14 pt-[env(safe-area-inset-top)] transition-all ${
-        scrolled
-          ? "bg-white shadow-md"
-          : "bg-white"
+      className={`sticky top-0 z-50 transition-shadow ${
+        scrolled ? "bg-white shadow-md" : "bg-white"
       }`}
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-10 min-h-[56px] flex items-center justify-between">
         <Link href="/" className="flex items-center">
           <Image
             src="/logo2.png"
             alt="IPOCraft"
             width={120}
             height={34}
-            className="h-[32px] w-auto object-contain"
+            className="h-[28px] w-auto object-contain"
           />
         </Link>
 
@@ -193,11 +192,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {/* Always visible GMP button on small screens */}
           <Link
             href="/gmp"
-            className="md:hidden inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold 
+            className="md:hidden inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-semibold 
                        bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm
                        hover:shadow-md active:scale-[0.97] transition-all"
           >
@@ -232,7 +231,7 @@ export default function Navbar() {
       {/* Mobile */}
       {menuOpen && (
         <div className="md:hidden border-t bg-white">
-          <div className="flex flex-col px-4 py-4 gap-3 text-sm">
+          <div className="flex flex-col px-4 py-3 gap-2 text-sm">
             {LINKS.map((l) => (
               <NavLink key={l.href} {...l} />
             ))}
