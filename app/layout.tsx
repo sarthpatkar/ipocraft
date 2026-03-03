@@ -39,6 +39,7 @@ export default function RootLayout({
     >
       <head>
         <meta name="color-scheme" content="light" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <meta name="google-site-verification" content="abcdef123456" />
       <link rel="preconnect" href="https://www.googletagmanager.com" />
       <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
