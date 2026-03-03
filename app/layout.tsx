@@ -78,7 +78,10 @@ export default function RootLayout({
             logo: `${siteUrl}/logo2.png`,
             sameAs: [
               "https://www.instagram.com/ipocraft_official",
-              "https://t.me/ipocraft"
+              "https://t.me/ipocraft",
+              "https://www.linkedin.com/in/ipo-craft-a9259a3b4/",
+              "https://x.com/ipocraft_in",
+              "https://youtube.com/@ipocraft-q5o"
             ],
             description:
               "IPOCraft provides structured IPO data, GMP trends, and subscription insights for Indian investors.",
@@ -190,6 +193,19 @@ export default function RootLayout({
   >
     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
       <path d="M18.244 2H21l-6.5 7.43L22 22h-6.828l-5.35-6.993L3.5 22H1l6.95-7.95L2 2h6.914l4.86 6.34L18.244 2zm-2.394 18h1.89L8.01 4H6.06l9.79 16z"/>
+    </svg>
+  </a>
+
+  {/* YouTube */}
+  <a
+    href="https://youtube.com/@ipocraft-q5o"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="YouTube"
+    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#e2e8f0] bg-white shadow-sm text-red-600 hover:text-red-700 transition transform duration-200 ease-out hover:-translate-y-0.5 hover:scale-105"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M23.498 6.186a2.997 2.997 0 0 0-2.115-2.116C19.72 3.5 12 3.5 12 3.5s-7.72 0-9.383.57a2.997 2.997 0 0 0-2.115 2.116A29.96 29.96 0 0 0 0 12a29.96 29.96 0 0 0 .502 5.814 2.997 2.997 0 0 0 2.115 2.116C4.28 20.5 12 20.5 12 20.5s7.72 0 9.383-.57a2.997 2.997 0 0 0 2.115-2.116A29.96 29.96 0 0 0 24 12a29.96 29.96 0 0 0-.502-5.814zM9.75 15.02v-6.04L15.5 12l-5.75 3.02z" />
     </svg>
   </a>
 </div>
