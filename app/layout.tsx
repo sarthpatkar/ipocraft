@@ -2,19 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Script from "next/script";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com";
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["600"],
-  variable: "--font-playfair",
-  display: "swap",
-});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,12 +34,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${inter.variable} bg-[#f8fafc]`}
+      className={`${inter.variable} bg-[#f8fafc]`}
       style={{ colorScheme: "light" }}
     >
       <head>
         <meta name="color-scheme" content="light" />
       <meta name="google-site-verification" content="abcdef123456" />
+      <link rel="preconnect" href="https://www.googletagmanager.com" />
+      <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       </head>
       <body
         className="bg-[#f8fafc] text-[#0f172a] antialiased"
@@ -55,9 +50,9 @@ export default function RootLayout({
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-V2DGFHC1DY"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -68,7 +63,7 @@ export default function RootLayout({
         <Script
           id="org-schema"
           type="application/ld+json"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         >
           {JSON.stringify({
             "@context": "https://schema.org",
