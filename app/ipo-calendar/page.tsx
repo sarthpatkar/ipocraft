@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 
 export const metadata: Metadata = {
   title:
@@ -54,6 +55,18 @@ const inter = Inter({
   display: "swap",
 });
 
+type CalendarIpo = {
+  id: number | string;
+  slug: string;
+  name: string;
+  open_date: string | null;
+  close_date: string | null;
+  price_min: number | string | null;
+  price_max: number | string | null;
+  lot_size: number | string | null;
+  gmp: number | string | null;
+};
+
 function getStatus(openDate?: string | null, closeDate?: string | null) {
   if (!openDate || !closeDate) return "Upcoming";
 
@@ -81,18 +94,19 @@ export default async function IpoCalendarPage() {
 
   const { data: ipos } = await supabase
     .from("ipos")
-    .select("*")
-    .order("open_date", { ascending: true });
+    .select("*");
 
-  const upcoming = ipos?.filter(
+  const sortedIpos = sortIposByNewestOpenDate((ipos || []) as CalendarIpo[]);
+
+  const upcoming = sortedIpos.filter(
     (ipo) => getStatus(ipo.open_date, ipo.close_date) === "Upcoming"
   );
 
-  const open = ipos?.filter(
+  const open = sortedIpos.filter(
     (ipo) => getStatus(ipo.open_date, ipo.close_date) === "Open"
   );
 
-  const closed = ipos?.filter(
+  const closed = sortedIpos.filter(
     (ipo) => getStatus(ipo.open_date, ipo.close_date) === "Closed"
   );
 
@@ -195,7 +209,13 @@ export default async function IpoCalendarPage() {
   );
 }
 
-function Section({ title, ipos }: any) {
+function Section({
+  title,
+  ipos,
+}: {
+  title: string;
+  ipos: CalendarIpo[];
+}) {
   if (!ipos || ipos.length === 0) return null;
 
   return (
@@ -208,7 +228,7 @@ function Section({ title, ipos }: any) {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-        {ipos.map((ipo: any) => {
+        {ipos.map((ipo) => {
           const status = getStatus(ipo.open_date, ipo.close_date);
 
           return (

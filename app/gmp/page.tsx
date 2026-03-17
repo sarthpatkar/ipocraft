@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import GmpTableClient from "@/components/GmpTableClient";
+import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 
 import { Playfair_Display, Inter } from "next/font/google";
 
@@ -54,36 +55,6 @@ export const metadata: Metadata = {
   },
 };
 
-function getStatus(open?: string | null, close?: string | null) {
-  const today = new Date();
-
-  if (close) {
-    const closeDate = new Date(close);
-    if (closeDate < today) return "Closed";
-  }
-
-  if (open) {
-    const openDate = new Date(open);
-    if (openDate > today) return "Upcoming";
-    return "Open";
-  }
-
-  return "Upcoming";
-}
-
-function getStatusClass(status: string) {
-  switch (status.toLowerCase()) {
-    case "open":
-      return "bg-green-100 text-green-700";
-    case "upcoming":
-      return "bg-blue-100 text-blue-700";
-    case "closed":
-      return "bg-gray-200 text-gray-700";
-    default:
-      return "bg-gray-100 text-gray-700";
-  }
-}
-
 export default async function GMPPage({
   searchParams,
 }: {
@@ -120,16 +91,15 @@ export default async function GMPPage({
       created_at,
       ipo_type
     `
-    )
-    .order("created_at", { ascending: false });
+    );
 
   if (iposError) {
     console.error("IPOS QUERY ERROR:", iposError);
   }
 
-  const ipos = iposData || [];
+  const ipos = sortIposByNewestOpenDate(iposData || []);
 
-  let gmpMap: Record<string, { latest?: number; prev?: number }> = {};
+  const gmpMap: Record<string, { latest?: number; prev?: number }> = {};
 
   if (ipos?.length) {
     const ids = ipos.map((i) => Number(i.id)); // FIX: bigint FK expects numeric ids
@@ -152,11 +122,6 @@ export default async function GMPPage({
         gmpMap[key].prev = row.gmp;
       }
     });
-  }
-
-  function getLatestGmp(ipoId: string, fallback?: number | null) {
-    const map = gmpMap[String(ipoId)] || {};
-    return fallback ?? map.latest ?? null;
   }
 
   return (

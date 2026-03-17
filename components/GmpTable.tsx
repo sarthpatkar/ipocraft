@@ -3,6 +3,7 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
+import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 
 type Ipo = {
   id: number;
@@ -61,7 +62,7 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
   }, [search]);
 
   const filtered = useMemo(() => {
-    let data = [...ipos];
+    let data = sortIposByNewestOpenDate(ipos);
 
     if (debounced) {
       data = data.filter((ipo) =>

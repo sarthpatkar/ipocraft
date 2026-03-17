@@ -2,6 +2,7 @@ import Link from "next/link";
 import IpoCard, { IPOListItem } from "@/components/IpoCard";
 
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 
 // Auto-calculate IPO status based on dates
 function calculateStatus(ipo: {
@@ -113,8 +114,7 @@ export default async function IpoList({ limit, status, search, type }: Props) {
     .from("ipos")
     .select(
       "id, slug, name, exchange, sector, status, price_min, price_max, gmp, lot_size, open_date, close_date, listing_date, allotment_date, allotment_link, allotment_out, allotment_status, sub_total, ipo_type"
-    )
-    .order("created_at", { ascending: false });
+    );
 
   const searchTerm = search?.trim();
   if (searchTerm) {
@@ -122,9 +122,7 @@ export default async function IpoList({ limit, status, search, type }: Props) {
     baseQuery = baseQuery.or(`name.ilike.%${safeSearch}%,slug.ilike.%${safeSearch}%`);
   }
 
-  const { data, error } = limit
-    ? await baseQuery.limit(limit)
-    : await baseQuery;
+  const { data, error } = await baseQuery;
 
   if (error) {
     console.error("Failed to fetch IPO list:", error);
@@ -150,15 +148,17 @@ export default async function IpoList({ limit, status, search, type }: Props) {
   const ipos = normalizeIpoRows(rows);
 
   // Compute auto status for every IPO first
-  const iposWithStatus = ipos.map((ipo) => ({
-    ...ipo,
-    status: calculateStatus({
-      open_date: ipo.open_date,
-      close_date: ipo.close_date,
-      listing_date: (ipo as any).listing_date ?? null,
-      status: ipo.status,
-    }),
-  }));
+  const iposWithStatus = sortIposByNewestOpenDate(
+    ipos.map((ipo) => ({
+      ...ipo,
+      status: calculateStatus({
+        open_date: ipo.open_date,
+        close_date: ipo.close_date,
+        listing_date: ipo.listing_date ?? null,
+        status: ipo.status,
+      }),
+    }))
+  );
 
   // Apply filtering on computed status
   let filteredIpos = iposWithStatus;
@@ -169,7 +169,9 @@ export default async function IpoList({ limit, status, search, type }: Props) {
     });
   }
 
-  if (filteredIpos.length === 0) {
+  const visibleIpos = limit ? filteredIpos.slice(0, limit) : filteredIpos;
+
+  if (visibleIpos.length === 0) {
     return (
       <div className="border border-[#e2e8f0] bg-white rounded-lg px-5 py-6 text-center">
         <p className="text-[13px] text-[#64748b]">No IPO listings available yet.</p>
@@ -179,7 +181,7 @@ export default async function IpoList({ limit, status, search, type }: Props) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-      {filteredIpos.map((ipo) => (
+      {visibleIpos.map((ipo) => (
         <Link key={ipo.id} href={`/ipo/${ipo.slug}`} className="block h-full">
           <IpoCard ipo={ipo} />
         </Link>

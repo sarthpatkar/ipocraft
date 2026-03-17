@@ -5,6 +5,7 @@ import DeleteConfirmModal from "./DeleteConfirmModal";
 import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import AdminForm from "./AdminForm";
+import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,19 +13,42 @@ const supabase = createBrowserClient(
 );
 
 type Tab = "ipos" | "brokers" | "settings";
+type IpoRecord = {
+  [key: string]: string | number | boolean | null | undefined;
+  id: string;
+  name?: string | null;
+  slug?: string | null;
+  status?: string | null;
+  ipo_type?: string | null;
+  open_date?: string | null;
+  close_date?: string | null;
+  allotment_date?: string | null;
+  allotment_status?: string | null;
+  listing_date?: string | null;
+  price_min?: number | null;
+  price_max?: number | null;
+  gmp?: number | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+};
+type BrokerRecord = {
+  [key: string]: string | number | boolean | null | undefined;
+  id?: string;
+  name?: string | null;
+};
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState<Tab>("ipos");
 
-  const [ipos, setIpos] = useState<any[]>([]);
-  const [filtered, setFiltered] = useState<any[]>([]);
-  const [editingIpo, setEditingIpo] = useState<any | null>(null);
+  const [ipos, setIpos] = useState<IpoRecord[]>([]);
+  const [filtered, setFiltered] = useState<IpoRecord[]>([]);
+  const [editingIpo, setEditingIpo] = useState<IpoRecord | null>(null);
   const [showForm, setShowForm] = useState(false);
 
   // Brokers state
-  const [brokers, setBrokers] = useState<any[]>([]);
+  const [brokers, setBrokers] = useState<BrokerRecord[]>([]);
   const [brokerLoading, setBrokerLoading] = useState(true);
-  const [editingBroker, setEditingBroker] = useState<any | null>(null);
+  const [editingBroker, setEditingBroker] = useState<BrokerRecord | null>(null);
   const [showBrokerForm, setShowBrokerForm] = useState(false);
 
   const [loading, setLoading] = useState(true);
@@ -68,10 +92,9 @@ export default function AdminDashboard() {
 
     const { data } = await supabase
       .from("ipos")
-      .select("*")
-      .order("created_at", { ascending: false });
+      .select("*");
 
-    const list = data || [];
+    const list = sortIposByNewestOpenDate(data || []);
     setIpos(list);
     setFiltered(list);
     setLoading(false);
@@ -151,9 +174,10 @@ export default function AdminDashboard() {
         setToast("Broker deleted successfully");
         await fetchBrokers();
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Delete failed";
       console.error("Delete error:", e);
-      setToast(e?.message || "Delete failed");
+      setToast(message);
     } finally {
       setDeleting(false);
       setDeleteId(null);
@@ -164,19 +188,19 @@ export default function AdminDashboard() {
     }
   }
 
-  async function duplicateIpo(ipo: any) {
-    const payload = { ...ipo };
-    delete payload.id;
-    delete payload.created_at;
-    delete payload.updated_at;
-    payload.name = `${ipo.name} (Copy)`;
-    payload.slug = `${ipo.slug}-copy-${Date.now()}`;
+  async function duplicateIpo(ipo: IpoRecord) {
+    const { id, created_at, updated_at, ...rest } = ipo;
+    const payload = {
+      ...rest,
+      name: `${ipo.name} (Copy)`,
+      slug: `${ipo.slug}-copy-${Date.now()}`,
+    };
 
     await supabase.from("ipos").insert(payload);
     fetchIpos();
   }
 
-  async function updateGmp(ipo: any) {
+  async function updateGmp(ipo: IpoRecord) {
     const value = inlineGmp[ipo.id];
     if (value === "" || value === undefined) return;
 
@@ -378,7 +402,7 @@ export default function AdminDashboard() {
                         </span>
                       </td>
                       <td>
-                        <span className={`px-2 py-1 rounded text-xs ${getStatusClass(ipo.status)}`}>
+                        <span className={`px-2 py-1 rounded text-xs ${getStatusClass(ipo.status ?? null)}`}>
                           {ipo.status ?? "-"}
                         </span>
                       </td>
@@ -392,7 +416,7 @@ export default function AdminDashboard() {
                           {ipo.allotment_status && (
                             <span
                               className={`mt-1 px-2 py-0.5 rounded text-xs w-fit ${getAllotmentClass(
-                                ipo.allotment_status
+                                ipo.allotment_status ?? null
                               )}`}
                             >
                               {ipo.allotment_status === "out"
@@ -454,7 +478,7 @@ export default function AdminDashboard() {
                         </button>
 
                         <button
-                          onClick={() => deleteIpo(ipo.id, ipo.name)}
+                          onClick={() => deleteIpo(ipo.id, ipo.name ?? undefined)}
                           className="text-red-600 hover:underline"
                         >
                           Delete
@@ -548,7 +572,7 @@ export default function AdminDashboard() {
                         </button>
 
                         <button
-                          onClick={() => deleteBroker(b.id, b.name)}
+                          onClick={() => deleteBroker(b.id as string, b.name ?? undefined)}
                           className="text-red-600 hover:underline"
                         >
                           Delete

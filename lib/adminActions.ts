@@ -1,4 +1,5 @@
 import { createBrowserClient } from "@supabase/ssr";
+import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -8,10 +9,9 @@ const supabase = createBrowserClient(
 export async function fetchIpos() {
   const { data } = await supabase
     .from("ipos")
-    .select("*")
-    .order("created_at", { ascending: false });
+    .select("*");
 
-  return data || [];
+  return sortIposByNewestOpenDate(data || []);
 }
 
 export async function deleteIpo(id: string) {

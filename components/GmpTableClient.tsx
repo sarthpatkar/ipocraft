@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 
 type IpoRow = {
   id: number;
@@ -34,6 +35,34 @@ type SortKey = "gmp" | "sub" | null;
 const ROW_HEIGHT = 48;
 const VISIBLE_COUNT = 18; // virtualization window
 
+function getLifecycleStatus(ipo: Pick<IpoRow, "open_date" | "close_date">) {
+  const today = new Date();
+
+  if (ipo.close_date) {
+    const closeDate = new Date(ipo.close_date);
+    if (closeDate < today) return "closed";
+  }
+
+  if (ipo.open_date) {
+    const openDate = new Date(ipo.open_date);
+    if (openDate > today) return "upcoming";
+    return "open";
+  }
+
+  return "upcoming";
+}
+
+function compareByClosingSoon(a: IpoRow, b: IpoRow) {
+  const aTimestamp = a.close_date ? Date.parse(a.close_date) : null;
+  const bTimestamp = b.close_date ? Date.parse(b.close_date) : null;
+
+  if (aTimestamp == null && bTimestamp == null) return 0;
+  if (aTimestamp == null) return 1;
+  if (bTimestamp == null) return -1;
+
+  return aTimestamp - bTimestamp;
+}
+
 export default function GmpTableClient({
   data,
   gmpMap,
@@ -57,7 +86,28 @@ export default function GmpTableClient({
   }, [query]);
 
   const filtered = useMemo(() => {
-    let rows = data;
+    let rows = sortIposByNewestOpenDate(data);
+
+    if (filterStatus) {
+      const normalizedStatus = filterStatus.toLowerCase();
+      rows = rows.filter(
+        (ipo) => getLifecycleStatus(ipo) === normalizedStatus
+      );
+    }
+
+    if (activeOnly) {
+      rows = rows.filter((ipo) => {
+        const status = getLifecycleStatus(ipo);
+        return status === "open" || status === "upcoming";
+      });
+    }
+
+    if (typeFilter) {
+      const normalizedType = typeFilter.toLowerCase();
+      rows = rows.filter(
+        (ipo) => (ipo.ipo_type ?? "").toLowerCase() === normalizedType
+      );
+    }
 
     if (debounced) {
       rows = rows.filter((ipo) =>
@@ -83,10 +133,16 @@ export default function GmpTableClient({
 
         return sortDir === "asc" ? aVal - bVal : bVal - aVal;
       });
+    } else if (sort === "gmp") {
+      rows = [...rows].sort((a, b) => (b.gmp ?? 0) - (a.gmp ?? 0));
+    } else if (sort === "sub") {
+      rows = [...rows].sort((a, b) => (b.sub_total ?? 0) - (a.sub_total ?? 0));
+    } else if (sort === "closing") {
+      rows = [...rows].sort(compareByClosingSoon);
     }
 
     return rows;
-  }, [data, debounced, sortKey, sortDir]);
+  }, [activeOnly, data, debounced, filterStatus, sort, sortDir, sortKey, typeFilter]);
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) {
@@ -207,7 +263,11 @@ export default function GmpTableClient({
                 </tr>
               ) : (
                 visibleRows.map((ipo) => {
-                  const trend = ipo.gmp_trend ?? 0;
+                  const latest = gmpMap?.[String(ipo.id)]?.latest;
+                  const prev = gmpMap?.[String(ipo.id)]?.prev;
+                  const trend =
+                    ipo.gmp_trend ??
+                    (latest != null && prev != null ? latest - prev : 0);
 
                   return (
                     <MemoRow
