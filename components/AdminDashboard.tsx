@@ -611,9 +611,9 @@ export default function AdminDashboard() {
 
       {/* Modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-start overflow-auto p-6 z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl p-6 relative">
-            <div className="flex justify-between items-center mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-6">
+          <div className="relative flex h-[calc(100vh-1.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-xl bg-white shadow-xl sm:h-[calc(100vh-3rem)]">
+            <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-5 py-4">
               <h2 className="text-xl font-semibold">
                 {editingIpo ? "Edit IPO" : "Add IPO"}
               </h2>
@@ -626,13 +626,15 @@ export default function AdminDashboard() {
               </button>
             </div>
 
-            <AdminForm
-              ipo={editingIpo}
-              onClose={() => {
-                setShowForm(false);
-                fetchIpos();
-              }}
-            />
+            <div className="min-h-0 flex-1">
+              <AdminForm
+                ipo={editingIpo}
+                onClose={() => {
+                  setShowForm(false);
+                  fetchIpos();
+                }}
+              />
+            </div>
           </div>
         </div>
       )}
