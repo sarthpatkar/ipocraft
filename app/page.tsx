@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Playfair_Display, Inter } from "next/font/google";
 import IpoList from "@/components/IpoList";
 import BrokerList from "@/components/BrokerList";
+import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { getIpoFeedPage } from "@/lib/ipoFeed";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -46,12 +48,44 @@ export const metadata: Metadata = {
   },
 };
 
+function buildHomeShowMoreHref(params: {
+  status?: string;
+  search?: string;
+  type?: string;
+}) {
+  const query = new URLSearchParams();
+  const status = params.status?.trim();
+  const type = params.type?.trim();
+  const search = params.search?.trim();
+
+  if (status && status.toLowerCase() !== "all") query.set("status", status);
+  if (type && type.toLowerCase() !== "all") query.set("type", type);
+  if (search) query.set("q", search);
+
+  const queryString = query.toString();
+  return queryString ? `/ipo?${queryString}` : "/ipo";
+}
+
 export default async function Home({
   searchParams,
 }: {
   searchParams: Promise<{ status?: string; search?: string; type?: string }>;
 }) {
   const params = await searchParams;
+  const supabase = await createSupabaseServerClient();
+  const ipoFeed = await getIpoFeedPage({
+    supabase,
+    limit: 6,
+    status: params?.status,
+    type: params?.type,
+    q: params?.search,
+  });
+  const showMoreHref = buildHomeShowMoreHref({
+    status: params?.status,
+    type: params?.type,
+    search: params?.search,
+  });
+
   return (
     <div
       className={`${playfair.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased`}
@@ -250,10 +284,18 @@ export default async function Home({
             </Link>
           </div>
           <IpoList
-            status={params?.status}
-            search={params?.search}
-            type={params?.type}
+            items={ipoFeed.items}
           />
+          {ipoFeed.hasMore && (
+            <div className="mt-8 flex justify-center">
+              <Link
+                href={showMoreHref}
+                className="inline-flex items-center justify-center rounded-md bg-[#1e3a8a] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#1a327a]"
+              >
+                Show More IPOs
+              </Link>
+            </div>
+          )}
 
           {/* SEO + GEO CONTENT */}
           <div className="mt-10 grid md:grid-cols-2 gap-6">

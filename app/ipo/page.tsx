@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Playfair_Display, Inter } from "next/font/google";
-import IpoList from "@/components/IpoList";
+import IpoLoadMoreClient from "@/components/IpoLoadMoreClient";
+import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { unstable_noStore as noStore } from "next/cache";
-import { Suspense } from "react";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -27,24 +28,6 @@ function buildTitle(status?: string) {
     return "Latest IPO Listings | IPOCraft";
   }
   return `${status} IPOs | IPOCraft`;
-}
-
-function CardsSkeleton() {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <div
-          key={i}
-          className="animate-pulse bg-white border border-[#e2e8f0] rounded-lg p-4 h-[180px]"
-        >
-          <div className="h-4 bg-[#e2e8f0] rounded w-2/3 mb-3" />
-          <div className="h-3 bg-[#e2e8f0] rounded w-1/2 mb-2" />
-          <div className="h-3 bg-[#e2e8f0] rounded w-1/3 mb-2" />
-          <div className="h-8 bg-[#e2e8f0] rounded w-full mt-4" />
-        </div>
-      ))}
-    </div>
-  );
 }
 
 function normalizeStatus(input?: string): StatusFilter {
@@ -120,6 +103,17 @@ export default async function IPOPage({
   const selectedStatusParam = selectedStatus.toLowerCase();
   const searchQuery = (params.q ?? "").toString().trim();
   const selectedType = (params.type ?? "").toString();
+  const statusFilter = selectedStatus === "All" ? undefined : selectedStatus;
+  const typeFilter = selectedType || undefined;
+  const queryFilter = searchQuery || undefined;
+  const supabase = await createSupabaseServerClient();
+  const initialFeed = await getIpoFeedPage({
+    supabase,
+    limit: 6,
+    status: statusFilter,
+    type: typeFilter,
+    q: queryFilter,
+  });
 
   return (
     <div
@@ -346,13 +340,16 @@ export default async function IPOPage({
           <div className="hidden md:block h-28 lg:h-32" />
 
           <div className="mt-6 md:mt-8">
-            <Suspense fallback={<CardsSkeleton />}>
-              <IpoList
-                status={selectedStatus === "All" ? undefined : selectedStatus}
-                search={searchQuery}
-                type={selectedType || undefined}
-              />
-            </Suspense>
+            <IpoLoadMoreClient
+              initialItems={initialFeed.items}
+              initialHasMore={initialFeed.hasMore}
+              initialNextCursor={initialFeed.nextCursor}
+              snapshot={initialFeed.snapshot}
+              status={statusFilter}
+              type={typeFilter}
+              q={queryFilter}
+              limit={6}
+            />
           </div>
           {/* SEO Content Section */}
           <div className="mt-10 bg-white border border-[#e2e8f0] rounded-lg p-5 sm:p-6 text-[14px] text-[#475569] leading-relaxed">
