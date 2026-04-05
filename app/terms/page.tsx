@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
+
+const termsUrl = canonicalUrl("/terms");
 
 export const metadata: Metadata = {
   title:
@@ -16,14 +19,14 @@ export const metadata: Metadata = {
     "investment disclaimer India",
   ],
   alternates: {
-    canonical: "https://ipocraft.com/terms",
+    canonical: termsUrl,
   },
   openGraph: {
     title:
       "Terms & Conditions — Legal Disclaimer & Usage | IPOCraft",
     description:
       "Understand the legal terms, disclaimers, and usage policies governing IPOCraft.",
-    url: "https://ipocraft.com/terms",
+    url: termsUrl,
     siteName: "IPOCraft",
     type: "website",
   },

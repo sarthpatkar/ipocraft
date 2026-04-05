@@ -1,9 +1,7 @@
 import type { MetadataRoute } from "next";
+import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com";
-
   return {
     rules: [
       {
@@ -12,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin", "/api", "/auth"],
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
+    sitemap: canonicalUrl("/sitemap.xml"),
+    host: CANONICAL_ORIGIN,
   };
 }

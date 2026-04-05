@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { Playfair_Display, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -17,12 +18,14 @@ const inter = Inter({
   display: "swap",
 });
 
+const whatIsIpoGmpUrl = canonicalUrl("/what-is-ipo-gmp");
+
 export const metadata: Metadata = {
   title: "What is IPO GMP? Grey Market Premium Meaning & Calculation | IPOCraft",
   description:
     "Learn what IPO GMP (Grey Market Premium) means, how IPO GMP is calculated, why it changes daily, and how investors estimate listing gains using GMP data.",
   alternates: {
-    canonical: "/what-is-ipo-gmp",
+    canonical: whatIsIpoGmpUrl,
   },
 };
 

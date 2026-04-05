@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
+import { canonicalUrl } from "@/lib/site-url";
+
+const ipoCalendarUrl = canonicalUrl("/ipo-calendar");
 
 export const metadata: Metadata = {
   title:
@@ -18,14 +21,14 @@ export const metadata: Metadata = {
     "Mainboard IPO calendar",
   ],
   alternates: {
-    canonical: "https://ipocraft.com/ipo-calendar",
+    canonical: ipoCalendarUrl,
   },
   openGraph: {
     title:
       "IPO Calendar India — Upcoming, Open & Listed IPO Dates | IPOCraft",
     description:
       "Track IPO timelines including opening, closing, allotment, and listing schedules across Indian IPOs.",
-    url: "https://ipocraft.com/ipo-calendar",
+    url: ipoCalendarUrl,
     siteName: "IPOCraft",
     type: "website",
   },

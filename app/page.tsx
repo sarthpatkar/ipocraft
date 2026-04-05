@@ -5,6 +5,7 @@ import IpoList from "@/components/IpoList";
 import BrokerList from "@/components/BrokerList";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
+import { canonicalUrl } from "@/lib/site-url";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -19,6 +20,8 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
 });
+
+const homeUrl = canonicalUrl("/");
 
 export const metadata: Metadata = {
   title: "IPOCraft — IPO GMP, Subscription & Listing Insights Platform",
@@ -39,12 +42,12 @@ export const metadata: Metadata = {
     title: "IPOCraft — IPO GMP, Subscription & Listing Insights Platform",
     description:
       "Track IPO GMP, subscription status, allotment dates, and listing performance with IPOCraft in one place.",
-    url: "https://ipocraft.com",
+    url: homeUrl,
     siteName: "IPOCraft",
     type: "website",
   },
   alternates: {
-    canonical: "https://ipocraft.com",
+    canonical: homeUrl,
   },
 };
 
@@ -99,7 +102,7 @@ export default async function Home({
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: "IPOCraft",
-            url: "https://ipocraft.com",
+            url: homeUrl,
             description:
               "IPOCraft is a research-focused platform providing IPO GMP trends, subscription data, allotment timelines, and listing insights.",
           }),

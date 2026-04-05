@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import GmpTableClient from "@/components/GmpTableClient";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
+import { canonicalUrl } from "@/lib/site-url";
 
 import { Playfair_Display, Inter } from "next/font/google";
 
@@ -20,6 +21,8 @@ const inter = Inter({
   display: "swap",
 });
 
+const gmpUrl = canonicalUrl("/gmp");
+
 export const metadata: Metadata = {
   title: "IPO GMP Today — Grey Market Premium, Subscription & Listing Dates India | IPOCraft",
   description:
@@ -35,14 +38,14 @@ export const metadata: Metadata = {
     "IPO listing date",
   ],
   alternates: {
-    canonical: "https://ipocraft.com/gmp",
+    canonical: gmpUrl,
   },
   openGraph: {
     title:
       "IPO GMP Today — Grey Market Premium & Listing Insights India | IPOCraft",
     description:
       "Track IPO GMP today with subscription demand, price bands, and listing timelines across Mainboard and SME IPOs.",
-    url: "https://ipocraft.com/gmp",
+    url: gmpUrl,
     siteName: "IPOCraft",
     type: "website",
   },

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import BrokerList from "@/components/BrokerList";
 import { Playfair_Display, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -16,6 +16,8 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
 });
+
+const brokersUrl = canonicalUrl("/brokers");
 
 export const metadata: Metadata = {
   title:
@@ -32,14 +34,14 @@ export const metadata: Metadata = {
     "Angel One charges",
   ],
   alternates: {
-    canonical: "https://ipocraft.com/brokers",
+    canonical: brokersUrl,
   },
   openGraph: {
     title:
       "Best Stock Brokers in India — Charges & IPO Comparison | IPOCraft",
     description:
       "Compare brokerage fees, features, and IPO support across leading Indian brokers.",
-    url: "https://ipocraft.com/brokers",
+    url: brokersUrl,
     siteName: "IPOCraft",
     type: "website",
   },

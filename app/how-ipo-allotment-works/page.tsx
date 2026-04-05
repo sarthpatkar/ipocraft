@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { Playfair_Display, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -17,18 +18,20 @@ const inter = Inter({
   display: "swap",
 });
 
+const allotmentGuideUrl = canonicalUrl("/how-ipo-allotment-works");
+
 export const metadata: Metadata = {
   title:
     "How IPO Allotment Works? Complete Process Explained (Retail, HNI, QIB) | IPOCraft",
   description:
     "Understand how IPO allotment works in India, including retail quota, HNI allocation, oversubscription rules, lottery system, and refund process.",
   alternates: {
-    canonical: "/how-ipo-allotment-works",
+    canonical: allotmentGuideUrl,
   },
   openGraph: {
     title: "How IPO Allotment Works in India – Complete Guide",
     description: "Detailed explanation of IPO allotment rules, lottery system, oversubscription logic, and allocation process.",
-    url: "/how-ipo-allotment-works",
+    url: allotmentGuideUrl,
     siteName: "IPOCraft",
     type: "article",
   },
@@ -419,19 +422,19 @@ export default function IpoAllotmentGuide() {
               "@type": "ListItem",
               position: 1,
               name: "Home",
-              item: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com"}/`
+              item: canonicalUrl("/")
             },
             {
               "@type": "ListItem",
               position: 2,
               name: "IPO Learning Guides",
-              item: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com"}`
+              item: canonicalUrl("/")
             },
             {
               "@type": "ListItem",
               position: 3,
               name: "How IPO Allotment Works",
-              item: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com"}/how-ipo-allotment-works`
+              item: allotmentGuideUrl
             }
           ]
         })}

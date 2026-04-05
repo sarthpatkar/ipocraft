@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
+
+const aboutUrl = canonicalUrl("/about");
 
 export const metadata: Metadata = {
   title:
@@ -18,13 +21,13 @@ export const metadata: Metadata = {
     "IPO research platform",
   ],
   alternates: {
-    canonical: "https://ipocraft.com/about",
+    canonical: aboutUrl,
   },
   openGraph: {
     title: "About IPOCraft — IPO Research Platform India",
     description:
       "Understand IPOCraft’s mission, data sources, and platform features for tracking IPO GMP and subscription insights.",
-    url: "https://ipocraft.com/about",
+    url: aboutUrl,
     siteName: "IPOCraft",
     type: "website",
   },

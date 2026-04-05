@@ -5,9 +5,9 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com";
+const siteUrl = CANONICAL_ORIGIN;
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "Latest IPO GMP, SME IPO insights, subscription data, and upcoming IPO alerts.",
   metadataBase: new URL(siteUrl),
   alternates: {
-    canonical: "/",
+    canonical: canonicalUrl("/"),
   },
 };
 

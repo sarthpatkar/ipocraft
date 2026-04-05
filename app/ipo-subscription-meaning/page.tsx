@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { Playfair_Display, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -17,18 +18,21 @@ const inter = Inter({
   display: "swap",
 });
 
+const ipoSubscriptionUrl = canonicalUrl("/ipo-subscription-meaning");
+const logoUrl = canonicalUrl("/logo.png");
+
 export const metadata: Metadata = {
   title: "IPO Subscription Meaning – What Does IPO Subscription Status Mean?",
   description:
     "Understand IPO subscription meaning, oversubscription, undersubscription, category-wise demand, and how IPO subscription impacts allotment and listing.",
   alternates: {
-    canonical: "/ipo-subscription-meaning",
+    canonical: ipoSubscriptionUrl,
   },
   openGraph: {
     title: "IPO Subscription Meaning Explained – IPOCraft",
     description:
       "Detailed guide on IPO subscription ratios, oversubscription logic, retail vs HNI vs QIB demand, and listing impact.",
-    url: "/ipo-subscription-meaning",
+    url: ipoSubscriptionUrl,
     siteName: "IPOCraft",
     type: "article",
   },
@@ -304,14 +308,14 @@ export default function IpoSubscriptionMeaning() {
           },
           mainEntityOfPage: {
             "@type": "WebPage",
-            "@id": `${process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com"}/ipo-subscription-meaning`,
+            "@id": ipoSubscriptionUrl,
           },
           publisher: {
             "@type": "Organization",
             name: "IPOCraft",
             logo: {
               "@type": "ImageObject",
-              url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com"}/logo.png`,
+              url: logoUrl,
             },
           },
         })}
@@ -385,13 +389,13 @@ export default function IpoSubscriptionMeaning() {
               "@type": "ListItem",
               position: 1,
               name: "Home",
-              item: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com"}/`,
+              item: canonicalUrl("/"),
             },
             {
               "@type": "ListItem",
               position: 2,
               name: "IPO Subscription Meaning",
-              item: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com"}/ipo-subscription-meaning`,
+              item: ipoSubscriptionUrl,
             },
           ],
         })}

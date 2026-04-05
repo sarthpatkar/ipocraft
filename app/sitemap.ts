@@ -1,21 +1,10 @@
 import type { MetadataRoute } from "next";
-import { createClient } from "@supabase/supabase-js";
+import { getSanitizedIpoSlugs } from "@/lib/ipo.server";
+import { canonicalUrl } from "@/lib/site-url";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com";
-
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-
-  const { data: ipos } = await supabase
-    .from("ipos")
-    .select("slug");
-
   const staticPages = [
-    "",
+    "/",
     "/gmp",
     "/ipo",
     "/ipo-calendar",
@@ -31,20 +20,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/ipo-grey-market-guide",
   ];
 
+  const lastModified = new Date();
   const staticUrls = staticPages.map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
+    url: canonicalUrl(route),
+    lastModified,
     changeFrequency: "weekly" as const,
-    priority: route === "" ? 1 : 0.7,
+    priority: route === "/" ? 1 : 0.7,
   }));
 
-  const dynamicUrls =
-    ipos?.map((ipo) => ({
-      url: `${baseUrl}/ipo/${ipo.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority: 0.8,
-    })) || [];
+  const ipoSlugs = await getSanitizedIpoSlugs();
+  const dynamicUrls = ipoSlugs.map((slug) => ({
+    url: canonicalUrl(`/ipo/${encodeURIComponent(slug)}`),
+    lastModified,
+    changeFrequency: "daily" as const,
+    priority: 0.8,
+  }));
 
   return [...staticUrls, ...dynamicUrls];
 }

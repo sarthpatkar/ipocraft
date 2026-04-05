@@ -5,6 +5,7 @@ import IpoLoadMoreClient from "@/components/IpoLoadMoreClient";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { unstable_noStore as noStore } from "next/cache";
+import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -19,6 +20,8 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
 });
+
+const ipoListingsUrl = canonicalUrl("/ipo");
 
 const STATUS_FILTERS = ["Open", "Upcoming", "Listed", "Closed"] as const;
 type StatusFilter = "All" | (typeof STATUS_FILTERS)[number];
@@ -56,13 +59,13 @@ export async function generateMetadata({
     description:
       "Explore the latest IPO listings in India including open, upcoming, and listed IPOs with GMP, price bands, subscription data, and key dates. Updated regularly by IPOCraft.",
     alternates: {
-      canonical: "https://ipocraft.com/ipo",
+      canonical: ipoListingsUrl,
     },
     openGraph: {
       title: `${baseTitle} — IPO Listings India | IPOCraft`,
       description:
         "Track open, upcoming, and listed IPOs with GMP insights, subscription trends, and offer details in one place.",
-      url: "https://ipocraft.com/ipo",
+      url: ipoListingsUrl,
       siteName: "IPOCraft",
       type: "website",
     },
@@ -196,7 +199,7 @@ export default async function IPOPage({
             provider: {
               "@type": "Organization",
               name: "IPOCraft",
-              url: "https://ipocraft.com",
+              url: CANONICAL_ORIGIN,
             },
             description:
               "Latest IPO listings in India including open, upcoming, and listed IPOs with price bands, dates, and subscription insights.",

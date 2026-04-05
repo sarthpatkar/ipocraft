@@ -1,25 +1,46 @@
+import type { Metadata } from "next";
+import { supabase } from "@/lib/supabase";
+import { sanitizeIpoSlug } from "@/lib/ipo.server";
+import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
+import { notFound } from "next/navigation";
+import { Playfair_Display, Inter } from "next/font/google";
+import Link from "next/link";
+import GMPChart from "@/components/GmpChart";
+import { cache } from "react";
+
+const getCachedIpoBySlug = cache(async (slug: string) => {
+  const { data } = await supabase
+    .from("ipos")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  return data;
+});
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
+}): Promise<Metadata> {
+  const { slug: rawSlug } = await params;
+  const slug = sanitizeIpoSlug(rawSlug);
 
-  const { data: ipo } = await supabase
-    .from("ipos")
-    .select("name, sector, exchange, gmp, price_min, price_max")
-    .eq("slug", slug)
-    .single();
+  if (!slug) {
+    notFound();
+  }
 
-  const title = ipo?.name
-    ? `${ipo.name} IPO GMP, Price, Dates, Details | IPOCraft`
-    : "IPO Details | IPOCraft";
+  const ipo = await getCachedIpoBySlug(slug);
 
-  const description = ipo?.name
-    ? `Latest GMP, price band, dates, subscription, and listing insights for ${ipo.name} IPO. Data sourced from public filings and exchange disclosures.`
-    : "IPO details including GMP, price band, dates, subscription, and listing insights.";
+  if (!ipo) {
+    notFound();
+  }
 
-  const canonicalUrl = `https://ipocraft.com/ipo/${slug}`;
+  const title = `${ipo.name} IPO GMP, Price, Dates, Details | IPOCraft`;
+
+  const description = `Latest GMP, price band, dates, subscription, and listing insights for ${ipo.name} IPO. Data sourced from public filings and exchange disclosures.`;
+
+  const detailUrl = canonicalUrl(`/ipo/${encodeURIComponent(slug)}`);
 
   return {
     title,
@@ -32,12 +53,12 @@ export async function generateMetadata({
       ipo?.name,
     ],
     alternates: {
-      canonical: canonicalUrl,
+      canonical: detailUrl,
     },
     openGraph: {
       title,
       description,
-      url: canonicalUrl,
+      url: detailUrl,
       siteName: "IPOCraft",
       type: "website",
     },
@@ -52,11 +73,6 @@ export async function generateMetadata({
     },
   };
 }
-import { supabase } from "@/lib/supabase";
-import { notFound } from "next/navigation";
-import { Playfair_Display, Inter } from "next/font/google";
-import Link from "next/link";
-import GMPChart from "@/components/GmpChart";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -108,21 +124,26 @@ export default async function IPODetail({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = sanitizeIpoSlug(rawSlug);
 
-  const { data: ipo } = await supabase
-    .from("ipos")
-    .select("*")
-    .eq("slug", slug)
-    .single();
+  if (!slug) {
+    notFound();
+  }
+
+  const ipo = await getCachedIpoBySlug(slug);
+
+  if (!ipo) {
+    notFound();
+  }
+
+  const detailUrl = canonicalUrl(`/ipo/${encodeURIComponent(slug)}`);
 
   const { data: subscriptionHistory } = await supabase
     .from("subscription_history")
     .select("*")
     .eq("ipo_id", ipo?.id)
     .order("day", { ascending: true });
-
-  if (!ipo) return notFound();
 
   const { data: gmpHistory } = await supabase
     .from("gmp_history")
@@ -352,19 +373,19 @@ export default async function IPODetail({
                 "@type": "ListItem",
                 position: 1,
                 name: "Home",
-                item: "https://ipocraft.com",
+                item: canonicalUrl("/"),
               },
               {
                 "@type": "ListItem",
                 position: 2,
                 name: "IPO",
-                item: "https://ipocraft.com/ipo",
+                item: canonicalUrl("/ipo"),
               },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: ipo.name,
-                item: `https://ipocraft.com/ipo/${slug}`,
+                item: detailUrl,
               },
             ],
           }),
@@ -485,7 +506,7 @@ export default async function IPODetail({
                   provider: {
                     "@type": "Organization",
                     name: "IPOCraft",
-                    url: "https://ipocraft.com",
+                    url: CANONICAL_ORIGIN,
                   },
                 }),
               }}

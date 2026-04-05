@@ -1,9 +1,8 @@
-
-
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { Playfair_Display, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -19,18 +18,20 @@ const inter = Inter({
   display: "swap",
 });
 
+const investorCategoriesUrl = canonicalUrl("/qib-hni-retail-explained");
+
 export const metadata: Metadata = {
   title: "QIB vs HNI vs Retail Investors – IPO Categories Explained",
   description:
     "Understand QIB, HNI (NII), and Retail investor categories in IPOs, their allocation quotas, subscription impact, and allotment differences.",
   alternates: {
-    canonical: "/qib-hni-retail-explained",
+    canonical: investorCategoriesUrl,
   },
   openGraph: {
     title: "QIB vs HNI vs Retail – IPO Investor Categories Explained",
     description:
       "Detailed explanation of IPO investor categories, quota allocation, and how subscription differs across QIB, HNI, and Retail.",
-    url: "/qib-hni-retail-explained",
+    url: investorCategoriesUrl,
     siteName: "IPOCraft",
     type: "article",
   },
@@ -540,13 +541,13 @@ export default function InvestorCategoriesGuide() {
               "@type": "ListItem",
               position: 1,
               name: "Home",
-              item: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com"}/`,
+              item: canonicalUrl("/"),
             },
             {
               "@type": "ListItem",
               position: 2,
               name: "QIB vs HNI vs Retail",
-              item: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ipocraft.com"}/qib-hni-retail-explained`,
+              item: investorCategoriesUrl,
             },
           ],
         })}

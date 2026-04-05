@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { canonicalUrl } from "@/lib/site-url";
+
+const privacyUrl = canonicalUrl("/privacy");
 
 export const metadata: Metadata = {
   title:
@@ -14,14 +17,14 @@ export const metadata: Metadata = {
     "DPDP Act privacy",
   ],
   alternates: {
-    canonical: "https://ipocraft.com/privacy",
+    canonical: privacyUrl,
   },
   openGraph: {
     title:
       "Privacy Policy — Data Protection & User Rights | IPOCraft",
     description:
       "Understand how IPOCraft handles data, cookies, analytics, and user privacy rights.",
-    url: "https://ipocraft.com/privacy",
+    url: privacyUrl,
     siteName: "IPOCraft",
     type: "website",
   },

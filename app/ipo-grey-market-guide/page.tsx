@@ -1,5 +1,7 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -15,12 +17,14 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata = {
+const ipoGreyMarketGuideUrl = canonicalUrl("/ipo-grey-market-guide");
+
+export const metadata: Metadata = {
   title: "IPO Grey Market Guide – Complete GMP Explained (Authority Edition)",
   description:
     "Advanced IPO Grey Market Guide covering GMP calculation, historical listing comparisons, SME vs Mainboard analysis, probability interpretation, risks, and data transparency.",
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/ipo-grey-market-guide`,
+    canonical: ipoGreyMarketGuideUrl,
   },
 };
 
@@ -98,13 +102,13 @@ export default function IpoGreyMarketGuide() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: `${process.env.NEXT_PUBLIC_SITE_URL}`
+        item: canonicalUrl("/")
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "IPO Grey Market Guide",
-        item: `${process.env.NEXT_PUBLIC_SITE_URL}/ipo-grey-market-guide`
+        item: ipoGreyMarketGuideUrl
       }
     ]
   };

@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
+
+const contactUrl = canonicalUrl("/contact");
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -29,14 +32,14 @@ export const metadata: Metadata = {
     "stock market contact India",
   ],
   alternates: {
-    canonical: "https://ipocraft.com/contact",
+    canonical: contactUrl,
   },
   openGraph: {
     title:
       "Contact IPOCraft — Support & Business Communication",
     description:
       "Reach IPOCraft for platform support, corrections, partnerships, or business enquiries.",
-    url: "https://ipocraft.com/contact",
+    url: contactUrl,
     siteName: "IPOCraft",
     type: "website",
   },
