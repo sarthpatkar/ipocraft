@@ -22,5 +22,11 @@ export async function GET(
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json(data ?? []);
+  const sanitizedData = (data ?? []).map((row: any) => ({
+    ...row,
+    gmp: row.gmp != null ? Number(row.gmp) : 0.0,
+    ipo_id: row.ipo_id != null ? Number(row.ipo_id) : 0,
+  }));
+
+  return NextResponse.json(sanitizedData);
 }

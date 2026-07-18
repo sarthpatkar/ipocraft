@@ -121,12 +121,7 @@ function normalizeIpoEntry(row: RawIpoRow): IpoFeedEntry | null {
       allotment_link: toStringOrNull(row.allotment_link),
       allotment_out: toBooleanOrFalse(row.allotment_out),
       allotment_status: toStringOrNull(row.allotment_status),
-      sub_total:
-        row.sub_total == null
-          ? null
-          : typeof row.sub_total === "number"
-          ? row.sub_total
-          : String(row.sub_total),
+      sub_total: row.sub_total == null ? null : String(row.sub_total),
       ipo_type: toStringOrNull(row.ipo_type),
     },
     cursor: {
