@@ -12,23 +12,21 @@ export async function POST(req: Request) {
     }
 
     /**
-     * SAFE VERSION:
-     * For now we return placeholder.
-     * Later you can connect paid API or permitted source.
+     * GMP (Grey Market Premium) is an unofficial, unregulated market indicator.
+     * It must be entered manually from verified public sources.
+     * Returning null ensures no fabricated data is displayed.
      */
-
-    const gmpValue = Math.floor(Math.random() * 200); // temporary demo
-
     return NextResponse.json({
-      gmp: gmpValue,
-      source: "estimated",
+      gmp: null,
+      source: "manual_entry_required",
+      message:
+        "GMP must be entered manually from verified sources. Automated GMP fetching is not available.",
     });
-
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
-      { error: "Failed to fetch GMP" },
+      { error: "Failed to process request" },
       { status: 500 }
     );
   }

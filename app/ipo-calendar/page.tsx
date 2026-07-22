@@ -95,9 +95,14 @@ function getBadge(status: string) {
 export default async function IpoCalendarPage() {
   const supabase = await createSupabaseServerClient();
 
+  const threeMonthsAgo = new Date();
+  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+  const formattedDate = threeMonthsAgo.toISOString().split("T")[0];
+
   const { data: ipos } = await supabase
     .from("ipos")
-    .select("*");
+    .select("*")
+    .or(`open_date.gte.${formattedDate},open_date.is.null`);
 
   const sortedIpos = sortIposByNewestOpenDate((ipos || []) as CalendarIpo[]);
 
@@ -126,7 +131,7 @@ export default async function IpoCalendarPage() {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-14 lg:py-16">
-          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] mb-3">
+          <p className="text-sm font-semibold uppercase text-blue-600 mb-3">
             IPO Timeline India
           </p>
 

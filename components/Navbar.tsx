@@ -8,17 +8,35 @@ import {
   useState,
   useRef,
   useLayoutEffect,
-  RefObject,
 } from "react";
+import { 
+  HomeIcon, 
+  BanknotesIcon, 
+  CalendarDaysIcon, 
+  ChartBarIcon,
+  BriefcaseIcon 
+} from "@heroicons/react/24/outline";
+import { 
+  HomeIcon as HomeIconSolid, 
+  BanknotesIcon as BanknotesIconSolid, 
+  CalendarDaysIcon as CalendarDaysIconSolid, 
+  ChartBarIcon as ChartBarIconSolid,
+  BriefcaseIcon as BriefcaseIconSolid 
+} from "@heroicons/react/24/solid";
 
-type LinkItem = { href: string; label: string };
+type LinkItem = { 
+  href: string; 
+  label: string; 
+  Icon: React.ElementType; 
+  ActiveIcon: React.ElementType 
+};
 
 const LINKS: LinkItem[] = [
-  { href: "/", label: "Home" },
-  { href: "/ipo", label: "IPO" },
-  { href: "/gmp", label: "GMP" },
-  { href: "/ipo-calendar", label: "IPO Calendar" },
-  { href: "/brokers", label: "Brokers" },
+  { href: "/", label: "Home", Icon: HomeIcon, ActiveIcon: HomeIconSolid },
+  { href: "/ipo", label: "IPO", Icon: BanknotesIcon, ActiveIcon: BanknotesIconSolid },
+  { href: "/gmp", label: "GMP", Icon: ChartBarIcon, ActiveIcon: ChartBarIconSolid },
+  { href: "/ipo-calendar", label: "Calendar", Icon: CalendarDaysIcon, ActiveIcon: CalendarDaysIconSolid },
+  { href: "/brokers", label: "Brokers", Icon: BriefcaseIcon, ActiveIcon: BriefcaseIconSolid },
 ];
 
 export default function Navbar() {
@@ -30,61 +48,28 @@ export default function Navbar() {
   };
 
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [hoverIndicator, setHoverIndicator] = useState<{ left: number; width: number } | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  // active pill indicator
+  // Desktop active pill indicator
   const navRef = useRef<HTMLDivElement | null>(null);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
-  const [indicator, setIndicator] = useState<{ left: number; width: number }>({
-    left: 0,
-    width: 0,
-  });
-  const [initialPulse, setInitialPulse] = useState(true);
+  const [indicator, setIndicator] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
-
       const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       setScrollProgress(progress);
     };
 
-    handleScroll(); // initialize on load
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    // subtle glow pulse on route change (one-shot)
-    setInitialPulse(true);
-    const t = setTimeout(() => setInitialPulse(false), 700);
-    return () => clearTimeout(t);
-  }, [pathname]);
-
   useLayoutEffect(() => {
-    const activeLink = LINKS.find((l) => isActive(l.href));
-    const activeEl = activeLink ? linkRefs.current[activeLink.href] : null;
-    const navEl = navRef.current;
-    if (activeEl && navEl) {
-      const navRect = navEl.getBoundingClientRect();
-      const rect = activeEl.getBoundingClientRect();
-      setIndicator({
-        left: rect.left - navRect.left,
-        width: rect.width,
-      });
-    }
-  }, [pathname]);
-
-  useEffect(() => {
     const onResize = () => {
       const activeLink = LINKS.find((l) => isActive(l.href));
       const activeEl = activeLink ? linkRefs.current[activeLink.href] : null;
@@ -98,182 +83,104 @@ export default function Navbar() {
         });
       }
     };
+    onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, [pathname]);
 
-  const NavLink = ({ href, label }: LinkItem) => {
+  const DesktopNavLink = ({ href, label }: LinkItem) => {
     const active = isActive(href);
-
     return (
       <Link
         href={href}
-        ref={(el) => {
-          linkRefs.current[href] = el;
-        }}
-        aria-current={active ? "page" : undefined}
-        onMouseEnter={(e) => {
-          const navEl = navRef.current;
-          const rect = (e.currentTarget as HTMLAnchorElement).getBoundingClientRect();
-          if (navEl) {
-            const navRect = navEl.getBoundingClientRect();
-            setHoverIndicator({
-              left: rect.left - navRect.left,
-              width: rect.width,
-            });
-          }
-        }}
-        onMouseLeave={() => setHoverIndicator(null)}
-        className={`group relative z-10 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform
-        will-change-transform hover:-translate-y-0.5 active:translate-y-0
-        ${
-          active
-            ? "text-white"
-            : "text-slate-600 hover:text-blue-700 hover:bg-blue-50"
+        ref={(el) => { linkRefs.current[href] = el; }}
+        className={`relative z-10 px-5 py-2 rounded-xl text-[15px] font-medium transition-all duration-300 ${
+          active ? "text-white" : "text-gray-600 dark:text-gray-400 hover:text-blue-700 dark:hover:text-blue-400"
         }`}
       >
-        {/* moving shimmer */}
-        <span
-          className="pointer-events-none absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 shimmer transition-opacity duration-300"
-        />
-
         <span className="relative z-10">{label}</span>
       </Link>
     );
   };
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-shadow ${
-        scrolled ? "bg-white shadow-md" : "bg-white"
-      }`}
-      style={{ paddingTop: "env(safe-area-inset-top)" }}
-    >
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-10 min-h-[56px] flex items-center justify-between">
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/logo2.png"
-            alt="IPOCraft"
-            width={120}
-            height={34}
-            className="h-[28px] w-auto object-contain"
-          />
-        </Link>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:block">
-          <div ref={navRef} className="relative flex items-center gap-6">
-            {/* sliding active pill */}
-            <span
-              className={`absolute -z-0 top-1 bottom-1 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md transition-all ${
-                initialPulse ? "pulse-once" : ""
-              }`}
-              style={{
-                transform: `translate3d(${indicator.left}px, 0, 0)`,
-                width: indicator.width,
-                transition: "transform 320ms cubic-bezier(0.22, 1, 0.36, 1), width 320ms cubic-bezier(0.22, 1, 0.36, 1)",
-                willChange: "transform, width",
-              }}
+    <>
+      {/* Top Navbar (Desktop & Mobile Header) */}
+      <header
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          scrolled ? "bg-white/80 dark:bg-[#0f172a]/80 backdrop-blur-lg shadow-sm" : "bg-white dark:bg-[#0f172a]"
+        }`}
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
+      >
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo2.png"
+              alt="IPOCraft"
+              width={130}
+              height={36}
+              className="h-[30px] w-auto object-contain hidden dark:block invert"
             />
-            {hoverIndicator && (
-              <span
-                className="absolute bottom-0 h-[2px] rounded-full bg-blue-600/70 transition-all will-change-transform"
-                style={{
-                  left: hoverIndicator.left,
-                  width: hoverIndicator.width,
-                  transition: "all 220ms ease",
-                }}
-              />
-            )}
-
-            {LINKS.map((l) => (
-              <NavLink key={l.href} {...l} />
-            ))}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-1.5">
-          {/* Always visible GMP button on small screens */}
-          <Link
-            href="/gmp"
-            className="md:hidden inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-semibold 
-                       bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm
-                       hover:shadow-md active:scale-[0.97] transition-all"
-          >
-            GMP
+             <Image
+              src="/logo2.png"
+              alt="IPOCraft"
+              width={130}
+              height={36}
+              className="h-[30px] w-auto object-contain dark:hidden"
+            />
           </Link>
 
-          {/* Hamburger */}
-          <button
-            aria-label="Toggle menu"
-            className="md:hidden text-xl px-2 py-1 rounded-lg hover:bg-slate-100 active:scale-[0.95] transition"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            ☰
-          </button>
-        </div>
-      </div>
-
-      <div className="relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="border-b border-[#e2e8f0]" />
+          {/* Desktop Nav */}
+          <div className="hidden md:block">
+            <div ref={navRef} className="relative flex items-center gap-2">
+              <span
+                className="absolute -z-0 top-1 bottom-1 rounded-xl bg-blue-600 dark:bg-blue-500 shadow-md transition-all"
+                style={{
+                  transform: `translate3d(${indicator.left}px, 0, 0)`,
+                  width: indicator.width,
+                  transition: "transform 350ms cubic-bezier(0.22, 1, 0.36, 1), width 350ms cubic-bezier(0.22, 1, 0.36, 1)",
+                  willChange: "transform, width",
+                }}
+              />
+              {LINKS.map((l) => (
+                <DesktopNavLink key={l.href} {...l} />
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Scroll Progress Line */}
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
           <div
-            className="h-full bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 transition-all duration-150"
+            className="h-full bg-blue-600 dark:bg-blue-500 transition-all duration-150"
             style={{ width: `${scrollProgress}%` }}
           />
         </div>
-      </div>
+      </header>
 
-      {/* Mobile */}
-      {menuOpen && (
-        <div className="md:hidden border-t bg-white">
-          <div className="flex flex-col px-4 py-3 gap-2 text-sm">
-            {LINKS.map((l) => (
-              <NavLink key={l.href} {...l} />
-            ))}
-          </div>
+      {/* Mobile Bottom Navigation Bar (iOS Style) */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white/85 dark:bg-[#0f172a]/85 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 z-50 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex items-center justify-around h-[68px] px-2">
+          {LINKS.map(({ href, label, Icon, ActiveIcon }) => {
+            const active = isActive(href);
+            const CurrentIcon = active ? ActiveIcon : Icon;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className="flex flex-col items-center justify-center w-full h-full gap-1"
+              >
+                <div className={`transition-all duration-200 ${active ? "scale-110 text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-gray-400"}`}>
+                  <CurrentIcon className="w-6 h-6" strokeWidth={active ? 2 : 1.5} />
+                </div>
+                <span className={`text-[10px] font-medium transition-colors ${active ? "text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-gray-400"}`}>
+                  {label}
+                </span>
+              </Link>
+            );
+          })}
         </div>
-      )}
-
-      {/* styles for shimmer */}
-      <style jsx>{`
-        .shimmer {
-          background: linear-gradient(
-            90deg,
-            rgba(59, 130, 246, 0.12) 0%,
-            rgba(99, 102, 241, 0.18) 50%,
-            rgba(59, 130, 246, 0.12) 100%
-          );
-          background-size: 200% 100%;
-          animation: shimmerMove 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
-        @keyframes shimmerMove {
-          0% {
-            background-position: 200% 0;
-          }
-          100% {
-            background-position: -200% 0;
-          }
-        }
-        .pulse-once {
-          animation: pulseGlow 600ms ease-out 1;
-        }
-        @keyframes pulseGlow {
-          0% {
-            box-shadow: 0 0 0 rgba(99, 102, 241, 0);
-          }
-          50% {
-            box-shadow: 0 8px 28px rgba(79, 70, 229, 0.35);
-          }
-          100% {
-            box-shadow: 0 0 0 rgba(99, 102, 241, 0);
-          }
-        }
-      `}</style>
-    </header>
+      </nav>
+    </>
   );
 }

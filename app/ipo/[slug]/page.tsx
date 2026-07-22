@@ -91,9 +91,9 @@ const inter = Inter({
 type StatusType = "Open" | "Upcoming" | "Listed" | "Closed";
 
 const STATUS_STYLES: Record<StatusType, string> = {
-  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200 status-open",
   Upcoming: "bg-blue-50 text-blue-700 border border-blue-200",
-  Listed: "bg-slate-100 text-slate-500 border border-slate-200",
+  Listed: "bg-violet-50 text-violet-700 border border-violet-200",
   Closed: "bg-rose-50 text-rose-600 border border-rose-200",
 };
 
@@ -425,8 +425,12 @@ export default async function IPODetail({
       </div>
 
       {/* ── Hero Header ── */}
-      <section className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-16">
+      <section className="relative overflow-hidden bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff] border-b border-[#e2e8f0]">
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute -top-20 -right-20 w-60 h-60 bg-indigo-200 rounded-full blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-blue-200 rounded-full blur-3xl" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-16 animate-fade-in-up">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5">
             <div className="flex-1 min-w-0">
               <Eyebrow>IPO Detail</Eyebrow>
@@ -552,7 +556,7 @@ export default async function IPODetail({
             ].map((card) => (
               <div
                 key={card.label}
-                className={`border rounded-lg p-5 space-y-1.5 ${
+                className={`border rounded-xl p-5 space-y-1.5 card-hover ${
                   card.highlight
                     ? "border-[#1e3a8a]/20 bg-[#eff6ff]"
                     : "border-[#e2e8f0] bg-white"
@@ -839,56 +843,31 @@ export default async function IPODetail({
                   Market Lot Details
                 </h2>
               </div>
+              <div className="mt-4 flex flex-col gap-3">
+                {/* Desktop Header */}
+                <div className="hidden md:grid grid-cols-4 px-4 py-2 bg-gray-50 dark:bg-[#0f172a] rounded-lg text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+                  <div>Application</div>
+                  <div>Lots</div>
+                  <div>Shares</div>
+                  <div>Amount</div>
+                </div>
 
-              <div className="w-full overflow-x-auto mt-4">
-                <table className="min-w-[620px] w-full text-sm border">
-                  <thead className="bg-[#f8fafc]">
-                    <tr>
-                      <th className="p-2 border">Application</th>
-                      <th className="p-2 border">Lots</th>
-                      <th className="p-2 border">Shares</th>
-                      <th className="p-2 border">Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="p-2 border">Retail (Min)</td>
-                      <td className="p-2 border">{ipo.retail_min_lots ?? "—"}</td>
-                      <td className="p-2 border">{ipo.retail_min_shares ?? "—"}</td>
-                      <td className="p-2 border">{ipo.retail_min_amount ?? "—"}</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border">Retail (Max)</td>
-                      <td className="p-2 border">{ipo.retail_max_lots ?? "—"}</td>
-                      <td className="p-2 border">{ipo.retail_max_shares ?? "—"}</td>
-                      <td className="p-2 border">{ipo.retail_max_amount ?? "—"}</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border">sNII (Min)</td>
-                      <td className="p-2 border">{ipo.shni_lots ?? "—"}</td>
-                      <td className="p-2 border">{ipo.shni_shares ?? "—"}</td>
-                      <td className="p-2 border">{ipo.shni_amount ?? "—"}</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border">bNII (Min)</td>
-                      <td className="p-2 border">{ipo.bhni_lots ?? "—"}</td>
-                      <td className="p-2 border">{ipo.bhni_shares ?? "—"}</td>
-                      <td className="p-2 border">{ipo.bhni_amount ?? "—"}</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border">sNII (Max)</td>
-                      <td className="p-2 border">{ipo.shni_max_lots ?? "—"}</td>
-                      <td className="p-2 border">{ipo.shni_max_shares ?? "—"}</td>
-                      <td className="p-2 border">{ipo.shni_max_amount ?? "—"}</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border">bNII (Max)</td>
-                      <td className="p-2 border">{ipo.bhni_max_lots ?? "—"}</td>
-                      <td className="p-2 border">{ipo.bhni_max_shares ?? "—"}</td>
-                      <td className="p-2 border">{ipo.bhni_max_amount ?? "—"}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                {/* Rows */}
+                {[
+                  { label: "Retail (Min)", lots: ipo.retail_min_lots, shares: ipo.retail_min_shares, amount: ipo.retail_min_amount },
+                  { label: "Retail (Max)", lots: ipo.retail_max_lots, shares: ipo.retail_max_shares, amount: ipo.retail_max_amount },
+                  { label: "sNII (Min)", lots: ipo.shni_lots, shares: ipo.shni_shares, amount: ipo.shni_amount },
+                  { label: "sNII (Max)", lots: ipo.shni_max_lots, shares: ipo.shni_max_shares, amount: ipo.shni_max_amount },
+                  { label: "bNII (Min)", lots: ipo.bhni_lots, shares: ipo.bhni_shares, amount: ipo.bhni_amount },
+                  { label: "bNII (Max)", lots: ipo.bhni_max_lots, shares: ipo.bhni_max_shares, amount: ipo.bhni_max_amount }
+                ].map((row, i) => (
+                  <div key={i} className="flex flex-col md:grid md:grid-cols-4 gap-2 md:gap-0 px-4 py-3 md:py-4 border border-gray-100 dark:border-gray-800 rounded-xl bg-white dark:bg-[#1e293b] hover:shadow-sm transition-shadow text-sm">
+                    <div className="font-semibold text-gray-900 dark:text-gray-100 mb-1 md:mb-0 md:flex md:items-center">{row.label}</div>
+                    <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Lots:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.lots ?? "—"}</span></div>
+                    <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Shares:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.shares ?? "—"}</span></div>
+                    <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Amount:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.amount ?? "—"}</span></div>
+                  </div>
+                ))}
               </div>
 
               <p className="text-[11.5px] text-[#94a3b8] mt-3">
@@ -1209,45 +1188,42 @@ export default async function IPODetail({
                 </h2>
               </div>
 
-              <div className="w-full overflow-x-auto">
-                <table className="min-w-[720px] w-full text-sm border">
-                  <thead className="bg-[#f8fafc]">
-                    <tr>
-                      <th className="p-2 border">Day</th>
-                      <th className="p-2 border">QIB</th>
-                      <th className="p-2 border">NII</th>
-                      <th className="p-2 border">sNII (&lt; ₹10L)</th>
-                      <th className="p-2 border">bNII (&gt; ₹10L)</th>
-                      <th className="p-2 border">Retail</th>
-                      <th className="p-2 border">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {subscriptionHistory && subscriptionHistory.length > 0 ? (
-                      subscriptionHistory.map((row: any, idx: number) => (
-                        <tr key={idx}>
-                          <td className="p-2 border">{row.day ?? "Day"}</td>
-                          <td className="p-2 border">{row.qib ?? "—"}x</td>
-                          <td className="p-2 border">{row.nii ?? "—"}x</td>
-                          <td className="p-2 border">{row.shni ?? "—"}x</td>
-                          <td className="p-2 border">{row.bhni ?? "—"}x</td>
-                          <td className="p-2 border">{row.rii ?? "—"}x</td>
-                          <td className="p-2 border font-semibold">{row.total ?? "—"}x</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td className="p-2 border">{ipo.subscription_updated_at ?? "Latest"}</td>
-                        <td className="p-2 border">{ipo.sub_qib ?? "—"}x</td>
-                        <td className="p-2 border">{ipo.sub_nii ?? "—"}x</td>
-                        <td className="p-2 border">{ipo.sub_shni ?? "—"}x</td>
-                        <td className="p-2 border">{ipo.sub_bhni ?? "—"}x</td>
-                        <td className="p-2 border">{ipo.sub_rii ?? "—"}x</td>
-                        <td className="p-2 border font-semibold">{ipo.sub_total ?? "—"}x</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+              <div className="mt-4 flex flex-col gap-3">
+                {/* Desktop Header */}
+                <div className="hidden lg:grid grid-cols-7 px-4 py-2 bg-gray-50 dark:bg-[#0f172a] rounded-lg text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+                  <div>Day</div>
+                  <div>QIB</div>
+                  <div>NII</div>
+                  <div>sNII (&lt; ₹10L)</div>
+                  <div>bNII (&gt; ₹10L)</div>
+                  <div>Retail</div>
+                  <div>Total</div>
+                </div>
+
+                {/* Rows */}
+                {subscriptionHistory && subscriptionHistory.length > 0 ? (
+                  subscriptionHistory.map((row: any, idx: number) => (
+                    <div key={idx} className="flex flex-col lg:grid lg:grid-cols-7 gap-1 lg:gap-0 px-4 py-3 border border-gray-100 dark:border-gray-800 rounded-xl bg-white dark:bg-[#1e293b] hover:shadow-sm transition-shadow text-sm">
+                      <div className="font-semibold text-gray-900 dark:text-gray-100 mb-2 lg:mb-0 lg:flex lg:items-center border-b lg:border-none pb-2 lg:pb-0">{row.day ?? "Day"}</div>
+                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">QIB:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.qib ?? "—"}x</span></div>
+                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">NII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.nii ?? "—"}x</span></div>
+                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">sNII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.shni ?? "—"}x</span></div>
+                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">bNII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.bhni ?? "—"}x</span></div>
+                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">Retail:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.rii ?? "—"}x</span></div>
+                      <div className="flex justify-between lg:block pt-1 lg:pt-0 mt-1 lg:mt-0 border-t lg:border-none"><span className="text-xs font-semibold text-gray-600 lg:hidden">Total:</span> <span className="font-bold text-gray-900 dark:text-gray-100">{row.total ?? "—"}x</span></div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex flex-col lg:grid lg:grid-cols-7 gap-1 lg:gap-0 px-4 py-3 border border-gray-100 dark:border-gray-800 rounded-xl bg-white dark:bg-[#1e293b] hover:shadow-sm transition-shadow text-sm">
+                    <div className="font-semibold text-gray-900 dark:text-gray-100 mb-2 lg:mb-0 lg:flex lg:items-center border-b lg:border-none pb-2 lg:pb-0">{ipo.subscription_updated_at ?? "Latest"}</div>
+                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">QIB:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_qib ?? "—"}x</span></div>
+                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">NII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_nii ?? "—"}x</span></div>
+                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">sNII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_shni ?? "—"}x</span></div>
+                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">bNII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_bhni ?? "—"}x</span></div>
+                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">Retail:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_rii ?? "—"}x</span></div>
+                    <div className="flex justify-between lg:block pt-1 lg:pt-0 mt-1 lg:mt-0 border-t lg:border-none"><span className="text-xs font-semibold text-gray-600 lg:hidden">Total:</span> <span className="font-bold text-gray-900 dark:text-gray-100">{ipo.sub_total ?? "—"}x</span></div>
+                  </div>
+                )}
               </div>
 
               {/* Subscription Progress Bars */}

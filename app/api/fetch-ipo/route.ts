@@ -11,27 +11,27 @@ export async function POST(req: Request) {
       );
     }
 
-    // Convert company name → domain guess
-    const domain =
-      companyName.toLowerCase().replace(/[^a-z0-9]/g, "") + ".com";
-
-    const logo = `https://logo.clearbit.com/${domain}`;
-
-    // Placeholder description (safe)
-    const description = `${companyName} is a company planning to raise capital through an Initial Public Offering (IPO). Investors should refer to official filings for complete information.`;
-
+    /**
+     * Company details (logo, industry, description) should be sourced from
+     * the company's RHP/DRHP or entered manually by the admin.
+     * 
+     * The previous implementation guessed domain names and used Clearbit
+     * for logos, which was unreliable and produced incorrect data.
+     * 
+     * With the RHP extraction feature, this endpoint becomes less needed.
+     */
     return NextResponse.json({
-      logo,
-      industry: "To be updated",
-      description,
-      website: `https://${domain}`,
+      logo: null,
+      industry: null,
+      description: null,
+      website: null,
       gmp: null,
     });
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
-      { error: "Failed to fetch IPO data" },
+      { error: "Failed to process request" },
       { status: 500 }
     );
   }

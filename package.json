@@ -10,10 +10,12 @@
     "seo:check-redirects": "node scripts/check-redirects.mjs"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.98.0",
     "autoprefixer": "^10.4.27",
     "next": "16.1.6",
+    "pdf-parse": "^2.4.5",
     "postcss": "^8.5.8",
     "react": "19.2.3",
     "react-dom": "19.2.3",

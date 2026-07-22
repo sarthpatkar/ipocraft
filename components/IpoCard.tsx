@@ -24,9 +24,9 @@ export type IPOListItem = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200 status-open",
   Upcoming: "bg-blue-50 text-blue-700 border border-blue-200",
-  Listed: "bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse",
+  Listed: "bg-violet-50 text-violet-700 border border-violet-200",
   Closed: "bg-rose-50 text-rose-600 border border-rose-200",
 };
 
@@ -175,7 +175,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
   );
 
   return (
-    <div className="bg-white border border-[#e2e8f0] rounded-lg overflow-hidden hover:border-[#b8c9e0] hover:shadow-[0_6px_28px_rgba(0,0,0,0.07)] transition-all duration-200 h-full">
+    <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden card-hover gradient-border h-full">
       <div className="flex items-start justify-between px-5 pt-5 pb-4 border-b border-[#f8fafc] gap-3">
         <div className="min-w-0">
           <h3 className="text-[15px] font-semibold text-[#0f172a] truncate">
@@ -251,7 +251,13 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] mb-1.5">
             GMP
           </p>
-          <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
+          <p className={`text-[13px] font-semibold leading-tight ${
+            ipo.gmp != null
+              ? ipo.gmp >= 0
+                ? "gmp-positive"
+                : "gmp-negative"
+              : "text-[#0f172a]"
+          }`}>
             {ipo.gmp != null ? `₹${ipo.gmp.toLocaleString("en-IN")}` : "—"}
           </p>
         </div>

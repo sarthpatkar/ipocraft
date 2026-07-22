@@ -111,13 +111,10 @@ export default async function Home({
 
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-[#e2e8f0] bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff]">
-        <div className="absolute inset-0 opacity-[0.35] pointer-events-none">
-          <div className="absolute -top-24 -left-24 w-72 h-72 bg-blue-200 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-indigo-200 rounded-full blur-3xl animate-pulse" />
-        </div>
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50/50 via-transparent to-transparent" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-14 lg:py-16">
-          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] mb-3">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-14 lg:py-16 animate-fade-in-up">
+          <p className="text-sm font-semibold uppercase text-blue-600 mb-3">
             Smart IPO Research Platform
           </p>
 
@@ -162,14 +159,14 @@ export default async function Home({
           <div className="flex flex-wrap gap-3 mt-7">
             <Link
               href="/ipo"
-              className="inline-flex items-center justify-center bg-[#1e3a8a] hover:bg-[#1a327a] text-white text-sm font-semibold px-5 py-2 rounded-md transition"
+              className="inline-flex items-center justify-center bg-gradient-to-r from-[#1e3a8a] to-[#4338ca] hover:from-[#1a327a] hover:to-[#3730a3] text-white text-sm font-semibold px-6 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
             >
               Explore IPOs
             </Link>
 
             <Link
               href="/gmp"
-              className="inline-flex items-center justify-center border border-[#cbd5e1] hover:border-[#94a3b8] text-[#0f172a] text-sm font-semibold px-5 py-2 rounded-md transition"
+              className="inline-flex items-center justify-center border border-[#cbd5e1] hover:border-[#94a3b8] bg-white text-[#0f172a] text-sm font-semibold px-6 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5"
             >
               View GMP Tracker
             </Link>
@@ -245,14 +242,14 @@ export default async function Home({
             {/* IPO Type Filters */}
             <Link
               href="/?type=mainboard"
-              className="px-3 py-1.5 text-xs font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded"
+              className="px-4 py-1.5 text-xs font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-sm transition-all duration-200 hover:shadow-md"
             >
               Mainboard
             </Link>
 
             <Link
               href="/?type=sme"
-              className="px-3 py-1.5 text-xs font-medium bg-purple-600 hover:bg-purple-700 text-white rounded"
+              className="px-4 py-1.5 text-xs font-medium bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-sm transition-all duration-200 hover:shadow-md"
             >
               SME
             </Link>
@@ -260,28 +257,28 @@ export default async function Home({
             {/* Status Filters */}
             <Link
               href="/?status=open"
-              className="px-3 py-1.5 text-xs font-medium bg-green-600 hover:bg-green-700 text-white rounded"
+              className="px-4 py-1.5 text-xs font-medium bg-emerald-600 hover:bg-emerald-700 text-white rounded-full shadow-sm transition-all duration-200 hover:shadow-md"
             >
               Open
             </Link>
 
             <Link
               href="/?status=upcoming"
-              className="px-3 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded"
+              className="px-4 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-sm transition-all duration-200 hover:shadow-md"
             >
               Upcoming
             </Link>
 
             <Link
               href="/?status=closed"
-              className="px-3 py-1.5 text-xs font-medium bg-gray-600 hover:bg-gray-700 text-white rounded"
+              className="px-4 py-1.5 text-xs font-medium bg-slate-600 hover:bg-slate-700 text-white rounded-full shadow-sm transition-all duration-200 hover:shadow-md"
             >
               Closed
             </Link>
 
             <Link
               href="/"
-              className="px-3 py-1.5 text-xs font-medium bg-black hover:bg-gray-900 text-white rounded"
+              className="px-4 py-1.5 text-xs font-medium bg-slate-900 hover:bg-black text-white rounded-full shadow-sm transition-all duration-200 hover:shadow-md"
             >
               All
             </Link>

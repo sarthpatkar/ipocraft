@@ -616,6 +616,82 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
   const [logo, setLogo] = useState("");
   const [description, setDescription] = useState("");
   const [jumpQuery, setJumpQuery] = useState("");
+
+  // ── RHP Extraction State ──────────────────────────────────────────────────
+  const [rhpLoading, setRhpLoading] = useState(false);
+  const [rhpError, setRhpError] = useState<string | null>(null);
+  const [rhpMeta, setRhpMeta] = useState<{
+    provider: string;
+    model: string;
+    extractedFieldCount: number;
+    totalFieldCount: number;
+    warnings: string[];
+  } | null>(null);
+  const [autoFilledFields, setAutoFilledFields] = useState<Set<string>>(new Set());
+  const rhpInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleRhpUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setRhpLoading(true);
+    setRhpError(null);
+    setRhpMeta(null);
+    setAutoFilledFields(new Set());
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/extract-rhp", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Extraction failed");
+      }
+
+      // Pre-fill form fields with extracted data
+      const filledFields = new Set<string>();
+      setForm((prev) => {
+        const updated = { ...prev };
+        for (const [key, value] of Object.entries(data.fields)) {
+          if (
+            value !== null &&
+            value !== undefined &&
+            String(value).trim() !== "" &&
+            isFieldName(key)
+          ) {
+            updated[key] = String(value);
+            filledFields.add(key);
+          }
+        }
+        return updated;
+      });
+      setAutoFilledFields(filledFields);
+      setRhpMeta(data.metadata);
+
+      // Expand all sections so user can review
+      setExpandedSections((prev) => {
+        const next = { ...prev };
+        for (const section of SECTION_CONFIG) {
+          next[section.id] = true;
+        }
+        return next;
+      });
+    } catch (err) {
+      setRhpError(
+        err instanceof Error ? err.message : "Failed to extract RHP data"
+      );
+    } finally {
+      setRhpLoading(false);
+      // Reset the input so the same file can be re-uploaded
+      if (rhpInputRef.current) rhpInputRef.current.value = "";
+    }
+  };
   const [jumpOpen, setJumpOpen] = useState(false);
 
   const [expandedSections, setExpandedSections] = useState<Record<SectionId, boolean>>(
@@ -1181,6 +1257,82 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
       </div>
 
       <div className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-slate-50 px-5 py-4">
+        {/* ── RHP Upload Section ──────────────────────────────────────── */}
+        <section className="rounded-xl border border-dashed border-indigo-300 bg-indigo-50/50 p-5">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="12" y1="18" x2="12" y2="12"/>
+                <line x1="9" y1="15" x2="15" y2="15"/>
+              </svg>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-sm font-semibold text-slate-800">Extract from RHP</h3>
+              <p className="mt-0.5 text-xs text-slate-500">
+                Upload a Red Herring Prospectus PDF to auto-fill form fields using AI extraction.
+                All fields are editable — please verify before saving.
+              </p>
+              <div className="mt-3 flex items-center gap-3">
+                <label
+                  htmlFor="rhp-upload"
+                  className={`inline-flex cursor-pointer items-center gap-2 rounded-md border border-indigo-300 bg-white px-3 py-1.5 text-sm font-medium text-indigo-700 shadow-sm transition hover:bg-indigo-50 ${
+                    rhpLoading ? "pointer-events-none opacity-60" : ""
+                  }`}
+                >
+                  {rhpLoading ? (
+                    <>
+                      <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
+                        <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" className="opacity-75" />
+                      </svg>
+                      Extracting…
+                    </>
+                  ) : (
+                    "Choose RHP PDF"
+                  )}
+                </label>
+                <input
+                  id="rhp-upload"
+                  ref={rhpInputRef}
+                  type="file"
+                  accept=".pdf,application/pdf"
+                  onChange={handleRhpUpload}
+                  className="hidden"
+                  disabled={rhpLoading}
+                />
+              </div>
+
+              {rhpError && (
+                <div className="mt-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                  ⚠️ {rhpError}
+                </div>
+              )}
+
+              {rhpMeta && (
+                <div className="mt-3 space-y-2">
+                  <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700">
+                    ✅ Extracted {rhpMeta.extractedFieldCount}/{rhpMeta.totalFieldCount} fields
+                    using {rhpMeta.provider} / {rhpMeta.model}.
+                    <span className="font-medium"> Please review all auto-filled fields before saving.</span>
+                  </div>
+                  {rhpMeta.warnings.length > 0 && (
+                    <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+                      <p className="font-medium">⚠️ Validation warnings:</p>
+                      <ul className="mt-1 list-disc pl-4">
+                        {rhpMeta.warnings.map((w, i) => (
+                          <li key={i}>{w}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
         <SectionCard
           section={SECTION_CONFIG[0]}
           expanded={expandedSections.essentials}

@@ -36,7 +36,7 @@ export default function WhatIsIpoGmpPage() {
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <p className="text-[11px] tracking-[0.22em] uppercase text-[#2563eb] font-semibold mb-4">
+        <p className="text-sm uppercase text-blue-600 font-semibold mb-4">
           IPO Learning Guide
         </p>
 

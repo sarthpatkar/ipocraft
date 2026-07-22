@@ -122,7 +122,7 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
       </div>
 
       {/* Table container */}
-      <div className="w-full overflow-x-auto">
+      <div className="w-full overflow-x-auto overscroll-x-contain">
         <table className="min-w-[900px] w-full border border-gray-200 rounded-lg overflow-hidden text-sm">
           <thead className="bg-gray-50 sticky top-0">
             <tr className="text-left">

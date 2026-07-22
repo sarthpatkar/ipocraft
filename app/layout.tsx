@@ -85,12 +85,12 @@ export default function RootLayout({
         </Script>
         <Navbar />
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8">
+        <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 py-8 pb-28 md:pb-8">
           {children}
         </main>
 
-        <footer className="bg-white border-t border-[#e2e8f0] mt-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10">
+        <footer className="bg-white dark:bg-[#0f172a] border-t border-[#e2e8f0] dark:border-gray-800 mt-16 pb-24 md:pb-0">
+          <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 py-10">
 
             <div className="flex flex-col md:flex-row md:justify-between gap-8">
 
@@ -119,6 +119,7 @@ export default function RootLayout({
                   <ul className="space-y-2">
                     <li><Link href="/about" className="hover:text-[#1e3a8a]">About</Link></li>
                     <li><Link href="/contact" className="hover:text-[#1e3a8a]">Contact</Link></li>
+                    <li><Link href="/disclaimer" className="hover:text-[#1e3a8a]">Disclaimer</Link></li>
                     <li><Link href="/privacy" className="hover:text-[#1e3a8a]">Privacy Policy</Link></li>
                     <li><Link href="/terms" className="hover:text-[#1e3a8a]">Terms</Link></li>
                   </ul>
@@ -139,7 +140,19 @@ export default function RootLayout({
               </div>
 
               {/* Social */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 flex-wrap">
+  {/* Facebook */}
+  <a
+    href="https://www.facebook.com/share/1HTZpLmZux/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Facebook"
+    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#e2e8f0] bg-white shadow-sm text-blue-600 hover:text-blue-700 transition transform duration-200 ease-out hover:-translate-y-0.5 hover:scale-105"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+    </svg>
+  </a>
   {/* Instagram */}
   <a
     href="https://www.instagram.com/ipocraft_official?igsh=MTgzOXJ6ZTlrdzdwNg=="
@@ -213,14 +226,20 @@ export default function RootLayout({
 
             {/* Legal Disclaimer */}
             <p className="text-xs text-[#64748b] leading-relaxed">
-              IPOCraft is an independent informational platform and is not a SEBI-registered
-              investment advisor or broker. All information including IPO data, Grey Market
-              Premium (GMP), subscription figures, and financial metrics is collected from
-              publicly available sources and market intelligence. This content is provided
-              strictly for educational and research purposes and should not be considered
+              <strong>Disclaimer:</strong> IPOCraft is not registered with SEBI as an investment
+              advisor, research analyst, or in any other capacity. All information — including
+              IPO data, Grey Market Premium (GMP), subscription figures, and financial
+              metrics — is sourced from publicly available documents such as Red Herring
+              Prospectus (RHP), exchange disclosures, and registrar filings. GMP is an unofficial,
+              unregulated market indicator and does not guarantee listing performance. This content is
+              provided strictly for educational and research purposes and does not constitute
               financial advice, investment recommendation, or solicitation to buy or sell
-              securities. Users are advised to consult a qualified financial advisor before
-              making any investment decisions.
+              securities. IPOCraft does not collect or store any personal user data. Users are
+              advised to verify all data with official SEBI/exchange sources and consult a
+              qualified financial advisor before making investment decisions.{" "}
+              <Link href="/disclaimer" className="text-[#2563eb] hover:underline">
+                Read full disclaimer →
+              </Link>
             </p>
 
             {/* Copyright */}
