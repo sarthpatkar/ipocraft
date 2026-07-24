@@ -123,7 +123,7 @@ export async function startPdfParse(buffer: Buffer): Promise<{ type: "job", jobI
 
   // Fallback to basic pdf-parse immediately
   const result = await pdfParse(buffer);
-  const maxChars = 400_000;
+  const maxChars = 3_000_000;
   const text = result.text.length > maxChars 
     ? result.text.slice(0, maxChars) + "\n\n[... document truncated ...]"
     : result.text;
@@ -159,10 +159,9 @@ export async function pollPdfParse(jobId: string): Promise<{ status: "PENDING" |
        text = await resultRes.text();
      }
      
-     // Cap the text to prevent 750k+ token payloads from crashing the AI
-     // We allow up to 400k characters (~100k tokens, first ~100 pages). 
-     // This guarantees we capture all SEBI data while processing fast enough to beat Vercel's 60s timeout.
-     const maxChars = 400_000;
+     // Cap the text to prevent memory crashes on the server, but provide enough text 
+     // for the frontend to perform chunking.
+     const maxChars = 3_000_000;
      if (text.length > maxChars) {
        text = text.slice(0, maxChars) + "\n\n[... document truncated ...]";
      }

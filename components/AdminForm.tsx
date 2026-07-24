@@ -694,6 +694,81 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
     return `${m}:${s}`;
   };
 
+  const chunkText = (text: string, size: number) => {
+    const chunks = [];
+    for (let i = 0; i < text.length; i += size) {
+      chunks.push(text.slice(i, i + size));
+    }
+    return chunks;
+  };
+
+  const processSectionChunks = async (
+    apiRoute: string,
+    rawText: string,
+    sectionName: string,
+    isRetry: boolean = false
+  ) => {
+    const CHUNK_SIZE = 150_000;
+    const MAX_CHUNKS = 4; // Max 600,000 characters
+    
+    const chunks = chunkText(rawText, CHUNK_SIZE).slice(0, MAX_CHUNKS);
+    let mergedFields: Record<string, unknown> = {};
+    let totalExtracted = 0;
+    let totalFields = 0;
+    let aiModel = "";
+    let aiProvider = "";
+    
+    for (let i = 0; i < chunks.length; i++) {
+      if (!isRetry) {
+        setRhpStatusText(`Extracting ${sectionName} (Chunk ${i+1}/${chunks.length})...`);
+      }
+      
+      const res = await fetch(apiRoute, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: chunks[i] })
+      });
+      
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Chunk extraction failed");
+      }
+      
+      mergedFields = { ...mergedFields, ...data.fields };
+      totalFields = Math.max(totalFields, data.totalFieldCount || 0);
+      
+      let currentExtractedCount = 0;
+      for (const val of Object.values(mergedFields)) {
+        if (val !== null && val !== undefined && String(val).trim() !== "") {
+          currentExtractedCount++;
+        }
+      }
+      totalExtracted = currentExtractedCount;
+      
+      if (data.model) aiModel = data.model;
+      if (data.provider) aiProvider = data.provider;
+      
+      // Early exit if we extracted all fields
+      if (currentExtractedCount >= totalFields && totalFields > 0) {
+        break;
+      }
+      
+      // Delay to avoid rate limits
+      if (i < chunks.length - 1) {
+        await new Promise(r => setTimeout(r, 2000));
+      }
+    }
+    
+    return {
+      success: true,
+      fields: mergedFields,
+      extractedFieldCount: totalExtracted,
+      totalFieldCount: totalFields,
+      model: aiModel,
+      provider: aiProvider
+    };
+  };
+
   const handleRhpUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -783,39 +858,23 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         if (!isDone) throw new Error("PDF Parsing timed out");
       }
 
-      // 3. Call Step 3: Extract with AI in 3 Parallel Micro-Requests (Staggered)
+      // 3. Call Step 3: Extract with AI using Incremental Chunking (Sequential)
       setRawPdfText(extractedText);
       setRhpStatusText("Starting AI Extraction...");
       
-      let completedSteps = 0;
-      const onStepDone = (name: string) => {
-        completedSteps++;
-        setRhpStatusText(`Extracted ${name} (${completedSteps}/3)...`);
+      const results: PromiseSettledResult<any>[] = [];
+      const runSection = async (route: string, name: string) => {
+        try {
+          const res = await processSectionChunks(route, extractedText, name);
+          results.push({ status: "fulfilled", value: res });
+        } catch (err) {
+          results.push({ status: "rejected", reason: err });
+        }
       };
-      
-      const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
 
-      setRhpStatusText("Extracting Identity (1/3)...");
-      const pIdentity = fetch("/api/extract-rhp/step3a-identity", {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: extractedText })
-      }).then(res => res.json()).then(res => { onStepDone("Identity"); return res; });
-
-      await delay(2000);
-      if (completedSteps < 3) setRhpStatusText("Extracting Financials (2/3)...");
-      const pFinancials = fetch("/api/extract-rhp/step3b-financials", {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: extractedText })
-      }).then(res => res.json()).then(res => { onStepDone("Financials"); return res; });
-
-      await delay(2000);
-      if (completedSteps < 3) setRhpStatusText("Extracting Mechanics (3/3)...");
-      const pMechanics = fetch("/api/extract-rhp/step3c-mechanics", {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: extractedText })
-      }).then(res => res.json()).then(res => { onStepDone("Mechanics"); return res; });
-
-      const extractionPromises = [pIdentity, pFinancials, pMechanics];
-
-      // We use Promise.allSettled so we don't crash everything if one minor prompt fails
-      const results = await Promise.allSettled(extractionPromises);
+      await runSection("/api/extract-rhp/step3a-identity", "Identity (1/3)");
+      await runSection("/api/extract-rhp/step3b-financials", "Financials (2/3)");
+      await runSection("/api/extract-rhp/step3c-mechanics", "Mechanics (3/3)");
       
       // Cleanup PDF from Supabase in the background
       fetch("/api/extract-rhp/step4-cleanup", {
@@ -903,13 +962,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
     }
     setRetryingSection(sectionId);
     try {
-      const res = await fetch(apiRoute, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: rawPdfText })
-      });
-      const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.error || "Retry failed");
+      const data = await processSectionChunks(apiRoute, rawPdfText, name, true);
       
       const newFilled = new Set(autoFilledFields);
       setForm((prev) => {
