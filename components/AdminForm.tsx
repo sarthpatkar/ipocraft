@@ -563,33 +563,51 @@ function SectionCard({
   section,
   expanded,
   onToggle,
+  onRetry,
+  isRetrying,
   children,
 }: {
   section: SectionConfig;
   expanded: boolean;
   onToggle: (id: SectionId) => void;
+  onRetry?: () => void;
+  isRetrying?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
-      <button
-        type="button"
-        onClick={() => onToggle(section.id)}
-        className="flex w-full items-center justify-between gap-3 rounded-xl px-4 py-3 text-left"
-        aria-expanded={expanded}
-        aria-controls={`${section.id}-panel`}
-      >
-        <div>
-          <h3 className="text-sm font-semibold text-slate-900">{section.title}</h3>
-          <p className="text-xs text-slate-500">{section.description}</p>
-        </div>
-        <span className="rounded-full border border-slate-200 px-2 py-0.5 text-xs font-medium text-slate-600">
-          {expanded ? "Hide" : "Show"}
-        </span>
-      </button>
+      <div className="flex w-full items-center justify-between border-b border-transparent data-[expanded=true]:border-slate-200">
+        <button
+          type="button"
+          onClick={() => onToggle(section.id)}
+          className="flex flex-1 items-center justify-between gap-3 rounded-xl px-4 py-3 text-left"
+          aria-expanded={expanded}
+          aria-controls={`${section.id}-panel`}
+        >
+          <div>
+            <h3 className="text-sm font-semibold text-slate-900">{section.title}</h3>
+            <p className="text-xs text-slate-500">{section.description}</p>
+          </div>
+          <span className="rounded-full border border-slate-200 px-2 py-0.5 text-xs font-medium text-slate-600">
+            {expanded ? "Hide" : "Show"}
+          </span>
+        </button>
+        {onRetry && (
+          <div className="pr-4">
+            <button
+              type="button"
+              onClick={onRetry}
+              disabled={isRetrying}
+              className="whitespace-nowrap rounded bg-indigo-50 px-3 py-1.5 text-xs font-medium text-indigo-600 hover:bg-indigo-100 disabled:opacity-50"
+            >
+              {isRetrying ? "Retrying..." : "Retry Section"}
+            </button>
+          </div>
+        )}
+      </div>
 
       {expanded && (
-        <div id={`${section.id}-panel`} className="border-t border-slate-200 p-4">
+        <div id={`${section.id}-panel`} className="p-4">
           {children}
         </div>
       )}
@@ -654,10 +672,41 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
   } | null>(null);
   const [autoFilledFields, setAutoFilledFields] = useState<Set<string>>(new Set());
   const rhpInputRef = useRef<HTMLInputElement | null>(null);
+  const [retryingSection, setRetryingSection] = useState<string | null>(null);
+
+  
+  const [rawPdfText, setRawPdfText] = useState<string>("");
+  const [elapsedSecs, setElapsedSecs] = useState<number>(0);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (rhpLoading) {
+      interval = setInterval(() => setElapsedSecs(s => s + 1), 1000);
+    } else {
+      setElapsedSecs(0);
+    }
+    return () => clearInterval(interval);
+  }, [rhpLoading]);
+
+  const formatTime = (secs: number) => {
+    const m = Math.floor(secs / 60).toString().padStart(2, '0');
+    const s = (secs % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
 
   const handleRhpUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (file.type !== "application/pdf") {
+      setRhpError("Only PDF files are supported.");
+      return;
+    }
+
+    if (file.size > 30 * 1024 * 1024) {
+      setRhpError("File size exceeds 30MB limit. Please compress the PDF and try again.");
+      return;
+    }
 
     setRhpLoading(true);
     setRhpStatusText("Uploading to Supabase...");
@@ -734,33 +783,36 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         if (!isDone) throw new Error("PDF Parsing timed out");
       }
 
-      // 3. Call Step 3: Extract with AI in 3 Parallel Micro-Requests
-      setRhpStatusText("Running AI Extraction (0/3)...");
+      // 3. Call Step 3: Extract with AI in 3 Parallel Micro-Requests (Staggered)
+      setRawPdfText(extractedText);
+      setRhpStatusText("Starting AI Extraction...");
+      
       let completedSteps = 0;
-      const onStepDone = () => {
+      const onStepDone = (name: string) => {
         completedSteps++;
-        setRhpStatusText(`Running AI Extraction (${completedSteps}/3)...`);
+        setRhpStatusText(`Extracted ${name} (${completedSteps}/3)...`);
       };
       
-      const extractionPromises = [
-        fetch("/api/extract-rhp/step3a-identity", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: extractedText }),
-        }).then(res => res.json()).then(res => { onStepDone(); return res; }),
-        
-        fetch("/api/extract-rhp/step3b-financials", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: extractedText }),
-        }).then(res => res.json()).then(res => { onStepDone(); return res; }),
-        
-        fetch("/api/extract-rhp/step3c-mechanics", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: extractedText }),
-        }).then(res => res.json()).then(res => { onStepDone(); return res; })
-      ];
+      const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+      setRhpStatusText("Extracting Identity (1/3)...");
+      const pIdentity = fetch("/api/extract-rhp/step3a-identity", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: extractedText })
+      }).then(res => res.json()).then(res => { onStepDone("Identity"); return res; });
+
+      await delay(2000);
+      if (completedSteps < 3) setRhpStatusText("Extracting Financials (2/3)...");
+      const pFinancials = fetch("/api/extract-rhp/step3b-financials", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: extractedText })
+      }).then(res => res.json()).then(res => { onStepDone("Financials"); return res; });
+
+      await delay(2000);
+      if (completedSteps < 3) setRhpStatusText("Extracting Mechanics (3/3)...");
+      const pMechanics = fetch("/api/extract-rhp/step3c-mechanics", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: extractedText })
+      }).then(res => res.json()).then(res => { onStepDone("Mechanics"); return res; });
+
+      const extractionPromises = [pIdentity, pFinancials, pMechanics];
 
       // We use Promise.allSettled so we don't crash everything if one minor prompt fails
       const results = await Promise.allSettled(extractionPromises);
@@ -843,6 +895,42 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
       if (rhpInputRef.current) rhpInputRef.current.value = "";
     }
   };
+
+  const handleRetrySection = async (sectionId: string, apiRoute: string, name: string) => {
+    if (!rawPdfText) {
+      alert("No raw PDF text available to retry. Please upload the PDF again.");
+      return;
+    }
+    setRetryingSection(sectionId);
+    try {
+      const res = await fetch(apiRoute, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: rawPdfText })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || "Retry failed");
+      
+      const newFilled = new Set(autoFilledFields);
+      setForm((prev) => {
+        const updated = { ...prev };
+        for (const [key, value] of Object.entries(data.fields)) {
+          if (value !== null && value !== undefined && String(value).trim() !== "" && isFieldName(key)) {
+            updated[key] = String(value);
+            newFilled.add(key);
+          }
+        }
+        return updated;
+      });
+      setAutoFilledFields(newFilled);
+      alert(`${name} extracted successfully!`);
+    } catch (err) {
+      alert(`Retry failed: ${err instanceof Error ? err.message : "Unknown error"}`);
+    } finally {
+      setRetryingSection(null);
+    }
+  };
+
   const [jumpOpen, setJumpOpen] = useState(false);
 
   const [expandedSections, setExpandedSections] = useState<Record<SectionId, boolean>>(
@@ -1440,7 +1528,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
                         <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
                         <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" className="opacity-75" />
                       </svg>
-                      {rhpStatusText}
+                      {rhpStatusText} <span className="ml-2 font-mono text-xs opacity-75">({formatTime(elapsedSecs)})</span>
                     </>
                   ) : (
                     "Choose RHP PDF"
@@ -1490,6 +1578,8 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
           section={SECTION_CONFIG[0]}
           expanded={expandedSections.essentials}
           onToggle={toggleSection}
+          onRetry={rawPdfText ? () => handleRetrySection('essentials', '/api/extract-rhp/step3a-identity', 'Identity') : undefined}
+          isRetrying={retryingSection === 'essentials'}
         >
           <div className="space-y-4">
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -1952,6 +2042,8 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
           section={SECTION_CONFIG[3]}
           expanded={expandedSections.issue_details}
           onToggle={toggleSection}
+          onRetry={rawPdfText ? () => handleRetrySection('issue_details', '/api/extract-rhp/step3c-mechanics', 'Mechanics') : undefined}
+          isRetrying={retryingSection === 'issue_details'}
         >
           <div className="space-y-3">
             <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -2495,6 +2587,8 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
           section={SECTION_CONFIG[6]}
           expanded={expandedSections.valuation}
           onToggle={toggleSection}
+          onRetry={rawPdfText ? () => handleRetrySection('valuation', '/api/extract-rhp/step3b-financials', 'Financials') : undefined}
+          isRetrying={retryingSection === 'valuation'}
         >
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
             <FieldLabel name="eps_pre">

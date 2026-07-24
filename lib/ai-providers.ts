@@ -25,7 +25,7 @@ interface AiModel {
 interface AiProvider {
   name: string;
   models: AiModel[];
-  call(model: AiModel, systemPrompt: string, userText: string): Promise<string>;
+  call(model: AiModel, systemPrompt: string, userText: string, timeoutMs: number): Promise<string>;
   isAvailable(): boolean;
 }
 
@@ -51,14 +51,15 @@ class OpenRouterProvider implements AiProvider {
   async call(
     model: AiModel,
     systemPrompt: string,
-    userText: string
+    userText: string,
+    timeoutMs: number
   ): Promise<string> {
     const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) throw new Error("OPENROUTER_API_KEY not set");
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
-      signal: AbortSignal.timeout(50000), // 50s strict timeout
+      signal: AbortSignal.timeout(timeoutMs),
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
@@ -109,7 +110,8 @@ class GroqProvider implements AiProvider {
   async call(
     model: AiModel,
     systemPrompt: string,
-    userText: string
+    userText: string,
+    timeoutMs: number
   ): Promise<string> {
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) throw new Error("GROQ_API_KEY not set");
@@ -118,7 +120,7 @@ class GroqProvider implements AiProvider {
       "https://api.groq.com/openai/v1/chat/completions",
       {
         method: "POST",
-        signal: AbortSignal.timeout(50000), // 50s strict timeout
+        signal: AbortSignal.timeout(timeoutMs),
         headers: {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
@@ -179,8 +181,10 @@ class PaidProvider implements AiProvider {
   async call(
     model: AiModel,
     systemPrompt: string,
-    userText: string
+    userText: string,
+    timeoutMs: number
   ): Promise<string> {
+    // Paid providers typically don't need strict AbortSignals in our flow, but we can add them later if needed
     if (model.id.startsWith("gemini")) {
       return this.callGemini(model, systemPrompt, userText);
     }
@@ -257,8 +261,8 @@ class PaidProvider implements AiProvider {
 // ─── Fallback Chain ─────────────────────────────────────────────────────────────
 
 const providers: AiProvider[] = [
-  new OpenRouterProvider(),
   new GroqProvider(),
+  new OpenRouterProvider(),
   new PaidProvider(),
 ];
 
@@ -271,6 +275,7 @@ export async function extractWithFallback(
   userText: string
 ): Promise<AiExtractionResult> {
   const errors: string[] = [];
+  const startTime = Date.now();
 
   for (const provider of providers) {
     if (!provider.isAvailable()) {
@@ -279,9 +284,24 @@ export async function extractWithFallback(
     }
 
     for (const model of provider.models) {
+      // Dynamic Timeout Calculation
+      const timeElapsed = Date.now() - startTime;
+      let timeoutMs = 20000; // default 20s for Groq
+      
+      if (provider.name === "OpenRouter") {
+        // Vercel hard limit is 60s. We leave a 3s buffer (57000ms max).
+        timeoutMs = Math.max(5000, 57000 - timeElapsed);
+      } else if (provider.name === "Paid") {
+        timeoutMs = Math.max(5000, 57000 - timeElapsed);
+      }
+
+      if (timeElapsed > 55000) {
+        throw new Error(`Execution time exceeded 55s. Aborting early to prevent Vercel 504.`);
+      }
+
       try {
-        console.log(`[RHP] Trying ${provider.name} / ${model.label}...`);
-        const text = await provider.call(model, systemPrompt, userText);
+        console.log(`[RHP] Trying ${provider.name} / ${model.label} with ${timeoutMs}ms timeout...`);
+        const text = await provider.call(model, systemPrompt, userText, timeoutMs);
 
         if (!text.trim()) {
           errors.push(`${provider.name}/${model.label}: empty response`);
@@ -297,10 +317,15 @@ export async function extractWithFallback(
           model: model.label,
         };
       } catch (err) {
-        const msg =
-          err instanceof Error ? err.message : String(err);
+        const msg = err instanceof Error ? err.message : String(err);
         console.warn(`[RHP] ${provider.name}/${model.label} failed: ${msg}`);
-        errors.push(`${provider.name}/${model.label}: ${msg}`);
+        
+        // If 429 Too Many Requests, log specifically but keep trying other models
+        if (msg.includes("429")) {
+          errors.push(`${provider.name}/${model.label}: Rate Limited (429)`);
+        } else {
+          errors.push(`${provider.name}/${model.label}: ${msg}`);
+        }
       }
     }
   }
