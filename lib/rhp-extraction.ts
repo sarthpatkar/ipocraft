@@ -123,7 +123,7 @@ export async function startPdfParse(buffer: Buffer): Promise<{ type: "job", jobI
 
   // Fallback to basic pdf-parse immediately
   const result = await pdfParse(buffer);
-  const maxChars = 120_000;
+  const maxChars = 1_500_000;
   const text = result.text.length > maxChars 
     ? result.text.slice(0, maxChars) + "\n\n[... document truncated ...]"
     : result.text;
@@ -160,7 +160,8 @@ export async function pollPdfParse(jobId: string): Promise<{ status: "PENDING" |
      }
      
      // Cap the text to prevent 750k+ token payloads from crashing the AI
-     const maxChars = 120_000;
+     // We allow up to 1.5M characters (~350k tokens) since we now use Gemini 2.0 which supports 1M+ tokens.
+     const maxChars = 1_500_000;
      if (text.length > maxChars) {
        text = text.slice(0, maxChars) + "\n\n[... document truncated ...]";
      }
