@@ -159,6 +159,12 @@ export async function pollPdfParse(jobId: string): Promise<{ status: "PENDING" |
        text = await resultRes.text();
      }
      
+     // Cap the text to prevent 750k+ token payloads from crashing the AI
+     const maxChars = 120_000;
+     if (text.length > maxChars) {
+       text = text.slice(0, maxChars) + "\n\n[... document truncated ...]";
+     }
+     
      return { status: "SUCCESS", text };
   } else if (statusData.status === "ERROR") {
      return { status: "ERROR" };
