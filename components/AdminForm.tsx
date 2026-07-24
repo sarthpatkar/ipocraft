@@ -643,6 +643,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
 
   // ── RHP Extraction State ──────────────────────────────────────────────────
   const [rhpLoading, setRhpLoading] = useState(false);
+  const [rhpStatusText, setRhpStatusText] = useState("Extracting...");
   const [rhpError, setRhpError] = useState<string | null>(null);
   const [rhpMeta, setRhpMeta] = useState<{
     provider: string;
@@ -659,6 +660,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
     if (!file) return;
 
     setRhpLoading(true);
+    setRhpStatusText("Uploading to Supabase...");
     setRhpError(null);
     setRhpMeta(null);
     setAutoFilledFields(new Set());
@@ -680,32 +682,76 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
 
       const filePath = uploadData.path;
 
-      // 2. Call the extraction API with the filePath
-      const res = await fetch("/api/extract-rhp", {
+      // 2. Call Step 1: Parse
+      setRhpStatusText("Initializing Parser...");
+      const parseRes = await fetch("/api/extract-rhp/step1-parse", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ filePath }),
       });
 
-      // ── Guard: handle non-JSON responses (Vercel 504/502 errors) ──
-      const contentType = res.headers.get("content-type") || "";
-      if (!contentType.includes("application/json")) {
-        const rawText = await res.text().catch(() => "");
-        if (res.status === 504 || res.status === 502) {
-          throw new Error(
-            "AI extraction timed out. The PDF may be too complex. Please try again or use a shorter RHP."
-          );
+      if (!parseRes.ok) throw new Error(await parseRes.text());
+      const parseData = await parseRes.json();
+      
+      if (!parseData.success) throw new Error(parseData.error || "Failed to start parser");
+
+      let extractedText = "";
+
+      if (parseData.type === "text") {
+        // Fallback happened immediately
+        extractedText = parseData.text;
+      } else if (parseData.type === "job") {
+        // Polling LlamaParse
+        const jobId = parseData.jobId;
+        let attempts = 0;
+        let isDone = false;
+        
+        while (!isDone && attempts < 40) {
+          attempts++;
+          setRhpStatusText(`Parsing PDF (attempt ${attempts}/40)...`);
+          
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          
+          const pollRes = await fetch("/api/extract-rhp/step2-poll", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ jobId }),
+          });
+          
+          if (!pollRes.ok) throw new Error("Failed to poll parser status");
+          const pollData = await pollRes.json();
+          
+          if (!pollData.success) throw new Error(pollData.error || "Parser error");
+          
+          if (pollData.status === "SUCCESS") {
+            extractedText = pollData.text;
+            isDone = true;
+          } else if (pollData.status === "ERROR") {
+            throw new Error("LlamaParse processing failed on server");
+          }
         }
-        throw new Error(
-          `Server error (${res.status}): ${rawText.substring(0, 120) || "The server returned an unexpected response."}`
-        );
+        
+        if (!isDone) throw new Error("PDF Parsing timed out");
       }
 
-      const data = await res.json();
+      // 3. Call Step 3: Extract with AI
+      setRhpStatusText("Running AI Extraction (~20s)...");
+      const extractRes = await fetch("/api/extract-rhp/step3-extract", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: extractedText, filePath }),
+      });
+      
+      // Handle Vercel timeouts for step 3 just in case
+      const contentType = extractRes.headers.get("content-type") || "";
+      if (!contentType.includes("application/json")) {
+         if (extractRes.status === 504) throw new Error("AI extraction timed out on Vercel (504).");
+         throw new Error(`Server error (${extractRes.status}): ${await extractRes.text().catch(() => "")}`);
+      }
 
-      if (!res.ok || !data.success) {
+      const data = await extractRes.json();
+
+      if (!extractRes.ok || !data.success) {
         throw new Error(data.error || "Extraction failed");
       }
 
@@ -743,6 +789,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
       );
     } finally {
       setRhpLoading(false);
+      setRhpStatusText("Extracting...");
       // Reset the input so the same file can be re-uploaded
       if (rhpInputRef.current) rhpInputRef.current.value = "";
     }
@@ -1344,7 +1391,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
                         <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
                         <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" className="opacity-75" />
                       </svg>
-                      Extracting…
+                      {rhpStatusText}
                     </>
                   ) : (
                     "Choose RHP PDF"

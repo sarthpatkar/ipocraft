@@ -92,11 +92,7 @@ export interface ExtractionResult {
   totalFieldCount: number;
 }
 
-/**
- * Extracts raw text from a PDF buffer using LlamaParse API,
- * falling back to pdf-parse if the API key is missing.
- */
-export async function extractPdfText(buffer: Buffer): Promise<string> {
+export async function startPdfParse(buffer: Buffer): Promise<{ type: "job", jobId: string } | { type: "text", text: string }> {
   const llamaKey = process.env.LLAMAPARSE_API_KEY;
 
   if (llamaKey) {
@@ -117,47 +113,58 @@ export async function extractPdfText(buffer: Buffer): Promise<string> {
       if (!uploadRes.ok) {
         throw new Error("LlamaParse upload failed: " + await uploadRes.text());
       }
+      
       const uploadData = await uploadRes.json();
-      const jobId = uploadData.id;
-
-      let maxAttempts = 20; // 40s max (20 × 2s) — must fit within Vercel's 60s timeout
-      while (maxAttempts > 0) {
-        await new Promise(r => setTimeout(r, 2000));
-        const statusRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}`, {
-           headers: { Authorization: `Bearer ${llamaKey}` }
-        });
-        const statusData = await statusRes.json();
-        
-        if (statusData.status === "SUCCESS") {
-           const resultRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}/result/markdown`, {
-              headers: { Authorization: `Bearer ${llamaKey}` }
-           });
-           
-           const contentType = resultRes.headers.get("content-type") || "";
-           if (contentType.includes("application/json")) {
-             const resultData = await resultRes.json();
-             return resultData.markdown || resultData.markdown_full || "";
-           } else {
-             return await resultRes.text();
-           }
-        } else if (statusData.status === "ERROR") {
-           throw new Error("LlamaParse processing failed");
-        }
-        maxAttempts--;
-      }
-      throw new Error("LlamaParse timed out");
+      return { type: "job", jobId: uploadData.id };
     } catch (err) {
-      console.warn("LlamaParse failed, falling back to pdf-parse:", err);
+      console.warn("LlamaParse upload failed, falling back to pdf-parse:", err);
     }
   }
 
-  // Fallback to basic pdf-parse
+  // Fallback to basic pdf-parse immediately
   const result = await pdfParse(buffer);
   const maxChars = 120_000;
-  if (result.text.length > maxChars) {
-    return result.text.slice(0, maxChars) + "\n\n[... document truncated ...]";
+  const text = result.text.length > maxChars 
+    ? result.text.slice(0, maxChars) + "\n\n[... document truncated ...]"
+    : result.text;
+    
+  return { type: "text", text };
+}
+
+export async function pollPdfParse(jobId: string): Promise<{ status: "PENDING" | "SUCCESS" | "ERROR", text?: string }> {
+  const llamaKey = process.env.LLAMAPARSE_API_KEY;
+  if (!llamaKey) throw new Error("Missing LLAMAPARSE_API_KEY");
+
+  const statusRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}`, {
+     headers: { Authorization: `Bearer ${llamaKey}` }
+  });
+  
+  if (!statusRes.ok) {
+    throw new Error("Failed to check LlamaParse status");
   }
-  return result.text;
+  
+  const statusData = await statusRes.json();
+  
+  if (statusData.status === "SUCCESS") {
+     const resultRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}/result/markdown`, {
+        headers: { Authorization: `Bearer ${llamaKey}` }
+     });
+     
+     const contentType = resultRes.headers.get("content-type") || "";
+     let text = "";
+     if (contentType.includes("application/json")) {
+       const resultData = await resultRes.json();
+       text = resultData.markdown || resultData.markdown_full || "";
+     } else {
+       text = await resultRes.text();
+     }
+     
+     return { status: "SUCCESS", text };
+  } else if (statusData.status === "ERROR") {
+     return { status: "ERROR" };
+  }
+  
+  return { status: "PENDING" };
 }
 
 // ─── Extraction Prompts (Multi-Stage Pipeline) ────────────────────────────────
@@ -168,11 +175,6 @@ CRITICAL RULES:
 2. If a field is not found or unclear, return null — NEVER guess, estimate, or hallucinate.
 3. Return numbers as plain numbers without currency symbols or commas (e.g., 85 not "Rs. 85").
 4. Return dates in YYYY-MM-DD format.
-5. For percentage fields, return the number only (e.g., 47.07).
-6. Return VALID JSON only — no markdown code blocks, no comments, no trailing commas.
-`;
-
-const PROMPT_IDENTITY = `You are a financial data extractor. Extract core identity and narrative fields from this RHP document.
 ${COMMON_RULES}
 Return a JSON object with EXACTLY these fields (use null if not found):
 {
@@ -361,22 +363,25 @@ function validateExtraction(
 // ─── Main Extraction Function ───────────────────────────────────────────────────
 
 /**
- * Extract IPO data from an RHP PDF buffer.
+ * Extract IPO data from text extracted from an RHP PDF.
  *
- * 1. Extracts text from the PDF using pdf-parse
+ * 1. Validates text
  * 2. Sends text to the AI provider fallback chain
  * 3. Parses and validates the JSON response
  * 4. Returns form-ready field values with metadata
  */
-export async function extractFromRhp(
-  pdfBuffer: Buffer
+export async function extractFieldsFromText(
+  pdfText: string
 ): Promise<ExtractionResult> {
-  // Step 1: Extract text
-  const pdfText = await extractPdfText(pdfBuffer);
-
-  if (!pdfText.trim() || pdfText.trim().length < 100) {
+  if (!pdfText || pdfText.trim() === "") {
     throw new Error(
-      "PDF appears to be empty or contains too little text. " +
+      "Failed to extract any text from the PDF. It may be encrypted or image-only."
+    );
+  }
+
+  if (pdfText.length < 50) {
+    throw new Error(
+      "Extracted text is too short. " +
         "Make sure the PDF is not image-only (scanned documents are not supported)."
     );
   }

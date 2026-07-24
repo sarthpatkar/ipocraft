@@ -1,14 +1,9 @@
 import { NextResponse } from "next/server"; 
-import { extractFromRhp } from "@/lib/rhp-extraction";
+import { extractFieldsFromText } from "@/lib/rhp-extraction";
 import { createClient } from "@supabase/supabase-js";
 
-/**
- * Vercel configuration for RHP extraction.
- * - maxDuration: 60s to allow AI processing time
- */
-export const maxDuration = 60;
+export const maxDuration = 60; // AI Extraction takes ~15-20s
 
-// Initialize Supabase with service role for backend operations
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -18,11 +13,11 @@ export async function POST(req: Request) {
   let filePathToCleanup: string | null = null;
 
   try {
-    const { filePath } = await req.json();
+    const { text, filePath } = await req.json();
 
-    if (!filePath) {
+    if (!text) {
       return NextResponse.json(
-        { error: "No filePath provided. The PDF must be uploaded to storage first." },
+        { error: "No text provided for extraction." },
         { status: 400 }
       );
     }
@@ -46,25 +41,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // Download the file from Supabase Storage
-    const { data: fileData, error: downloadError } = await supabase.storage
-      .from("rhp-uploads")
-      .download(filePath);
-
-    if (downloadError || !fileData) {
-      console.error("Supabase download error:", downloadError);
-      return NextResponse.json(
-        { error: "Failed to retrieve the uploaded PDF from storage." },
-        { status: 404 }
-      );
-    }
-
-    // Convert to buffer
-    const bytes = await fileData.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
     // Extract
-    const result = await extractFromRhp(buffer);
+    const result = await extractFieldsFromText(text);
 
     return NextResponse.json({
       success: true,
@@ -78,7 +56,7 @@ export async function POST(req: Request) {
       },
     });
   } catch (error) {
-    console.error("[extract-rhp] Error:", error);
+    console.error("[step3-extract] Error:", error);
 
     const message =
       error instanceof Error ? error.message : "Unknown error during extraction";
@@ -91,7 +69,7 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   } finally {
-    // Cleanup: Always delete the uploaded PDF after processing
+    // Cleanup: Always delete the uploaded PDF after processing is completely done
     if (filePathToCleanup) {
       const { error: removeError } = await supabase.storage
         .from("rhp-uploads")
