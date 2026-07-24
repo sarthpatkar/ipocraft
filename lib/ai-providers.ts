@@ -32,13 +32,9 @@ interface AiProvider {
 // ─── OpenRouter Provider ────────────────────────────────────────────────────────
 
 const OPENROUTER_MODELS: AiModel[] = [
-  { id: "google/gemini-2.0-flash-exp:free", label: "Gemini 2.0 Flash Exp" },
-  { id: "meta-llama/llama-3.3-70b-instruct:free", label: "Llama 3.3 70B" },
-  { id: "google/gemini-2.0-flash-thinking-exp:free", label: "Gemini 2.0 Flash Thinking" },
+  { id: "google/gemini-flash-1.5-8b:free", label: "Gemini Flash 1.5 8B" },
   { id: "nvidia/nemotron-3-ultra-550b-a55b:free", label: "Nemotron 3 Ultra 550B" },
-  { id: "google/gemma-4-31b-it:free", label: "Gemma 4 31B IT" },
-  { id: "nvidia/nemotron-3-super-120b-a12b:free", label: "Nemotron 3 Super 120B" },
-  { id: "openai/gpt-oss-20b:free", label: "GPT-OSS 20B" },
+  { id: "google/gemma-4-31b-it:free", label: "Gemma 4 31B IT" }
 ];
 
 class OpenRouterProvider implements AiProvider {
