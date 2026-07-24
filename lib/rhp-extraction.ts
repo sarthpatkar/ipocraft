@@ -175,6 +175,11 @@ CRITICAL RULES:
 2. If a field is not found or unclear, return null — NEVER guess, estimate, or hallucinate.
 3. Return numbers as plain numbers without currency symbols or commas (e.g., 85 not "Rs. 85").
 4. Return dates in YYYY-MM-DD format.
+5. For percentage fields, return the number only (e.g., 47.07).
+6. Return VALID JSON only — no markdown code blocks, no comments, no trailing commas.
+`;
+
+const PROMPT_IDENTITY = `You are a financial data extractor. Extract core identity and narrative fields from this RHP document.
 ${COMMON_RULES}
 Return a JSON object with EXACTLY these fields (use null if not found):
 {
