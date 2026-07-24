@@ -120,7 +120,7 @@ export async function extractPdfText(buffer: Buffer): Promise<string> {
       const uploadData = await uploadRes.json();
       const jobId = uploadData.id;
 
-      let maxAttempts = 150; // 5 minutes max
+      let maxAttempts = 20; // 40s max (20 × 2s) — must fit within Vercel's 60s timeout
       while (maxAttempts > 0) {
         await new Promise(r => setTimeout(r, 2000));
         const statusRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}`, {
