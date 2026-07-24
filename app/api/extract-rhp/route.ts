@@ -1,47 +1,33 @@
 import { NextResponse } from "next/server"; 
 import { extractFromRhp } from "@/lib/rhp-extraction";
+import { createClient } from "@supabase/supabase-js";
 
 /**
  * Vercel configuration for RHP extraction.
  * - maxDuration: 60s to allow AI processing time
- * - bodyParser sizeLimit: 20MB for large RHP PDFs
  */
 export const maxDuration = 60;
 
+// Initialize Supabase with service role for backend operations
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
 export async function POST(req: Request) {
+  let filePathToCleanup: string | null = null;
+
   try {
-    // Parse multipart form data
-    const formData = await req.formData();
-    const file = formData.get("file");
+    const { filePath } = await req.json();
 
-    if (!file || !(file instanceof File)) {
+    if (!filePath) {
       return NextResponse.json(
-        { error: "No PDF file provided. Please upload an RHP PDF document." },
+        { error: "No filePath provided. The PDF must be uploaded to storage first." },
         { status: 400 }
       );
     }
-
-    // Validate file type
-    if (
-      file.type !== "application/pdf" &&
-      !file.name.toLowerCase().endsWith(".pdf")
-    ) {
-      return NextResponse.json(
-        { error: "Invalid file type. Please upload a PDF document." },
-        { status: 400 }
-      );
-    }
-
-    // Validate file size (max 20MB)
-    const MAX_SIZE = 20 * 1024 * 1024;
-    if (file.size > MAX_SIZE) {
-      return NextResponse.json(
-        {
-          error: `File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Maximum size is 20MB.`,
-        },
-        { status: 400 }
-      );
-    }
+    
+    filePathToCleanup = filePath;
 
     // Check if at least one AI provider is configured
     const hasProvider =
@@ -60,8 +46,21 @@ export async function POST(req: Request) {
       );
     }
 
+    // Download the file from Supabase Storage
+    const { data: fileData, error: downloadError } = await supabase.storage
+      .from("rhp-uploads")
+      .download(filePath);
+
+    if (downloadError || !fileData) {
+      console.error("Supabase download error:", downloadError);
+      return NextResponse.json(
+        { error: "Failed to retrieve the uploaded PDF from storage." },
+        { status: 404 }
+      );
+    }
+
     // Convert to buffer
-    const bytes = await file.arrayBuffer();
+    const bytes = await fileData.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     // Extract
@@ -91,5 +90,16 @@ export async function POST(req: Request) {
       },
       { status: 500 }
     );
+  } finally {
+    // Cleanup: Always delete the uploaded PDF after processing
+    if (filePathToCleanup) {
+      const { error: removeError } = await supabase.storage
+        .from("rhp-uploads")
+        .remove([filePathToCleanup]);
+        
+      if (removeError) {
+        console.error(`Failed to cleanup ${filePathToCleanup} from storage:`, removeError);
+      }
+    }
   }
 }

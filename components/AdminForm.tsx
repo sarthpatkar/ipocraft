@@ -658,42 +658,41 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Client-side file size check — Vercel serverless has a 4.5MB body limit.
-    // Warn for files approaching that limit.
-    const MAX_UPLOAD_MB = 4;
-    if (file.size > MAX_UPLOAD_MB * 1024 * 1024) {
-      setRhpError(
-        `PDF is ${(file.size / 1024 / 1024).toFixed(1)}MB which exceeds the ${MAX_UPLOAD_MB}MB upload limit. ` +
-        `Please compress the PDF or use a shorter version of the RHP.`
-      );
-      // Reset the file input so user can try again
-      if (rhpInputRef.current) rhpInputRef.current.value = "";
-      return;
-    }
-
     setRhpLoading(true);
     setRhpError(null);
     setRhpMeta(null);
     setAutoFilledFields(new Set());
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      // 1. Upload to Supabase directly from browser
+      const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '')}`;
+      
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("rhp-uploads")
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
+      if (uploadError) {
+        throw new Error(`Upload failed: ${uploadError.message}. Make sure the rhp-uploads bucket exists.`);
+      }
+
+      const filePath = uploadData.path;
+
+      // 2. Call the extraction API with the filePath
       const res = await fetch("/api/extract-rhp", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ filePath }),
       });
 
-      // ── Guard: handle non-JSON responses (Vercel 413/504/502 errors) ──
+      // ── Guard: handle non-JSON responses (Vercel 504/502 errors) ──
       const contentType = res.headers.get("content-type") || "";
       if (!contentType.includes("application/json")) {
         const rawText = await res.text().catch(() => "");
-        if (res.status === 413 || rawText.toLowerCase().includes("entity too large")) {
-          throw new Error(
-            "PDF file is too large for cloud processing. Please compress the PDF or use a shorter RHP."
-          );
-        }
         if (res.status === 504 || res.status === 502) {
           throw new Error(
             "AI extraction timed out. The PDF may be too complex. Please try again or use a shorter RHP."
