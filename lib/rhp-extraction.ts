@@ -368,15 +368,11 @@ function validateExtraction(
 // ─── Main Extraction Function ───────────────────────────────────────────────────
 
 /**
- * Extract IPO data from text extracted from an RHP PDF.
- *
- * 1. Validates text
- * 2. Sends text to the AI provider fallback chain
- * 3. Parses and validates the JSON response
- * 4. Returns form-ready field values with metadata
+ * Extract IPO data section from text extracted from an RHP PDF.
  */
-export async function extractFieldsFromText(
-  pdfText: string
+export async function extractSection(
+  pdfText: string,
+  section: "identity" | "financials" | "mechanics"
 ): Promise<ExtractionResult> {
   if (!pdfText || pdfText.trim() === "") {
     throw new Error(
@@ -386,51 +382,44 @@ export async function extractFieldsFromText(
 
   if (pdfText.length < 50) {
     throw new Error(
-      "Extracted text is too short. " +
-        "Make sure the PDF is not image-only (scanned documents are not supported)."
+      "Extracted text is too short. Make sure the PDF is not image-only (scanned documents are not supported)."
     );
   }
 
-  // Step 2: Call AI pipeline in parallel
   const userPrompt = `Extract data from this RHP text:\n\n${pdfText}`;
-  let aiResults: AiExtractionResult[];
+  
+  let promptToUse = PROMPT_IDENTITY;
+  if (section === "financials") promptToUse = PROMPT_FINANCIALS;
+  if (section === "mechanics") promptToUse = PROMPT_MECHANICS;
+
+  let aiResult: AiExtractionResult;
   try {
-    aiResults = await Promise.all([
-      extractWithFallback(PROMPT_IDENTITY, userPrompt),
-      extractWithFallback(PROMPT_FINANCIALS, userPrompt),
-      extractWithFallback(PROMPT_MECHANICS, userPrompt)
-    ]);
+    aiResult = await extractWithFallback(promptToUse, userPrompt);
   } catch (err) {
     throw new Error(
       `AI extraction failed: ${err instanceof Error ? err.message : String(err)}`
     );
   }
 
-  // Step 3: Parse and Merge JSONs
-  let merged: Record<string, unknown> = {};
-  for (let i = 0; i < aiResults.length; i++) {
-    const jsonStr = extractJsonFromResponse(aiResults[i].text);
-    try {
-      const parsed = JSON.parse(jsonStr);
-      merged = { ...merged, ...parsed };
-    } catch {
-      console.warn(`AI block ${i} returned invalid JSON.`);
-    }
+  const jsonStr = extractJsonFromResponse(aiResult.text);
+  let parsed: Record<string, unknown> = {};
+  try {
+    parsed = JSON.parse(jsonStr);
+  } catch {
+    console.warn(`AI block ${section} returned invalid JSON.`);
   }
 
-  // Step 4: Validate
-  const { cleaned, warnings } = validateExtraction(merged);
+  const { cleaned, warnings } = validateExtraction(parsed);
 
-  // Count extracted fields
   const allFields = Object.entries(cleaned);
   const extractedFields = allFields.filter(
     ([, v]) => v !== null && v !== undefined && v !== ""
   );
 
   return {
-    fields: cleaned,
-    provider: aiResults[0].provider,
-    model: aiResults[0].model,
+    fields: cleaned as any,
+    provider: aiResult.provider,
+    model: aiResult.model,
     warnings,
     extractedFieldCount: extractedFields.length,
     totalFieldCount: allFields.length,

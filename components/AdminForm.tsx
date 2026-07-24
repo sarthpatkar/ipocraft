@@ -734,32 +734,75 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         if (!isDone) throw new Error("PDF Parsing timed out");
       }
 
-      // 3. Call Step 3: Extract with AI
-      setRhpStatusText("Running AI Extraction (~20s)...");
-      const extractRes = await fetch("/api/extract-rhp/step3-extract", {
+      // 3. Call Step 3: Extract with AI in 3 Parallel Micro-Requests
+      setRhpStatusText("Running AI Extraction (0/3)...");
+      let completedSteps = 0;
+      const onStepDone = () => {
+        completedSteps++;
+        setRhpStatusText(`Running AI Extraction (${completedSteps}/3)...`);
+      };
+      
+      const extractionPromises = [
+        fetch("/api/extract-rhp/step3a-identity", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: extractedText }),
+        }).then(res => res.json()).then(res => { onStepDone(); return res; }),
+        
+        fetch("/api/extract-rhp/step3b-financials", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: extractedText }),
+        }).then(res => res.json()).then(res => { onStepDone(); return res; }),
+        
+        fetch("/api/extract-rhp/step3c-mechanics", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: extractedText }),
+        }).then(res => res.json()).then(res => { onStepDone(); return res; })
+      ];
+
+      // We use Promise.allSettled so we don't crash everything if one minor prompt fails
+      const results = await Promise.allSettled(extractionPromises);
+      
+      // Cleanup PDF from Supabase in the background
+      fetch("/api/extract-rhp/step4-cleanup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: extractedText, filePath }),
-      });
+        body: JSON.stringify({ filePath }),
+      }).catch(console.error);
+
+      let mergedFields: Record<string, unknown> = {};
+      let totalExtracted = 0;
+      let totalFields = 0;
+      let aiModel = "";
+      let aiProvider = "";
       
-      // Handle Vercel timeouts for step 3 just in case
-      const contentType = extractRes.headers.get("content-type") || "";
-      if (!contentType.includes("application/json")) {
-         if (extractRes.status === 504) throw new Error("AI extraction timed out on Vercel (504).");
-         throw new Error(`Server error (${extractRes.status}): ${await extractRes.text().catch(() => "")}`);
+      let failedSections = 0;
+
+      for (const result of results) {
+        if (result.status === "fulfilled" && result.value.success) {
+          const data = result.value;
+          mergedFields = { ...mergedFields, ...data.fields };
+          totalExtracted += data.extractedFieldCount || 0;
+          totalFields += data.totalFieldCount || 0;
+          if (data.model) aiModel = data.model;
+          if (data.provider) aiProvider = data.provider;
+        } else {
+          failedSections++;
+          console.error("Section extraction failed:", result);
+        }
       }
 
-      const data = await extractRes.json();
-
-      if (!extractRes.ok || !data.success) {
-        throw new Error(data.error || "Extraction failed");
+      if (failedSections === 3) {
+         throw new Error("All AI extraction phases failed or timed out.");
       }
 
       // Pre-fill form fields with extracted data
       const filledFields = new Set<string>();
       setForm((prev) => {
         const updated = { ...prev };
-        for (const [key, value] of Object.entries(data.fields)) {
+        for (const [key, value] of Object.entries(mergedFields)) {
           if (
             value !== null &&
             value !== undefined &&
@@ -773,7 +816,13 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         return updated;
       });
       setAutoFilledFields(filledFields);
-      setRhpMeta(data.metadata);
+      setRhpMeta({
+        provider: aiProvider,
+        model: aiModel,
+        extractedFieldCount: totalExtracted,
+        totalFieldCount: totalFields,
+        warnings: failedSections > 0 ? [`${failedSections} section(s) failed to extract.`] : []
+      });
 
       // Expand all sections so user can review
       setExpandedSections((prev) => {

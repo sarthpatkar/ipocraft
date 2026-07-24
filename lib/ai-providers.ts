@@ -58,6 +58,7 @@ class OpenRouterProvider implements AiProvider {
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
+      signal: AbortSignal.timeout(50000), // 50s strict timeout
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
@@ -117,6 +118,7 @@ class GroqProvider implements AiProvider {
       "https://api.groq.com/openai/v1/chat/completions",
       {
         method: "POST",
+        signal: AbortSignal.timeout(50000), // 50s strict timeout
         headers: {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
