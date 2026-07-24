@@ -734,7 +734,14 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         throw new Error(data.error || "Chunk extraction failed");
       }
       
-      mergedFields = { ...mergedFields, ...data.fields };
+      // Smart Merge: Only overwrite if the new value is valid (not null/blank)
+      // This prevents Chunk 2 from overwriting Chunk 1's valid data with nulls!
+      for (const [key, val] of Object.entries(data.fields || {})) {
+        if (val !== null && val !== undefined && String(val).trim() !== "") {
+          mergedFields[key] = val;
+        }
+      }
+      
       totalFields = Math.max(totalFields, data.totalFieldCount || 0);
       
       let currentExtractedCount = 0;
@@ -753,9 +760,9 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         break;
       }
       
-      // Delay to avoid rate limits
+      // Delay to avoid OpenRouter rate limits
       if (i < chunks.length - 1) {
-        await new Promise(r => setTimeout(r, 2000));
+        await new Promise(r => setTimeout(r, 4000));
       }
     }
     
@@ -873,7 +880,11 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
       };
 
       await runSection("/api/extract-rhp/step3a-identity", "Identity (1/3)");
+      await new Promise(r => setTimeout(r, 3000));
+      
       await runSection("/api/extract-rhp/step3b-financials", "Financials (2/3)");
+      await new Promise(r => setTimeout(r, 3000));
+      
       await runSection("/api/extract-rhp/step3c-mechanics", "Mechanics (3/3)");
       
       // Cleanup PDF from Supabase in the background
