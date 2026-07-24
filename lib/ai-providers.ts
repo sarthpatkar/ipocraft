@@ -32,9 +32,9 @@ interface AiProvider {
 // ─── OpenRouter Provider ────────────────────────────────────────────────────────
 
 const OPENROUTER_MODELS: AiModel[] = [
-  { id: "google/gemini-2.0-flash-lite-preview-02-05:free", label: "Gemini 2.0 Flash Lite" },
-  { id: "google/gemini-2.0-pro-exp-02-05:free", label: "Gemini 2.0 Pro Exp" },
-  { id: "google/gemini-exp-1206:free", label: "Gemini Exp 1206" },
+  { id: "google/gemini-2.0-flash-exp:free", label: "Gemini 2.0 Flash Exp" },
+  { id: "meta-llama/llama-3.3-70b-instruct:free", label: "Llama 3.3 70B" },
+  { id: "google/gemini-2.0-flash-thinking-exp:free", label: "Gemini 2.0 Flash Thinking" },
   { id: "nvidia/nemotron-3-ultra-550b-a55b:free", label: "Nemotron 3 Ultra 550B" },
   { id: "google/gemma-4-31b-it:free", label: "Gemma 4 31B IT" },
   { id: "nvidia/nemotron-3-super-120b-a12b:free", label: "Nemotron 3 Super 120B" },
