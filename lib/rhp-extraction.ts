@@ -9,6 +9,9 @@
  */
 
 import { extractWithFallback, type AiExtractionResult } from "./ai-providers";
+// Bypassing pdf-parse's root index.js which contains a buggy testing block
+// that crashes Next.js by attempting to read a test PDF synchronously.
+const pdfParse = require("pdf-parse/lib/pdf-parse.js");
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -89,18 +92,67 @@ export interface ExtractionResult {
   totalFieldCount: number;
 }
 
-// ─── PDF Text Extraction ────────────────────────────────────────────────────────
-
 /**
- * Extracts raw text from a PDF buffer using pdf-parse.
- * Truncates to ~120K characters to fit within model context limits.
+ * Extracts raw text from a PDF buffer using LlamaParse API,
+ * falling back to pdf-parse if the API key is missing.
  */
 export async function extractPdfText(buffer: Buffer): Promise<string> {
-  // Dynamic import to avoid issues when pdf-parse is not installed
-  const pdfParse = ((await import("pdf-parse")) as any).default || (await import("pdf-parse"));
-  const result = await pdfParse(buffer);
+  const llamaKey = process.env.LLAMAPARSE_API_KEY;
 
-  // Truncate to ~120K chars to stay within most model context limits
+  if (llamaKey) {
+    try {
+      const formData = new FormData();
+      const blob = new Blob([new Uint8Array(buffer)], { type: 'application/pdf' });
+      formData.append("file", blob, "document.pdf");
+      
+      const uploadRes = await fetch("https://api.cloud.llamaindex.ai/api/parsing/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${llamaKey}`,
+          Accept: "application/json"
+        },
+        body: formData
+      });
+
+      if (!uploadRes.ok) {
+        throw new Error("LlamaParse upload failed: " + await uploadRes.text());
+      }
+      const uploadData = await uploadRes.json();
+      const jobId = uploadData.id;
+
+      let maxAttempts = 150; // 5 minutes max
+      while (maxAttempts > 0) {
+        await new Promise(r => setTimeout(r, 2000));
+        const statusRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}`, {
+           headers: { Authorization: `Bearer ${llamaKey}` }
+        });
+        const statusData = await statusRes.json();
+        
+        if (statusData.status === "SUCCESS") {
+           const resultRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}/result/markdown`, {
+              headers: { Authorization: `Bearer ${llamaKey}` }
+           });
+           
+           const contentType = resultRes.headers.get("content-type") || "";
+           if (contentType.includes("application/json")) {
+             const resultData = await resultRes.json();
+             return resultData.markdown || resultData.markdown_full || "";
+           } else {
+             return await resultRes.text();
+           }
+        } else if (statusData.status === "ERROR") {
+           throw new Error("LlamaParse processing failed");
+        }
+        maxAttempts--;
+      }
+      throw new Error("LlamaParse timed out");
+    } catch (err) {
+      console.warn("LlamaParse failed, falling back to pdf-parse:", err);
+    }
+  }
+
+  // Fallback to basic pdf-parse
+  const result = await pdfParse(buffer);
   const maxChars = 120_000;
   if (result.text.length > maxChars) {
     return result.text.slice(0, maxChars) + "\n\n[... document truncated ...]";
@@ -108,86 +160,78 @@ export async function extractPdfText(buffer: Buffer): Promise<string> {
   return result.text;
 }
 
-// ─── Extraction Prompt ──────────────────────────────────────────────────────────
+// ─── Extraction Prompts (Multi-Stage Pipeline) ────────────────────────────────
 
-const SYSTEM_PROMPT = `You are a financial document data extractor specialized in Indian IPO Red Herring Prospectus (RHP) documents. Your task is to extract structured data from the provided RHP text.
-
+const COMMON_RULES = `
 CRITICAL RULES:
 1. Extract ONLY information that is EXPLICITLY stated in the document.
 2. If a field is not found or unclear, return null — NEVER guess, estimate, or hallucinate.
-3. Return numbers as plain numbers without currency symbols or commas (e.g., 85 not "Rs. 85" or "₹85").
-4. Return dates in YYYY-MM-DD format (e.g., 2026-03-15).
-5. For percentage fields, return the number only (e.g., 47.07 not "47.07%").
-6. For text fields (about_company, objectives, strengths, risks), provide concise summaries from the document.
-7. For company_strengths and company_risks, format as a numbered list with each point on a new line.
-8. Do NOT add any information not present in the source document.
-9. Return VALID JSON only — no markdown code blocks, no comments, no trailing commas.
+3. Return numbers as plain numbers without currency symbols or commas (e.g., 85 not "Rs. 85").
+4. Return dates in YYYY-MM-DD format.
+5. For percentage fields, return the number only (e.g., 47.07).
+6. Return VALID JSON only — no markdown code blocks, no comments, no trailing commas.
+`;
 
-Return a JSON object with these exact fields (use null for any field not found in the document):
-
+const PROMPT_IDENTITY = `You are a financial data extractor. Extract core identity and narrative fields from this RHP document.
+${COMMON_RULES}
+Return a JSON object with EXACTLY these fields (use null if not found):
 {
-  "name": "Full company name exactly as stated in the RHP",
-  "exchange": "BSE and/or NSE where the IPO will list",
-  "sector": "Industry/sector from the business overview section",
-  "ipo_type": "mainboard or sme — based on the issue size and exchange segment",
-  "open_date": "Issue opening date in YYYY-MM-DD format",
-  "close_date": "Issue closing date in YYYY-MM-DD format",
-  "listing_date": "Proposed listing date if mentioned, otherwise null",
-  "price_min": "Lower end of price band as a number",
-  "price_max": "Upper end of price band as a number",
-  "lot_size": "Minimum bid lot size as a number",
-  "face_value": "Face value per equity share as a number",
-  "issue_size": "Total issue size (e.g., '110.24 Cr' — keep the unit)",
-  "fresh_issue": "Fresh issue component if mentioned (e.g., '110.24 Cr')",
-  "about_company": "2-4 sentence summary of the company's business from the RHP",
-  "objectives": "Objects of the issue — summarize the fund utilization plan as a numbered list",
-  "company_strengths": "Key competitive strengths — numbered list, one point per line",
-  "company_risks": "Key risk factors — numbered list, one point per line (top 5-7 risks)",
-  "promoter_holding_pre": "Pre-issue promoter holding percentage as a number",
-  "promoter_holding_post": "Post-issue promoter holding percentage as a number",
-  "reservation_qib": "QIB reservation percentage or description",
-  "reservation_nii": "NII/HNI reservation percentage or description",
-  "reservation_rii": "Retail reservation percentage or description",
-  "reservation_employee": "Employee reservation details if any",
-  "lead_managers": "Book Running Lead Manager(s) — comma separated names",
+  "name": "Full company name exactly as stated",
+  "exchange": "BSE and/or NSE",
+  "sector": "Industry/sector",
+  "ipo_type": "mainboard or sme",
+  "open_date": "Issue opening date in YYYY-MM-DD",
+  "close_date": "Issue closing date in YYYY-MM-DD",
+  "listing_date": "Proposed listing date in YYYY-MM-DD",
+  "about_company": "2-4 sentence summary of the business",
+  "objectives": "Numbered list of fund utilization plans",
+  "company_strengths": "Numbered list of strengths (one per line)",
+  "company_risks": "Numbered list of top 5-7 risks (one per line)",
+  "lead_managers": "Book Running Lead Manager(s) — comma separated",
   "registrar": "Registrar to the Issue — full name",
-  "listing_exchange": "Exchange(s) where shares will be listed (e.g., 'NSE, BSE')",
-  "anchor_investors": "Anchor investor allocation details if mentioned",
-  "retail_min_lots": "Minimum lots for retail application as a number",
-  "retail_min_shares": "Minimum shares for retail application as a number",
-  "retail_min_amount": "Minimum application amount for retail as a number",
-  "retail_max_lots": "Maximum lots for retail application as a number",
-  "retail_max_shares": "Maximum shares for retail application as a number",
-  "retail_max_amount": "Maximum application amount for retail as a number",
-  "shni_min_lots": "Minimum lots for sHNI category as a number",
-  "shni_min_shares": "Minimum shares for sHNI category as a number",
-  "shni_min_amount": "Minimum amount for sHNI category as a number",
-  "shni_max_lots": "Maximum lots for sHNI category as a number",
-  "shni_max_shares": "Maximum shares for sHNI category as a number",
-  "shni_max_amount": "Maximum amount for sHNI category as a number",
-  "bhni_min_lots": "Minimum lots for bHNI category as a number",
-  "bhni_min_shares": "Minimum shares for bHNI category as a number",
-  "bhni_min_amount": "Minimum amount for bHNI category as a number",
-  "bhni_max_lots": "Maximum lots for bHNI category as a number",
-  "bhni_max_shares": "Maximum shares for bHNI category as a number",
-  "bhni_max_amount": "Maximum amount for bHNI category as a number",
-  "eps_pre": "Pre-issue EPS as a number",
-  "eps_post": "Post-issue EPS (diluted) as a number",
-  "pe_pre": "Pre-issue P/E ratio as a number",
-  "pe_post": "Post-issue P/E ratio as a number",
-  "roce": "Return on Capital Employed as a number (percentage)",
-  "debt_equity": "Debt-to-Equity ratio as a number",
-  "pat_margin": "PAT margin percentage as a number",
-  "market_cap": "Estimated market cap post-issue if mentioned",
+  "listing_exchange": "e.g., 'NSE, BSE'",
   "company_address": "Registered office address",
   "company_phone": "Company contact phone",
   "company_email": "Company contact email",
   "company_website": "Company website URL",
   "registrar_phone": "Registrar phone number",
   "registrar_email": "Registrar email address",
-  "registrar_website": "Registrar website URL",
-  "market_maker_shares_offered": "Market maker shares offered as a number (SME IPOs)",
-  "reserved_market_maker": "Reserved market maker percentage as a number (SME IPOs)"
+  "registrar_website": "Registrar website URL"
+}`;
+
+const PROMPT_FINANCIALS = `You are a financial data extractor. Extract valuation and issue metrics from this RHP document.
+${COMMON_RULES}
+Return a JSON object with EXACTLY these fields (use null if not found):
+{
+  "issue_size": "Total issue size (e.g., '110.24 Cr')",
+  "fresh_issue": "Fresh issue component (e.g., '110.24 Cr')",
+  "promoter_holding_pre": "Pre-issue promoter holding percentage as number",
+  "promoter_holding_post": "Post-issue promoter holding percentage as number",
+  "reservation_qib": "QIB reservation percentage",
+  "reservation_nii": "NII/HNI reservation percentage",
+  "reservation_rii": "Retail reservation percentage",
+  "reservation_employee": "Employee reservation details",
+  "eps_pre": "Pre-issue EPS as number",
+  "eps_post": "Post-issue EPS (diluted) as number",
+  "pe_pre": "Pre-issue P/E ratio as number",
+  "pe_post": "Post-issue P/E ratio as number",
+  "roce": "Return on Capital Employed as number (percentage)",
+  "debt_equity": "Debt-to-Equity ratio as number",
+  "pat_margin": "PAT margin percentage as number",
+  "market_cap": "Estimated market cap post-issue if mentioned"
+}`;
+
+const PROMPT_MECHANICS = `You are a financial data extractor. Extract lot and mechanic details from this RHP document.
+${COMMON_RULES}
+Return a JSON object with EXACTLY these fields (use null if not found):
+{
+  "price_min": "Lower end of price band as a number",
+  "price_max": "Upper end of price band as a number",
+  "lot_size": "Minimum bid lot size as a number",
+  "face_value": "Face value per equity share as a number",
+  "anchor_investors": "Anchor investor allocation details",
+  "market_maker_shares_offered": "Market maker shares offered as a number (SME IPOs only)",
+  "reserved_market_maker": "Reserved market maker percentage as a number (SME IPOs only)"
 }`;
 
 // ─── Response Parsing ───────────────────────────────────────────────────────────
@@ -237,33 +281,47 @@ function validateExtraction(
       `Price band inconsistency: min (${priceMin}) > max (${priceMax}). Please verify.`
     );
   }
-
+  
   const lotSize = parseFloat(cleaned.lot_size || "");
-  const retailMinShares = parseFloat(cleaned.retail_min_shares || "");
-  if (
-    !isNaN(lotSize) &&
-    !isNaN(retailMinShares) &&
-    retailMinShares > 0 &&
-    retailMinShares !== lotSize
-  ) {
-    warnings.push(
-      `Lot size (${lotSize}) doesn't match retail min shares (${retailMinShares}). Please verify.`
-    );
-  }
-
-  const retailMinAmount = parseFloat(cleaned.retail_min_amount || "");
-  if (
-    !isNaN(priceMax) &&
-    !isNaN(lotSize) &&
-    !isNaN(retailMinAmount) &&
-    retailMinAmount > 0
-  ) {
-    const expected = priceMax * lotSize;
-    if (Math.abs(expected - retailMinAmount) > 1) {
-      warnings.push(
-        `Retail min amount (${retailMinAmount}) doesn't match price_max × lot_size (${expected}). Please verify.`
-      );
+  // ─── Mathematical Determinism (SEBI Rules) ─────────────────────────
+  if (!isNaN(priceMax) && !isNaN(lotSize) && priceMax > 0 && lotSize > 0) {
+    const lotPrice = priceMax * lotSize;
+    
+    // RETAIL: Max investment < ₹2,00,000
+    const retailMaxLots = Math.floor(199999 / lotPrice);
+    cleaned.retail_min_lots = "1";
+    cleaned.retail_min_shares = String(lotSize);
+    cleaned.retail_min_amount = String(lotPrice);
+    
+    if (retailMaxLots >= 1) {
+      cleaned.retail_max_lots = String(retailMaxLots);
+      cleaned.retail_max_shares = String(retailMaxLots * lotSize);
+      cleaned.retail_max_amount = String(retailMaxLots * lotPrice);
+    } else {
+      cleaned.retail_max_lots = "1";
+      cleaned.retail_max_shares = String(lotSize);
+      cleaned.retail_max_amount = String(lotPrice);
     }
+
+    // sHNI: Investment > ₹2,00,000 and <= ₹10,00,000
+    const shniMinLots = retailMaxLots + 1;
+    const shniMaxLots = Math.floor(1000000 / lotPrice);
+    
+    cleaned.shni_min_lots = String(shniMinLots);
+    cleaned.shni_min_shares = String(shniMinLots * lotSize);
+    cleaned.shni_min_amount = String(shniMinLots * lotPrice);
+    
+    if (shniMaxLots >= shniMinLots) {
+      cleaned.shni_max_lots = String(shniMaxLots);
+      cleaned.shni_max_shares = String(shniMaxLots * lotSize);
+      cleaned.shni_max_amount = String(shniMaxLots * lotPrice);
+    }
+
+    // bHNI: Investment > ₹10,00,000
+    const bhniMinLots = shniMaxLots > 0 ? shniMaxLots + 1 : shniMinLots + 1;
+    cleaned.bhni_min_lots = String(bhniMinLots);
+    cleaned.bhni_min_shares = String(bhniMinLots * lotSize);
+    cleaned.bhni_min_amount = String(bhniMinLots * lotPrice);
   }
 
   const promoterPre = parseFloat(cleaned.promoter_holding_pre || "");
@@ -323,32 +381,35 @@ export async function extractFromRhp(
     );
   }
 
-  // Step 2: Call AI with fallback
-  const userPrompt = `Extract IPO data from this Red Herring Prospectus (RHP) document:\n\n${pdfText}`;
-
-  let aiResult: AiExtractionResult;
+  // Step 2: Call AI pipeline in parallel
+  const userPrompt = `Extract data from this RHP text:\n\n${pdfText}`;
+  let aiResults: AiExtractionResult[];
   try {
-    aiResult = await extractWithFallback(SYSTEM_PROMPT, userPrompt);
+    aiResults = await Promise.all([
+      extractWithFallback(PROMPT_IDENTITY, userPrompt),
+      extractWithFallback(PROMPT_FINANCIALS, userPrompt),
+      extractWithFallback(PROMPT_MECHANICS, userPrompt)
+    ]);
   } catch (err) {
     throw new Error(
       `AI extraction failed: ${err instanceof Error ? err.message : String(err)}`
     );
   }
 
-  // Step 3: Parse JSON
-  const jsonStr = extractJsonFromResponse(aiResult.text);
-  let parsed: Record<string, unknown>;
-  try {
-    parsed = JSON.parse(jsonStr);
-  } catch {
-    throw new Error(
-      `AI returned invalid JSON. Provider: ${aiResult.provider}/${aiResult.model}. ` +
-        `Raw response (first 500 chars): ${aiResult.text.slice(0, 500)}`
-    );
+  // Step 3: Parse and Merge JSONs
+  let merged: Record<string, unknown> = {};
+  for (let i = 0; i < aiResults.length; i++) {
+    const jsonStr = extractJsonFromResponse(aiResults[i].text);
+    try {
+      const parsed = JSON.parse(jsonStr);
+      merged = { ...merged, ...parsed };
+    } catch {
+      console.warn(`AI block ${i} returned invalid JSON.`);
+    }
   }
 
   // Step 4: Validate
-  const { cleaned, warnings } = validateExtraction(parsed);
+  const { cleaned, warnings } = validateExtraction(merged);
 
   // Count extracted fields
   const allFields = Object.entries(cleaned);
@@ -358,8 +419,8 @@ export async function extractFromRhp(
 
   return {
     fields: cleaned,
-    provider: aiResult.provider,
-    model: aiResult.model,
+    provider: aiResults[0].provider,
+    model: aiResults[0].model,
     warnings,
     extractedFieldCount: extractedFields.length,
     totalFieldCount: allFields.length,

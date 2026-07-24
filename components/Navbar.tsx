@@ -14,14 +14,16 @@ import {
   BanknotesIcon, 
   CalendarDaysIcon, 
   ChartBarIcon,
-  BriefcaseIcon 
+  BriefcaseIcon,
+  DocumentTextIcon
 } from "@heroicons/react/24/outline";
 import { 
   HomeIcon as HomeIconSolid, 
   BanknotesIcon as BanknotesIconSolid, 
   CalendarDaysIcon as CalendarDaysIconSolid, 
   ChartBarIcon as ChartBarIconSolid,
-  BriefcaseIcon as BriefcaseIconSolid 
+  BriefcaseIcon as BriefcaseIconSolid,
+  DocumentTextIcon as DocumentTextIconSolid
 } from "@heroicons/react/24/solid";
 
 type LinkItem = { 
@@ -37,6 +39,7 @@ const LINKS: LinkItem[] = [
   { href: "/gmp", label: "GMP", Icon: ChartBarIcon, ActiveIcon: ChartBarIconSolid },
   { href: "/ipo-calendar", label: "Calendar", Icon: CalendarDaysIcon, ActiveIcon: CalendarDaysIconSolid },
   { href: "/brokers", label: "Brokers", Icon: BriefcaseIcon, ActiveIcon: BriefcaseIconSolid },
+  { href: "/blog", label: "Blog", Icon: DocumentTextIcon, ActiveIcon: DocumentTextIconSolid },
 ];
 
 export default function Navbar() {
@@ -95,7 +98,7 @@ export default function Navbar() {
         href={href}
         ref={(el) => { linkRefs.current[href] = el; }}
         className={`relative z-10 px-5 py-2 rounded-xl text-[15px] font-medium transition-all duration-300 ${
-          active ? "text-white" : "text-gray-600 dark:text-gray-400 hover:text-blue-700 dark:hover:text-blue-400"
+          active ? "text-white" : "text-gray-600 hover:text-blue-700"
         }`}
       >
         <span className="relative z-10">{label}</span>
@@ -107,34 +110,28 @@ export default function Navbar() {
     <>
       {/* Top Navbar (Desktop & Mobile Header) */}
       <header
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          scrolled ? "bg-white/80 dark:bg-[#0f172a]/80 backdrop-blur-lg shadow-sm" : "bg-white dark:bg-[#0f172a]"
+        className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${
+          scrolled ? "bg-white/80 backdrop-blur-lg shadow-sm border-[#e2e8f0]" : "bg-white border-transparent"
         }`}
         style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center gap-2 group outline-none">
             <Image
               src="/logo2.png"
-              alt="IPOCraft"
-              width={130}
-              height={36}
-              className="h-[30px] w-auto object-contain hidden dark:block invert"
-            />
-             <Image
-              src="/logo2.png"
-              alt="IPOCraft"
-              width={130}
-              height={36}
-              className="h-[30px] w-auto object-contain dark:hidden"
+              alt="IPOCraft Logo"
+              width={120}
+              height={30}
+              priority
+              className="h-[30px] w-auto object-contain"
             />
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:block">
             <div ref={navRef} className="relative flex items-center gap-2">
-              <span
-                className="absolute -z-0 top-1 bottom-1 rounded-xl bg-blue-600 dark:bg-blue-500 shadow-md transition-all"
+              <div
+                className="absolute -z-0 top-1 bottom-1 rounded-xl bg-[#1e3a8a] shadow-md transition-all"
                 style={{
                   transform: `translate3d(${indicator.left}px, 0, 0)`,
                   width: indicator.width,
@@ -152,14 +149,14 @@ export default function Navbar() {
         {/* Scroll Progress Line */}
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
           <div
-            className="h-full bg-blue-600 dark:bg-blue-500 transition-all duration-150"
+            className="h-full bg-[#1e3a8a] transition-all duration-150"
             style={{ width: `${scrollProgress}%` }}
           />
         </div>
       </header>
 
-      {/* Mobile Bottom Navigation Bar (iOS Style) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white/85 dark:bg-[#0f172a]/85 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 z-50 pb-[env(safe-area-inset-bottom)]">
+      {/* Mobile Bottom Navigation (Glassmorphism + Safe Area Support) */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white/85 backdrop-blur-xl border-t border-gray-200 z-50 pb-[env(safe-area-inset-bottom)]">
         <div className="flex items-center justify-around h-[68px] px-2">
           {LINKS.map(({ href, label, Icon, ActiveIcon }) => {
             const active = isActive(href);
@@ -170,10 +167,10 @@ export default function Navbar() {
                 href={href}
                 className="flex flex-col items-center justify-center w-full h-full gap-1"
               >
-                <div className={`transition-all duration-200 ${active ? "scale-110 text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-gray-400"}`}>
-                  <CurrentIcon className="w-6 h-6" strokeWidth={active ? 2 : 1.5} />
+                <div className={`transition-all duration-200 ${active ? "scale-110 text-blue-600" : "text-gray-500"}`}>
+                  <CurrentIcon className="w-[22px] h-[22px]" strokeWidth={active ? 2 : 1.5} />
                 </div>
-                <span className={`text-[10px] font-medium transition-colors ${active ? "text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-gray-400"}`}>
+                <span className={`text-[10px] font-medium transition-colors ${active ? "text-blue-600" : "text-gray-500"}`}>
                   {label}
                 </span>
               </Link>

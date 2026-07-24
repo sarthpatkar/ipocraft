@@ -176,37 +176,37 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
 
   return (
     <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden card-hover gradient-border h-full">
-      <div className="flex items-start justify-between px-5 pt-5 pb-4 border-b border-[#f8fafc] gap-3">
-        <div className="min-w-0">
-          <h3 className="text-[15px] font-semibold text-[#0f172a] truncate">
-            {ipo.name}
-          </h3>
-          <p className="text-[11.5px] text-[#94a3b8] mt-1 truncate">
-            {ipo.exchange ?? "—"}
-            {ipo.sector ? ` · ${ipo.sector}` : ""}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
+      <div className="px-5 pt-5 pb-4 border-b border-[#f8fafc] space-y-2.5">
+        {/* IPO Name — full width, never truncated */}
+        <h3 className="text-[15px] font-semibold text-[#0f172a] leading-snug line-clamp-2">
+          {ipo.name}
+        </h3>
+        <p className="text-[11.5px] text-[#94a3b8] leading-tight">
+          {ipo.exchange ?? "—"}
+          {ipo.sector ? ` · ${ipo.sector}` : ""}
+        </p>
+        {/* Badges — wrap naturally below the name */}
+        <div className="flex flex-wrap items-center gap-1.5">
           {ipo.ipo_type && (
-            <span className="shrink-0 inline-flex items-center text-[10px] font-semibold tracking-wide px-2.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
+            <span className="inline-flex items-center text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
               {ipo.ipo_type}
             </span>
           )}
           <span
-            className={`shrink-0 inline-flex items-center text-[10px] font-semibold tracking-wide px-2.5 py-0.5 rounded ${statusStyle}`}
+            className={`inline-flex items-center text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded ${statusStyle}`}
           >
             {displayStatus}
           </span>
           {allotmentBadge && (
             <span
-              className={`shrink-0 inline-flex items-center text-[10px] font-semibold tracking-wide px-2.5 py-0.5 rounded ${allotmentBadge.className}`}
+              className={`inline-flex items-center text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded ${allotmentBadge.className}`}
             >
               {allotmentBadge.text}
             </span>
           )}
           {listedReturnBadge && (
             <span
-              className={`shrink-0 inline-flex items-center text-[10px] font-semibold tracking-wide px-2.5 py-0.5 rounded ${listedReturnBadge.className}`}
+              className={`inline-flex items-center text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded ${listedReturnBadge.className}`}
             >
               Listed: {listedReturnBadge.text}
             </span>

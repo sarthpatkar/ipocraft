@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import BrokerList from "@/components/BrokerList";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
 
-const playfair = Playfair_Display({
+const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-playfair",
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
 export default async function BrokersPage() {
   return (
     <main
-      className={`${playfair.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a]`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a]`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* HERO */}

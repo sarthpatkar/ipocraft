@@ -21,6 +21,7 @@ export default function BrokerForm({ broker, onClose }: any) {
     options: broker?.options || "",
     cta_url: broker?.cta_url || "",
     sort_order: broker?.sort_order || 0,
+    is_active: broker?.is_active ?? true,
   });
 
   async function handleSubmit(e: any) {
@@ -81,13 +82,23 @@ export default function BrokerForm({ broker, onClose }: any) {
       />
 
       <input
-        placeholder="CTA URL"
+        placeholder="CTA URL (Referral Link)"
         value={form.cta_url}
         onChange={(e) => setForm({ ...form, cta_url: e.target.value })}
         className="border p-2 w-full rounded"
       />
 
-      <button className="bg-black text-white px-4 py-2 rounded w-full">
+      <label className="flex items-center gap-2 cursor-pointer pt-2">
+        <input
+          type="checkbox"
+          checked={form.is_active}
+          onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
+          className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
+        />
+        <span className="text-sm font-medium">Active Broker (Visible to users)</span>
+      </label>
+
+      <button className="bg-black text-white px-4 py-2 rounded w-full mt-4 hover:bg-gray-800 transition-colors">
         Save Broker
       </button>
     </form>

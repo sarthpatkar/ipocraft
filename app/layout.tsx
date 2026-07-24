@@ -85,11 +85,14 @@ export default function RootLayout({
         </Script>
         <Navbar />
 
-        <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 py-8 pb-28 md:pb-8">
+        <main 
+          className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 pb-28 md:pb-8"
+          style={{ paddingTop: "calc(env(safe-area-inset-top) + 6rem)" }}
+        >
           {children}
         </main>
 
-        <footer className="bg-white dark:bg-[#0f172a] border-t border-[#e2e8f0] dark:border-gray-800 mt-16 pb-24 md:pb-0">
+        <footer className="bg-white border-t border-[#e2e8f0] mt-16 pb-24 md:pb-0">
           <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 py-10">
 
             <div className="flex flex-col md:flex-row md:justify-between gap-8">

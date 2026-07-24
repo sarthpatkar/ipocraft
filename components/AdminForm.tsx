@@ -9,8 +9,15 @@ import {
   useMemo,
   useRef,
   useState,
+  createContext,
+  useContext,
 } from "react";
 import { supabase } from "@/lib/supabase";
+
+const ExtractionContext = createContext<{
+  autoFilled: Set<string>;
+  hasExtraction: boolean;
+}>({ autoFilled: new Set(), hasExtraction: false });
 
 const FIELD_ORDER = [
   "name",
@@ -600,10 +607,27 @@ function FieldLabel({
   children: React.ReactNode;
 }) {
   const config = FIELD_CONFIG_BY_NAME[name];
+  const { autoFilled, hasExtraction } = useContext(ExtractionContext);
+
+  let bgClass = "";
+  let badge = null;
+  
+  if (hasExtraction) {
+    if (autoFilled.has(name)) {
+      bgClass = "bg-emerald-50/50 border-l-2 border-emerald-400 pl-3 py-1.5 -ml-3 rounded-r";
+      badge = <span className="ml-2 text-[10px] text-emerald-600 font-bold px-1.5 py-0.5 bg-emerald-100 rounded">★ AI EXTRACTED</span>;
+    } else {
+      bgClass = "bg-amber-50/50 border-l-2 border-amber-400 pl-3 py-1.5 -ml-3 rounded-r";
+      badge = <span className="ml-2 text-[10px] text-amber-600 font-bold px-1.5 py-0.5 bg-amber-100 rounded">⚠️ REVIEW (BLANK)</span>;
+    }
+  }
 
   return (
-    <label htmlFor={name} className="flex flex-col gap-1.5">
-      <span className={LABEL_CLASS}>{config.label}</span>
+    <label htmlFor={name} className={`flex flex-col gap-1.5 transition-colors ${bgClass}`}>
+      <span className={LABEL_CLASS}>
+        {config.label}
+        {badge}
+      </span>
       {children}
       {helper && <span className={HINT_CLASS}>{helper}</span>}
     </label>
@@ -1194,12 +1218,13 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
   const amountInputClass = `${INPUT_CLASS} bg-slate-100 text-slate-500`;
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={handleSubmit}
-      onKeyDown={handleFormKeyDown}
-      className="flex h-full min-h-0 flex-col"
-    >
+    <ExtractionContext.Provider value={{ autoFilled: autoFilledFields, hasExtraction: !!rhpMeta }}>
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        onKeyDown={handleFormKeyDown}
+        className="flex h-full min-h-0 flex-col"
+      >
       <div className="shrink-0 border-b border-slate-200 bg-white px-5 py-3">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="relative w-full max-w-md">
@@ -2615,5 +2640,6 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         </div>
       </div>
     </form>
+    </ExtractionContext.Provider>
   );
 }

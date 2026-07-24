@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { sanitizeIpoSlug } from "@/lib/ipo.server";
 import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
-import { notFound } from "next/navigation";
-import { Playfair_Display, Inter } from "next/font/google";
-import Link from "next/link";
+import { Outfit, Inter } from "next/font/google";
 import GMPChart from "@/components/GmpChart";
 import { cache } from "react";
 
@@ -74,10 +74,10 @@ export async function generateMetadata({
   };
 }
 
-const playfair = Playfair_Display({
+const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-playfair",
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -359,7 +359,7 @@ export default async function IPODetail({
 
   return (
     <div
-      className={`${playfair.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased overflow-x-hidden`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased pb-20`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <script
@@ -430,13 +430,13 @@ export default async function IPODetail({
           <div className="absolute -top-20 -right-20 w-60 h-60 bg-indigo-200 rounded-full blur-3xl" />
           <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-blue-200 rounded-full blur-3xl" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-16 animate-fade-in-up">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-10 animate-fade-in-up">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5">
             <div className="flex-1 min-w-0">
               <Eyebrow>IPO Detail</Eyebrow>
               <h1
                 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-[1.15] tracking-[-0.01em] text-[#0f172a] mb-3"
-                style={{ fontFamily: "var(--font-playfair)" }}
+                style={{ fontFamily: "var(--font-outfit)" }}
               >
                 {ipo.name}
               </h1>
@@ -452,7 +452,7 @@ export default async function IPODetail({
                   {ipo.ipo_type.toUpperCase()}
                 </span>
               )}
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide items-center gap-3 pb-1 -mb-1">
                 <p
                   className="text-[14.5px] text-[#475569] leading-[1.78]"
                   style={{ fontFamily: "var(--font-inter)" }}
@@ -542,8 +542,8 @@ export default async function IPODetail({
 
       {/* ── Summary Cards ── */}
       <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-16">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-4 lg:pb-0 lg:grid lg:grid-cols-4 lg:gap-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {[
               { label: "Price Band", value: priceBand, highlight: true },
               { label: "GMP (Indicative)", value: gmpDisplay, note: "Unofficial · not guaranteed" },
@@ -556,7 +556,7 @@ export default async function IPODetail({
             ].map((card) => (
               <div
                 key={card.label}
-                className={`border rounded-xl p-5 space-y-1.5 card-hover ${
+                className={`shrink-0 w-[180px] lg:w-auto snap-start border rounded-xl p-5 space-y-1.5 card-hover ${
                   card.highlight
                     ? "border-[#1e3a8a]/20 bg-[#eff6ff]"
                     : "border-[#e2e8f0] bg-white"
@@ -585,20 +585,33 @@ export default async function IPODetail({
         </div>
       </section>
 
+      {/* ── Sticky Tabbed Navigation ── */}
+      <div className="sticky top-[60px] z-40 bg-white/90 backdrop-blur-md border-b border-[#e2e8f0] shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <nav className="flex gap-6 text-[13px] sm:text-[14px] font-semibold text-[#64748b]" style={{ fontFamily: "var(--font-inter)" }}>
+            <a href="#overview" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">Overview</a>
+            <a href="#financials" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">Financials</a>
+            <a href="#issue-details" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">Issue Details</a>
+            <a href="#gmp" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">GMP Tracker</a>
+            <a href="#performance" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">Listing Performance</a>
+          </nav>
+        </div>
+      </div>
+
       {/* ── Main Content ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-6 lg:gap-10 items-start">
 
           {/* Left column */}
-          <div className="min-w-0">
+          <div className="min-w-0 pt-4">
 
             {/* About */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
+            <section id="overview" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Overview</Eyebrow>
                 <h2
                   className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   About the Company
                 </h2>
@@ -620,12 +633,12 @@ export default async function IPODetail({
             </section>
 
             {/* Financials */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
+            <section id="financials" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Financials</Eyebrow>
                 <h2
                   className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   Key Financial Metrics
                 </h2>
@@ -661,10 +674,10 @@ export default async function IPODetail({
             </section>
 
             {/* Issue Details */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
+            <section id="issue-details" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Issue</Eyebrow>
-                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]">
+                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]" style={{ fontFamily: "var(--font-outfit)" }}>
                   IPO Issue Details
                 </h2>
               </div>
@@ -694,7 +707,7 @@ export default async function IPODetail({
                   <Eyebrow>Investors</Eyebrow>
                   <h2
                     className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
-                    style={{ fontFamily: "var(--font-playfair)" }}
+                    style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     Anchor Investors
                   </h2>
@@ -716,7 +729,7 @@ export default async function IPODetail({
                   <Eyebrow>SME Specific</Eyebrow>
                   <h2
                     className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
-                    style={{ fontFamily: "var(--font-playfair)" }}
+                    style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     Market Maker Details
                   </h2>
@@ -744,12 +757,12 @@ export default async function IPODetail({
             )}
 
             {/* GMP Card */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
+            <section id="gmp" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>GMP (Grey Market Premium)</Eyebrow>
                 <h2
                   className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   GMP Overview
                 </h2>
@@ -759,7 +772,7 @@ export default async function IPODetail({
                 <div className="flex items-end gap-3 mb-2">
                   <p
                     className="text-[1.9rem] font-semibold text-[#0f172a] leading-none"
-                    style={{ fontFamily: "var(--font-playfair)" }}
+                    style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     {gmpDisplay}
                   </p>
@@ -816,7 +829,7 @@ export default async function IPODetail({
                 <Eyebrow>Trend</Eyebrow>
                 <h2
                   className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   GMP Trend
                 </h2>
@@ -839,7 +852,7 @@ export default async function IPODetail({
             <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Investment</Eyebrow>
-                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]">
+                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]" style={{ fontFamily: "var(--font-outfit)" }}>
                   Market Lot Details
                 </h2>
               </div>
@@ -879,7 +892,7 @@ export default async function IPODetail({
             <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Valuation</Eyebrow>
-                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]">
+                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]" style={{ fontFamily: "var(--font-outfit)" }}>
                   IPO Valuation Metrics
                 </h2>
               </div>
@@ -901,7 +914,7 @@ export default async function IPODetail({
             <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Contacts</Eyebrow>
-                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]">
+                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]" style={{ fontFamily: "var(--font-outfit)" }}>
                   Company & Registrar Details
                 </h2>
               </div>
@@ -927,7 +940,7 @@ export default async function IPODetail({
                 <Eyebrow>Issue Summary</Eyebrow>
                 <h2
                   className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   Objectives of Issue
                 </h2>
@@ -946,7 +959,7 @@ export default async function IPODetail({
                 <Eyebrow>Ownership</Eyebrow>
                 <h2
                   className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   Promoter Holdings
                 </h2>
@@ -981,7 +994,7 @@ export default async function IPODetail({
                 <Eyebrow>Allocation</Eyebrow>
                 <h2
                   className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   Reservation Details
                 </h2>
@@ -1015,7 +1028,7 @@ export default async function IPODetail({
                 <Eyebrow>Documents</Eyebrow>
                 <h2
                   className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   Important Links
                 </h2>
@@ -1049,12 +1062,12 @@ export default async function IPODetail({
 
             {/* Listing Performance */}
             {ipo.status === "Listed" && (
-              <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
+              <section id="performance" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
                 <div className="pb-4 border-b border-[#f1f5f9]">
                   <Eyebrow>Performance</Eyebrow>
                   <h2
-                    className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                    style={{ fontFamily: "var(--font-playfair)" }}
+                    className="text-2xl sm:text-[1.75rem] font-bold text-[#0f172a] leading-tight"
+                    style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     Listing Performance
                   </h2>

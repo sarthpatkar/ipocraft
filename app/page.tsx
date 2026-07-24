@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import IpoList from "@/components/IpoList";
 import BrokerList from "@/components/BrokerList";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { canonicalUrl } from "@/lib/site-url";
 
-const playfair = Playfair_Display({
+const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-playfair",
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -91,7 +91,7 @@ export default async function Home({
 
   return (
     <div
-      className={`${playfair.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* Structured Data for SEO & GEO */}
@@ -120,37 +120,26 @@ export default async function Home({
 
           <h1
             className="text-2xl sm:text-3xl lg:text-[2.6rem] font-semibold leading-tight tracking-[-0.01em]"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             IPOCraft — IPO GMP, Subscription & Listing Insights
           </h1>
 
-          <p className="mt-4 text-sm sm:text-[15px] text-[#475569] max-w-3xl leading-relaxed">
-            IPOCraft provides structured IPO data including <Link href="/what-is-ipo-gmp" className="text-[#2563eb] hover:underline font-medium">Grey Market Premium (GMP)</Link>
-            trends, <Link href="/ipo-subscription-meaning" className="text-[#2563eb] hover:underline font-medium">subscription demand insights</Link>, price bands, <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">allotment timelines</Link>,
-            and listing performance information sourced from publicly available filings and disclosures.
-            Designed for research clarity across Mainboard and SME IPOs in India.
+          <p className="mt-3 text-sm sm:text-base text-[#475569] max-w-2xl leading-relaxed">
+            Track <Link href="/what-is-ipo-gmp" className="text-[#2563eb] hover:underline font-medium">Grey Market Premium (GMP)</Link>, subscription demand, and allotment timelines. 
+            Data-driven research for Mainboard and SME IPOs.
           </p>
 
-          {/* Contextual Learning Link */}
-          <div className="mt-4">
-            <Link
-              href="/what-is-ipo-gmp"
-              className="text-sm font-medium text-[#2563eb] hover:underline"
-            >
-              Learn what IPO GMP means →
-            </Link>
-          </div>
-
           {/* TRUST BADGES */}
-          <div className="flex flex-wrap gap-3 mt-6 text-xs">
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+          {/* TRUST BADGES - Horizontally Scrollable on Mobile to Save Space */}
+          <div className="flex gap-3 mt-6 text-[11px] sm:text-xs overflow-x-auto whitespace-nowrap pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm shrink-0">
               SEBI Filings Referenced
             </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm shrink-0">
               Structured IPO Data
             </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm shrink-0">
               Research‑Focused Platform
             </span>
           </div>
@@ -180,7 +169,7 @@ export default async function Home({
             <div>
               <h2
                 className="text-[1.5rem] sm:text-[1.75rem] font-semibold leading-[1.2] text-[#0f172a]"
-                style={{ fontFamily: "var(--font-playfair)" }}
+                style={{ fontFamily: "var(--font-outfit)" }}
               >
                 Latest IPO Listings
               </h2>
@@ -283,19 +272,34 @@ export default async function Home({
               All
             </Link>
           </div>
-          <IpoList
-            items={ipoFeed.items}
-          />
-          {ipoFeed.hasMore && (
-            <div className="mt-8 flex justify-center">
-              <Link
-                href={showMoreHref}
-                className="inline-flex items-center justify-center rounded-md bg-[#1e3a8a] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#1a327a]"
-              >
-                Show More IPOs
-              </Link>
+          {/* Ad-Ready Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Main Content Area (Spans 3 columns on Desktop) */}
+            <div className="lg:col-span-3">
+              <IpoList items={ipoFeed.items} />
+              
+              {ipoFeed.hasMore && (
+                <div className="mt-8 flex justify-center lg:justify-start">
+                  <Link
+                    href={showMoreHref}
+                    className="inline-flex items-center justify-center rounded-md bg-[#1e3a8a] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#1a327a]"
+                  >
+                    Show More IPOs
+                  </Link>
+                </div>
+              )}
             </div>
-          )}
+
+            {/* Right Rail (Spans 1 column on Desktop) - Reserved for Ads & Articles */}
+            <aside className="hidden lg:block space-y-6">
+              <div className="bg-white border border-[#e2e8f0] rounded-lg p-6 min-h-[250px] flex items-center justify-center text-[#94a3b8] text-xs font-medium uppercase tracking-widest bg-gray-50/50">
+                Ad Space / Articles
+              </div>
+              <div className="bg-white border border-[#e2e8f0] rounded-lg p-6 min-h-[300px] flex items-center justify-center text-[#94a3b8] text-xs font-medium uppercase tracking-widest bg-gray-50/50">
+                Sticky Ad Space
+              </div>
+            </aside>
+          </div>
 
           {/* SEO + GEO CONTENT */}
           <div className="mt-10 grid md:grid-cols-2 gap-6">
@@ -305,7 +309,7 @@ export default async function Home({
             >
               <h3
                 className="text-lg font-semibold mb-3"
-                style={{ fontFamily: "var(--font-playfair)" }}
+                style={{ fontFamily: "var(--font-outfit)" }}
               >
                 What is IPO GMP?
               </h3>
@@ -321,7 +325,7 @@ export default async function Home({
             <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
               <h3
                 className="text-lg font-semibold mb-3"
-                style={{ fontFamily: "var(--font-playfair)" }}
+                style={{ fontFamily: "var(--font-outfit)" }}
               >
                 Data Transparency
               </h3>
@@ -338,7 +342,7 @@ export default async function Home({
           <div className="mt-6 bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
             <h3
               className="text-lg font-semibold mb-3"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-outfit)" }}
             >
               IPO Research Insights
             </h3>
@@ -365,7 +369,7 @@ export default async function Home({
           <div className="mt-8 bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
             <h3
               className="text-lg font-semibold mb-4"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-outfit)" }}
             >
               Frequently Asked Questions
             </h3>
@@ -406,7 +410,7 @@ export default async function Home({
             <div>
               <h2
                 className="text-[1.5rem] sm:text-[1.75rem] font-semibold leading-[1.2] text-[#0f172a]"
-                style={{ fontFamily: "var(--font-playfair)" }}
+                style={{ fontFamily: "var(--font-outfit)" }}
               >
                 Top Brokers
               </h2>
@@ -418,15 +422,29 @@ export default async function Home({
                 links.
               </p>
             </div>
-            <Link
-              href="/brokers"
-              className="inline-flex items-center justify-center gap-2 bg-[#1e3a8a] hover:bg-[#1a327a] text-white text-[13px] font-semibold px-5 py-[0.62rem] rounded-[4px] transition-colors duration-150"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              View All Brokers
-            </Link>
           </div>
-          <BrokerList limit={4} />
+          <div className="mt-4">
+            <BrokerList limit={4} />
+          </div>
+        </div>
+      </section>
+      <section className="bg-white border-t border-[#e2e8f0] py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+          <h2
+            className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] mb-4"
+            style={{ fontFamily: "var(--font-outfit)" }}
+          >
+            Why Trust IPOCraft for Market Research?
+          </h2>
+          <p className="text-[13px] sm:text-[14px] text-[#475569] max-w-4xl leading-relaxed space-y-3">
+            <span>IPOCraft provides structured IPO data including </span>
+            <Link href="/what-is-ipo-gmp" className="text-[#2563eb] hover:underline font-medium">Grey Market Premium (GMP)</Link>
+            <span> trends, </span>
+            <Link href="/ipo-subscription-meaning" className="text-[#2563eb] hover:underline font-medium">subscription demand insights</Link>
+            <span>, price bands, </span>
+            <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">allotment timelines</Link>
+            <span>, and listing performance information sourced from publicly available filings and disclosures. Designed for research clarity across Mainboard and SME IPOs in India, our platform helps retail investors track historical performance and anticipate market trends without the noise.</span>
+          </p>
         </div>
       </section>
     </div>

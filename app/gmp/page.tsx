@@ -5,12 +5,12 @@ import GmpTableClient from "@/components/GmpTableClient";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 import { canonicalUrl } from "@/lib/site-url";
 
-import { Playfair_Display, Inter } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 
-const playfair = Playfair_Display({
+const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-playfair",
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -129,7 +129,7 @@ export default async function GMPPage({
 
   return (
     <div
-      className={`${playfair.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] overflow-x-hidden`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] overflow-x-hidden`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* Hero */}

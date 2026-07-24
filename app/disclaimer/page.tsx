@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
 
-const playfair = Playfair_Display({
+const outfit = Outfit({
   subsets: ["latin"],
   weight: ["600"],
-  variable: "--font-playfair",
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -31,11 +31,11 @@ export const metadata: Metadata = {
 export default function DisclaimerPage() {
   return (
     <article
-      className={`${playfair.variable} ${inter.variable} max-w-3xl mx-auto`}
+      className={`${outfit.variable} ${inter.variable} max-w-3xl mx-auto`}
     >
       <h1
         className="text-3xl sm:text-4xl font-semibold text-[#0f172a] mb-2"
-        style={{ fontFamily: "var(--font-playfair), serif" }}
+        style={{ fontFamily: "var(--font-outfit), serif" }}
       >
         Disclaimer
       </h1>

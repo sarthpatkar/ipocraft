@@ -538,7 +538,7 @@ export default function AdminDashboard() {
                   <th className="p-3 text-left">Broker</th>
                   <th>Delivery</th>
                   <th>Intraday</th>
-                  <th>Account Opening</th>
+                  <th>Status</th>
                   <th className="text-right pr-4">Actions</th>
                 </tr>
               </thead>
@@ -558,7 +558,11 @@ export default function AdminDashboard() {
                       <td className="p-3 font-medium">{b.name}</td>
                       <td>{b.equity_delivery ?? "-"}</td>
                       <td>{b.equity_intraday ?? "-"}</td>
-                      <td>{b.account_opening ?? "-"}</td>
+                      <td>
+                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${b.is_active !== false ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                          {b.is_active !== false ? 'Active' : 'Inactive'}
+                        </span>
+                      </td>
 
                       <td className="text-right pr-4 space-x-3">
                         <button

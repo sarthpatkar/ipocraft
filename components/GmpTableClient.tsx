@@ -155,19 +155,19 @@ export default function GmpTableClient({
             placeholder="Search IPOs..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
           />
         </div>
-        <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
+        <div className="text-sm font-medium text-gray-500">
           Showing {filtered.length} IPOs
         </div>
       </div>
 
       {/* Tabular Layout (Maintained across all screen sizes) */}
-      <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm">
+      <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white border border-gray-200 rounded-xl shadow-sm">
         <table className="min-w-max w-full text-left relative">
-          <thead className="bg-gray-50 dark:bg-[#0f172a] border-b border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 font-medium sticky top-0 z-10 shadow-sm">
-            <tr className="divide-x divide-gray-100 dark:divide-gray-800">
+          <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium sticky top-0 z-10 shadow-sm">
+            <tr className="divide-x divide-gray-100">
               <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider w-[120px] sm:w-[160px] md:w-[220px]">IPO Name</th>
               <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider cursor-pointer hover:text-gray-700" onClick={() => toggleSort("gmp")}>
                 GMP {sortKey === "gmp" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
@@ -181,7 +181,7 @@ export default function GmpTableClient({
               <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider">Listing</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-700 text-[11px] sm:text-sm">
+          <tbody className="divide-y divide-gray-200 text-[11px] sm:text-sm">
             {filtered.length === 0 ? (
               <tr>
                 <td colSpan={7} className="p-8 text-center text-gray-500">
@@ -195,34 +195,34 @@ export default function GmpTableClient({
                 const trend = ipo.gmp_trend ?? (latest != null && prev != null ? latest - prev : 0);
                 
                 return (
-                  <tr key={ipo.id} className="hover:bg-gray-50 dark:hover:bg-[#0f172a]/50 transition-colors divide-x divide-gray-100 dark:divide-gray-800">
+                  <tr key={ipo.id} className="hover:bg-gray-50 transition-colors divide-x divide-gray-100">
                     <td className="p-2 sm:p-3 md:p-4 w-[120px] sm:w-[160px] md:w-[220px]">
-                      <Link href={`/ipo/${ipo.slug}`} className="font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 block whitespace-normal break-words">
+                      <Link href={`/ipo/${ipo.slug}`} className="font-semibold text-gray-900 hover:text-blue-600 block whitespace-normal break-words">
                         {highlight(ipo.name)}
                       </Link>
                     </td>
                     <td className="p-2 sm:p-3 md:p-4">
                       <div className="flex items-center gap-1 sm:gap-2">
-                        <span className="font-bold text-gray-900 dark:text-gray-100">
+                        <span className="font-bold text-gray-900">
                           {ipo.gmp != null ? `₹${ipo.gmp}` : "-"}
                         </span>
                         {trend !== 0 && (
-                          <span className={`text-[9px] sm:text-xs font-semibold px-1 py-0.5 rounded ${trend > 0 ? "text-green-700 bg-green-100 dark:text-green-400 dark:bg-green-900/30" : "text-red-700 bg-red-100 dark:text-red-400 dark:bg-red-900/30"}`}>
+                          <span className={`text-[9px] sm:text-xs font-semibold px-1 py-0.5 rounded ${trend > 0 ? "text-green-700 bg-green-100" : "text-red-700 bg-red-100"}`}>
                             {trend > 0 ? "↑" : "↓"}{Math.abs(trend)}
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 font-medium text-gray-800 dark:text-gray-300">
+                    <td className="p-2 sm:p-3 md:p-4 font-medium text-gray-800">
                       {ipo.sub_total ? `${ipo.sub_total}x` : "-"}
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 whitespace-nowrap">
                       {ipo.price_min && ipo.price_max ? `₹${ipo.price_min} - ${ipo.price_max}` : "-"}
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 whitespace-nowrap">
                       {ipo.issue_size ?? "-"}
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 dark:text-gray-400">
+                    <td className="p-2 sm:p-3 md:p-4 text-gray-600">
                       {ipo.open_date ? (
                         <div className="flex flex-col xl:flex-row xl:gap-1">
                           <span className="whitespace-nowrap">{ipo.open_date.slice(0, 5)}</span>
@@ -233,7 +233,7 @@ export default function GmpTableClient({
                         "-"
                       )}
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 whitespace-nowrap">
                       {ipo.listing_date ?? "-"}
                     </td>
                   </tr>
