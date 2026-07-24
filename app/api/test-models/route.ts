@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import { extractPdfText } from "@/lib/rhp-extraction";
+import pdfParse from "pdf-parse";
 
 const COMMON_RULES = `CRITICAL EXTRACTION RULES:
 1. ONLY extract information directly stated in the text.
@@ -139,7 +139,8 @@ async function runEvaluation() {
       text = fs.readFileSync(cacheFile, "utf8");
     } else {
       const buffer = fs.readFileSync(pdfPath);
-      text = await extractPdfText(buffer);
+      const pdfResult = await pdfParse(buffer);
+      text = pdfResult.text;
       fs.writeFileSync(cacheFile, text);
     }
 
