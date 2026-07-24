@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+// @ts-ignore
 import pdfParse from "pdf-parse";
 
 const COMMON_RULES = `CRITICAL EXTRACTION RULES:
