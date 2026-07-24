@@ -2237,7 +2237,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
                 <input
                   id="drhp_link"
                   name="drhp_link"
-                  type="url"
+                  type="text"
                   value={form.drhp_link}
                   onChange={handleChange}
                   ref={registerFieldRef("drhp_link")}
@@ -2250,7 +2250,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
                 <input
                   id="rhp_link"
                   name="rhp_link"
-                  type="url"
+                  type="text"
                   value={form.rhp_link}
                   onChange={handleChange}
                   ref={registerFieldRef("rhp_link")}
@@ -2266,7 +2266,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
                 <input
                   id="allotment_link"
                   name="allotment_link"
-                  type="url"
+                  type="text"
                   value={form.allotment_link}
                   onChange={handleChange}
                   ref={registerFieldRef("allotment_link")}
@@ -2513,7 +2513,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
               <input
                 id="company_phone"
                 name="company_phone"
-                type="tel"
+                type="text"
                 value={form.company_phone}
                 onChange={handleChange}
                 ref={registerFieldRef("company_phone")}
@@ -2526,7 +2526,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
               <input
                 id="company_email"
                 name="company_email"
-                type="email"
+                type="text"
                 value={form.company_email}
                 onChange={handleChange}
                 ref={registerFieldRef("company_email")}
@@ -2539,7 +2539,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
               <input
                 id="company_website"
                 name="company_website"
-                type="url"
+                type="text"
                 value={form.company_website}
                 onChange={handleChange}
                 ref={registerFieldRef("company_website")}
@@ -2552,7 +2552,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
               <input
                 id="registrar_phone"
                 name="registrar_phone"
-                type="tel"
+                type="text"
                 value={form.registrar_phone}
                 onChange={handleChange}
                 ref={registerFieldRef("registrar_phone")}
@@ -2565,7 +2565,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
               <input
                 id="registrar_email"
                 name="registrar_email"
-                type="email"
+                type="text"
                 value={form.registrar_email}
                 onChange={handleChange}
                 ref={registerFieldRef("registrar_email")}
@@ -2578,7 +2578,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
               <input
                 id="registrar_website"
                 name="registrar_website"
-                type="url"
+                type="text"
                 value={form.registrar_website}
                 onChange={handleChange}
                 ref={registerFieldRef("registrar_website")}
