@@ -1563,8 +1563,8 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
           section={SECTION_CONFIG[0]}
           expanded={expandedSections.essentials}
           onToggle={toggleSection}
-          onRetry={rawPdfText ? () => handleRetrySection('essentials', '/api/extract-rhp/step3a-identity', 'Identity') : undefined}
-          isRetrying={retryingSection === 'essentials'}
+          onRetry={currentFilePath ? () => handleReExtract() : undefined}
+          isRetrying={rhpLoading}
         >
           <div className="space-y-4">
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -2027,8 +2027,8 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
           section={SECTION_CONFIG[3]}
           expanded={expandedSections.issue_details}
           onToggle={toggleSection}
-          onRetry={rawPdfText ? () => handleRetrySection('issue_details', '/api/extract-rhp/step3c-mechanics', 'Mechanics') : undefined}
-          isRetrying={retryingSection === 'issue_details'}
+          onRetry={currentFilePath ? () => handleReExtract() : undefined}
+          isRetrying={rhpLoading}
         >
           <div className="space-y-3">
             <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -2572,8 +2572,8 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
           section={SECTION_CONFIG[6]}
           expanded={expandedSections.valuation}
           onToggle={toggleSection}
-          onRetry={rawPdfText ? () => handleRetrySection('valuation', '/api/extract-rhp/step3b-financials', 'Financials') : undefined}
-          isRetrying={retryingSection === 'valuation'}
+          onRetry={currentFilePath ? () => handleReExtract() : undefined}
+          isRetrying={rhpLoading}
         >
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
             <FieldLabel name="eps_pre">
