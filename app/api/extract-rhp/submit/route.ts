@@ -33,14 +33,18 @@ export async function POST(req: Request) {
       .limit(1)
       .single();
 
-    const cachedResultCount = existingJob?.result ? Object.keys(existingJob.result).length : 0;
+    const parsedResult = typeof existingJob?.result === "string" 
+      ? JSON.parse(existingJob.result) 
+      : (existingJob?.result as Record<string, unknown> | null);
 
-    if (!forceNew && existingJob?.result && cachedResultCount >= 15) {
+    const cachedResultCount = parsedResult ? Object.keys(parsedResult).length : 0;
+
+    if (!forceNew && parsedResult && cachedResultCount >= 5) {
       return NextResponse.json({
         success: true,
         cached: true,
         jobId: existingJob.id,
-        result: existingJob.result,
+        result: parsedResult,
         warnings: existingJob.warnings,
         confidence: existingJob.confidence,
       });

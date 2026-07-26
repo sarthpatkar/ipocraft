@@ -694,7 +694,19 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
   };
 
   // ── Apply extracted fields from a job result to the form ─────────────────
-  const applyJobResult = useCallback((fields: Record<string, unknown>, warnings: string[], model?: string) => {
+  const applyJobResult = useCallback((rawFields: Record<string, unknown> | string, warnings: string[], model?: string) => {
+    let fields: Record<string, unknown> = {};
+
+    if (typeof rawFields === "string") {
+      try {
+        fields = JSON.parse(rawFields);
+      } catch {
+        fields = {};
+      }
+    } else if (rawFields && typeof rawFields === "object") {
+      fields = rawFields;
+    }
+
     const validFields: Record<string, string> = {};
     const filledFieldsSet = new Set<string>();
 
