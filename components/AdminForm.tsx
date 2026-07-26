@@ -695,29 +695,32 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
 
   // ── Apply extracted fields from a job result to the form ─────────────────
   const applyJobResult = useCallback((fields: Record<string, unknown>, warnings: string[], model?: string) => {
-    const filledFields = new Set<string>();
-    setForm((prev) => {
-      const updated = { ...prev };
-      for (const [key, value] of Object.entries(fields)) {
-        if (value !== null && value !== undefined && String(value).trim() !== "" && isFieldName(key)) {
-          updated[key] = String(value);
-          filledFields.add(key);
-        }
+    const validFields: Record<string, string> = {};
+    const filledFieldsSet = new Set<string>();
+
+    for (const [key, value] of Object.entries(fields)) {
+      if (value !== null && value !== undefined && String(value).trim() !== "" && isFieldName(key)) {
+        validFields[key] = String(value);
+        filledFieldsSet.add(key);
       }
-      return updated;
-    });
+    }
+
+    setForm((prev) => ({ ...prev, ...validFields }));
+    
     setAutoFilledFields((prev) => {
       const next = new Set(prev);
-      filledFields.forEach(f => next.add(f));
+      filledFieldsSet.forEach(f => next.add(f));
       return next;
     });
+
     setRhpMeta({
       provider: "Python Worker",
       model: model || "Multi-stage pipeline",
-      extractedFieldCount: filledFields.size,
+      extractedFieldCount: filledFieldsSet.size,
       totalFieldCount: 62,
       warnings: warnings ?? [],
     });
+
     // Expand all sections for review
     setExpandedSections((prev) => {
       const next = { ...prev };
