@@ -898,7 +898,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Use a unique hash prefix to force a new job (bypass dedup)
-        body: JSON.stringify({ filePath: currentFilePath, fileHash: `retry_${Date.now()}` }),
+        body: JSON.stringify({ filePath: currentFilePath, fileHash: `retry_${Date.now()}`, forceNew: true }),
       });
       const submitData = await submitRes.json();
       if (!submitData.success) throw new Error(submitData.error);

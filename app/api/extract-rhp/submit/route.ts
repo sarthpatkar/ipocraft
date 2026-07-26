@@ -12,7 +12,7 @@ const supabase = createClient(
 
 export async function POST(req: Request) {
   try {
-    const { filePath, fileHash } = await req.json();
+    const { filePath, fileHash, forceNew } = await req.json();
 
     if (!filePath || !fileHash) {
       return NextResponse.json(
@@ -22,8 +22,8 @@ export async function POST(req: Request) {
     }
 
     // ── Deduplication Check ─────────────────────────────────────────────────
-    // If we already have a completed job for this exact PDF (same SHA-256 hash),
-    // return the cached result immediately — no re-processing needed.
+    // Return cache ONLY if forceNew is not set AND cached result has at least 15 extracted fields.
+    // If previous result was sparse (<15 fields), bypass cache and re-process with latest worker code.
     const { data: existingJob } = await supabase
       .from("extraction_jobs")
       .select("id, result, partial_result, warnings, confidence")
@@ -33,7 +33,9 @@ export async function POST(req: Request) {
       .limit(1)
       .single();
 
-    if (existingJob?.result) {
+    const cachedResultCount = existingJob?.result ? Object.keys(existingJob.result).length : 0;
+
+    if (!forceNew && existingJob?.result && cachedResultCount >= 15) {
       return NextResponse.json({
         success: true,
         cached: true,
