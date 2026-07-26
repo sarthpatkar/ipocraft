@@ -729,51 +729,11 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
     });
   }, []);
 
-  // ── Subscribe to a job via Realtime + polling fallback ───────────────────
+  // ── Subscribe to a job via Realtime + 3s polling fallback ────────────────
   const subscribeToJob = useCallback((jobId: string) => {
     let pollingInterval: NodeJS.Timeout;
 
-    // Primary: Supabase Realtime
-    const channel = supabase
-      .channel(`job-${jobId}`)
-      .on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "extraction_jobs", filter: `id=eq.${jobId}` },
-        (payload) => {
-          const row = payload.new as Record<string, unknown>;
-          // Progressive update from partial_result (written after each pipeline stage)
-          if (row.partial_result && typeof row.partial_result === "object") {
-            applyJobResult(row.partial_result as Record<string, unknown>, [], undefined);
-            const stageNum = (row.partial_result as Record<string, unknown>).stage;
-            if (stageNum) setRhpStatusText(`Stage ${stageNum} complete — more fields incoming...`);
-          }
-          // Final result when job is done
-          if (row.status === "done" && row.result) {
-            applyJobResult(
-              row.result as Record<string, unknown>,
-              (row.warnings as string[]) ?? [],
-              undefined
-            );
-            setRhpStatusText("Extraction complete!");
-            setRhpLoading(false);
-            clearInterval(pollingInterval);
-            supabase.removeChannel(channel);
-            if (rhpInputRef.current) rhpInputRef.current.value = "";
-          }
-          if (row.status === "failed") {
-            setRhpError(String(row.error || "Extraction failed on the worker."));
-            setRhpLoading(false);
-            clearInterval(pollingInterval);
-            supabase.removeChannel(channel);
-            if (rhpInputRef.current) rhpInputRef.current.value = "";
-          }
-        }
-      )
-      .subscribe();
-
-    // Fallback: poll every 15s in case Realtime WebSocket is throttled
-    // (e.g., browser tab was backgrounded and WebSocket was paused)
-    pollingInterval = setInterval(async () => {
+    const checkJobStatus = async () => {
       const { data } = await supabase
         .from("extraction_jobs")
         .select("status, result, partial_result, warnings, error")
@@ -782,7 +742,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
 
       if (!data) return;
 
-      if (data.partial_result && Object.keys(data.partial_result).length > 0) {
+      if (data.partial_result && typeof data.partial_result === "object" && Object.keys(data.partial_result).length > 0) {
         applyJobResult(data.partial_result as Record<string, unknown>, [], undefined);
       }
 
@@ -791,16 +751,30 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         setRhpStatusText("Extraction complete!");
         setRhpLoading(false);
         clearInterval(pollingInterval);
-        supabase.removeChannel(channel);
         if (rhpInputRef.current) rhpInputRef.current.value = "";
       } else if (data.status === "failed") {
         setRhpError(String(data.error || "Extraction failed on the worker."));
         setRhpLoading(false);
         clearInterval(pollingInterval);
-        supabase.removeChannel(channel);
         if (rhpInputRef.current) rhpInputRef.current.value = "";
       }
-    }, 15000);
+    };
+
+    // Primary: Supabase Realtime
+    const channel = supabase
+      .channel(`job-${jobId}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "extraction_jobs", filter: `id=eq.${jobId}` },
+        (_payload) => {
+          checkJobStatus();
+        }
+      )
+      .subscribe();
+
+    // Immediate initial check + poll every 3 seconds while job is active
+    checkJobStatus();
+    pollingInterval = setInterval(checkJobStatus, 3000);
 
     return () => {
       clearInterval(pollingInterval);
