@@ -661,7 +661,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
 
   // ── RHP Extraction State ──────────────────────────────────────────────────
   const [rhpLoading, setRhpLoading] = useState(false);
-  const [rhpStatusText, setRhpStatusText] = useState("Extracting...");
+  const [rhpStatusText, setRhpStatusText] = useState("Processing...");
   const [rhpError, setRhpError] = useState<string | null>(null);
   const [rhpMeta, setRhpMeta] = useState<{
     provider: string;
@@ -673,9 +673,8 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
   const [autoFilledFields, setAutoFilledFields] = useState<Set<string>>(new Set());
   const rhpInputRef = useRef<HTMLInputElement | null>(null);
   const [retryingSection, setRetryingSection] = useState<string | null>(null);
-
-  
-  const [rawPdfText, setRawPdfText] = useState<string>("");
+  const [currentJobId, setCurrentJobId] = useState<string | null>(null);
+  const [currentFilePath, setCurrentFilePath] = useState<string | null>(null);
   const [elapsedSecs, setElapsedSecs] = useState<number>(0);
 
   useEffect(() => {
@@ -694,87 +693,117 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
     return `${m}:${s}`;
   };
 
-  const chunkText = (text: string, size: number) => {
-    const chunks = [];
-    for (let i = 0; i < text.length; i += size) {
-      chunks.push(text.slice(i, i + size));
-    }
-    return chunks;
-  };
+  // ── Apply extracted fields from a job result to the form ─────────────────
+  const applyJobResult = useCallback((fields: Record<string, unknown>, warnings: string[], model?: string) => {
+    const filledFields = new Set<string>();
+    setForm((prev) => {
+      const updated = { ...prev };
+      for (const [key, value] of Object.entries(fields)) {
+        if (value !== null && value !== undefined && String(value).trim() !== "" && isFieldName(key)) {
+          updated[key] = String(value);
+          filledFields.add(key);
+        }
+      }
+      return updated;
+    });
+    setAutoFilledFields((prev) => {
+      const next = new Set(prev);
+      filledFields.forEach(f => next.add(f));
+      return next;
+    });
+    setRhpMeta({
+      provider: "Python Worker",
+      model: model || "Multi-stage pipeline",
+      extractedFieldCount: filledFields.size,
+      totalFieldCount: 62,
+      warnings: warnings ?? [],
+    });
+    // Expand all sections for review
+    setExpandedSections((prev) => {
+      const next = { ...prev };
+      for (const section of SECTION_CONFIG) next[section.id] = true;
+      return next;
+    });
+  }, []);
 
-  const processSectionChunks = async (
-    apiRoute: string,
-    rawText: string,
-    sectionName: string,
-    isRetry: boolean = false
-  ) => {
-    const CHUNK_SIZE = 150_000;
-    const MAX_CHUNKS = 4; // Max 600,000 characters
-    
-    const chunks = chunkText(rawText, CHUNK_SIZE).slice(0, MAX_CHUNKS);
-    let mergedFields: Record<string, unknown> = {};
-    let totalExtracted = 0;
-    let totalFields = 0;
-    let aiModel = "";
-    let aiProvider = "";
-    
-    for (let i = 0; i < chunks.length; i++) {
-      if (!isRetry) {
-        setRhpStatusText(`Extracting ${sectionName} (Chunk ${i+1}/${chunks.length})...`);
-      }
-      
-      const res = await fetch(apiRoute, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: chunks[i] })
-      });
-      
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Chunk extraction failed");
-      }
-      
-      // Smart Merge: Only overwrite if the new value is valid (not null/blank)
-      // This prevents Chunk 2 from overwriting Chunk 1's valid data with nulls!
-      for (const [key, val] of Object.entries(data.fields || {})) {
-        if (val !== null && val !== undefined && String(val).trim() !== "") {
-          mergedFields[key] = val;
+  // ── Subscribe to a job via Realtime + polling fallback ───────────────────
+  const subscribeToJob = useCallback((jobId: string) => {
+    let pollingInterval: NodeJS.Timeout;
+
+    // Primary: Supabase Realtime
+    const channel = supabase
+      .channel(`job-${jobId}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "extraction_jobs", filter: `id=eq.${jobId}` },
+        (payload) => {
+          const row = payload.new as Record<string, unknown>;
+          // Progressive update from partial_result (written after each pipeline stage)
+          if (row.partial_result && typeof row.partial_result === "object") {
+            applyJobResult(row.partial_result as Record<string, unknown>, [], undefined);
+            const stageNum = (row.partial_result as Record<string, unknown>).stage;
+            if (stageNum) setRhpStatusText(`Stage ${stageNum} complete — more fields incoming...`);
+          }
+          // Final result when job is done
+          if (row.status === "done" && row.result) {
+            applyJobResult(
+              row.result as Record<string, unknown>,
+              (row.warnings as string[]) ?? [],
+              undefined
+            );
+            setRhpStatusText("Extraction complete!");
+            setRhpLoading(false);
+            clearInterval(pollingInterval);
+            supabase.removeChannel(channel);
+            if (rhpInputRef.current) rhpInputRef.current.value = "";
+          }
+          if (row.status === "failed") {
+            setRhpError(String(row.error || "Extraction failed on the worker."));
+            setRhpLoading(false);
+            clearInterval(pollingInterval);
+            supabase.removeChannel(channel);
+            if (rhpInputRef.current) rhpInputRef.current.value = "";
+          }
         }
+      )
+      .subscribe();
+
+    // Fallback: poll every 15s in case Realtime WebSocket is throttled
+    // (e.g., browser tab was backgrounded and WebSocket was paused)
+    pollingInterval = setInterval(async () => {
+      const { data } = await supabase
+        .from("extraction_jobs")
+        .select("status, result, partial_result, warnings, error")
+        .eq("id", jobId)
+        .single();
+
+      if (!data) return;
+
+      if (data.partial_result && Object.keys(data.partial_result).length > 0) {
+        applyJobResult(data.partial_result as Record<string, unknown>, [], undefined);
       }
-      
-      totalFields = Math.max(totalFields, data.totalFieldCount || 0);
-      
-      let currentExtractedCount = 0;
-      for (const val of Object.values(mergedFields)) {
-        if (val !== null && val !== undefined && String(val).trim() !== "") {
-          currentExtractedCount++;
-        }
+
+      if (data.status === "done" && data.result) {
+        applyJobResult(data.result as Record<string, unknown>, data.warnings ?? [], undefined);
+        setRhpStatusText("Extraction complete!");
+        setRhpLoading(false);
+        clearInterval(pollingInterval);
+        supabase.removeChannel(channel);
+        if (rhpInputRef.current) rhpInputRef.current.value = "";
+      } else if (data.status === "failed") {
+        setRhpError(String(data.error || "Extraction failed on the worker."));
+        setRhpLoading(false);
+        clearInterval(pollingInterval);
+        supabase.removeChannel(channel);
+        if (rhpInputRef.current) rhpInputRef.current.value = "";
       }
-      totalExtracted = currentExtractedCount;
-      
-      if (data.model) aiModel = data.model;
-      if (data.provider) aiProvider = data.provider;
-      
-      // Early exit if we extracted all fields
-      if (currentExtractedCount >= totalFields && totalFields > 0) {
-        break;
-      }
-      
-      // Delay to avoid OpenRouter rate limits
-      if (i < chunks.length - 1) {
-        await new Promise(r => setTimeout(r, 4000));
-      }
-    }
-    
-    return {
-      success: true,
-      fields: mergedFields,
-      extractedFieldCount: totalExtracted,
-      totalFieldCount: totalFields,
-      model: aiModel,
-      provider: aiProvider
+    }, 15000);
+
+    return () => {
+      clearInterval(pollingInterval);
+      supabase.removeChannel(channel);
     };
-  };
+  }, [applyJobResult]);
 
   const handleRhpUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -784,215 +813,107 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
       setRhpError("Only PDF files are supported.");
       return;
     }
-
     if (file.size > 30 * 1024 * 1024) {
       setRhpError("File size exceeds 30MB limit. Please compress the PDF and try again.");
       return;
     }
 
     setRhpLoading(true);
-    setRhpStatusText("Uploading to Supabase...");
+    setRhpStatusText("Uploading PDF...");
     setRhpError(null);
     setRhpMeta(null);
     setAutoFilledFields(new Set());
+    setCurrentJobId(null);
 
     try {
-      // 1. Upload to Supabase directly from browser
-      const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '')}`;
-      
+      // 1. Compute SHA-256 hash in browser (Web Crypto API — no server needed)
+      const arrayBuffer = await file.arrayBuffer();
+      const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const fileHash = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+
+      // 2. Upload PDF to Supabase Storage
+      const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g, "")}`;
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from("rhp-uploads")
-        .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
+        .upload(fileName, file, { cacheControl: "3600", upsert: false });
 
       if (uploadError) {
-        throw new Error(`Upload failed: ${uploadError.message}. Make sure the rhp-uploads bucket exists.`);
+        throw new Error(`Upload failed: ${uploadError.message}`);
       }
 
       const filePath = uploadData.path;
+      setCurrentFilePath(filePath);
+      setRhpStatusText("Submitting job to extraction queue...");
 
-      // 2. Call Step 1: Parse
-      setRhpStatusText("Initializing Parser...");
-      const parseRes = await fetch("/api/extract-rhp/step1-parse", {
+      // 3. Submit extraction job (with deduplication check)
+      const submitRes = await fetch("/api/extract-rhp/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filePath }),
+        body: JSON.stringify({ filePath, fileHash }),
       });
 
-      if (!parseRes.ok) throw new Error(await parseRes.text());
-      const parseData = await parseRes.json();
-      
-      if (!parseData.success) throw new Error(parseData.error || "Failed to start parser");
+      if (!submitRes.ok) throw new Error(await submitRes.text());
+      const submitData = await submitRes.json();
+      if (!submitData.success) throw new Error(submitData.error || "Failed to submit job");
 
-      let extractedText = "";
-
-      if (parseData.type === "text") {
-        // Fallback happened immediately
-        extractedText = parseData.text;
-      } else if (parseData.type === "job") {
-        // Polling LlamaParse
-        const jobId = parseData.jobId;
-        let attempts = 0;
-        let isDone = false;
-        
-        while (!isDone && attempts < 40) {
-          attempts++;
-          setRhpStatusText(`Parsing PDF (attempt ${attempts}/40)...`);
-          
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-          
-          const pollRes = await fetch("/api/extract-rhp/step2-poll", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ jobId }),
-          });
-          
-          if (!pollRes.ok) throw new Error("Failed to poll parser status");
-          const pollData = await pollRes.json();
-          
-          if (!pollData.success) throw new Error(pollData.error || "Parser error");
-          
-          if (pollData.status === "SUCCESS") {
-            extractedText = pollData.text;
-            isDone = true;
-          } else if (pollData.status === "ERROR") {
-            throw new Error("LlamaParse processing failed on server");
-          }
-        }
-        
-        if (!isDone) throw new Error("PDF Parsing timed out");
+      // 4a. Cached result — same PDF was extracted before, return instantly
+      if (submitData.cached && submitData.result) {
+        applyJobResult(submitData.result, submitData.warnings ?? [], undefined);
+        setRhpStatusText("Retrieved from cache.");
+        setRhpLoading(false);
+        if (rhpInputRef.current) rhpInputRef.current.value = "";
+        return;
       }
 
-      // 3. Call Step 3: Extract with AI using Incremental Chunking (Sequential)
-      setRawPdfText(extractedText);
-      setRhpStatusText("Starting AI Extraction...");
-      
-      const results: PromiseSettledResult<any>[] = [];
-      const runSection = async (route: string, name: string) => {
-        try {
-          const res = await processSectionChunks(route, extractedText, name);
-          results.push({ status: "fulfilled", value: res });
-        } catch (err) {
-          results.push({ status: "rejected", reason: err });
-        }
-      };
+      // 4b. New job — subscribe to Realtime + polling fallback
+      const jobId = submitData.jobId;
+      setCurrentJobId(jobId);
+      setRhpStatusText("Job queued. Waiting for Python worker to pick it up...");
 
-      await runSection("/api/extract-rhp/step3a-identity", "Identity (1/3)");
-      await new Promise(r => setTimeout(r, 3000));
-      
-      await runSection("/api/extract-rhp/step3b-financials", "Financials (2/3)");
-      await new Promise(r => setTimeout(r, 3000));
-      
-      await runSection("/api/extract-rhp/step3c-mechanics", "Mechanics (3/3)");
-      
-      // Cleanup PDF from Supabase in the background
-      fetch("/api/extract-rhp/step4-cleanup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filePath }),
-      }).catch(console.error);
-
-      let mergedFields: Record<string, unknown> = {};
-      let totalExtracted = 0;
-      let totalFields = 0;
-      let aiModel = "";
-      let aiProvider = "";
-      
-      let failedSections = 0;
-
-      for (const result of results) {
-        if (result.status === "fulfilled" && result.value.success) {
-          const data = result.value;
-          mergedFields = { ...mergedFields, ...data.fields };
-          totalExtracted += data.extractedFieldCount || 0;
-          totalFields += data.totalFieldCount || 0;
-          if (data.model) aiModel = data.model;
-          if (data.provider) aiProvider = data.provider;
-        } else {
-          failedSections++;
-          console.error("Section extraction failed:", result);
-        }
-      }
-
-      if (failedSections === 3) {
-         throw new Error("All AI extraction phases failed or timed out.");
-      }
-
-      // Pre-fill form fields with extracted data
-      const filledFields = new Set<string>();
-      setForm((prev) => {
-        const updated = { ...prev };
-        for (const [key, value] of Object.entries(mergedFields)) {
-          if (
-            value !== null &&
-            value !== undefined &&
-            String(value).trim() !== "" &&
-            isFieldName(key)
-          ) {
-            updated[key] = String(value);
-            filledFields.add(key);
-          }
-        }
-        return updated;
-      });
-      setAutoFilledFields(filledFields);
-      setRhpMeta({
-        provider: aiProvider,
-        model: aiModel,
-        extractedFieldCount: totalExtracted,
-        totalFieldCount: totalFields,
-        warnings: failedSections > 0 ? [`${failedSections} section(s) failed to extract.`] : []
-      });
-
-      // Expand all sections so user can review
-      setExpandedSections((prev) => {
-        const next = { ...prev };
-        for (const section of SECTION_CONFIG) {
-          next[section.id] = true;
-        }
-        return next;
-      });
+      subscribeToJob(jobId);
+      // Note: setRhpLoading(false) is called inside subscribeToJob when job completes/fails
     } catch (err) {
-      setRhpError(
-        err instanceof Error ? err.message : "Failed to extract RHP data"
-      );
-    } finally {
+      setRhpError(err instanceof Error ? err.message : "Failed to submit extraction job");
       setRhpLoading(false);
-      setRhpStatusText("Extracting...");
-      // Reset the input so the same file can be re-uploaded
       if (rhpInputRef.current) rhpInputRef.current.value = "";
     }
   };
 
-  const handleRetrySection = async (sectionId: string, apiRoute: string, name: string) => {
-    if (!rawPdfText) {
-      alert("No raw PDF text available to retry. Please upload the PDF again.");
+  // Re-extract: creates a fresh job for the same file that is still in Supabase Storage
+  const handleReExtract = async () => {
+    if (!currentFilePath) {
+      setRhpError("No file available. Please upload the PDF again.");
       return;
     }
-    setRetryingSection(sectionId);
+    setRhpLoading(true);
+    setRhpError(null);
+    setRhpStatusText("Re-submitting extraction job...");
+
     try {
-      const data = await processSectionChunks(apiRoute, rawPdfText, name, true);
-      
-      const newFilled = new Set(autoFilledFields);
-      setForm((prev) => {
-        const updated = { ...prev };
-        for (const [key, value] of Object.entries(data.fields)) {
-          if (value !== null && value !== undefined && String(value).trim() !== "" && isFieldName(key)) {
-            updated[key] = String(value);
-            newFilled.add(key);
-          }
-        }
-        return updated;
+      const submitRes = await fetch("/api/extract-rhp/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // Use a unique hash prefix to force a new job (bypass dedup)
+        body: JSON.stringify({ filePath: currentFilePath, fileHash: `retry_${Date.now()}` }),
       });
-      setAutoFilledFields(newFilled);
-      alert(`${name} extracted successfully!`);
+      const submitData = await submitRes.json();
+      if (!submitData.success) throw new Error(submitData.error);
+
+      setCurrentJobId(submitData.jobId);
+      setRhpStatusText("Job re-queued. Waiting for worker...");
+      subscribeToJob(submitData.jobId);
     } catch (err) {
-      alert(`Retry failed: ${err instanceof Error ? err.message : "Unknown error"}`);
-    } finally {
-      setRetryingSection(null);
+      setRhpError(err instanceof Error ? err.message : "Failed to re-submit job");
+      setRhpLoading(false);
     }
+  };
+
+  // handleRetrySection is deprecated in the async job system.
+  // Retrying is now done by re-submitting the full job via handleReExtract.
+  // Kept as a no-op to avoid breaking any JSX references.
+  const handleRetrySection = async (_sectionId: string, _apiRoute: string, _name: string) => {
+    await handleReExtract();
   };
 
   const [jumpOpen, setJumpOpen] = useState(false);

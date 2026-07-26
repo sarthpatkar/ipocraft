@@ -1,0 +1,92 @@
+import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+
+// This route runs very quickly — it just inserts a DB row and returns.
+// No PDF processing happens here; the Python worker handles that.
+export const maxDuration = 10;
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+export async function POST(req: Request) {
+  try {
+    const { filePath, fileHash } = await req.json();
+
+    if (!filePath || !fileHash) {
+      return NextResponse.json(
+        { error: "filePath and fileHash are required." },
+        { status: 400 }
+      );
+    }
+
+    // ── Deduplication Check ─────────────────────────────────────────────────
+    // If we already have a completed job for this exact PDF (same SHA-256 hash),
+    // return the cached result immediately — no re-processing needed.
+    const { data: existingJob } = await supabase
+      .from("extraction_jobs")
+      .select("id, result, partial_result, warnings, confidence")
+      .eq("file_hash", fileHash)
+      .eq("status", "done")
+      .order("completed_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (existingJob?.result) {
+      return NextResponse.json({
+        success: true,
+        cached: true,
+        jobId: existingJob.id,
+        result: existingJob.result,
+        warnings: existingJob.warnings,
+        confidence: existingJob.confidence,
+      });
+    }
+
+    // ── Reset Any Stuck Jobs For This File ──────────────────────────────────
+    // If a previous job for this file is stuck in 'processing' for >5 minutes,
+    // reset it so the worker can pick it up again.
+    await supabase
+      .from("extraction_jobs")
+      .update({ status: "failed", error: "Timed out — resubmitted by admin" })
+      .eq("file_hash", fileHash)
+      .eq("status", "processing")
+      .lt("started_at", new Date(Date.now() - 5 * 60 * 1000).toISOString());
+
+    // ── Insert New Job ──────────────────────────────────────────────────────
+    const { data: newJob, error: insertError } = await supabase
+      .from("extraction_jobs")
+      .insert({
+        file_path: filePath,
+        file_hash: fileHash,
+        status: "pending",
+        schema_version: 1,
+      })
+      .select("id")
+      .single();
+
+    if (insertError || !newJob) {
+      console.error("[submit] Insert error:", insertError);
+      return NextResponse.json(
+        { error: "Failed to create extraction job." },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      cached: false,
+      jobId: newJob.id,
+    });
+  } catch (error) {
+    console.error("[submit] Error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 }
+    );
+  }
+}
