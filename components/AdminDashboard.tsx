@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import AdminForm from "./AdminForm";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
+import { deleteIpoAction, deleteBrokerAction, duplicateIpoAction, updateGmpAction, saveBrokerAction } from "@/app/actions/admin";
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -152,25 +153,13 @@ export default function AdminDashboard() {
 
     try {
       if (deleteType === "ipo") {
-        const { error } = await supabase
-          .from("ipos")
-          .delete()
-          .eq("id", deleteId);
-
-        if (error) throw error;
-
+        await deleteIpoAction(deleteId);
         setToast("IPO deleted successfully");
         await fetchIpos();
       }
 
       if (deleteType === "broker") {
-        const { error } = await supabase
-          .from("brokers")
-          .delete()
-          .eq("id", deleteId);
-
-        if (error) throw error;
-
+        await deleteBrokerAction(deleteId);
         setToast("Broker deleted successfully");
         await fetchBrokers();
       }
@@ -189,15 +178,13 @@ export default function AdminDashboard() {
   }
 
   async function duplicateIpo(ipo: IpoRecord) {
-    const { id, created_at, updated_at, ...rest } = ipo;
-    const payload = {
-      ...rest,
-      name: `${ipo.name} (Copy)`,
-      slug: `${ipo.slug}-copy-${Date.now()}`,
-    };
-
-    await supabase.from("ipos").insert(payload);
-    fetchIpos();
+    try {
+      await duplicateIpoAction(ipo);
+      fetchIpos();
+    } catch (e: any) {
+      console.error(e);
+      alert(e.message || "Failed to duplicate IPO");
+    }
   }
 
   async function updateGmp(ipo: IpoRecord) {
@@ -210,30 +197,18 @@ export default function AdminDashboard() {
       return;
     }
 
-    const { error } = await supabase
-      .from("ipos")
-      .update({ gmp })
-      .eq("id", ipo.id);
-
-    if (error) {
-      console.error("GMP update error:", error);
-      alert(error.message || "Failed to update GMP");
-      return;
-    }
-
     try {
-      const { error: historyError } = await supabase.from("gmp_history").insert({
-        ipo_id: ipo.id,
-        gmp,
-      });
-
+      const { historyError } = await updateGmpAction(ipo.id, gmp);
       if (historyError) {
-        console.warn("GMP history insert failed:", historyError);
+        console.warn("GMP history issue:", historyError);
         setToast("GMP updated (history not saved)");
+      } else {
+        setToast("GMP updated successfully");
       }
-    } catch (err) {
-      console.warn("GMP history exception:", err);
-      setToast("GMP updated (history not saved)");
+    } catch (err: any) {
+      console.error("GMP update error:", err);
+      alert(err.message || "Failed to update GMP");
+      return;
     }
 
     setInlineGmp((prev) => ({ ...prev, [ipo.id]: "" }));
@@ -248,18 +223,14 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (editingBroker.id) {
-      await supabase
-        .from("brokers")
-        .update(editingBroker)
-        .eq("id", editingBroker.id);
-    } else {
-      await supabase.from("brokers").insert(editingBroker);
+    try {
+      await saveBrokerAction(editingBroker);
+      setShowBrokerForm(false);
+      setEditingBroker(null);
+      fetchBrokers();
+    } catch (e: any) {
+      alert(e.message || "Failed to save broker");
     }
-
-    setShowBrokerForm(false);
-    setEditingBroker(null);
-    fetchBrokers();
   }
 
   return (

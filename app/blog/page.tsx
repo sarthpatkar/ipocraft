@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Outfit, Inter } from "next/font/google";
+import { canonicalUrl } from "@/lib/site-url";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import fs from "fs";
 import path from "path";
@@ -22,6 +23,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "IPO Market Blog & Insights | IPOCraft",
   description: "Read the latest IPO market articles, Grey Market Premium analysis, and listing strategies.",
+  alternates: {
+    canonical: canonicalUrl("/blog"),
+  },
 };
 
 export default async function BlogIndexPage() {
@@ -63,7 +67,7 @@ export default async function BlogIndexPage() {
             >
               <div className="p-6 sm:p-8 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-[10px] sm:text-xs font-semibold tracking-wider uppercase bg-blue-50 text-blue-700 px-3 py-1 rounded-full">
+                  <span className="text-xs font-semibold tracking-wider uppercase bg-blue-50 text-blue-700 px-3 py-1 rounded-full">
                     {article.category}
                   </span>
                   <div className="flex items-center text-[#94a3b8] text-xs">

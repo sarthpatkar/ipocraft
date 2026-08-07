@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { getSanitizedIpoSlugs } from "@/lib/ipo.server";
 import { canonicalUrl } from "@/lib/site-url";
+import { MOCK_ARTICLES } from "@/lib/mock-articles";
+import fs from "fs";
+import path from "path";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
@@ -18,6 +21,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/ipo-subscription-meaning",
     "/qib-hni-retail-explained",
     "/ipo-grey-market-guide",
+    "/blog",
+    "/articles",
   ];
 
   const lastModified = new Date();
@@ -36,5 +41,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticUrls, ...dynamicUrls];
+  // Blog dynamic urls
+  const blogRegistryPath = path.join(process.cwd(), "data", "blog-registry.json");
+  let blogUrls: MetadataRoute.Sitemap = [];
+  try {
+    if (fs.existsSync(blogRegistryPath)) {
+      const fileContents = fs.readFileSync(blogRegistryPath, "utf8");
+      const articles = JSON.parse(fileContents);
+      blogUrls = articles.map((article: any) => ({
+        url: canonicalUrl(`/blog/${article.slug}`),
+        lastModified,
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      }));
+    }
+  } catch (error) {
+    console.error("Error reading blog-registry.json in sitemap:", error);
+  }
+  
+  // Articles dynamic urls
+  const articleUrls: MetadataRoute.Sitemap = MOCK_ARTICLES.map((article) => ({
+    url: canonicalUrl(`/articles/${article.slug}`),
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticUrls, ...dynamicUrls, ...blogUrls, ...articleUrls];
 }

@@ -1,4 +1,7 @@
 "use client";
+import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
+import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
+import { useWatchlist } from "@/lib/hooks/useWatchlist";
 export type IPOListItem = {
   id: number;
   slug: string;
@@ -161,6 +164,8 @@ function formatSubscription(subTotal: string | number | null) {
 }
 
 export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
+  const { isInWatchlist, toggleWatchlist } = useWatchlist();
+  const isStarred = isInWatchlist(ipo.slug);
   const displayStatus = getFinalStatus(ipo);
 
   const statusStyle =
@@ -177,36 +182,53 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
   return (
     <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden card-hover gradient-border h-full">
       <div className="px-5 pt-5 pb-4 border-b border-[#f8fafc] space-y-2.5">
-        {/* IPO Name — full width, never truncated */}
-        <h3 className="text-[15px] font-semibold text-[#0f172a] leading-snug line-clamp-2">
-          {ipo.name}
-        </h3>
-        <p className="text-[11.5px] text-[#94a3b8] leading-tight">
+        {/* IPO Name & Star */}
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="text-[15px] font-semibold text-[#0f172a] leading-snug line-clamp-2">
+            {ipo.name}
+          </h3>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleWatchlist(ipo.slug);
+            }}
+            className="text-gray-400 hover:text-yellow-500 transition-colors flex-shrink-0"
+            title={isStarred ? "Remove from watchlist" : "Add to watchlist"}
+          >
+            {isStarred ? (
+              <StarSolid className="w-5 h-5 text-yellow-400" />
+            ) : (
+              <StarOutline className="w-5 h-5" />
+            )}
+          </button>
+        </div>
+        <p className="text-[11.5px] text-[#64748b] leading-tight">
           {ipo.exchange ?? "—"}
           {ipo.sector ? ` · ${ipo.sector}` : ""}
         </p>
         {/* Badges — wrap naturally below the name */}
         <div className="flex flex-wrap items-center gap-1.5">
           {ipo.ipo_type && (
-            <span className="inline-flex items-center text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
+            <span className="inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
               {ipo.ipo_type}
             </span>
           )}
           <span
-            className={`inline-flex items-center text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded ${statusStyle}`}
+            className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${statusStyle}`}
           >
             {displayStatus}
           </span>
           {allotmentBadge && (
             <span
-              className={`inline-flex items-center text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded ${allotmentBadge.className}`}
+              className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${allotmentBadge.className}`}
             >
               {allotmentBadge.text}
             </span>
           )}
           {listedReturnBadge && (
             <span
-              className={`inline-flex items-center text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded ${listedReturnBadge.className}`}
+              className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${listedReturnBadge.className}`}
             >
               Listed: {listedReturnBadge.text}
             </span>
@@ -216,7 +238,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
 
       <div className="px-5 py-5 grid grid-cols-2 gap-x-6 gap-y-5">
         <div className="col-span-2">
-          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] mb-1.5">
+          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
             Offer Dates
           </p>
           <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
@@ -224,7 +246,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           </p>
         </div>
         <div>
-          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] mb-1.5">
+          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
             Price Band
           </p>
           <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
@@ -232,7 +254,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           </p>
         </div>
         <div>
-          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] mb-1.5">
+          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
             Subscription
           </p>
           <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
@@ -240,7 +262,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           </p>
         </div>
         <div>
-          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] mb-1.5">
+          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
             Lot Size
           </p>
           <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
@@ -248,7 +270,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           </p>
         </div>
         <div>
-          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] mb-1.5">
+          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
             GMP
           </p>
           <p className={`text-[13px] font-semibold leading-tight ${

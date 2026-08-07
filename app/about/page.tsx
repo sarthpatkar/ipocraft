@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     "SME IPO",
     "Mainboard IPO",
     "IPO subscription data",
-    "IPO listing gain",
+    "IPO listing performance",
     "IPO research platform",
   ],
   alternates: {
@@ -201,7 +201,7 @@ export default function AboutPage() {
             },
             {
               title: "Listing Performance",
-              desc: "Analyze listing gains and performance outcomes.",
+              desc: "Analyze listing performance and price outcomes.",
             },
             {
               title: "Mainboard & SME Coverage",

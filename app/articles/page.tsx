@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Outfit, Inter } from "next/font/google";
+
 import { ClockIcon, CalendarIcon } from "@heroicons/react/24/outline";
+import { canonicalUrl } from "@/lib/site-url";
+import { MOCK_ARTICLES } from "@/lib/mock-articles";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -20,38 +23,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "IPO Market Articles & Insights | IPOCraft",
   description: "Read the latest IPO market articles, Grey Market Premium analysis, and listing strategies.",
+  alternates: {
+    canonical: canonicalUrl("/articles"),
+  },
 };
-
-// Mock data (replace with Supabase later)
-const MOCK_ARTICLES = [
-  {
-    id: 1,
-    slug: "jio-financial-services-ipo-details",
-    title: "Jio Financial Services IPO: What You Need to Know",
-    excerpt: "An in-depth look at the highly anticipated Jio Financial Services IPO, including valuation, promoter holding, and expected GMP.",
-    date: "July 23, 2026",
-    readTime: "5 min read",
-    category: "Mainboard IPO",
-  },
-  {
-    id: 2,
-    slug: "understanding-sme-ipo-risks",
-    title: "Understanding the Risks and Rewards of SME IPOs",
-    excerpt: "SME IPOs have been delivering massive listing gains, but they come with significant risks. Here is our complete analysis.",
-    date: "July 21, 2026",
-    readTime: "4 min read",
-    category: "SME IPO",
-  },
-  {
-    id: 3,
-    slug: "how-to-track-gmp-accurately",
-    title: "How to Track IPO GMP Accurately Before Listing",
-    excerpt: "Grey Market Premium is a strong indicator of listing performance. Learn how to track it accurately and avoid market manipulation.",
-    date: "July 18, 2026",
-    readTime: "6 min read",
-    category: "Market Insights",
-  }
-];
 
 export default function ArticlesPage() {
   return (

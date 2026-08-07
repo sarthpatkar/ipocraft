@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Outfit, Inter } from "next/font/google";
-import IpoList from "@/components/IpoList";
+import WatchlistFilterWrapper from "@/components/WatchlistFilterWrapper";
 import BrokerList from "@/components/BrokerList";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
@@ -276,7 +276,7 @@ export default async function Home({
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Main Content Area (Spans 3 columns on Desktop) */}
             <div className="lg:col-span-3">
-              <IpoList items={ipoFeed.items} />
+              <WatchlistFilterWrapper initialIpos={ipoFeed.items} />
               
               {ipoFeed.hasMore && (
                 <div className="mt-8 flex justify-center lg:justify-start">

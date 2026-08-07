@@ -21,9 +21,6 @@ export const metadata: Metadata = {
   description:
     "Latest IPO GMP, SME IPO insights, subscription data, and upcoming IPO alerts.",
   metadataBase: new URL(siteUrl),
-  alternates: {
-    canonical: canonicalUrl("/"),
-  },
 };
 
 export default function RootLayout({
@@ -40,9 +37,11 @@ export default function RootLayout({
       <head>
         <meta name="color-scheme" content="light" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-      <meta name="google-site-verification" content="abcdef123456" />
+
       <link rel="preconnect" href="https://www.googletagmanager.com" />
       <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+      <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+      <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
       </head>
       <body
         className="bg-[#f8fafc] text-[#0f172a] antialiased"
@@ -61,6 +60,13 @@ export default function RootLayout({
             gtag('config', 'G-V2DGFHC1DY');
           `}
         </Script>
+        {/* Google AdSense */}
+        <Script
+          id="google-adsense"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4829097668877345"
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+        />
         <Script
           id="org-schema"
           type="application/ld+json"
@@ -237,7 +243,8 @@ export default function RootLayout({
               unregulated market indicator and does not guarantee listing performance. This content is
               provided strictly for educational and research purposes and does not constitute
               financial advice, investment recommendation, or solicitation to buy or sell
-              securities. IPOCraft does not collect or store any personal user data. Users are
+              securities. IPOCraft does not maintain user accounts. Third-party analytics are used
+              as described in our Privacy Policy. Users are
               advised to verify all data with official SEBI/exchange sources and consult a
               qualified financial advisor before making investment decisions.{" "}
               <Link href="/disclaimer" className="text-[#2563eb] hover:underline">

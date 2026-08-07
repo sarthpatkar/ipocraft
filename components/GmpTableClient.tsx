@@ -166,22 +166,22 @@ export default function GmpTableClient({
       {/* Tabular Layout (Maintained across all screen sizes) */}
       <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white border border-gray-200 rounded-xl shadow-sm">
         <table className="min-w-max w-full text-left relative">
-          <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium sticky top-0 z-10 shadow-sm">
+          <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium sticky top-0 z-30 shadow-sm">
             <tr className="divide-x divide-gray-100">
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider w-[120px] sm:w-[160px] md:w-[220px]">IPO Name</th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider cursor-pointer hover:text-gray-700" onClick={() => toggleSort("gmp")}>
+              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-40 bg-gray-50 drop-shadow-[2px_0_4px_rgba(0,0,0,0.05)] border-r border-gray-200">IPO Name</th>
+              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider cursor-pointer hover:text-gray-700" onClick={() => toggleSort("gmp")}>
                 GMP {sortKey === "gmp" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
               </th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider cursor-pointer hover:text-gray-700" onClick={() => toggleSort("sub")}>
+              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider cursor-pointer hover:text-gray-700" onClick={() => toggleSort("sub")}>
                 Sub {sortKey === "sub" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
               </th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider">Price Band</th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider">Size</th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider">Dates</th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-[10px] sm:text-xs tracking-wider">Listing</th>
+              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider">Price Band</th>
+              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider">Size</th>
+              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider">Dates</th>
+              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider">Listing</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 text-[11px] sm:text-sm">
+          <tbody className="divide-y divide-gray-200 text-xs sm:text-sm">
             {filtered.length === 0 ? (
               <tr>
                 <td colSpan={7} className="p-8 text-center text-gray-500">
@@ -195,8 +195,8 @@ export default function GmpTableClient({
                 const trend = ipo.gmp_trend ?? (latest != null && prev != null ? latest - prev : 0);
                 
                 return (
-                  <tr key={ipo.id} className="hover:bg-gray-50 transition-colors divide-x divide-gray-100">
-                    <td className="p-2 sm:p-3 md:p-4 w-[120px] sm:w-[160px] md:w-[220px]">
+                  <tr key={ipo.id} className="group hover:bg-gray-50 transition-colors divide-x divide-gray-100">
+                    <td className="p-2 sm:p-3 md:p-4 w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-20 bg-white group-hover:bg-gray-50 drop-shadow-[2px_0_4px_rgba(0,0,0,0.05)] border-r border-gray-100">
                       <Link href={`/ipo/${ipo.slug}`} className="font-semibold text-gray-900 hover:text-blue-600 block whitespace-normal break-words">
                         {highlight(ipo.name)}
                       </Link>

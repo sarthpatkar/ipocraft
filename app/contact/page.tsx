@@ -106,7 +106,7 @@ export default function ContactPage() {
           <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-7 lg:p-8 hover:shadow-[0_6px_28px_rgba(0,0,0,0.07)] transition-all duration-200">
             <p className="text-sm text-[#64748b] mb-1">Platform Support</p>
             <p className="font-semibold text-[15px]">
-              support@ipocraft.com
+              contact@ipocraft.com
             </p>
 
             <p className="mt-3 text-sm text-[#64748b] leading-[1.7]">
@@ -120,7 +120,7 @@ export default function ContactPage() {
               Partnerships & Business
             </p>
             <p className="font-semibold text-[15px]">
-              info@ipocraft.com
+              contact@ipocraft.com
             </p>
 
             <p className="mt-3 text-sm text-[#64748b] leading-[1.7]">

@@ -201,7 +201,7 @@ export default function TermsPage() {
           <p className="text-[#475569] text-sm sm:text-base">
             For legal or policy related questions regarding these terms:
           </p>
-          <p className="font-medium">support@ipocraft.in</p>
+          <p className="font-medium">contact@ipocraft.com</p>
         </div>
 
         <p className="text-xs sm:text-sm text-[#64748b] pt-6 border-t">

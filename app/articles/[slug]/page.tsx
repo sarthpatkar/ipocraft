@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Outfit, Inter } from "next/font/google";
 import { ClockIcon, CalendarIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { canonicalUrl } from "@/lib/site-url";
+import { getMockArticleBySlug } from "@/lib/mock-articles";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -18,22 +20,7 @@ const inter = Inter({
   display: "swap",
 });
 
-// Mock data (replace with Supabase later)
-const MOCK_ARTICLES: Record<string, any> = {
-  "jio-financial-services-ipo-details": {
-    title: "Jio Financial Services IPO: What You Need to Know",
-    content: `
-      <p>The upcoming IPO of Jio Financial Services is highly anticipated by retail and institutional investors alike. Expected to be one of the largest offerings this year, the company plans to use the proceeds to expand its lending footprint across India.</p>
-      <h2>Key Valuation Metrics</h2>
-      <p>Market experts suggest that the valuation is aggressive but justified given the massive distribution network of Reliance. Investors should look closely at the Price-to-Book (P/B) ratio compared to peers like Bajaj Finance.</p>
-      <h2>Grey Market Premium (GMP) Expectations</h2>
-      <p>Currently, the unofficial grey market is showing robust demand, with GMP indicating a potential 25-30% listing gain. However, GMP is highly volatile and should not be the sole factor for investment.</p>
-    `,
-    date: "July 23, 2026",
-    readTime: "5 min read",
-    category: "Mainboard IPO",
-  },
-};
+// Mock data moved to lib/mock-articles.ts
 
 export async function generateMetadata({
   params,
@@ -41,13 +28,16 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = MOCK_ARTICLES[slug];
+  const article = getMockArticleBySlug(slug);
   
   if (!article) return { title: "Article Not Found" };
   
   return {
     title: `${article.title} | IPOCraft Insights`,
     description: article.content.substring(0, 150).replace(/<[^>]*>?/gm, ''),
+    alternates: {
+      canonical: canonicalUrl(`/articles/${slug}`),
+    },
   };
 }
 
@@ -57,7 +47,7 @@ export default async function ArticleDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = MOCK_ARTICLES[slug];
+  const article = getMockArticleBySlug(slug);
 
   if (!article) {
     notFound();

@@ -13,6 +13,7 @@ import {
   useContext,
 } from "react";
 import { supabase } from "@/lib/supabase";
+import { saveIpoAction } from "@/app/actions/admin";
 
 const ExtractionContext = createContext<{
   autoFilled: Set<string>;
@@ -744,35 +745,48 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
   // ── Subscribe to a job via Realtime + 3s polling fallback ────────────────
   const subscribeToJob = useCallback((jobId: string) => {
     let pollingInterval: NodeJS.Timeout;
+    let completed = false;
 
     const checkJobStatus = async () => {
+      if (completed) return; // Guard: don't run after job is done
+      
       const { data } = await supabase
         .from("extraction_jobs")
         .select("status, result, partial_result, warnings, error")
         .eq("id", jobId)
         .single();
 
-      if (!data) return;
+      if (!data || completed) return;
 
-      if (data.partial_result && typeof data.partial_result === "object" && Object.keys(data.partial_result).length > 0) {
-        applyJobResult(data.partial_result as Record<string, unknown>, [], undefined);
+      // Show partial progress in status text only — do NOT apply partial_result to the form.
+      // Applying partial results mid-extraction causes the field count to be wrong (shows 3/62)
+      // and can confuse React state before the final result arrives.
+      if (data.status === "processing" && data.partial_result && typeof data.partial_result === "object") {
+        const partialCount = Object.keys(data.partial_result).filter(k => k !== "stage").length;
+        setRhpStatusText(`Processing... ${partialCount} fields found so far`);
       }
 
       if (data.status === "done" && data.result) {
-        applyJobResult(data.result as Record<string, unknown>, data.warnings ?? [], undefined);
+        completed = true;
+        clearInterval(pollingInterval);
+        // Parse result safely (handles both JSON string and object)
+        const rawResult = typeof data.result === "string"
+          ? (() => { try { return JSON.parse(data.result); } catch { return {}; } })()
+          : data.result as Record<string, unknown>;
+        applyJobResult(rawResult, data.warnings ?? [], undefined);
         setRhpStatusText("Extraction complete!");
         setRhpLoading(false);
-        clearInterval(pollingInterval);
         if (rhpInputRef.current) rhpInputRef.current.value = "";
       } else if (data.status === "failed") {
+        completed = true;
+        clearInterval(pollingInterval);
         setRhpError(String(data.error || "Extraction failed on the worker."));
         setRhpLoading(false);
-        clearInterval(pollingInterval);
         if (rhpInputRef.current) rhpInputRef.current.value = "";
       }
     };
 
-    // Primary: Supabase Realtime
+    // Primary: Supabase Realtime (instant notification)
     const channel = supabase
       .channel(`job-${jobId}`)
       .on(
@@ -784,15 +798,17 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
       )
       .subscribe();
 
-    // Immediate initial check + poll every 3 seconds while job is active
+    // Fallback: Immediate initial check + poll every 3 seconds
     checkJobStatus();
     pollingInterval = setInterval(checkJobStatus, 3000);
 
     return () => {
+      completed = true;
       clearInterval(pollingInterval);
       supabase.removeChannel(channel);
     };
   }, [applyJobResult]);
+
 
   const handleRhpUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -1294,28 +1310,17 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
       };
 
       const ipoId = ipo?.id;
+      const isUpdate = ipoId !== null && ipoId !== undefined;
 
-      if (ipoId !== null && ipoId !== undefined) {
-        const res = await supabase
-          .from("ipos")
-          .update(payload)
-          .eq("id", ipoId)
-          .select()
-          .single();
-        data = (res.data ?? null) as { id?: string | number } | null;
-        error = (res.error ?? null) as { message?: string } | null;
-      } else {
-        const res = await supabase.from("ipos").insert([payload]).select().single();
-        data = (res.data ?? null) as { id?: string | number } | null;
-        error = (res.error ?? null) as { message?: string } | null;
-      }
-
-      if (error) {
-        console.error("SUPABASE ERROR:", error);
+      try {
+        const res = await saveIpoAction(payload, isUpdate, String(ipoId));
+        data = res.data;
+      } catch (err: any) {
+        console.error("SERVER ACTION ERROR:", err);
         alert(
-          (ipoId !== null && ipoId !== undefined
+          (isUpdate
             ? "Error updating IPO: "
-            : "Error adding IPO: ") + (error.message || "Unknown error")
+            : "Error adding IPO: ") + (err.message || "Unknown error")
         );
         return;
       }

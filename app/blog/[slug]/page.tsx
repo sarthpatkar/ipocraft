@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Outfit, Inter } from "next/font/google";
 import { ClockIcon, CalendarIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { canonicalUrl } from "@/lib/site-url";
 import fs from "fs";
 import path from "path";
 
@@ -45,6 +46,9 @@ export async function generateMetadata({
   return {
     title: `${article.title} | IPOCraft Insights`,
     description: article.excerpt,
+    alternates: {
+      canonical: canonicalUrl(`/blog/${slug}`),
+    },
   };
 }
 

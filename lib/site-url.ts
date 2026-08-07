@@ -1,4 +1,4 @@
-export const CANONICAL_ORIGIN = "https://ipocraft.com";
+export const CANONICAL_ORIGIN = "https://www.ipocraft.com";
 
 function normalizePathname(pathname: string) {
   const compact = pathname.replace(/\/{2,}/g, "/");

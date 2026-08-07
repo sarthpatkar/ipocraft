@@ -168,8 +168,9 @@ export default function DisclaimerPage() {
             7. Privacy &amp; Data Collection
           </h2>
           <p>
-            IPOCraft does not collect, store, or transmit any personal user data on its
-            servers. There is no user registration, login system, or account creation.
+            IPOCraft does not maintain user accounts or store personally identifiable
+            information on its own servers. Third-party services including Google Analytics
+            may collect usage data as described in our Privacy Policy. There is no user registration, login system, or account creation.
             The IPOCraft Android app stores certain data (such as PAN numbers for allotment
             checking) <strong>only on the user&apos;s device</strong> using local storage and
             never transmits this information to any server.

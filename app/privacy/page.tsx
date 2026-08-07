@@ -85,7 +85,7 @@ export default function PrivacyPage() {
           </p>
 
           <p className="mt-2 text-xs sm:text-sm text-[#64748b]">
-            Last updated: March 1, 2026
+            Last updated: August 2026
           </p>
 
           {/* Trust badges */}
@@ -138,16 +138,70 @@ export default function PrivacyPage() {
               experience, remember preferences, and analyze website usage.
               Users can control cookies through their browser settings.
             </p>
+            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+              IPOCraft uses Google AdSense to display advertisements. Google
+              AdSense uses cookies, including the DoubleClick cookie, to serve
+              ads based on a user&apos;s prior visits to this website and other
+              sites on the internet. These cookies enable Google and its partners
+              to serve ads to users based on their visit to IPOCraft and/or other
+              sites on the internet. Users may opt out of personalised advertising
+              by visiting{" "}
+              <a
+                href="https://www.google.com/settings/ads"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:underline font-medium"
+              >
+                Google Ad Settings
+              </a>
+              {" "}or{" "}
+              <a
+                href="https://www.aboutads.info/choices/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:underline font-medium"
+              >
+                www.aboutads.info/choices
+              </a>
+              . You can also disable cookies in your browser settings; however,
+              doing so may affect the functionality of this and other websites.
+            </p>
           </section>
 
           <section className="space-y-3">
             <h2 className="font-semibold text-lg sm:text-xl">
-              Third‑Party Services
+              Third&#8209;Party Services
             </h2>
             <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
-              We may use third‑party tools such as analytics providers,
+              We use third&#8209;party tools such as analytics providers,
               infrastructure services, or affiliate partners. These services may
               collect information according to their own privacy policies.
+            </p>
+            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+              We use Google AdSense, a third&#8209;party advertising service
+              provided by Google LLC, to display advertisements on this website.
+              Google AdSense may use information about your visits to this and
+              other websites to provide relevant advertisements. Google&apos;s
+              use of advertising cookies is governed by{" "}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:underline font-medium"
+              >
+                Google&apos;s Privacy Policy
+              </a>
+              . For more information on how Google uses data when you use
+              our partners&apos; sites or apps, see{" "}
+              <a
+                href="https://policies.google.com/technologies/partner-sites"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:underline font-medium"
+              >
+                How Google uses data from sites that use Google services
+              </a>
+              .
             </p>
           </section>
 
@@ -194,10 +248,10 @@ export default function PrivacyPage() {
               For privacy-related questions or data requests, you may contact us at:
               <br />
               <a
-                href="mailto:privacy@ipocraft.com"
+                href="mailto:contact@ipocraft.com"
                 className="text-indigo-600 hover:underline font-medium"
               >
-                privacy@ipocraft.com
+                contact@ipocraft.com
               </a>
             </p>
           </section>
@@ -280,9 +334,11 @@ export default function PrivacyPage() {
         <div className="peer-checked:hidden bg-white border-t border-slate-200 shadow-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
-              IPOCraft uses cookies and similar technologies to enhance user
-              experience and analyze traffic. You can manage your preferences at
-              any time.
+              IPOCraft uses cookies and similar technologies, including Google Analytics
+              and Google AdSense, to analyze traffic and serve advertisements. These
+              services load automatically. You may opt out of personalised advertising
+              via Google Ad Settings. By continuing to use this site, you acknowledge
+              this use of cookies.
             </p>
 
             <div className="flex gap-2">
@@ -317,15 +373,7 @@ export default function PrivacyPage() {
             enabled for proper website functionality.
           </p>
 
-          <div className="flex items-center justify-between border rounded-lg p-3">
-            <div>
-              <p className="text-sm font-medium">Analytics Cookies</p>
-              <p className="text-xs text-[#64748b]">
-                Help us understand usage and improve performance.
-              </p>
-            </div>
-            <input type="checkbox" className="w-4 h-4" defaultChecked />
-          </div>
+
 
           <div className="flex justify-end gap-2 pt-2">
             <label

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
+import { saveBrokerAction } from "@/app/actions/admin";
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,13 +28,17 @@ export default function BrokerForm({ broker, onClose }: any) {
   async function handleSubmit(e: any) {
     e.preventDefault();
 
-    if (broker?.id) {
-      await supabase.from("brokers").update(form).eq("id", broker.id);
-    } else {
-      await supabase.from("brokers").insert(form);
+    try {
+      if (broker?.id) {
+        await saveBrokerAction({ ...form, id: broker.id });
+      } else {
+        await saveBrokerAction(form);
+      }
+      onClose();
+    } catch (e: any) {
+      console.error(e);
+      alert(e.message || "Failed to save broker");
     }
-
-    onClose();
   }
 
   return (
