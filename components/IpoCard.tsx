@@ -174,6 +174,11 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
     ipo.issue_price ?? ipo.price_max ?? null
   );
 
+  const isAllotmentOut =
+    Boolean(ipo.allotment_out) ||
+    ipo.allotment_status === "out" ||
+    (ipo.listing_date && !isNaN(new Date(ipo.listing_date).getTime()) && new Date().getTime() >= new Date(ipo.listing_date).getTime());
+
   return (
     <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden card-hover gradient-border h-full flex flex-col">
       <div className="px-5 pt-5 pb-4 border-b border-[#f8fafc] space-y-2.5">
@@ -284,7 +289,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           </p>
         </div>
       </div>
-      {allotmentBadge?.text === "Allotment Out" && ipo.allotment_link && (
+      {isAllotmentOut && ipo.allotment_link && (
         <div className="px-5 pb-5 mt-auto">
           <button
             onClick={(e) => {
