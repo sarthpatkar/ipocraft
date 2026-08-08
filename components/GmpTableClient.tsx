@@ -72,8 +72,14 @@ function getUrgencyBadge(ipo: Pick<IpoRow, "open_date" | "close_date">) {
       return <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider block mt-1">Opens Tomorrow</span>;
     }
   }
-  
-  return null;
+  const status = getLifecycleStatus(ipo);
+  if (status === "open") {
+    return <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1">Open</span>;
+  }
+  if (status === "closed") {
+    return <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mt-1">Closed</span>;
+  }
+  return <span className="text-[10px] font-bold text-blue-500 uppercase tracking-wider block mt-1">Upcoming</span>;
 }
 
 function compareByClosingSoon(a: IpoRow, b: IpoRow) {

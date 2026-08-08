@@ -52,16 +52,18 @@ function calculateStatus(
   return "Upcoming";
 }
 
+function isListed4pmIST(listingDate: string | null | undefined): boolean {
+  if (!listingDate) return false;
+  // Convert listing date to exactly 4:00 PM IST (which is 10:30 AM UTC)
+  // We append T10:30:00Z to ensure strict UTC parsing independent of user browser
+  const cutoffUTC = new Date(`${listingDate}T10:30:00Z`);
+  return !isNaN(cutoffUTC.getTime()) && Date.now() >= cutoffUTC.getTime();
+}
 
 function getFinalStatus(ipo: IPOListItem) {
-  const today = new Date();
-
-  // 1️⃣ Listed override (highest priority)
-  if (ipo.listing_date) {
-    const list = new Date(ipo.listing_date);
-    if (!isNaN(list.getTime()) && today >= list) {
-      return "Listed";
-    }
+  // 1️⃣ Listed override (highest priority) - Active ONLY after 4:00 PM IST on listing day
+  if (isListed4pmIST(ipo.listing_date)) {
+    return "Listed";
   }
 
   // 2️⃣ Normal lifecycle
@@ -72,11 +74,16 @@ function getFinalStatus(ipo: IPOListItem) {
 function getAllotmentBadge(ipo: IPOListItem) {
   const today = new Date();
 
+  // If the IPO is officially listed (after 4 PM IST on listing day), REMOVE the allotment badge!
+  if (isListed4pmIST(ipo.listing_date)) {
+    return null;
+  }
+
   // Force boolean conversion (Supabase may return truthy values)
   const allotmentOut =
     Boolean(ipo.allotment_out) || ipo.allotment_status === "out";
 
-  // 1️⃣ Admin marked OUT → always show
+  // 1️⃣ Admin marked OUT → always show (unless already listed, handled above)
   if (allotmentOut) {
     return {
       text: "Allotment Out",
@@ -85,19 +92,7 @@ function getAllotmentBadge(ipo: IPOListItem) {
     };
   }
 
-  // 2️⃣ If listed → always show (fallback when admin forgot to update)
-  if (ipo.listing_date) {
-    const list = new Date(ipo.listing_date);
-    if (!isNaN(list.getTime()) && today >= list) {
-      return {
-        text: "Allotment Out",
-        className:
-          "bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse",
-      };
-    }
-  }
-
-  // 3️⃣ Allotment date reached → Awaited
+  // 2️⃣ Allotment date reached → Awaited
   if (ipo.allotment_date) {
     const allot = new Date(ipo.allotment_date);
     if (!isNaN(allot.getTime()) && today >= allot) {
@@ -109,7 +104,7 @@ function getAllotmentBadge(ipo: IPOListItem) {
     }
   }
 
-  // 4️⃣ Else → nothing
+  // 3️⃣ Else → nothing
   return null;
 }
 
@@ -120,10 +115,8 @@ function getListedReturnBadge(
 ) {
   if (!listingDate || listingPrice == null || issuePrice == null) return null;
 
-  const today = new Date();
-  const list = new Date(listingDate);
-
-  if (isNaN(list.getTime()) || today < list) return null;
+  // Only show the listed return AFTER 4:00 PM IST on listing day
+  if (!isListed4pmIST(listingDate)) return null;
 
   const returnPct = ((listingPrice - issuePrice) / issuePrice) * 100;
   const positive = returnPct >= 0;
