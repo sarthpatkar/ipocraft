@@ -32,19 +32,21 @@ type Props = {
 
 type SortKey = "gmp" | "sub" | null;
 
+function getLocalYYYYMMDD(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 function getLifecycleStatus(ipo: Pick<IpoRow, "open_date" | "close_date">) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const todayStr = getLocalYYYYMMDD();
 
   if (ipo.close_date) {
-    const closeDate = new Date(ipo.close_date);
-    closeDate.setHours(0, 0, 0, 0);
-    if (closeDate < today) return "closed";
+    if (ipo.close_date < todayStr) return "closed";
   }
   if (ipo.open_date) {
-    const openDate = new Date(ipo.open_date);
-    openDate.setHours(0, 0, 0, 0);
-    if (openDate > today) return "upcoming";
+    if (ipo.open_date > todayStr) return "upcoming";
     return "open";
   }
   return "upcoming";
@@ -52,25 +54,21 @@ function getLifecycleStatus(ipo: Pick<IpoRow, "open_date" | "close_date">) {
 
 function getUrgencyBadge(ipo: Pick<IpoRow, "open_date" | "close_date">) {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  if (ipo.close_date) {
-    const closeDate = new Date(ipo.close_date);
-    closeDate.setHours(0, 0, 0, 0);
-    if (closeDate.getTime() === today.getTime()) {
-      return <span className="text-[10px] font-bold text-red-600 uppercase tracking-wider block mt-1">Closing Today</span>;
-    }
+  const todayStr = getLocalYYYYMMDD(today);
+  const tomorrowStr = getLocalYYYYMMDD(tomorrow);
+
+  if (ipo.close_date && ipo.close_date === todayStr) {
+    return <span className="text-[10px] font-bold text-red-600 uppercase tracking-wider block mt-1 animate-pulse">Closing Today</span>;
   }
 
   if (ipo.open_date) {
-    const openDate = new Date(ipo.open_date);
-    openDate.setHours(0, 0, 0, 0);
-    if (openDate.getTime() === today.getTime()) {
-      return <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1">Opens Today</span>;
+    if (ipo.open_date === todayStr) {
+      return <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1 animate-pulse">Opens Today</span>;
     }
-    if (openDate.getTime() === tomorrow.getTime()) {
+    if (ipo.open_date === tomorrowStr) {
       return <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider block mt-1">Opens Tomorrow</span>;
     }
   }

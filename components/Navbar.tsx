@@ -123,7 +123,8 @@ export default function Navbar() {
               width={120}
               height={30}
               priority
-              className="h-[30px] w-auto object-contain"
+              className="h-[30px] w-auto object-contain darkreader-ignore"
+              style={{ filter: "invert(0) hue-rotate(0deg)" }}
             />
           </Link>
 

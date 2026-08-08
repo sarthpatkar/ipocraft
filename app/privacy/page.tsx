@@ -104,7 +104,7 @@ export default function PrivacyPage() {
       </section>
 
       {/* CONTENT */}
-      <section className="pb-14 sm:pb-20">
+      <section className="pb-14 sm:pb-20 animate-fade-in-up">
         <div className="max-w-4xl lg:max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 space-y-8">
 
           <section className="space-y-3">
@@ -122,7 +122,7 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               How We Use Information
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               Information collected is used to improve user experience, maintain
               website functionality, analyze traffic trends, and communicate with
               users when necessary. IPOCraft does not sell personal data.
@@ -133,12 +133,12 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               Cookies and Tracking
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               IPOCraft may use cookies or similar technologies to enhance browsing
               experience, remember preferences, and analyze website usage.
               Users can control cookies through their browser settings.
             </p>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               IPOCraft uses Google AdSense to display advertisements. Google
               AdSense uses cookies, including the DoubleClick cookie, to serve
               ads based on a user&apos;s prior visits to this website and other
@@ -172,12 +172,12 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               Third&#8209;Party Services
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               We use third&#8209;party tools such as analytics providers,
               infrastructure services, or affiliate partners. These services may
               collect information according to their own privacy policies.
             </p>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               We use Google AdSense, a third&#8209;party advertising service
               provided by Google LLC, to display advertisements on this website.
               Google AdSense may use information about your visits to this and
@@ -209,7 +209,7 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               Data Security
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               We implement reasonable security measures to protect information,
               but no method of transmission over the internet is completely secure.
             </p>
@@ -219,7 +219,7 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               User Rights
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               Users may request clarification about their data or request removal
               of voluntarily submitted information by contacting us through the
               official contact page.
@@ -230,7 +230,7 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               GDPR & India DPDP Compliance
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               Depending on your location, you may have rights under applicable data
               protection laws, including the General Data Protection Regulation (GDPR)
               and the Indian Digital Personal Data Protection Act (DPDP). These rights
@@ -244,7 +244,7 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               Contact for Privacy Requests
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               For privacy-related questions or data requests, you may contact us at:
               <br />
               <a
@@ -260,7 +260,7 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               Changes to This Policy
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               We may update this Privacy Policy from time to time. Continued use
               of the website constitutes acceptance of any updates.
             </p>
@@ -270,7 +270,7 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               Data Retention Policy
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               IPOCraft retains minimal personal information only for as long as
               necessary to fulfill the purposes described in this policy,
               including maintaining website functionality, responding to user
@@ -284,7 +284,7 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               Affiliate Disclosure
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               IPOCraft may participate in affiliate marketing programs with
               brokerage platforms or financial service providers. This means we
               may earn a commission if users choose to open accounts or use
@@ -300,7 +300,7 @@ export default function PrivacyPage() {
             <h3 className="font-semibold text-sm sm:text-base">
               Important Disclosure
             </h3>
-            <p className="mt-2 text-xs sm:text-sm text-[#64748b] leading-relaxed">
+            <p className="mt-2 text-xs sm:text-sm text-[#64748b] leading-loose">
               IPOCraft is an independent informational platform and is not a SEBI
               registered investment advisor. Content is provided for educational
               and informational purposes only and should not be considered
@@ -315,7 +315,7 @@ export default function PrivacyPage() {
             <h2 className="font-semibold text-lg sm:text-xl">
               About IPOCraft Data Transparency
             </h2>
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+            <p className="text-[#475569] leading-loose text-sm sm:text-base">
               IPOCraft provides structured IPO information including Grey Market Premium
               (GMP) trends, subscription data, IPO timelines, and listing insights sourced
               from publicly available filings, exchange disclosures, and registrar updates.
@@ -333,7 +333,7 @@ export default function PrivacyPage() {
 
         <div className="peer-checked:hidden bg-white border-t border-slate-200 shadow-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#475569] leading-loose">
               IPOCraft uses cookies and similar technologies, including Google Analytics
               and Google AdSense, to analyze traffic and serve advertisements. These
               services load automatically. You may opt out of personalised advertising
@@ -368,7 +368,7 @@ export default function PrivacyPage() {
             Cookie Preferences
           </h3>
 
-          <p className="text-sm text-[#475569] leading-relaxed">
+          <p className="text-sm text-[#475569] leading-loose">
             Manage how cookies are used on IPOCraft. Essential cookies are always
             enabled for proper website functionality.
           </p>

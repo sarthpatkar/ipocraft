@@ -497,9 +497,17 @@ export default async function IPODetail({
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-6 lg:gap-10 items-start">
 
           {/* Left column */}
-          <div className="min-w-0 pt-4">
+          <div className="min-w-0 pt-4 flex flex-col stagger-children">
 
-            {/* About */}
+
+            {/* Financials */}
+            <FinancialMetrics ipo={ipo} />
+
+            <div className="gradient-border rounded-xl mb-10 sm:mb-12">
+              <ProfitCalculator ipo={ipo} />
+            </div>
+
+            {/* About (Moved down for better info hierarchy) */}
             <section id="overview" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Overview</Eyebrow>
@@ -511,7 +519,7 @@ export default async function IPODetail({
                 </h2>
               </div>
               <p
-                className="text-[14.5px] text-[#475569] leading-[1.78]"
+                className="text-[14.5px] text-[#475569] leading-loose"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {valueOrDash(ipo.about_company ?? ipo.description) !== "—"
@@ -525,11 +533,6 @@ export default async function IPODetail({
                 New to IPO analysis? You may review our structured guides on <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">how IPO allotment works</Link> and <Link href="/ipo-subscription-meaning" className="text-[#2563eb] hover:underline font-medium">IPO subscription meaning</Link> to better understand demand and allocation mechanics.
               </p>
             </section>
-
-            {/* Financials */}
-            <FinancialMetrics ipo={ipo} />
-
-            <ProfitCalculator ipo={ipo} />
 
             {/* Issue Details */}
             <section id="issue-details" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">

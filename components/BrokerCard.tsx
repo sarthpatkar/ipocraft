@@ -20,7 +20,7 @@ function valueOrDash(value: string | null) {
 
 export default function BrokerCard({ broker }: { broker: BrokerListItem }) {
   return (
-    <div className="bg-white border border-[#e2e8f0] rounded-lg overflow-hidden h-full">
+    <div className="bg-white border border-[#e2e8f0] rounded-lg overflow-hidden h-full hover:shadow-md hover:-translate-y-1 transition-all duration-300">
       <div className="px-5 py-4 border-b border-[#f8fafc]">
         <h3 className="text-[1.1rem] font-semibold text-[#0f172a] leading-tight">
           {broker.name}
@@ -59,7 +59,7 @@ export default function BrokerCard({ broker }: { broker: BrokerListItem }) {
             href={broker.cta_url}
             target="_blank"
             rel="noreferrer noopener"
-            className="inline-flex items-center justify-center bg-[#1e3a8a] hover:bg-[#1a327a] text-white text-[12px] font-semibold px-4 py-1.5 rounded-[4px] transition-colors duration-150 shrink-0"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-blue-700 to-indigo-600 hover:from-blue-800 hover:to-indigo-700 text-white text-[12px] font-semibold px-4 py-1.5 rounded-[4px] transition-all duration-200 transform hover:-translate-y-0.5 shadow-sm shrink-0"
           >
             Open Account
           </a>

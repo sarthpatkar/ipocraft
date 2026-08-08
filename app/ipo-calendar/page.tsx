@@ -224,8 +224,6 @@ function Section({
   title: string;
   ipos: CalendarIpo[];
 }) {
-  if (!ipos || ipos.length === 0) return null;
-
   return (
     <div>
       <h2
@@ -235,45 +233,59 @@ function Section({
         {title}
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-        {ipos.map((ipo) => {
-          const status = getStatus(ipo.open_date, ipo.close_date);
+      {!ipos || ipos.length === 0 ? (
+        <div className="bg-white border border-dashed border-[#cbd5e1] rounded-2xl p-8 text-center text-[#64748b] text-sm shadow-sm flex flex-col items-center justify-center gap-2">
+          <svg className="w-8 h-8 text-[#cbd5e1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          No {title.toLowerCase()} right now. Check back later!
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          {ipos.map((ipo) => {
+            const status = getStatus(ipo.open_date, ipo.close_date);
 
-          return (
-            <Link
-              key={ipo.id}
-              href={`/ipo/${ipo.slug}`}
-              className="bg-white border border-[#e2e8f0] rounded-lg p-4 sm:p-5 hover:shadow-md transition hover:-translate-y-[1px] active:scale-[0.99]"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-semibold text-[15px]">{ipo.name}</h3>
+            return (
+              <Link
+                key={ipo.id}
+                href={`/ipo/${ipo.slug}`}
+                className="bg-white border border-[#e2e8f0] rounded-2xl p-5 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 active:scale-[0.99] group"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-semibold text-[15px] group-hover:text-blue-700 transition-colors">{ipo.name}</h3>
 
-                <span
-                  className={`text-[10px] px-2 py-1 rounded ${getBadge(
-                    status
-                  )}`}
-                >
-                  {status}
-                </span>
-              </div>
+                  <span
+                    className={`text-[10px] px-2.5 py-1 font-medium tracking-wide uppercase rounded-full ${getBadge(
+                      status
+                    )}`}
+                  >
+                    {status}
+                  </span>
+                </div>
 
-              <p className="text-xs text-[#64748b]">
-                {ipo.open_date ?? "-"} → {ipo.close_date ?? "-"}
-              </p>
-
-              <div className="mt-3 space-y-1 text-sm">
-                <p>
-                  Price: ₹{ipo.price_min ?? "-"} — ₹{ipo.price_max ?? "-"}
+                <p className="text-xs font-medium text-[#64748b] mb-4 bg-[#f8fafc] px-3 py-1.5 rounded inline-block border border-[#f1f5f9]">
+                  {ipo.open_date ?? "-"} → {ipo.close_date ?? "-"}
                 </p>
 
-                <p>Lot: {ipo.lot_size ?? "-"}</p>
-
-                <p>GMP: {ipo.gmp ? `₹${ipo.gmp}` : "-"}</p>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+                <div className="space-y-1.5 text-[13px] text-[#475569]">
+                  <div className="flex justify-between">
+                    <span className="text-[#94a3b8]">Price Band</span>
+                    <span className="font-medium text-[#0f172a]">₹{ipo.price_min ?? "-"} — ₹{ipo.price_max ?? "-"}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[#94a3b8]">Lot Size</span>
+                    <span className="font-medium text-[#0f172a]">{ipo.lot_size ?? "-"} shares</span>
+                  </div>
+                  <div className="flex justify-between pt-1.5 mt-1.5 border-t border-[#f1f5f9]">
+                    <span className="text-[#94a3b8]">Indicative GMP</span>
+                    <span className="font-semibold text-emerald-600">{ipo.gmp ? `₹${ipo.gmp}` : "—"}</span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

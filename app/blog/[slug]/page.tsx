@@ -83,8 +83,9 @@ export default async function BlogDetailPage({
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <ReadingProgress />
-      <div className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-16">
+      <div className="bg-gradient-to-b from-blue-50/80 to-white border-b border-[#e2e8f0] relative overflow-hidden">
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
+        <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-12 sm:py-20 relative z-10">
           <Link 
             href="/blog" 
             className="inline-flex items-center text-sm font-medium text-[#64748b] hover:text-[#0f172a] transition-colors mb-8"
@@ -116,9 +117,9 @@ export default async function BlogDetailPage({
         </div>
       </div>
 
-      <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10">
+      <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-12 animate-fade-in-up">
         <article 
-          className="prose prose-slate prose-lg sm:prose-xl max-w-none prose-headings:font-semibold prose-headings:text-[#0f172a] prose-a:text-blue-600 prose-img:rounded-xl"
+          className="prose prose-slate prose-lg sm:prose-xl max-w-none prose-headings:font-semibold prose-headings:text-[#0f172a] prose-headings:mt-10 prose-headings:mb-4 prose-p:mb-6 prose-p:leading-loose prose-a:text-blue-600 prose-a:decoration-blue-300 prose-a:underline-offset-4 hover:prose-a:decoration-blue-600 prose-img:rounded-xl [&>p:first-of-type]:first-letter:text-[4rem] [&>p:first-of-type]:first-letter:font-bold [&>p:first-of-type]:first-letter:text-blue-600 [&>p:first-of-type]:first-letter:mr-3 [&>p:first-of-type]:first-letter:float-left [&>p:first-of-type]:first-letter:leading-[0.8]"
           dangerouslySetInnerHTML={{ __html: article.content }}
           style={{ fontFamily: "var(--font-inter), sans-serif" }}
         />
@@ -126,8 +127,14 @@ export default async function BlogDetailPage({
         <SocialShare title={article.title} />
 
         {/* Legal Disclaimer */}
-        <div className="mt-8 p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-500 italic">
-          <strong>Disclaimer:</strong> This article is authored by the IPOCraft Research Team for educational purposes only. It does not constitute financial or investment advice. Always consult with a SEBI-registered financial advisor before making investment decisions.
+        <div className="mt-12 p-5 bg-blue-50/50 border border-blue-100 rounded-xl flex gap-3 text-sm text-[#475569] leading-relaxed">
+          <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div>
+            <strong className="text-blue-900 font-semibold block mb-1">Important Disclaimer</strong>
+            This article is authored by the IPOCraft Research Team for educational purposes only. It does not constitute financial or investment advice. Always consult with a SEBI-registered financial advisor before making investment decisions.
+          </div>
         </div>
       </div>
 

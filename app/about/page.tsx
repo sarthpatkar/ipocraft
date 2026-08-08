@@ -100,7 +100,7 @@ export default function AboutPage() {
       </section>
 
       {/* CONTENT */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10 space-y-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-14 space-y-12 animate-fade-in-up">
 
         {/* ABOUT TEXT */}
         <div className="max-w-3xl space-y-4">
@@ -111,13 +111,13 @@ export default function AboutPage() {
             About IPOCraft
           </h2>
 
-          <p className="text-sm sm:text-[15px] text-[#475569] leading-relaxed">
+          <p className="text-sm sm:text-[15px] text-[#475569] leading-loose">
             IPOCraft is an independent informational platform designed to help users
             monitor Initial Public Offerings (IPOs), Grey Market Premium trends,
             subscription updates, and listing performance across Indian equity markets.
           </p>
 
-          <p className="text-sm sm:text-[15px] text-[#475569] leading-relaxed">
+          <p className="text-sm sm:text-[15px] text-[#475569] leading-loose">
             Our objective is to simplify publicly available financial information and
             present it in a structured format so users can stay informed and conduct
             their own independent research.
@@ -133,13 +133,13 @@ export default function AboutPage() {
             What IPOCraft Provides
           </h2>
 
-          <p className="text-sm sm:text-[15px] text-[#475569] leading-relaxed">
+          <p className="text-sm sm:text-[15px] text-[#475569] leading-loose">
             IPOCraft provides structured IPO data including Grey Market Premium (GMP),
             subscription demand statistics, price bands, IPO sizes, allotment timelines,
             and listing outcomes across Mainboard and SME IPO segments in India.
           </p>
 
-          <p className="text-sm sm:text-[15px] text-[#475569] leading-relaxed">
+          <p className="text-sm sm:text-[15px] text-[#475569] leading-loose">
             The platform aggregates publicly available information from regulatory filings
             and exchange disclosures to help users monitor IPO activity in one place.
             IPOCraft does not provide investment advice or recommendations.
@@ -158,7 +158,7 @@ export default function AboutPage() {
               Our Mission
             </h3>
 
-            <p className="text-sm text-[#475569] leading-relaxed">
+            <p className="text-sm text-[#475569] leading-loose">
               We aim to improve accessibility and transparency in IPO market data by
               aggregating information from publicly available sources and presenting
               it in a user‑friendly interface for research purposes.
@@ -174,7 +174,7 @@ export default function AboutPage() {
               Data Sources
             </h3>
 
-            <ul className="text-sm text-[#475569] leading-relaxed space-y-1 list-disc pl-5">
+            <ul className="text-sm text-[#475569] leading-loose space-y-1 list-disc pl-5">
               <li>Stock exchange filings (NSE, BSE)</li>
               <li>Company prospectuses and regulatory documents</li>
               <li>Registrar announcements</li>
@@ -223,7 +223,7 @@ export default function AboutPage() {
         </div>
 
         {/* LEGAL */}
-        <div className="text-xs text-[#64748b] leading-relaxed bg-[#f1f5f9] border border-[#e2e8f0] rounded-lg p-4">
+        <div className="text-xs text-[#64748b] leading-loose bg-[#f1f5f9] border border-[#e2e8f0] rounded-lg p-4">
           IPOCraft is an informational platform and is not registered with SEBI or
           any financial regulatory authority. Content is provided for informational
           purposes only and does not constitute investment advice or recommendations.
@@ -242,7 +242,7 @@ export default function AboutPage() {
             >
               Data Transparency
             </h3>
-            <p className="text-sm text-[#475569] leading-relaxed">
+            <p className="text-sm text-[#475569] leading-loose">
               IPOCraft compiles IPO information from publicly available filings,
               exchange announcements, and registrar disclosures. Users should verify
               information with official sources before making financial decisions.

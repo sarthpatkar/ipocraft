@@ -111,7 +111,7 @@ export default async function Home({
 
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-[#e2e8f0] bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff]">
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50/50 via-transparent to-transparent animate-pulse" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-14 lg:py-16 animate-fade-in-up">
           <p className="text-sm font-semibold uppercase text-blue-600 mb-3">
@@ -196,14 +196,21 @@ export default async function Home({
             method="get"
             className="flex flex-col sm:flex-row gap-3 mb-6 w-full"
           >
-            <input
-              id="homeSearchInput"
-              type="search"
-              name="search"
-              defaultValue={params?.search || ""}
-              placeholder="Search IPO by company name..."
-              className="flex-1 border border-[#cbd5e1] rounded px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div className="relative w-full max-w-xl">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <input
+                id="homeSearchInput"
+                type="search"
+                name="search"
+                defaultValue={params?.search || ""}
+                placeholder="Search IPO by company name..."
+                className="w-full border border-gray-200 bg-white rounded-full pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 shadow-sm transition-all"
+              />
+            </div>
           </form>
 
           {/* Auto-submit script with debounce */}
@@ -226,7 +233,7 @@ export default async function Home({
               `,
             }}
           />
-          <div className="flex flex-wrap gap-2 mb-6">
+          <div className="flex overflow-x-auto whitespace-nowrap gap-2 mb-6 pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
             {/* IPO Type Filters */}
             <Link
