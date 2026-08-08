@@ -33,9 +33,11 @@ type Props = {
 type SortKey = "gmp" | "sub" | null;
 
 function getLocalYYYYMMDD(date = new Date()) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  // Force Indian Standard Time (IST) exactly like IpoCard logic
+  const istTime = new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
+  const year = istTime.getUTCFullYear();
+  const month = String(istTime.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(istTime.getUTCDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
 
@@ -234,12 +236,12 @@ export default function GmpTableClient({
                 return (
                   <tr key={ipo.id} className={`group transition-colors divide-x divide-gray-100 ${
                     status === 'open' ? 'bg-emerald-50/40 hover:bg-emerald-50/70' :
-                    status === 'closed' ? 'bg-slate-50/50 hover:bg-slate-100' :
+                    status === 'closed' ? 'bg-rose-50/40 hover:bg-rose-50/70' :
                     'hover:bg-gray-50'
                   }`}>
                     <td className={`p-2 sm:p-3 md:p-4 w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-20 group-hover:bg-opacity-100 drop-shadow-[2px_0_4px_rgba(0,0,0,0.05)] border-r border-gray-100 ${
                       status === 'open' ? 'bg-[#f4fbf7] group-hover:bg-[#ebf8f1]' :
-                      status === 'closed' ? 'bg-[#f8fafc] group-hover:bg-[#f1f5f9]' :
+                      status === 'closed' ? 'bg-[#fff1f2] group-hover:bg-[#ffe4e6]' :
                       'bg-white group-hover:bg-gray-50'
                     }`}>
                       <Link href={`/ipo/${ipo.slug}`} className="font-semibold text-gray-900 hover:text-blue-600 block whitespace-normal break-words">
