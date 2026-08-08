@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { Outfit, Inter } from "next/font/google";
 import { ClockIcon, CalendarIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { canonicalUrl } from "@/lib/site-url";
+import { getMockArticleBySlug, MOCK_ARTICLES } from "@/lib/mock-articles";
+import ReadingProgress from "@/components/ReadingProgress";
+import SocialShare from "@/components/SocialShare";
 import fs from "fs";
 import path from "path";
 
@@ -23,14 +26,23 @@ const inter = Inter({
 
 async function getArticle(slug: string) {
   const filePath = path.join(process.cwd(), "data", "blog-registry.json");
+  let article = null;
   try {
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const articles = JSON.parse(fileContents);
-    return articles.find((a: any) => a.slug === slug);
+    if (fs.existsSync(filePath)) {
+      const fileContents = fs.readFileSync(filePath, "utf8");
+      const articles = JSON.parse(fileContents);
+      article = articles.find((a: any) => a.slug === slug);
+    }
   } catch (error) {
     console.error("Error reading blog-registry.json:", error);
-    return null;
   }
+
+  // Fallback to mock educational articles
+  if (!article) {
+    article = getMockArticleBySlug(slug);
+  }
+
+  return article;
 }
 
 export async function generateMetadata({
@@ -62,11 +74,15 @@ export default async function BlogDetailPage({
   
   if (!article) return notFound();
 
+  // Get next article for "Read Next" (simple logic: get first mock article that isn't this one)
+  const nextArticle = MOCK_ARTICLES.find(a => a.slug !== slug) || MOCK_ARTICLES[0];
+
   return (
     <div
       className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased pb-20`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
+      <ReadingProgress />
       <div className="bg-white border-b border-[#e2e8f0]">
         <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-16">
           <Link 
@@ -106,7 +122,30 @@ export default async function BlogDetailPage({
           dangerouslySetInnerHTML={{ __html: article.content }}
           style={{ fontFamily: "var(--font-inter), sans-serif" }}
         />
+        
+        <SocialShare title={article.title} />
+
+        {/* Legal Disclaimer */}
+        <div className="mt-8 p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-500 italic">
+          <strong>Disclaimer:</strong> This article is authored by the IPOCraft Research Team for educational purposes only. It does not constitute financial or investment advice. Always consult with a SEBI-registered financial advisor before making investment decisions.
+        </div>
       </div>
+
+      {/* Read Next Section */}
+      {nextArticle && (
+        <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-12 border-t border-[#e2e8f0]">
+          <h3 className="text-2xl font-semibold mb-6" style={{ fontFamily: "var(--font-outfit)" }}>
+            Read Next
+          </h3>
+          <Link href={`/blog/${nextArticle.slug}`} className="block group">
+            <div className="p-6 bg-white border border-[#e2e8f0] rounded-xl group-hover:shadow-md transition-shadow">
+              <span className="text-xs font-semibold uppercase text-blue-600 mb-2 block">{nextArticle.category}</span>
+              <h4 className="text-xl font-medium text-[#0f172a] group-hover:text-blue-600 transition-colors mb-2">{nextArticle.title}</h4>
+              <p className="text-[#64748b] text-sm">{nextArticle.excerpt}</p>
+            </div>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

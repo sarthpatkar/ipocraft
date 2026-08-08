@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import LegalBanner from "@/components/LegalBanner";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import Image from "next/image";
@@ -259,6 +260,7 @@ export default function RootLayout({
 
           </div>
         </footer>
+        <LegalBanner />
       </body>
     </html>
   );

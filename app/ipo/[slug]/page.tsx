@@ -10,6 +10,7 @@ import HeroSection from "@/components/IpoDetail/HeroSection";
 import FinancialMetrics from "@/components/IpoDetail/FinancialMetrics";
 import TimelineTracker from "@/components/IpoDetail/TimelineTracker";
 import ProfitCalculator from "@/components/IpoDetail/ProfitCalculator";
+import GlossaryTooltip from "@/components/GlossaryTooltip";
 import { cache } from "react";
 
 const getCachedIpoBySlug = cache(async (slug: string) => {
@@ -1103,7 +1104,7 @@ export default async function IPODetail({
                       return (
                         <div key={cat.label} className="space-y-1">
                           <div className="flex justify-between text-[12px]">
-                            <span>{cat.label}</span>
+                            <span><GlossaryTooltip term={cat.label}>{cat.label}</GlossaryTooltip></span>
                             <span className="font-semibold">
                               {cat.value || "—"}x
                             </span>

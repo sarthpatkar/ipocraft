@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Outfit, Inter } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
 import { ClockIcon } from "@heroicons/react/24/outline";
+import { MOCK_ARTICLES } from "@/lib/mock-articles";
 import fs from "fs";
 import path from "path";
 
@@ -32,11 +33,16 @@ export default async function BlogIndexPage() {
   const filePath = path.join(process.cwd(), "data", "blog-registry.json");
   let articles = [];
   try {
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    articles = JSON.parse(fileContents);
+    if (fs.existsSync(filePath)) {
+      const fileContents = fs.readFileSync(filePath, "utf8");
+      articles = JSON.parse(fileContents);
+    }
   } catch (error) {
     console.error("Error reading blog-registry.json:", error);
   }
+
+  // Merge registry articles with mock articles
+  const allArticles = [...articles, ...MOCK_ARTICLES];
 
   return (
     <div
@@ -59,7 +65,7 @@ export default async function BlogIndexPage() {
 
       <div className="max-w-[1000px] mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {articles.map((article: any) => (
+          {allArticles.map((article: any) => (
             <Link
               key={article.slug}
               href={`/blog/${article.slug}`}

@@ -22,7 +22,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/qib-hni-retail-explained",
     "/ipo-grey-market-guide",
     "/blog",
-    "/articles",
   ];
 
   const lastModified = new Date();
@@ -59,13 +58,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Error reading blog-registry.json in sitemap:", error);
   }
   
-  // Articles dynamic urls
-  const articleUrls: MetadataRoute.Sitemap = MOCK_ARTICLES.map((article) => ({
-    url: canonicalUrl(`/articles/${article.slug}`),
+  // Additional mock educational blogs
+  const educationalBlogUrls: MetadataRoute.Sitemap = MOCK_ARTICLES.map((article) => ({
+    url: canonicalUrl(`/blog/${article.slug}`),
     lastModified,
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  return [...staticUrls, ...dynamicUrls, ...blogUrls, ...articleUrls];
+  return [...staticUrls, ...dynamicUrls, ...blogUrls, ...educationalBlogUrls];
 }

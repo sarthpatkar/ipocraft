@@ -34,16 +34,48 @@ type SortKey = "gmp" | "sub" | null;
 
 function getLifecycleStatus(ipo: Pick<IpoRow, "open_date" | "close_date">) {
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   if (ipo.close_date) {
     const closeDate = new Date(ipo.close_date);
+    closeDate.setHours(0, 0, 0, 0);
     if (closeDate < today) return "closed";
   }
   if (ipo.open_date) {
     const openDate = new Date(ipo.open_date);
+    openDate.setHours(0, 0, 0, 0);
     if (openDate > today) return "upcoming";
     return "open";
   }
   return "upcoming";
+}
+
+function getUrgencyBadge(ipo: Pick<IpoRow, "open_date" | "close_date">) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  if (ipo.close_date) {
+    const closeDate = new Date(ipo.close_date);
+    closeDate.setHours(0, 0, 0, 0);
+    if (closeDate.getTime() === today.getTime()) {
+      return <span className="text-[10px] font-bold text-red-600 uppercase tracking-wider block mt-1">Closing Today</span>;
+    }
+  }
+
+  if (ipo.open_date) {
+    const openDate = new Date(ipo.open_date);
+    openDate.setHours(0, 0, 0, 0);
+    if (openDate.getTime() === today.getTime()) {
+      return <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1">Opens Today</span>;
+    }
+    if (openDate.getTime() === tomorrow.getTime()) {
+      return <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider block mt-1">Opens Tomorrow</span>;
+    }
+  }
+  
+  return null;
 }
 
 function compareByClosingSoon(a: IpoRow, b: IpoRow) {
@@ -193,22 +225,39 @@ export default function GmpTableClient({
                 const latest = gmpMap?.[String(ipo.id)]?.latest;
                 const prev = gmpMap?.[String(ipo.id)]?.prev;
                 const trend = ipo.gmp_trend ?? (latest != null && prev != null ? latest - prev : 0);
+                const status = getLifecycleStatus(ipo);
                 
                 return (
-                  <tr key={ipo.id} className="group hover:bg-gray-50 transition-colors divide-x divide-gray-100">
-                    <td className="p-2 sm:p-3 md:p-4 w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-20 bg-white group-hover:bg-gray-50 drop-shadow-[2px_0_4px_rgba(0,0,0,0.05)] border-r border-gray-100">
+                  <tr key={ipo.id} className={`group transition-colors divide-x divide-gray-100 ${
+                    status === 'open' ? 'bg-emerald-50/40 hover:bg-emerald-50/70' :
+                    status === 'closed' ? 'bg-slate-50/50 hover:bg-slate-100' :
+                    'hover:bg-gray-50'
+                  }`}>
+                    <td className={`p-2 sm:p-3 md:p-4 w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-20 group-hover:bg-opacity-100 drop-shadow-[2px_0_4px_rgba(0,0,0,0.05)] border-r border-gray-100 ${
+                      status === 'open' ? 'bg-[#f4fbf7] group-hover:bg-[#ebf8f1]' :
+                      status === 'closed' ? 'bg-[#f8fafc] group-hover:bg-[#f1f5f9]' :
+                      'bg-white group-hover:bg-gray-50'
+                    }`}>
                       <Link href={`/ipo/${ipo.slug}`} className="font-semibold text-gray-900 hover:text-blue-600 block whitespace-normal break-words">
                         {highlight(ipo.name)}
                       </Link>
+                      {getUrgencyBadge(ipo)}
                     </td>
                     <td className="p-2 sm:p-3 md:p-4">
-                      <div className="flex items-center gap-1 sm:gap-2">
-                        <span className="font-bold text-gray-900">
-                          {ipo.gmp != null ? `₹${ipo.gmp}` : "-"}
-                        </span>
-                        {trend !== 0 && (
-                          <span className={`text-[9px] sm:text-xs font-semibold px-1 py-0.5 rounded ${trend > 0 ? "text-green-700 bg-green-100" : "text-red-700 bg-red-100"}`}>
-                            {trend > 0 ? "↑" : "↓"}{Math.abs(trend)}
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <span className="font-bold text-gray-900">
+                            {ipo.gmp != null ? `₹${ipo.gmp}` : "-"}
+                          </span>
+                          {trend !== 0 && (
+                            <span className={`text-[9px] sm:text-xs font-semibold px-1 py-0.5 rounded ${trend > 0 ? "text-green-700 bg-green-100" : "text-red-700 bg-red-100"}`}>
+                              {trend > 0 ? "↑" : "↓"}{Math.abs(trend)}
+                            </span>
+                          )}
+                        </div>
+                        {ipo.gmp != null && ipo.price_max && (
+                          <span className={`text-[10px] font-semibold ${ipo.gmp >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            Est. {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
                           </span>
                         )}
                       </div>

@@ -2,6 +2,8 @@
 import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
 import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
 import { useWatchlist } from "@/lib/hooks/useWatchlist";
+import GlossaryTooltip from "./GlossaryTooltip";
+
 export type IPOListItem = {
   id: number;
   slug: string;
@@ -271,9 +273,9 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
         </div>
         <div>
           <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
-            GMP
+            <GlossaryTooltip term="GMP">GMP</GlossaryTooltip>
           </p>
-          <p className={`text-[13px] font-semibold leading-tight ${
+          <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${
             ipo.gmp != null
               ? ipo.gmp >= 0
                 ? "gmp-positive"
@@ -281,6 +283,11 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
               : "text-[#0f172a]"
           }`}>
             {ipo.gmp != null ? `₹${ipo.gmp.toLocaleString("en-IN")}` : "—"}
+            {ipo.gmp != null && ipo.price_max && (
+              <span className={`text-[10px] px-1 py-0.5 rounded ml-1 ${ipo.gmp >= 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
+              </span>
+            )}
           </p>
         </div>
       </div>
