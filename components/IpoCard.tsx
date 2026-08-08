@@ -180,7 +180,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
   );
 
   return (
-    <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden card-hover gradient-border h-full">
+    <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden card-hover gradient-border h-full flex flex-col">
       <div className="px-5 pt-5 pb-4 border-b border-[#f8fafc] space-y-2.5">
         {/* IPO Name & Star */}
         <div className="flex items-start justify-between gap-3">
@@ -236,7 +236,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
         </div>
       </div>
 
-      <div className="px-5 py-5 grid grid-cols-2 gap-x-6 gap-y-5">
+      <div className="px-5 py-5 grid grid-cols-2 gap-x-6 gap-y-5 flex-1">
         <div className="col-span-2">
           <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
             Offer Dates
@@ -285,7 +285,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
         </div>
       </div>
       {allotmentBadge?.text === "Allotment Out" && ipo.allotment_link && (
-        <div className="px-5 pb-5">
+        <div className="px-5 pb-5 mt-auto">
           <button
             onClick={(e) => {
               e.stopPropagation();
