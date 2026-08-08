@@ -1,5 +1,8 @@
 import React from "react";
 import { CANONICAL_ORIGIN } from "@/lib/site-url";
+import { calculateHypeScore } from "@/lib/hypeScore";
+import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
+import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
 
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
@@ -21,6 +24,17 @@ export default function HeroSection({
   statusStyle: string;
   allotmentBadge: string | null;
 }) {
+  const hypeScore = calculateHypeScore({
+    gmp: ipo.gmp != null ? Number(ipo.gmp) : null,
+    issuePrice: ipo.price_max != null ? Number(ipo.price_max) : null,
+    qibSub: ipo.sub_qib != null ? Number(ipo.sub_qib) : null,
+    retailSub: ipo.sub_rii != null ? Number(ipo.sub_rii) : null,
+    issueSize: ipo.issue_size != null ? Number(ipo.issue_size) : null,
+  });
+
+  // Convert 0-100 score to 0-5 stars
+  const stars = hypeScore != null ? Math.round(hypeScore / 20) : null;
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff] border-b border-[#e2e8f0]">
       <div className="absolute inset-0 opacity-20 pointer-events-none">
@@ -48,6 +62,21 @@ export default function HeroSection({
               >
                 {ipo.ipo_type.toUpperCase()}
               </span>
+            )}
+
+            {/* Hype Score Stars */}
+            {stars != null && (
+              <div className="flex items-center gap-1 mb-2">
+                <div className="flex text-yellow-400" title={`Rating: ${stars}/5`}>
+                  {[1, 2, 3, 4, 5].map((s) =>
+                    s <= stars ? (
+                      <StarSolid key={s} className="w-[18px] h-[18px]" />
+                    ) : (
+                      <StarOutline key={s} className="w-[18px] h-[18px] text-gray-300" />
+                    )
+                  )}
+                </div>
+              </div>
             )}
             <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide items-center gap-3 pb-1 -mb-1">
               <p

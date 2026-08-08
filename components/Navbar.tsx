@@ -15,7 +15,9 @@ import {
   CalendarDaysIcon, 
   ChartBarIcon,
   BriefcaseIcon,
-  DocumentTextIcon
+  DocumentTextIcon,
+  UsersIcon,
+  BuildingStorefrontIcon
 } from "@heroicons/react/24/outline";
 import { 
   HomeIcon as HomeIconSolid, 
@@ -23,7 +25,9 @@ import {
   CalendarDaysIcon as CalendarDaysIconSolid, 
   ChartBarIcon as ChartBarIconSolid,
   BriefcaseIcon as BriefcaseIconSolid,
-  DocumentTextIcon as DocumentTextIconSolid
+  DocumentTextIcon as DocumentTextIconSolid,
+  UsersIcon as UsersIconSolid,
+  BuildingStorefrontIcon as BuildingStorefrontIconSolid
 } from "@heroicons/react/24/solid";
 
 type LinkItem = { 
@@ -36,7 +40,9 @@ type LinkItem = {
 const LINKS: LinkItem[] = [
   { href: "/", label: "Home", Icon: HomeIcon, ActiveIcon: HomeIconSolid },
   { href: "/ipo", label: "IPO", Icon: BanknotesIcon, ActiveIcon: BanknotesIconSolid },
+  { href: "/sme-ipo", label: "SME IPO", Icon: BuildingStorefrontIcon, ActiveIcon: BuildingStorefrontIconSolid },
   { href: "/gmp", label: "GMP", Icon: ChartBarIcon, ActiveIcon: ChartBarIconSolid },
+  { href: "/subscriptions", label: "Subscriptions", Icon: UsersIcon, ActiveIcon: UsersIconSolid },
   { href: "/ipo-calendar", label: "Calendar", Icon: CalendarDaysIcon, ActiveIcon: CalendarDaysIconSolid },
   { href: "/brokers", label: "Brokers", Icon: BriefcaseIcon, ActiveIcon: BriefcaseIconSolid },
   { href: "/blog", label: "Blog", Icon: DocumentTextIcon, ActiveIcon: DocumentTextIconSolid },

@@ -10,6 +10,7 @@ import HeroSection from "@/components/IpoDetail/HeroSection";
 import FinancialMetrics from "@/components/IpoDetail/FinancialMetrics";
 import TimelineTracker from "@/components/IpoDetail/TimelineTracker";
 import ProfitCalculator from "@/components/IpoDetail/ProfitCalculator";
+import AllotmentCalculator from "@/components/IpoDetail/AllotmentCalculator";
 import GlossaryTooltip from "@/components/GlossaryTooltip";
 import { cache } from "react";
 
@@ -680,6 +681,14 @@ export default async function IPODetail({
               </p>
             </section>
 
+            {/* Allotment Probability Calculator */}
+            <AllotmentCalculator 
+              subRii={ipo.sub_rii != null ? Number(ipo.sub_rii) : null}
+              subShni={ipo.sub_shni != null ? Number(ipo.sub_shni) : null}
+              subBhni={ipo.sub_bhni != null ? Number(ipo.sub_bhni) : null}
+              subNii={ipo.sub_nii != null ? Number(ipo.sub_nii) : null}
+            />
+
             {/* GMP Card */}
             <section id="gmp" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
@@ -1082,6 +1091,50 @@ export default async function IPODetail({
                     </div>
                   ))}
                 </div>
+
+                {ipo.listing_gain_percent != null && ipo.gmp != null && ipo.price_max != null && (
+                  <div className="mt-6 p-4 rounded-lg bg-gray-50 border border-gray-100">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                      <div>
+                        <p className="text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Pre-Listing Prediction</p>
+                        <p className="text-[14px] text-gray-700 mt-1">
+                          Est. Gain: <span className="font-semibold text-gray-900">{((Number(ipo.gmp) / Number(ipo.price_max)) * 100).toFixed(2)}%</span>
+                          <span className="mx-2 text-gray-300">|</span>
+                          Actual Gain: <span className="font-semibold text-gray-900">{Number(ipo.listing_gain_percent).toFixed(2)}%</span>
+                        </p>
+                      </div>
+                      
+                      {(() => {
+                        const estGain = (Number(ipo.gmp) / Number(ipo.price_max)) * 100;
+                        const actualGain = Number(ipo.listing_gain_percent);
+                        const diff = Math.abs(estGain - actualGain);
+                        
+                        if (diff <= 5) {
+                          return (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                              High Accuracy Prediction
+                            </span>
+                          );
+                        } else if (diff <= 15) {
+                          return (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 border border-blue-200">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                              Moderate Accuracy
+                            </span>
+                          );
+                        } else {
+                          return (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700 border border-orange-200">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                              Market Diverged
+                            </span>
+                          );
+                        }
+                      })()}
+                    </div>
+                  </div>
+                )}
               </section>
             )}
 
@@ -1618,6 +1671,50 @@ export default async function IPODetail({
                     </div>
                   ))}
                 </div>
+
+                {ipo.listing_gain_percent != null && ipo.gmp != null && ipo.price_max != null && (
+                  <div className="mt-6 p-4 rounded-lg bg-gray-50 border border-gray-100">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                      <div>
+                        <p className="text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Pre-Listing Prediction</p>
+                        <p className="text-[14px] text-gray-700 mt-1">
+                          Est. Gain: <span className="font-semibold text-gray-900">{((Number(ipo.gmp) / Number(ipo.price_max)) * 100).toFixed(2)}%</span>
+                          <span className="mx-2 text-gray-300">|</span>
+                          Actual Gain: <span className="font-semibold text-gray-900">{Number(ipo.listing_gain_percent).toFixed(2)}%</span>
+                        </p>
+                      </div>
+                      
+                      {(() => {
+                        const estGain = (Number(ipo.gmp) / Number(ipo.price_max)) * 100;
+                        const actualGain = Number(ipo.listing_gain_percent);
+                        const diff = Math.abs(estGain - actualGain);
+                        
+                        if (diff <= 5) {
+                          return (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                              High Accuracy Prediction
+                            </span>
+                          );
+                        } else if (diff <= 15) {
+                          return (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 border border-blue-200">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                              Moderate Accuracy
+                            </span>
+                          );
+                        } else {
+                          return (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700 border border-orange-200">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                              Market Diverged
+                            </span>
+                          );
+                        }
+                      })()}
+                    </div>
+                  </div>
+                )}
               </section>
             )}
 
@@ -1798,6 +1895,14 @@ export default async function IPODetail({
                 If you are tracking GMP alongside subscription demand, see our <Link href="/ipo-grey-market-guide" className="text-[#2563eb] hover:underline font-medium">grey market premium guide</Link> for a structured comparison framework.
               </p>
             </section>
+
+            {/* Allotment Probability Calculator */}
+            <AllotmentCalculator 
+              subRii={ipo.sub_rii != null ? Number(ipo.sub_rii) : null}
+              subShni={ipo.sub_shni != null ? Number(ipo.sub_shni) : null}
+              subBhni={ipo.sub_bhni != null ? Number(ipo.sub_bhni) : null}
+              subNii={ipo.sub_nii != null ? Number(ipo.sub_nii) : null}
+            />
 
             {/* How to Apply */}
             <section

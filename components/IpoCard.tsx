@@ -3,6 +3,7 @@ import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
 import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
 import { useWatchlist } from "@/lib/hooks/useWatchlist";
 import GlossaryTooltip from "./GlossaryTooltip";
+import { calculateHypeScore, getHypeScoreColor } from "@/lib/hypeScore";
 
 export type IPOListItem = {
   id: number;
@@ -22,10 +23,13 @@ export type IPOListItem = {
   listing_date?: string | null;
   allotment_status?: string | null; // "out" | null
   allotment_out?: boolean | null; // true when admin marks allotment out
-  allotment_link?: string | null;
   sub_total: string | number | null;
-  listing_price?: number | null;
-  issue_price?: number | null;
+  sub_qib?: string | number | null;
+  sub_rii?: string | number | null;
+  issue_size?: string | number | null;
+  allotment_link?: string | null;
+  issue_price?: number | null; // usually same as price_max
+  listing_price?: number | null; // exact listing price on exchange
 };
 
 const STATUS_STYLES: Record<string, string> = {
@@ -179,6 +183,14 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
     ipo.allotment_status === "out" ||
     (ipo.listing_date && !isNaN(new Date(ipo.listing_date).getTime()) && new Date().getTime() >= new Date(ipo.listing_date).getTime());
 
+  const hypeScore = calculateHypeScore({
+    gmp: ipo.gmp != null ? Number(ipo.gmp) : null,
+    issuePrice: ipo.price_max != null ? Number(ipo.price_max) : null,
+    qibSub: ipo.sub_qib != null ? Number(ipo.sub_qib) : null,
+    retailSub: ipo.sub_rii != null ? Number(ipo.sub_rii) : null,
+    issueSize: ipo.issue_size != null ? Number(ipo.issue_size) : null,
+  });
+
   return (
     <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden card-hover gradient-border h-full flex flex-col">
       <div className="px-5 pt-5 pb-4 border-b border-[#f8fafc] space-y-2.5">
@@ -286,6 +298,20 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
                 {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
               </span>
             )}
+          </p>
+        </div>
+        <div>
+          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5 flex items-center gap-1 group/tooltip relative w-fit">
+            Hype Score
+            <span className="cursor-help flex items-center justify-center w-3.5 h-3.5 rounded-full border border-gray-300 text-gray-400 text-[9px] hover:text-[#0f172a] hover:border-[#0f172a] transition-colors">
+              i
+            </span>
+            <span className="absolute left-0 bottom-full mb-2 hidden group-hover/tooltip:block w-48 p-2.5 bg-gray-900 text-white text-[11px] leading-relaxed rounded-md shadow-xl z-[100] pointer-events-none before:content-[''] before:absolute before:top-full before:left-2.5 before:border-[5px] before:border-transparent before:border-t-gray-900">
+              Algorithmically generated out of 100 based on live momentum. Not investment advice.
+            </span>
+          </p>
+          <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${hypeScore != null ? getHypeScoreColor(hypeScore) : 'text-[#0f172a]'}`}>
+            {hypeScore != null ? `${hypeScore} / 100` : "—"}
           </p>
         </div>
       </div>

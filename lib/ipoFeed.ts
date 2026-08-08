@@ -25,6 +25,9 @@ type RawIpoRow = {
   allotment_out?: unknown;
   allotment_status?: unknown;
   sub_total?: unknown;
+  sub_qib?: unknown;
+  sub_rii?: unknown;
+  issue_size?: unknown;
   ipo_type?: unknown;
   listing_price?: unknown;
   created_at?: unknown;
@@ -123,6 +126,9 @@ function normalizeIpoEntry(row: RawIpoRow): IpoFeedEntry | null {
       allotment_out: toBooleanOrFalse(row.allotment_out),
       allotment_status: toStringOrNull(row.allotment_status),
       sub_total: row.sub_total == null ? null : String(row.sub_total),
+      sub_qib: row.sub_qib == null ? null : String(row.sub_qib),
+      sub_rii: row.sub_rii == null ? null : String(row.sub_rii),
+      issue_size: row.issue_size == null ? null : String(row.issue_size),
       ipo_type: toStringOrNull(row.ipo_type),
       listing_price: toNumberOrNull(row.listing_price),
     },
