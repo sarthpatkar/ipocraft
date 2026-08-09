@@ -105,6 +105,11 @@ export default function GmpTableClient({
   const [debounced, setDebounced] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  
+  // Date range filter state (Default to "60days" as requested by user)
+  const [timeRange, setTimeRange] = useState<"60days" | "30days" | "6months" | "1year" | "all" | "custom">("60days");
+  const [customStart, setCustomStart] = useState("");
+  const [customEnd, setCustomEnd] = useState("");
 
   // debounce search
   useEffect(() => {
@@ -114,6 +119,64 @@ export default function GmpTableClient({
 
   const filtered = useMemo(() => {
     let rows = sortIposByNewestOpenDate(data);
+
+    // Apply Date Range Filter (Default: Last 60 Days + Active/Upcoming)
+    const today = new Date();
+    const todayStr = getLocalYYYYMMDD(today);
+
+    if (timeRange === "60days") {
+      const past60 = new Date(today);
+      past60.setDate(today.getDate() - 60);
+      const cutoffStr = getLocalYYYYMMDD(past60);
+
+      rows = rows.filter((ipo) => {
+        const status = getLifecycleStatus(ipo);
+        if (status === "open" || status === "upcoming") return true;
+        const targetDate = ipo.listing_date || ipo.close_date || ipo.open_date;
+        if (!targetDate) return true;
+        return targetDate >= cutoffStr;
+      });
+    } else if (timeRange === "30days") {
+      const past30 = new Date(today);
+      past30.setDate(today.getDate() - 30);
+      const cutoffStr = getLocalYYYYMMDD(past30);
+
+      rows = rows.filter((ipo) => {
+        const status = getLifecycleStatus(ipo);
+        if (status === "open" || status === "upcoming") return true;
+        const targetDate = ipo.listing_date || ipo.close_date || ipo.open_date;
+        if (!targetDate) return true;
+        return targetDate >= cutoffStr;
+      });
+    } else if (timeRange === "6months") {
+      const past180 = new Date(today);
+      past180.setDate(today.getDate() - 180);
+      const cutoffStr = getLocalYYYYMMDD(past180);
+
+      rows = rows.filter((ipo) => {
+        const targetDate = ipo.listing_date || ipo.close_date || ipo.open_date;
+        if (!targetDate) return true;
+        return targetDate >= cutoffStr;
+      });
+    } else if (timeRange === "1year") {
+      const past365 = new Date(today);
+      past365.setDate(today.getDate() - 365);
+      const cutoffStr = getLocalYYYYMMDD(past365);
+
+      rows = rows.filter((ipo) => {
+        const targetDate = ipo.listing_date || ipo.close_date || ipo.open_date;
+        if (!targetDate) return true;
+        return targetDate >= cutoffStr;
+      });
+    } else if (timeRange === "custom" && (customStart || customEnd)) {
+      rows = rows.filter((ipo) => {
+        const targetDate = ipo.open_date || ipo.close_date || ipo.listing_date;
+        if (!targetDate) return true;
+        if (customStart && targetDate < customStart) return false;
+        if (customEnd && targetDate > customEnd) return false;
+        return true;
+      });
+    }
 
     if (filterStatus) {
       const normalizedStatus = filterStatus.toLowerCase();
@@ -151,7 +214,7 @@ export default function GmpTableClient({
     }
 
     return rows;
-  }, [activeOnly, data, debounced, filterStatus, sort, sortDir, sortKey, typeFilter]);
+  }, [activeOnly, customEnd, customStart, data, debounced, filterStatus, sort, sortDir, sortKey, timeRange, typeFilter]);
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) {
@@ -180,7 +243,76 @@ export default function GmpTableClient({
 
   return (
     <div className="w-full flex flex-col gap-4">
-      {/* Modern Filter / Search Bar */}
+      {/* Date Range Filter Bar */}
+      <div className="flex flex-col gap-3 p-3 sm:p-4 bg-white border border-[#e2e8f0] rounded-xl shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-700">
+            <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Date Filter:
+          </div>
+
+          <div className="flex flex-wrap gap-1.5 text-xs">
+            {[
+              { id: "60days", label: "Last 60 Days (Default)" },
+              { id: "30days", label: "Last 30 Days" },
+              { id: "6months", label: "Last 6 Months" },
+              { id: "1year", label: "1 Year" },
+              { id: "all", label: "All Time" },
+              { id: "custom", label: "Custom Range" },
+            ].map((btn) => (
+              <button
+                key={btn.id}
+                type="button"
+                onClick={() => setTimeRange(btn.id as any)}
+                className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
+                  timeRange === btn.id
+                    ? "bg-blue-600 text-white shadow-sm font-semibold"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                {btn.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Custom Date Pickers */}
+        {timeRange === "custom" && (
+          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-gray-100 text-xs">
+            <div className="flex items-center gap-2">
+              <label className="text-gray-500 font-medium">From:</label>
+              <input
+                type="date"
+                value={customStart}
+                onChange={(e) => setCustomStart(e.target.value)}
+                className="px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-gray-500 font-medium">To:</label>
+              <input
+                type="date"
+                value={customEnd}
+                onChange={(e) => setCustomEnd(e.target.value)}
+                className="px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
+            {(customStart || customEnd) && (
+              <button
+                type="button"
+                onClick={() => { setCustomStart(""); setCustomEnd(""); }}
+                className="text-xs text-red-600 hover:underline font-medium"
+              >
+                Clear Range
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Search & Counter Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="relative w-full sm:w-96">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -197,9 +329,10 @@ export default function GmpTableClient({
           />
         </div>
         <div className="text-sm font-medium text-gray-500">
-          Showing {filtered.length} IPOs
+          Showing <span className="font-bold text-gray-900">{filtered.length}</span> IPOs
         </div>
       </div>
+
 
       {/* Tabular Layout (Maintained across all screen sizes) */}
       <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white border border-gray-200 rounded-xl shadow-sm">
