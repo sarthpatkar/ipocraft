@@ -285,13 +285,12 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
             <GlossaryTooltip term="GMP">GMP</GlossaryTooltip>
           </p>
-          <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${
-            ipo.gmp != null
+          <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${ipo.gmp != null
               ? ipo.gmp >= 0
                 ? "gmp-positive"
                 : "gmp-negative"
               : "text-[#0f172a]"
-          }`}>
+            }`}>
             {ipo.gmp != null ? `₹${ipo.gmp.toLocaleString("en-IN")}` : "—"}
             {ipo.gmp != null && ipo.price_max && (
               <span className={`text-[10px] px-1 py-0.5 rounded ml-1 ${ipo.gmp >= 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>

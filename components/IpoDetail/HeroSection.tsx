@@ -53,11 +53,10 @@ export default function HeroSection({
             </h1>
             {ipo.ipo_type && (
               <span
-                className={`inline-flex items-center text-[10px] font-semibold px-2.5 py-0.5 rounded mb-2 ${
-                  ipo.ipo_type.toLowerCase() === "sme"
+                className={`inline-flex items-center text-[10px] font-semibold px-2.5 py-0.5 rounded mb-2 ${ipo.ipo_type.toLowerCase() === "sme"
                     ? "bg-purple-50 text-purple-700 border border-purple-200"
                     : "bg-indigo-50 text-indigo-700 border border-indigo-200"
-                }`}
+                  }`}
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {ipo.ipo_type.toUpperCase()}
@@ -95,11 +94,10 @@ export default function HeroSection({
               {/* Allotment Badge */}
               {allotmentBadge && (
                 <span
-                  className={`inline-flex items-center text-[10px] font-semibold px-2.5 py-0.5 rounded ${
-                    allotmentBadge === "Allotment Out"
+                  className={`inline-flex items-center text-[10px] font-semibold px-2.5 py-0.5 rounded ${allotmentBadge === "Allotment Out"
                       ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                       : "bg-amber-50 text-amber-700 border border-amber-200"
-                  }`}
+                    }`}
                   style={{
                     fontFamily: "var(--font-inter)",
                     ...(allotmentBadge === "Allotment Out"

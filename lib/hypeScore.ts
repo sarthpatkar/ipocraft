@@ -26,13 +26,13 @@ export function calculateHypeScore({
   // 1. GMP Component (Max 55 points)
   if (gmp != null && issuePrice != null && issuePrice > 0) {
     const gmpPercent = (gmp / issuePrice) * 100;
-    
+
     // We cap GMP contribution at 100% premium to prevent ridiculous scores for 500% SME GMPs.
     const cappedGmpPercent = Math.max(0, Math.min(100, gmpPercent));
-    
+
     // Score scales linearly up to 100% GMP
     const gmpScore = (cappedGmpPercent / 100) * 55;
-    
+
     totalScore += gmpScore;
     maxPossibleScore += 55;
   }
@@ -41,7 +41,7 @@ export function calculateHypeScore({
   if (qibSub != null) {
     // QIBs usually bid on the last day. A 50x+ QIB sub is massive.
     const cappedQib = Math.max(0, Math.min(100, qibSub));
-    
+
     // Non-linear scaling: getting to 10x gets you 10 points, getting to 50x gets you 20, 100x gets 25
     let qibScore = 0;
     if (cappedQib < 10) qibScore = (cappedQib / 10) * 10;
@@ -56,7 +56,7 @@ export function calculateHypeScore({
   if (retailSub != null) {
     // Retail caps out faster. A 30x+ retail sub is very high.
     const cappedRetail = Math.max(0, Math.min(50, retailSub));
-    
+
     let retailScore = 0;
     if (cappedRetail < 10) retailScore = (cappedRetail / 10) * 10;
     else retailScore = 10 + ((cappedRetail - 10) / 40) * 10;
@@ -75,7 +75,7 @@ export function calculateHypeScore({
   // If this is a very small SME IPO (< 50 Cr) and the score relies HEAVILY on GMP, we dial it back slightly (10%)
   // because SME GMPs are highly volatile and easily manipulated.
   if (issueSize != null && issueSize < 50 && maxPossibleScore < 100) {
-      normalizedScore = normalizedScore * 0.90;
+    normalizedScore = normalizedScore * 0.90;
   }
 
   return Math.max(0, Math.min(100, Math.round(normalizedScore)));
