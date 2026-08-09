@@ -294,7 +294,7 @@ export default async function IPODetail({
     if (typeof value === "string" && value.trim() === "") return "—";
     const parsedValue = Number(value);
     if (Number.isNaN(parsedValue)) return String(value);
-    return `${parsedValue}%`;
+    return `${Number.isInteger(parsedValue) ? parsedValue : parsedValue.toFixed(2)}%`;
   }
 
   function currencyOrDash(value: unknown) {
@@ -802,14 +802,41 @@ export default async function IPODetail({
                 </div>
 
                 {/* Rows */}
-                {[
-                  { label: "Retail (Min)", lots: ipo.retail_min_lots, shares: ipo.retail_min_shares, amount: ipo.retail_min_amount },
-                  { label: "Retail (Max)", lots: ipo.retail_max_lots, shares: ipo.retail_max_shares, amount: ipo.retail_max_amount },
-                  { label: "sNII (Min)", lots: ipo.shni_lots, shares: ipo.shni_shares, amount: ipo.shni_amount },
-                  { label: "sNII (Max)", lots: ipo.shni_max_lots, shares: ipo.shni_max_shares, amount: ipo.shni_max_amount },
-                  { label: "bNII (Min)", lots: ipo.bhni_lots, shares: ipo.bhni_shares, amount: ipo.bhni_amount },
-                  { label: "bNII (Max)", lots: ipo.bhni_max_lots, shares: ipo.bhni_max_shares, amount: ipo.bhni_max_amount }
-                ].map((row, i) => (
+                {(() => {
+                  const lotSz = ipo.lot_size ? Number(ipo.lot_size) : null;
+                  const prcMax = ipo.price_max ? Number(ipo.price_max) : (ipo.price_min ? Number(ipo.price_min) : null);
+                  
+                  const rMinLots = ipo.retail_min_lots ?? (lotSz ? 1 : null);
+                  const rMinShares = ipo.retail_min_shares ?? (lotSz && rMinLots ? rMinLots * lotSz : null);
+                  const rMinAmt = ipo.retail_min_amount ?? (rMinShares && prcMax ? rMinShares * prcMax : null);
+
+                  const rMaxLots = ipo.retail_max_lots ?? (lotSz && prcMax ? Math.max(1, Math.floor(200000 / (lotSz * prcMax))) : null);
+                  const rMaxShares = ipo.retail_max_shares ?? (lotSz && rMaxLots ? rMaxLots * lotSz : null);
+                  const rMaxAmt = ipo.retail_max_amount ?? (rMaxShares && prcMax ? rMaxShares * prcMax : null);
+
+                  const sMinLots = ipo.shni_lots ?? (rMaxLots ? rMaxLots + 1 : null);
+                  const sMinShares = ipo.shni_shares ?? (lotSz && sMinLots ? sMinLots * lotSz : null);
+                  const sMinAmt = ipo.shni_amount ?? (sMinShares && prcMax ? sMinShares * prcMax : null);
+
+                  const sMaxLots = ipo.shni_max_lots ?? (lotSz && prcMax ? Math.floor(1000000 / (lotSz * prcMax)) : null);
+                  const sMaxShares = ipo.shni_max_shares ?? (lotSz && sMaxLots ? sMaxLots * lotSz : null);
+                  const sMaxAmt = ipo.shni_max_amount ?? (sMaxShares && prcMax ? sMaxShares * prcMax : null);
+
+                  const bMinLots = ipo.bhni_lots ?? (sMaxLots ? sMaxLots + 1 : null);
+                  const bMinShares = ipo.bhni_shares ?? (lotSz && bMinLots ? bMinLots * lotSz : null);
+                  const bMinAmt = ipo.bhni_amount ?? (bMinShares && prcMax ? bMinShares * prcMax : null);
+
+                  const fmtAmt = (amt: number | null) => amt ? `₹${amt.toLocaleString("en-IN")}` : "—";
+
+                  return [
+                    { label: "Retail (Min)", lots: rMinLots, shares: rMinShares, amount: fmtAmt(rMinAmt) },
+                    { label: "Retail (Max)", lots: rMaxLots, shares: rMaxShares, amount: fmtAmt(rMaxAmt) },
+                    { label: "sNII (Min)", lots: sMinLots, shares: sMinShares, amount: fmtAmt(sMinAmt) },
+                    { label: "sNII (Max)", lots: sMaxLots, shares: sMaxShares, amount: fmtAmt(sMaxAmt) },
+                    { label: "bNII (Min)", lots: bMinLots, shares: bMinShares, amount: fmtAmt(bMinAmt) },
+                    { label: "bNII (Max)", lots: ipo.bhni_max_lots ?? "—", shares: ipo.bhni_max_shares ?? "—", amount: ipo.bhni_max_amount ? fmtAmt(ipo.bhni_max_amount) : "—" }
+                  ];
+                })().map((row, i) => (
                   <div key={i} className="flex flex-col md:grid md:grid-cols-4 gap-2 md:gap-0 px-4 py-3 md:py-4 border border-gray-100 dark:border-gray-800 rounded-xl bg-white dark:bg-[#1e293b] hover:shadow-sm transition-shadow text-sm">
                     <div className="font-semibold text-gray-900 dark:text-gray-100 mb-1 md:mb-0 md:flex md:items-center">{row.label}</div>
                     <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Lots:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.lots ?? "—"}</span></div>
@@ -837,9 +864,9 @@ export default async function IPODetail({
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
                 {[
-                  { label: "QIB", value: valueOrDash(ipo.reservation_qib) },
-                  { label: "NII", value: valueOrDash(ipo.reservation_nii) },
-                  { label: "RII", value: valueOrDash(ipo.reservation_rii) },
+                  { label: "QIB", value: valueOrDash(ipo.reservation_qib || (ipo.ipo_type?.toLowerCase() === "sme" ? "50%" : "50%")) },
+                  { label: "NII", value: valueOrDash(ipo.reservation_nii || "15%") },
+                  { label: "RII", value: valueOrDash(ipo.reservation_rii || "35%") },
                   {
                     label: "Employee",
                     value: valueOrDash(ipo.reservation_employee),
@@ -1049,7 +1076,7 @@ export default async function IPODetail({
                   {[
                     {
                       label: "Listing Exchange",
-                      value: valueOrDash(ipo.listing_exchange),
+                      value: valueOrDash(ipo.listing_exchange || ipo.exchange || "NSE, BSE"),
                     },
                     {
                       label: "Listing Price",
@@ -1252,7 +1279,7 @@ export default async function IPODetail({
                   { label: "Face Value", value: ipo.face_value ? `₹${ipo.face_value}` : "—" },
                   { label: "Lead Managers", value: valueOrDash(ipo.lead_managers) },
                   { label: "Registrar", value: valueOrDash(ipo.registrar) },
-                  { label: "Exchange", value: valueOrDash(ipo.exchange) },
+                  { label: "Exchange", value: valueOrDash(ipo.exchange || ipo.listing_exchange || "NSE, BSE") },
                   { label: "Min. Investment", value: minInvestment },
                 ].map((row) => (
                   <div key={row.label} className="flex items-start justify-between gap-3 py-3">
