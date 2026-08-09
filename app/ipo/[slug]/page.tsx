@@ -877,8 +877,7 @@ export default async function IPODetail({
             {/* Financials */}
             <FinancialMetrics ipo={ipo} />
 
-            <div className="gradient-border rounded-xl mb-10 sm:mb-12">
-              {/* Promoter Holdings */}
+            {/* Promoter Holdings */}
             <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Ownership</Eyebrow>
@@ -910,28 +909,6 @@ export default async function IPODetail({
                     </p>
                   </div>
                 ))}
-              </div>
-            </section>
-
-            {/* Valuations */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
-                <Eyebrow>Valuation</Eyebrow>
-                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]" style={{ fontFamily: "var(--font-outfit)" }}>
-                  IPO Valuation Metrics
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                <div><DataLabel>EPS Pre IPO</DataLabel><p>{valueOrDash(ipo.eps_pre)}</p></div>
-                <div><DataLabel>EPS Post IPO</DataLabel><p>{valueOrDash(ipo.eps_post)}</p></div>
-                <div><DataLabel>P/E Pre</DataLabel><p>{valueOrDash(ipo.pe_pre)}</p></div>
-                <div><DataLabel>P/E Post</DataLabel><p>{valueOrDash(ipo.pe_post)}</p></div>
-                <div><DataLabel>ROCE</DataLabel><p>{percentOrDash(ipo.roce)}</p></div>
-                <div><DataLabel>Debt/Equity</DataLabel><p>{valueOrDash(ipo.debt_equity)}</p></div>
-                <div><DataLabel>RoNW</DataLabel><p>{percentOrDash(ipo.ronw)}</p></div>
-                <div><DataLabel>PAT Margin</DataLabel><p>{percentOrDash(ipo.pat_margin)}</p></div>
-                <div><DataLabel>Market Cap</DataLabel><p>{valueOrDash(ipo.market_cap)}</p></div>
               </div>
             </section>
 
@@ -1362,7 +1339,6 @@ export default async function IPODetail({
         </div>
       </section>
 
-      </div>
       </div>
     </div>
   );
