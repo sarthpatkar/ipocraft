@@ -308,33 +308,36 @@ export default async function IPODetail({
   function renderPoints(text?: string) {
     if (!text) return null;
 
-    const cleaned = text.trim();
+    // Normalize literal \n (stored as backslash-n) to actual newlines
+    const normalized = text.replace(/\\n/g, "\n").trim();
 
-    // Detect if admin actually intended bullets or numbered points
-    const hasBulletFormat =
-      /(\d+\.\s)|•|^\-\s/m.test(cleaned);
+    // Detect numbered list (1. 2. 3.) or bullet formats (•, -, *)
+    const hasBulletFormat = /(\d+\.\s)|(^[•\-\*]\s)/m.test(normalized);
 
-    // If no bullets detected → render exactly as admin wrote (no auto breaking)
     if (!hasBulletFormat) {
+      // Render as plain pre-wrapped text (for paragraphs)
       return (
-        <p className="whitespace-pre-line">
-          {cleaned}
+        <p className="whitespace-pre-line leading-relaxed">
+          {normalized}
         </p>
       );
     }
 
-    // If bullets exist → convert to list
-    const points = cleaned
-      .split(/\d+\.\s|•|^\-\s/m)
-      .map((p) => p.trim())
+    // Split on numbered items (1. ) or bullet chars (• - *)
+    const points = normalized
+      .split(/\n/)
+      .map((p) => p.replace(/^(\d+\.\s|[•\-\*]\s)/, "").trim())
       .filter(Boolean);
 
     return (
-      <ul className="list-disc pl-5 space-y-2">
+      <ol className="space-y-2 list-none">
         {points.map((point, i) => (
-          <li key={i}>{point}</li>
+          <li key={i} className="flex gap-2 items-start">
+            <span className="text-[#2563eb] font-bold shrink-0 mt-0.5">{i + 1}.</span>
+            <span>{point}</span>
+          </li>
         ))}
-      </ul>
+      </ol>
     );
   }
 
