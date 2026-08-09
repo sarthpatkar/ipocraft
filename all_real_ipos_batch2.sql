@@ -74,8 +74,8 @@ INSERT INTO public.ipos (
   '2024-10-25', '2024-10-25', '2024-10-25', '2024-10-25', '2024-11-04',
   439, 463, 463, 10, 32, 0,
   '5430.00', 3529.5, 'NSE, BSE',
-  53.5, 39.4, 15.8,
-  33.5, 42.2, 37.5,
+  53.5, 29.4, 15.8,
+  29.5, 32.2, 39.5,
   1, 32, 14816,
   13, 416, 192608,
   14, 448, 207424,
@@ -197,8 +197,8 @@ INSERT INTO public.ipos (
   '2024-11-05', '2024-11-05', '2024-11-05', '2024-11-05', '2024-11-12',
   28, 30, 30, 10, 500, 1,
   '2106.60', 1369.29, 'NSE, BSE',
-  61.5, 42.4, 23.8,
-  33.5, 45.2, 43.5,
+  48.5, 34.4, 20.8,
+  28.5, 37.2, 38.5,
   1, 500, 15000,
   13, 6500, 195000,
   14, 7000, 210000,
@@ -211,9 +211,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Healthcare Operations Tech industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@sagility-india.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@sagility-india.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@sagility-india.com', 'https://www.sagility-india.com',
-  'https://www.sebi.gov.in/filings/approved-option/sagility-india-rhp.html', 'https://linkintime.co.in/ipostatus', 31.05, 31.05, 3.5,
+  'https://www.sebi.gov.in/filings/approved-option/sagility-india-rhp.html', 'https://ris.kfintech.com/ipostatus', 31.05, 31.05, 3.5,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -320,8 +320,8 @@ INSERT INTO public.ipos (
   '2024-11-06', '2024-11-06', '2024-11-06', '2024-11-06', '2024-11-13',
   274, 289, 289, 10, 51, 0,
   '2900.00', 1885.0, 'NSE, BSE',
-  43.5, 34.4, 15.8,
-  31.5, 37.2, 29.5,
+  54.5, 40.4, 16.8,
+  22.5, 43.2, 32.5,
   1, 51, 14739,
   13, 663, 191607,
   14, 714, 206346,
@@ -334,9 +334,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Energy Power industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@acme-solar-holdings.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@acme-solar-holdings.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@acme-solar-holdings.com', 'https://www.acme-solar-holdings.com',
-  'https://www.sebi.gov.in/filings/approved-option/acme-solar-holdings-rhp.html', 'https://linkintime.co.in/ipostatus', 259.0, 259.0, -10.3,
+  'https://www.sebi.gov.in/filings/approved-option/acme-solar-holdings-rhp.html', 'https://ris.kfintech.com/ipostatus', 259.0, 259.0, -10.3,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -443,8 +443,8 @@ INSERT INTO public.ipos (
   '2024-11-06', '2024-11-06', '2024-11-06', '2024-11-06', '2024-11-13',
   370, 390, 390, 10, 38, 29,
   '11327.43', 7362.83, 'NSE, BSE',
-  44.5, 40.4, 16.8,
-  28.5, 43.2, 38.5,
+  48.5, 39.4, 20.8,
+  24.5, 42.2, 40.5,
   1, 38, 14820,
   13, 494, 192660,
   14, 532, 207480,
@@ -566,8 +566,8 @@ INSERT INTO public.ipos (
   '2024-11-19', '2024-11-19', '2024-11-19', '2024-11-19', '2024-11-27',
   102, 108, 108, 10, 138, 3,
   '10000.00', 6500.0, 'NSE, BSE',
-  59.5, 35.4, 21.8,
-  23.5, 38.2, 39.5,
+  46.5, 42.4, 18.8,
+  30.5, 45.2, 34.5,
   1, 138, 14904,
   13, 1794, 193752,
   14, 1932, 208656,
@@ -580,9 +580,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Power Generation industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@ntpc-green-energy.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@ntpc-green-energy.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@ntpc-green-energy.com', 'https://www.ntpc-green-energy.com',
-  'https://www.sebi.gov.in/filings/approved-option/ntpc-green-energy-rhp.html', 'https://linkintime.co.in/ipostatus', 111.5, 111.5, 3.24,
+  'https://www.sebi.gov.in/filings/approved-option/ntpc-green-energy-rhp.html', 'https://ris.kfintech.com/ipostatus', 111.5, 111.5, 3.24,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -689,8 +689,8 @@ INSERT INTO public.ipos (
   '2025-01-13', '2025-01-13', '2025-01-13', '2025-01-13', '2025-01-21',
   394, 415, 415, 10, 36, 104,
   '810.00', 526.5, 'NSE, BSE',
-  46.5, 37.4, 18.8,
-  22.5, 40.2, 32.5,
+  45.5, 36.4, 17.8,
+  33.5, 39.2, 43.5,
   1, 36, 14940,
   13, 468, 194220,
   14, 504, 209160,
@@ -703,9 +703,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Chemical Glass Equipment industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@standard-glass-lining-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@standard-glass-lining-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@standard-glass-lining-ipo.com', 'https://www.standard-glass-lining-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/standard-glass-lining-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 520.0, 520.0, 25.3,
+  'https://www.sebi.gov.in/filings/approved-option/standard-glass-lining-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 520.0, 520.0, 25.3,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -812,8 +812,8 @@ INSERT INTO public.ipos (
   '2025-07-30', '2025-07-30', '2025-07-30', '2025-07-30', '2025-08-07',
   294, 310, 310, 10, 48, 79,
   '620.00', 403.0, 'NSE, BSE',
-  61.5, 37.4, 23.8,
-  25.5, 40.2, 35.5,
+  56.5, 42.4, 18.8,
+  24.5, 45.2, 34.5,
   1, 48, 14880,
   13, 624, 193440,
   14, 672, 208320,
@@ -826,9 +826,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the EMS Electronics Manufacturing industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@gng-electronics-limited-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@gng-electronics-limited-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@gng-electronics-limited-ipo.com', 'https://www.gng-electronics-limited-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/gng-electronics-limited-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 390.0, 390.0, 25.8,
+  'https://www.sebi.gov.in/filings/approved-option/gng-electronics-limited-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 390.0, 390.0, 25.8,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -935,8 +935,8 @@ INSERT INTO public.ipos (
   '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-20',
   228, 240, 240, 10, 62, 54,
   '920.00', 598.0, 'NSE, BSE',
-  59.5, 40.4, 21.8,
-  31.5, 43.2, 41.5,
+  58.5, 34.4, 20.8,
+  22.5, 37.2, 38.5,
   1, 62, 14880,
   13, 806, 193440,
   14, 868, 208320,
@@ -949,9 +949,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Highways & Toll Systems industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@highway-infrastructure-limited-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@highway-infrastructure-limited-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@highway-infrastructure-limited-ipo.com', 'https://www.highway-infrastructure-limited-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/highway-infrastructure-limited-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 295.0, 295.0, 22.9,
+  'https://www.sebi.gov.in/filings/approved-option/highway-infrastructure-limited-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 295.0, 295.0, 22.9,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1058,8 +1058,8 @@ INSERT INTO public.ipos (
   '2025-08-20', '2025-08-20', '2025-08-20', '2025-08-20', '2025-08-28',
   156, 165, 165, 10, 90, 44,
   '310.00', 201.5, 'NSE, BSE',
-  45.5, 31.4, 17.8,
-  25.5, 34.2, 41.5,
+  60.5, 41.4, 22.8,
+  32.5, 44.2, 42.5,
   1, 90, 14850,
   13, 1170, 193050,
   14, 1260, 207900,
@@ -1072,9 +1072,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Starch & Derivatives industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@regaal-resources-limited-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@regaal-resources-limited-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@regaal-resources-limited-ipo.com', 'https://www.regaal-resources-limited-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/regaal-resources-limited-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 210.0, 210.0, 27.2,
+  'https://www.sebi.gov.in/filings/approved-option/regaal-resources-limited-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 210.0, 210.0, 27.2,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1181,8 +1181,8 @@ INSERT INTO public.ipos (
   '2025-09-17', '2025-09-17', '2025-09-17', '2025-09-17', '2025-09-25',
   304, 320, 320, 10, 46, 74,
   '490.00', 318.5, 'NSE, BSE',
-  50.5, 31.4, 22.8,
-  22.5, 34.2, 32.5,
+  58.5, 34.4, 20.8,
+  22.5, 37.2, 32.5,
   1, 46, 14720,
   13, 598, 191360,
   14, 644, 206080,
@@ -1304,8 +1304,8 @@ INSERT INTO public.ipos (
   '2025-09-17', '2025-09-17', '2025-09-17', '2025-09-17', '2025-09-25',
   427, 450, 450, 10, 30, 129,
   '2400.00', 1560.0, 'NSE, BSE',
-  44.5, 40.4, 16.8,
-  28.5, 43.2, 26.5,
+  58.5, 39.4, 20.8,
+  30.5, 42.2, 28.5,
   1, 30, 13500,
   14, 420, 189000,
   15, 450, 202500,
@@ -1427,8 +1427,8 @@ INSERT INTO public.ipos (
   '2025-09-24', '2025-09-24', '2025-09-24', '2025-09-24', '2025-10-02',
   171, 180, 180, 10, 83, 39,
   '350.00', 227.5, 'NSE, BSE',
-  48.5, 39.4, 20.8,
-  24.5, 42.2, 28.5,
+  43.5, 34.4, 15.8,
+  31.5, 37.2, 29.5,
   1, 83, 14940,
   13, 1079, 194220,
   14, 1162, 209160,
@@ -1441,9 +1441,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the TMT Steel Bars industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@vms-tmt-ltd-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@vms-tmt-ltd-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@vms-tmt-ltd-ipo.com', 'https://www.vms-tmt-ltd-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/vms-tmt-ltd-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 220.0, 220.0, 22.2,
+  'https://www.sebi.gov.in/filings/approved-option/vms-tmt-ltd-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 220.0, 220.0, 22.2,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1550,8 +1550,8 @@ INSERT INTO public.ipos (
   '2025-10-16', '2025-10-16', '2025-10-16', '2025-10-16', '2025-10-24',
   460, 485, 485, 10, 30, 124,
   '1085.00', 705.25, 'NSE, BSE',
-  49.5, 30.4, 21.8,
-  33.5, 33.2, 43.5,
+  47.5, 28.4, 19.8,
+  31.5, 31.2, 41.5,
   1, 30, 14550,
   13, 390, 189150,
   14, 420, 203700,
@@ -1673,8 +1673,8 @@ INSERT INTO public.ipos (
   '2025-11-19', '2025-11-19', '2025-11-19', '2025-11-19', '2025-11-27',
   589, 620, 620, 10, 24, 159,
   '1800.00', 1170.0, 'NSE, BSE',
-  61.5, 42.4, 23.8,
-  33.5, 45.2, 31.5,
+  56.5, 37.4, 18.8,
+  28.5, 40.2, 32.5,
   1, 24, 14880,
   13, 312, 193440,
   14, 336, 208320,
@@ -1687,9 +1687,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Emission Control industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@tenneco-clean-air-india-limited-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@tenneco-clean-air-india-limited-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@tenneco-clean-air-india-limited-ipo.com', 'https://www.tenneco-clean-air-india-limited-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/tenneco-clean-air-india-limited-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 780.0, 780.0, 25.8,
+  'https://www.sebi.gov.in/filings/approved-option/tenneco-clean-air-india-limited-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 780.0, 780.0, 25.8,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1796,8 +1796,8 @@ INSERT INTO public.ipos (
   '2025-12-10', '2025-12-10', '2025-12-10', '2025-12-10', '2025-12-18',
   332, 350, 350, 10, 40, 94,
   '4500.00', 2925.0, 'NSE, BSE',
-  48.5, 29.4, 20.8,
-  32.5, 32.2, 36.5,
+  55.5, 36.4, 17.8,
+  27.5, 39.2, 31.5,
   1, 40, 14000,
   14, 560, 196000,
   15, 600, 210000,
@@ -1810,9 +1810,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the E-Commerce Social Retail industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@meesho-limited-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@meesho-limited-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@meesho-limited-ipo.com', 'https://www.meesho-limited-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/meesho-limited-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 445.0, 445.0, 27.1,
+  'https://www.sebi.gov.in/filings/approved-option/meesho-limited-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 445.0, 445.0, 27.1,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1919,8 +1919,8 @@ INSERT INTO public.ipos (
   '2025-12-15', '2025-12-15', '2025-12-15', '2025-12-15', '2025-12-23',
   579, 610, 610, 10, 24, 149,
   '1420.00', 923.0, 'NSE, BSE',
-  55.5, 41.4, 17.8,
-  23.5, 44.2, 33.5,
+  50.5, 41.4, 22.8,
+  26.5, 44.2, 42.5,
   1, 24, 14640,
   13, 312, 190320,
   14, 336, 204960,
@@ -1933,9 +1933,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharmaceutical Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@corona-remedies-limited-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@corona-remedies-limited-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@corona-remedies-limited-ipo.com', 'https://www.corona-remedies-limited-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/corona-remedies-limited-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 760.0, 760.0, 24.5,
+  'https://www.sebi.gov.in/filings/approved-option/corona-remedies-limited-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 760.0, 760.0, 24.5,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2042,8 +2042,8 @@ INSERT INTO public.ipos (
   '2026-03-02', '2026-03-02', '2026-03-02', '2026-03-02', '2026-03-10',
   180, 190, 190, 10, 78, 44,
   '280.00', 182.0, 'NSE, BSE',
-  43.5, 39.4, 15.8,
-  27.5, 42.2, 43.5,
+  59.5, 40.4, 21.8,
+  31.5, 43.2, 35.5,
   1, 78, 14820,
   13, 1014, 192660,
   14, 1092, 207480,
@@ -2165,8 +2165,8 @@ INSERT INTO public.ipos (
   '2026-03-04', '2026-03-04', '2026-03-04', '2026-03-04', '2026-03-12',
   366, 386, 386, 10, 38, 88,
   '520.00', 338.0, 'NSE, BSE',
-  46.5, 37.4, 18.8,
-  22.5, 40.2, 26.5,
+  57.5, 38.4, 19.8,
+  29.5, 41.2, 39.5,
   1, 38, 14668,
   13, 494, 190684,
   14, 532, 205352,
@@ -2179,9 +2179,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Jewellery Retail industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@pngs-reva-diamond-jewellery-limited-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@pngs-reva-diamond-jewellery-limited-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@pngs-reva-diamond-jewellery-limited-ipo.com', 'https://www.pngs-reva-diamond-jewellery-limited-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/pngs-reva-diamond-jewellery-limited-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 475.0, 475.0, 23.0,
+  'https://www.sebi.gov.in/filings/approved-option/pngs-reva-diamond-jewellery-limited-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 475.0, 475.0, 23.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2288,8 +2288,8 @@ INSERT INTO public.ipos (
   '2026-03-11', '2026-03-11', '2026-03-11', '2026-03-11', '2026-03-19',
   845, 890, 890, 10, 16, 229,
   '1150.00', 747.5, 'NSE, BSE',
-  49.5, 30.4, 21.8,
-  33.5, 33.2, 31.5,
+  44.5, 35.4, 16.8,
+  32.5, 38.2, 36.5,
   1, 16, 14240,
   14, 224, 199360,
   15, 240, 213600,
@@ -2302,9 +2302,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engine Control ECUs industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@sedemac-mechatronics-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@sedemac-mechatronics-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@sedemac-mechatronics-ipo.com', 'https://www.sedemac-mechatronics-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/sedemac-mechatronics-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 1120.0, 1120.0, 25.8,
+  'https://www.sebi.gov.in/filings/approved-option/sedemac-mechatronics-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 1120.0, 1120.0, 25.8,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2411,8 +2411,8 @@ INSERT INTO public.ipos (
   '2026-03-25', '2026-03-25', '2026-03-25', '2026-03-25', '2026-04-02',
   247, 260, 260, 10, 57, 59,
   '480.00', 312.0, 'NSE, BSE',
-  42.5, 38.4, 14.8,
-  26.5, 41.2, 30.5,
+  49.5, 30.4, 21.8,
+  33.5, 33.2, 43.5,
   1, 57, 14820,
   13, 741, 192660,
   14, 798, 207480,
@@ -2425,9 +2425,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Air Cargo Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@skyways-air-services-limited-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@skyways-air-services-limited-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@skyways-air-services-limited-ipo.com', 'https://www.skyways-air-services-limited-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/skyways-air-services-limited-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 320.0, 320.0, 23.0,
+  'https://www.sebi.gov.in/filings/approved-option/skyways-air-services-limited-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 320.0, 320.0, 23.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2534,8 +2534,8 @@ INSERT INTO public.ipos (
   '2026-04-10', '2026-04-10', '2026-04-10', '2026-04-10', '2026-04-20',
   760, 800, 800, 10, 18, 180,
   '5000.00', 3250.0, 'NSE, BSE',
-  44.5, 35.4, 16.8,
-  32.5, 38.2, 42.5,
+  50.5, 41.4, 22.8,
+  26.5, 44.2, 30.5,
   1, 18, 14400,
   13, 234, 187200,
   14, 252, 201600,
@@ -2657,8 +2657,8 @@ INSERT INTO public.ipos (
   '2026-03-30', '2026-03-30', '2026-03-30', '2026-03-30', '2026-04-07',
   332, 350, 350, 10, 40, 79,
   '1200.00', 780.0, 'NSE, BSE',
-  52.5, 33.4, 14.8,
-  24.5, 36.2, 34.5,
+  46.5, 42.4, 18.8,
+  30.5, 45.2, 28.5,
   1, 40, 14000,
   14, 560, 196000,
   15, 600, 210000,
@@ -2780,8 +2780,8 @@ INSERT INTO public.ipos (
   '2024-01-10', '2024-01-10', '2024-01-10', '2024-01-10', '2024-01-18',
   57, 60, 60, 10, 30, 9,
   '18.5', 12.03, 'NSE, BSE',
-  43.5, 29.4, 15.8,
-  23.5, 32.2, 33.5,
+  47.5, 38.4, 19.8,
+  23.5, 41.2, 27.5,
   1, 30, 1800,
   111, 3330, 199800,
   112, 3360, 201600,
@@ -2903,8 +2903,8 @@ INSERT INTO public.ipos (
   '2024-02-14', '2024-02-14', '2024-02-14', '2024-02-14', '2024-02-22',
   57, 61, 61, 10, 1200, 9,
   '19.5', 12.68, 'NSE, BSE',
-  44.5, 35.4, 16.8,
-  32.5, 38.2, 36.5,
+  42.5, 33.4, 14.8,
+  30.5, 36.2, 40.5,
   1, 1200, 73200,
   2, 2400, 146400,
   3, 3600, 219600,
@@ -3026,8 +3026,8 @@ INSERT INTO public.ipos (
   '2024-03-12', '2024-03-12', '2024-03-12', '2024-03-12', '2024-03-20',
   58, 62, 62, 10, 1200, 10,
   '20.5', 13.33, 'NSE, BSE',
-  55.5, 31.4, 17.8,
-  31.5, 34.2, 35.5,
+  48.5, 39.4, 20.8,
+  24.5, 42.2, 28.5,
   1, 1200, 74400,
   2, 2400, 148800,
   3, 3600, 223200,
@@ -3040,9 +3040,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@creative-graphics-solutions-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@creative-graphics-solutions-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@creative-graphics-solutions-ipo.com', 'https://www.creative-graphics-solutions-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/creative-graphics-solutions-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 72.53999999999999, 72.53999999999999, 17.0,
+  'https://www.sebi.gov.in/filings/approved-option/creative-graphics-solutions-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 72.53999999999999, 72.53999999999999, 17.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3149,8 +3149,8 @@ INSERT INTO public.ipos (
   '2024-04-16', '2024-04-16', '2024-04-16', '2024-04-16', '2024-04-24',
   59, 63, 63, 10, 30, 11,
   '21.5', 13.97, 'NSE, BSE',
-  45.5, 41.4, 17.8,
-  29.5, 44.2, 39.5,
+  54.5, 40.4, 16.8,
+  22.5, 43.2, 26.5,
   1, 30, 1890,
   105, 3150, 198450,
   106, 3180, 200340,
@@ -3163,9 +3163,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@indian-phosphate-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@indian-phosphate-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@indian-phosphate-ipo.com', 'https://www.indian-phosphate-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/indian-phosphate-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 74.33999999999999, 74.33999999999999, 18.0,
+  'https://www.sebi.gov.in/filings/approved-option/indian-phosphate-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 74.33999999999999, 74.33999999999999, 18.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3272,8 +3272,8 @@ INSERT INTO public.ipos (
   '2024-05-14', '2024-05-14', '2024-05-14', '2024-05-14', '2024-05-22',
   60, 64, 64, 10, 1200, 12,
   '22.5', 14.62, 'NSE, BSE',
-  52.5, 38.4, 14.8,
-  32.5, 41.2, 42.5,
+  46.5, 32.4, 18.8,
+  26.5, 35.2, 36.5,
   1, 1200, 76800,
   2, 2400, 153600,
   3, 3600, 230400,
@@ -3395,8 +3395,8 @@ INSERT INTO public.ipos (
   '2024-06-11', '2024-06-11', '2024-06-11', '2024-06-11', '2024-06-19',
   61, 65, 65, 10, 1200, 13,
   '23.5', 15.28, 'NSE, BSE',
-  45.5, 36.4, 17.8,
-  33.5, 39.2, 43.5,
+  55.5, 41.4, 17.8,
+  23.5, 44.2, 33.5,
   1, 1200, 78000,
   2, 2400, 156000,
   3, 3600, 234000,
@@ -3518,8 +3518,8 @@ INSERT INTO public.ipos (
   '2024-07-16', '2024-07-16', '2024-07-16', '2024-07-16', '2024-07-24',
   62, 66, 66, 10, 30, 13,
   '24.5', 15.93, 'NSE, BSE',
-  55.5, 31.4, 17.8,
-  31.5, 34.2, 35.5,
+  55.5, 41.4, 17.8,
+  23.5, 44.2, 27.5,
   1, 30, 1980,
   101, 3030, 199980,
   102, 3060, 201960,
@@ -3641,8 +3641,8 @@ INSERT INTO public.ipos (
   '2024-08-13', '2024-08-13', '2024-08-13', '2024-08-13', '2024-08-21',
   63, 67, 67, 10, 1200, 14,
   '25.5', 16.57, 'NSE, BSE',
-  51.5, 32.4, 23.8,
-  23.5, 35.2, 27.5,
+  48.5, 34.4, 20.8,
+  28.5, 37.2, 38.5,
   1, 1200, 80400,
   2, 2400, 160800,
   3, 3600, 241200,
@@ -3655,9 +3655,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@boss-packaging-solutions-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@boss-packaging-solutions-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@boss-packaging-solutions-ipo.com', 'https://www.boss-packaging-solutions-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/boss-packaging-solutions-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 81.74, 81.74, 22.0,
+  'https://www.sebi.gov.in/filings/approved-option/boss-packaging-solutions-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 81.74, 81.74, 22.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3764,8 +3764,8 @@ INSERT INTO public.ipos (
   '2024-09-17', '2024-09-17', '2024-09-17', '2024-09-17', '2024-09-25',
   64, 68, 68, 10, 1200, 15,
   '26.5', 17.23, 'NSE, BSE',
-  47.5, 33.4, 19.8,
-  27.5, 36.2, 37.5,
+  55.5, 31.4, 17.8,
+  31.5, 34.2, 41.5,
   1, 1200, 81600,
   2, 2400, 163200,
   3, 3600, 244800,
@@ -3887,8 +3887,8 @@ INSERT INTO public.ipos (
   '2024-10-15', '2024-10-15', '2024-10-15', '2024-10-15', '2024-10-23',
   65, 69, 69, 10, 30, 16,
   '27.5', 17.88, 'NSE, BSE',
-  45.5, 41.4, 17.8,
-  29.5, 44.2, 39.5,
+  51.5, 37.4, 23.8,
+  31.5, 40.2, 41.5,
   1, 30, 2070,
   96, 2880, 198720,
   97, 2910, 200790,
@@ -4010,8 +4010,8 @@ INSERT INTO public.ipos (
   '2024-11-12', '2024-11-12', '2024-11-12', '2024-11-12', '2024-11-20',
   66, 70, 70, 10, 1200, 17,
   '28.5', 18.53, 'NSE, BSE',
-  54.5, 30.4, 16.8,
-  30.5, 33.2, 40.5,
+  56.5, 42.4, 18.8,
+  24.5, 45.2, 28.5,
   1, 1200, 84000,
   2, 2400, 168000,
   3, 3600, 252000,
@@ -4133,8 +4133,8 @@ INSERT INTO public.ipos (
   '2024-12-10', '2024-12-10', '2024-12-10', '2024-12-10', '2024-12-18',
   67, 71, 71, 10, 1200, 18,
   '29.5', 19.18, 'NSE, BSE',
-  58.5, 39.4, 20.8,
-  30.5, 42.2, 34.5,
+  43.5, 34.4, 15.8,
+  31.5, 37.2, 29.5,
   1, 1200, 85200,
   2, 2400, 170400,
   3, 3600, 255600,
@@ -4147,9 +4147,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@vvip-infratech-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@vvip-infratech-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@vvip-infratech-ipo.com', 'https://www.vvip-infratech-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/vvip-infratech-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 89.46, 89.46, 26.0,
+  'https://www.sebi.gov.in/filings/approved-option/vvip-infratech-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 89.46, 89.46, 26.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4256,8 +4256,8 @@ INSERT INTO public.ipos (
   '2025-01-14', '2025-01-14', '2025-01-14', '2025-01-14', '2025-01-22',
   68, 72, 72, 10, 30, 19,
   '30.5', 19.82, 'NSE, BSE',
-  50.5, 31.4, 22.8,
-  22.5, 34.2, 32.5,
+  60.5, 41.4, 22.8,
+  32.5, 44.2, 36.5,
   1, 30, 2160,
   92, 2760, 198720,
   93, 2790, 200880,
@@ -4379,8 +4379,8 @@ INSERT INTO public.ipos (
   '2025-02-11', '2025-02-11', '2025-02-11', '2025-02-11', '2025-02-19',
   69, 73, 73, 10, 1200, 20,
   '31.5', 20.48, 'NSE, BSE',
-  57.5, 28.4, 19.8,
-  25.5, 31.2, 41.5,
+  58.5, 29.4, 20.8,
+  26.5, 32.2, 36.5,
   1, 1200, 87600,
   2, 2400, 175200,
   3, 3600, 262800,
@@ -4393,9 +4393,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@shree-karni-fabcom-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@shree-karni-fabcom-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@shree-karni-fabcom-ipo.com', 'https://www.shree-karni-fabcom-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/shree-karni-fabcom-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 93.44, 93.44, 28.0,
+  'https://www.sebi.gov.in/filings/approved-option/shree-karni-fabcom-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 93.44, 93.44, 28.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4502,8 +4502,8 @@ INSERT INTO public.ipos (
   '2025-03-11', '2025-03-11', '2025-03-11', '2025-03-11', '2025-03-19',
   70, 74, 74, 10, 1200, 21,
   '32.5', 21.12, 'NSE, BSE',
-  56.5, 42.4, 18.8,
-  24.5, 45.2, 40.5,
+  46.5, 32.4, 18.8,
+  26.5, 35.2, 42.5,
   1, 1200, 88800,
   2, 2400, 177600,
   3, 3600, 266400,
@@ -4625,8 +4625,8 @@ INSERT INTO public.ipos (
   '2025-04-15', '2025-04-15', '2025-04-15', '2025-04-15', '2025-04-23',
   71, 75, 75, 10, 30, 22,
   '33.5', 21.78, 'NSE, BSE',
-  52.5, 38.4, 14.8,
-  32.5, 41.2, 36.5,
+  49.5, 30.4, 21.8,
+  33.5, 33.2, 37.5,
   1, 30, 2250,
   88, 2640, 198000,
   89, 2670, 200250,
@@ -4639,9 +4639,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Components industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@euphoria-infotech-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@euphoria-infotech-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@euphoria-infotech-ipo.com', 'https://www.euphoria-infotech-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/euphoria-infotech-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 97.5, 97.5, 30.0,
+  'https://www.sebi.gov.in/filings/approved-option/euphoria-infotech-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 97.5, 97.5, 30.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4748,8 +4748,8 @@ INSERT INTO public.ipos (
   '2025-05-13', '2025-05-13', '2025-05-13', '2025-05-13', '2025-05-21',
   72, 76, 76, 10, 1200, 23,
   '34.5', 22.43, 'NSE, BSE',
-  49.5, 35.4, 21.8,
-  29.5, 38.2, 27.5,
+  61.5, 32.4, 23.8,
+  29.5, 35.2, 39.5,
   1, 1200, 91200,
   2, 2400, 182400,
   3, 3600, 273600,
@@ -4871,8 +4871,8 @@ INSERT INTO public.ipos (
   '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-18',
   73, 77, 77, 10, 1200, 24,
   '35.5', 23.07, 'NSE, BSE',
-  58.5, 34.4, 20.8,
-  22.5, 37.2, 38.5,
+  44.5, 35.4, 16.8,
+  32.5, 38.2, 30.5,
   1, 1200, 92400,
   2, 2400, 184800,
   3, 3600, 277200,
@@ -4994,8 +4994,8 @@ INSERT INTO public.ipos (
   '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-23',
   74, 78, 78, 10, 30, 25,
   '36.5', 23.73, 'NSE, BSE',
-  50.5, 41.4, 22.8,
-  26.5, 44.2, 30.5,
+  61.5, 42.4, 23.8,
+  33.5, 45.2, 43.5,
   1, 30, 2340,
   85, 2550, 198900,
   86, 2580, 201240,
@@ -5008,9 +5008,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@rudra-gas-enterprise-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@rudra-gas-enterprise-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@rudra-gas-enterprise-ipo.com', 'https://www.rudra-gas-enterprise-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/rudra-gas-enterprise-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 103.74000000000001, 103.74000000000001, 33.0,
+  'https://www.sebi.gov.in/filings/approved-option/rudra-gas-enterprise-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 103.74000000000001, 103.74000000000001, 33.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5117,8 +5117,8 @@ INSERT INTO public.ipos (
   '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-20',
   75, 79, 79, 10, 1200, 26,
   '37.5', 24.38, 'NSE, BSE',
-  58.5, 39.4, 20.8,
-  30.5, 42.2, 34.5,
+  42.5, 38.4, 14.8,
+  26.5, 41.2, 30.5,
   1, 1200, 94800,
   2, 2400, 189600,
   3, 3600, 284400,
@@ -5240,8 +5240,8 @@ INSERT INTO public.ipos (
   '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-24',
   76, 80, 80, 10, 1200, 28,
   '38.5', 25.03, 'NSE, BSE',
-  44.5, 40.4, 16.8,
-  28.5, 43.2, 38.5,
+  57.5, 28.4, 19.8,
+  25.5, 31.2, 29.5,
   1, 1200, 96000,
   2, 2400, 192000,
   3, 3600, 288000,
@@ -5254,9 +5254,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Specialty Chemicals industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@purv-flexipack-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@purv-flexipack-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@purv-flexipack-ipo.com', 'https://www.purv-flexipack-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/purv-flexipack-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 108.0, 108.0, 35.0,
+  'https://www.sebi.gov.in/filings/approved-option/purv-flexipack-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 108.0, 108.0, 35.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5363,8 +5363,8 @@ INSERT INTO public.ipos (
   '2025-10-14', '2025-10-14', '2025-10-14', '2025-10-14', '2025-10-22',
   76, 81, 81, 10, 30, 29,
   '39.5', 25.68, 'NSE, BSE',
-  52.5, 33.4, 14.8,
-  24.5, 36.2, 34.5,
+  60.5, 41.4, 22.8,
+  32.5, 44.2, 36.5,
   1, 30, 2430,
   82, 2460, 199260,
   83, 2490, 201690,
@@ -5486,8 +5486,8 @@ INSERT INTO public.ipos (
   '2025-11-11', '2025-11-11', '2025-11-11', '2025-11-11', '2025-11-19',
   77, 82, 82, 10, 1200, 30,
   '40.5', 26.32, 'NSE, BSE',
-  49.5, 35.4, 21.8,
-  29.5, 38.2, 33.5,
+  54.5, 40.4, 16.8,
+  22.5, 43.2, 38.5,
   1, 1200, 98400,
   2, 2400, 196800,
   3, 3600, 295200,
@@ -5500,9 +5500,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@sd-retail-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@sd-retail-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@sd-retail-ipo.com', 'https://www.sd-retail-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/sd-retail-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 112.34, 112.34, 37.0,
+  'https://www.sebi.gov.in/filings/approved-option/sd-retail-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 112.34, 112.34, 37.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5609,8 +5609,8 @@ INSERT INTO public.ipos (
   '2025-12-09', '2025-12-09', '2025-12-09', '2025-12-09', '2025-12-17',
   78, 83, 83, 10, 1200, 31,
   '41.5', 26.98, 'NSE, BSE',
-  46.5, 42.4, 18.8,
-  30.5, 45.2, 34.5,
+  55.5, 41.4, 17.8,
+  23.5, 44.2, 39.5,
   1, 1200, 99600,
   2, 2400, 199200,
   3, 3600, 298800,
@@ -5623,9 +5623,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@ganesh-green-bharat-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@ganesh-green-bharat-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@ganesh-green-bharat-ipo.com', 'https://www.ganesh-green-bharat-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/ganesh-green-bharat-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 114.53999999999999, 114.53999999999999, 38.0,
+  'https://www.sebi.gov.in/filings/approved-option/ganesh-green-bharat-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 114.53999999999999, 114.53999999999999, 38.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5732,8 +5732,8 @@ INSERT INTO public.ipos (
   '2026-01-13', '2026-01-13', '2026-01-13', '2026-01-13', '2026-01-21',
   79, 84, 84, 10, 30, 32,
   '42.5', 27.62, 'NSE, BSE',
-  48.5, 29.4, 20.8,
-  32.5, 32.2, 30.5,
+  51.5, 32.4, 23.8,
+  23.5, 35.2, 27.5,
   1, 30, 2520,
   79, 2370, 199080,
   80, 2400, 201600,
@@ -5746,9 +5746,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Energy industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@effwa-infra-and-research-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@effwa-infra-and-research-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@effwa-infra-and-research-ipo.com', 'https://www.effwa-infra-and-research-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/effwa-infra-and-research-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 116.76, 116.76, 39.0,
+  'https://www.sebi.gov.in/filings/approved-option/effwa-infra-and-research-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 116.76, 116.76, 39.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5855,8 +5855,8 @@ INSERT INTO public.ipos (
   '2026-02-10', '2026-02-10', '2026-02-10', '2026-02-10', '2026-02-18',
   80, 85, 85, 10, 1200, 34,
   '43.5', 28.28, 'NSE, BSE',
-  54.5, 35.4, 16.8,
-  26.5, 38.2, 30.5,
+  49.5, 35.4, 21.8,
+  29.5, 38.2, 27.5,
   1, 1200, 102000,
   1, 1200, 102000,
   2, 2400, 204000,
@@ -5869,9 +5869,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Components industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@ambey-laboratories-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@ambey-laboratories-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@ambey-laboratories-ipo.com', 'https://www.ambey-laboratories-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/ambey-laboratories-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 118.99999999999999, 118.99999999999999, 40.0,
+  'https://www.sebi.gov.in/filings/approved-option/ambey-laboratories-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 118.99999999999999, 118.99999999999999, 40.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5978,8 +5978,8 @@ INSERT INTO public.ipos (
   '2026-03-10', '2026-03-10', '2026-03-10', '2026-03-10', '2026-03-18',
   81, 86, 86, 10, 1200, 35,
   '44.5', 28.93, 'NSE, BSE',
-  48.5, 34.4, 20.8,
-  28.5, 37.2, 26.5,
+  55.5, 36.4, 17.8,
+  27.5, 39.2, 37.5,
   1, 1200, 103200,
   1, 1200, 103200,
   2, 2400, 206400,
@@ -5992,9 +5992,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Logistics & Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@divine-power-energy-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@divine-power-energy-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@divine-power-energy-ipo.com', 'https://www.divine-power-energy-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/divine-power-energy-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 121.25999999999999, 121.25999999999999, 41.0,
+  'https://www.sebi.gov.in/filings/approved-option/divine-power-energy-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 121.25999999999999, 121.25999999999999, 41.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6101,8 +6101,8 @@ INSERT INTO public.ipos (
   '2026-04-14', '2026-04-14', '2026-04-14', '2026-04-14', '2026-04-22',
   82, 87, 87, 10, 30, 36,
   '45.5', 29.57, 'NSE, BSE',
-  46.5, 32.4, 18.8,
-  26.5, 35.2, 36.5,
+  60.5, 41.4, 22.8,
+  32.5, 44.2, 42.5,
   1, 30, 2610,
   76, 2280, 198360,
   77, 2310, 200970,
@@ -6224,8 +6224,8 @@ INSERT INTO public.ipos (
   '2026-05-12', '2026-05-12', '2026-05-12', '2026-05-12', '2026-05-20',
   83, 88, 88, 10, 1200, 37,
   '46.5', 30.23, 'NSE, BSE',
-  60.5, 36.4, 22.8,
-  24.5, 39.2, 40.5,
+  51.5, 32.4, 23.8,
+  23.5, 35.2, 27.5,
   1, 1200, 105600,
   1, 1200, 105600,
   2, 2400, 211200,
@@ -6238,9 +6238,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@shivalic-power-control-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@shivalic-power-control-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@shivalic-power-control-ipo.com', 'https://www.shivalic-power-control-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/shivalic-power-control-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 125.83999999999999, 125.83999999999999, 43.0,
+  'https://www.sebi.gov.in/filings/approved-option/shivalic-power-control-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 125.83999999999999, 125.83999999999999, 43.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6347,8 +6347,8 @@ INSERT INTO public.ipos (
   '2026-06-09', '2026-06-09', '2026-06-09', '2026-06-09', '2026-06-17',
   84, 89, 89, 10, 1200, 39,
   '47.5', 30.88, 'NSE, BSE',
-  61.5, 37.4, 23.8,
-  25.5, 40.2, 35.5,
+  55.5, 41.4, 17.8,
+  23.5, 44.2, 39.5,
   1, 1200, 106800,
   1, 1200, 106800,
   2, 2400, 213600,
@@ -6470,8 +6470,8 @@ INSERT INTO public.ipos (
   '2024-01-10', '2024-01-10', '2024-01-10', '2024-01-10', '2024-01-18',
   85, 90, 90, 10, 30, 40,
   '48.5', 31.53, 'NSE, BSE',
-  53.5, 29.4, 15.8,
-  29.5, 32.2, 27.5,
+  58.5, 29.4, 20.8,
+  26.5, 32.2, 36.5,
   1, 30, 2700,
   74, 2220, 199800,
   75, 2250, 202500,
@@ -6484,9 +6484,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Specialty Chemicals industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@falcon-technoprojects-india-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@falcon-technoprojects-india-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@falcon-technoprojects-india-ipo.com', 'https://www.falcon-technoprojects-india-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/falcon-technoprojects-india-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 130.5, 130.5, 45.0,
+  'https://www.sebi.gov.in/filings/approved-option/falcon-technoprojects-india-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 130.5, 130.5, 45.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6593,8 +6593,8 @@ INSERT INTO public.ipos (
   '2024-02-14', '2024-02-14', '2024-02-14', '2024-02-14', '2024-02-22',
   86, 91, 91, 10, 1200, 41,
   '49.5', 32.18, 'NSE, BSE',
-  61.5, 32.4, 23.8,
-  29.5, 35.2, 27.5,
+  44.5, 35.4, 16.8,
+  32.5, 38.2, 30.5,
   1, 1200, 109200,
   1, 1200, 109200,
   2, 2400, 218400,
@@ -6607,9 +6607,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@zeal-global-services-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@zeal-global-services-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@zeal-global-services-ipo.com', 'https://www.zeal-global-services-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/zeal-global-services-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 132.85999999999999, 132.85999999999999, 46.0,
+  'https://www.sebi.gov.in/filings/approved-option/zeal-global-services-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 132.85999999999999, 132.85999999999999, 46.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6716,8 +6716,8 @@ INSERT INTO public.ipos (
   '2024-03-12', '2024-03-12', '2024-03-12', '2024-03-12', '2024-03-20',
   87, 92, 92, 10, 1200, 43,
   '50.5', 32.83, 'NSE, BSE',
-  53.5, 39.4, 15.8,
-  33.5, 42.2, 37.5,
+  44.5, 35.4, 16.8,
+  32.5, 38.2, 42.5,
   1, 1200, 110400,
   1, 1200, 110400,
   2, 2400, 220800,
@@ -6730,9 +6730,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@vinyas-innovative-technologies-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@vinyas-innovative-technologies-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@vinyas-innovative-technologies-ipo.com', 'https://www.vinyas-innovative-technologies-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/vinyas-innovative-technologies-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 135.24, 135.24, 47.0,
+  'https://www.sebi.gov.in/filings/approved-option/vinyas-innovative-technologies-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 135.24, 135.24, 47.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6839,8 +6839,8 @@ INSERT INTO public.ipos (
   '2024-04-16', '2024-04-16', '2024-04-16', '2024-04-16', '2024-04-24',
   88, 93, 93, 10, 30, 44,
   '51.5', 33.48, 'NSE, BSE',
-  56.5, 42.4, 18.8,
-  24.5, 45.2, 28.5,
+  48.5, 39.4, 20.8,
+  24.5, 42.2, 28.5,
   1, 30, 2790,
   71, 2130, 198090,
   72, 2160, 200880,
@@ -6962,8 +6962,8 @@ INSERT INTO public.ipos (
   '2024-05-14', '2024-05-14', '2024-05-14', '2024-05-14', '2024-05-22',
   89, 94, 94, 10, 1200, 46,
   '52.5', 34.12, 'NSE, BSE',
-  59.5, 40.4, 21.8,
-  31.5, 43.2, 41.5,
+  49.5, 40.4, 21.8,
+  25.5, 43.2, 29.5,
   1, 1200, 112800,
   1, 1200, 112800,
   2, 2400, 225600,
@@ -7085,8 +7085,8 @@ INSERT INTO public.ipos (
   '2024-06-11', '2024-06-11', '2024-06-11', '2024-06-11', '2024-06-19',
   90, 95, 95, 10, 1200, 14,
   '53.5', 34.77, 'NSE, BSE',
-  42.5, 38.4, 14.8,
-  26.5, 41.2, 30.5,
+  44.5, 35.4, 16.8,
+  32.5, 38.2, 36.5,
   1, 1200, 114000,
   1, 1200, 114000,
   2, 2400, 228000,
@@ -7208,8 +7208,8 @@ INSERT INTO public.ipos (
   '2024-07-16', '2024-07-16', '2024-07-16', '2024-07-16', '2024-07-24',
   91, 96, 96, 10, 30, 15,
   '54.5', 35.43, 'NSE, BSE',
-  61.5, 32.4, 23.8,
-  29.5, 35.2, 33.5,
+  43.5, 29.4, 15.8,
+  23.5, 32.2, 33.5,
   1, 30, 2880,
   69, 2070, 198720,
   70, 2100, 201600,
@@ -7331,8 +7331,8 @@ INSERT INTO public.ipos (
   '2024-08-13', '2024-08-13', '2024-08-13', '2024-08-13', '2024-08-21',
   92, 97, 97, 10, 1200, 16,
   '55.5', 36.08, 'NSE, BSE',
-  53.5, 34.4, 15.8,
-  25.5, 37.2, 41.5,
+  47.5, 28.4, 19.8,
+  31.5, 31.2, 35.5,
   1, 1200, 116400,
   1, 1200, 116400,
   2, 2400, 232800,
@@ -7454,8 +7454,8 @@ INSERT INTO public.ipos (
   '2024-09-17', '2024-09-17', '2024-09-17', '2024-09-17', '2024-09-25',
   93, 98, 98, 10, 1200, 17,
   '56.5', 36.73, 'NSE, BSE',
-  52.5, 28.4, 14.8,
-  28.5, 31.2, 32.5,
+  56.5, 42.4, 18.8,
+  24.5, 45.2, 40.5,
   1, 1200, 117600,
   1, 1200, 117600,
   2, 2400, 235200,
@@ -7577,8 +7577,8 @@ INSERT INTO public.ipos (
   '2024-10-15', '2024-10-15', '2024-10-15', '2024-10-15', '2024-10-23',
   94, 99, 99, 10, 30, 18,
   '57.5', 37.38, 'NSE, BSE',
-  56.5, 37.4, 18.8,
-  28.5, 40.2, 26.5,
+  44.5, 40.4, 16.8,
+  28.5, 43.2, 32.5,
   1, 30, 2970,
   67, 2010, 198990,
   68, 2040, 201960,
@@ -7700,8 +7700,8 @@ INSERT INTO public.ipos (
   '2024-11-12', '2024-11-12', '2024-11-12', '2024-11-12', '2024-11-20',
   95, 100, 100, 10, 1200, 20,
   '58.5', 38.02, 'NSE, BSE',
-  54.5, 30.4, 16.8,
-  30.5, 33.2, 28.5,
+  56.5, 32.4, 18.8,
+  32.5, 35.2, 42.5,
   1, 1200, 120000,
   1, 1200, 120000,
   2, 2400, 240000,
@@ -7823,8 +7823,8 @@ INSERT INTO public.ipos (
   '2024-12-10', '2024-12-10', '2024-12-10', '2024-12-10', '2024-12-18',
   95, 101, 101, 10, 1200, 21,
   '59.5', 38.68, 'NSE, BSE',
-  56.5, 42.4, 18.8,
-  24.5, 45.2, 28.5,
+  57.5, 28.4, 19.8,
+  25.5, 31.2, 35.5,
   1, 1200, 121200,
   1, 1200, 121200,
   2, 2400, 242400,
@@ -7837,9 +7837,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@samhi-hotels-ipo.com', 'https://ris.kfintech.com',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@samhi-hotels-ipo.com', 'https://linkintime.co.in',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@samhi-hotels-ipo.com', 'https://www.samhi-hotels-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/samhi-hotels-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 122.21, 122.21, 21.0,
+  'https://www.sebi.gov.in/filings/approved-option/samhi-hotels-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 122.21, 122.21, 21.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -7946,8 +7946,8 @@ INSERT INTO public.ipos (
   '2025-01-14', '2025-01-14', '2025-01-14', '2025-01-14', '2025-01-22',
   96, 102, 102, 10, 30, 22,
   '60.5', 39.33, 'NSE, BSE',
-  53.5, 29.4, 15.8,
-  29.5, 32.2, 33.5,
+  52.5, 28.4, 14.8,
+  28.5, 31.2, 32.5,
   1, 30, 3060,
   65, 1950, 198900,
   66, 1980, 201960,
@@ -7960,9 +7960,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@plaza-wires-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@plaza-wires-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@plaza-wires-ipo.com', 'https://www.plaza-wires-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/plaza-wires-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 124.44, 124.44, 22.0,
+  'https://www.sebi.gov.in/filings/approved-option/plaza-wires-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 124.44, 124.44, 22.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8069,8 +8069,8 @@ INSERT INTO public.ipos (
   '2025-02-11', '2025-02-11', '2025-02-11', '2025-02-11', '2025-02-19',
   97, 103, 103, 10, 1200, 23,
   '61.5', 39.98, 'NSE, BSE',
-  43.5, 29.4, 15.8,
-  23.5, 32.2, 39.5,
+  51.5, 32.4, 23.8,
+  23.5, 35.2, 27.5,
   1, 1200, 123600,
   1, 1200, 123600,
   2, 2400, 247200,
@@ -8192,8 +8192,8 @@ INSERT INTO public.ipos (
   '2025-03-11', '2025-03-11', '2025-03-11', '2025-03-11', '2025-03-19',
   98, 104, 104, 10, 1200, 24,
   '62.5', 40.62, 'NSE, BSE',
-  44.5, 40.4, 16.8,
-  28.5, 43.2, 26.5,
+  60.5, 31.4, 22.8,
+  28.5, 34.2, 32.5,
   1, 1200, 124800,
   1, 1200, 124800,
   2, 2400, 249600,
@@ -8315,8 +8315,8 @@ INSERT INTO public.ipos (
   '2025-04-15', '2025-04-15', '2025-04-15', '2025-04-15', '2025-04-23',
   99, 105, 105, 10, 30, 26,
   '63.5', 41.27, 'NSE, BSE',
-  53.5, 29.4, 15.8,
-  29.5, 32.2, 39.5,
+  55.5, 31.4, 17.8,
+  31.5, 34.2, 29.5,
   1, 30, 3150,
   63, 1890, 198450,
   64, 1920, 201600,
@@ -8438,8 +8438,8 @@ INSERT INTO public.ipos (
   '2025-05-13', '2025-05-13', '2025-05-13', '2025-05-13', '2025-05-21',
   100, 106, 106, 10, 1200, 27,
   '64.5', 41.93, 'NSE, BSE',
-  43.5, 39.4, 15.8,
-  27.5, 42.2, 37.5,
+  56.5, 42.4, 18.8,
+  24.5, 45.2, 34.5,
   1, 1200, 127200,
   1, 1200, 127200,
   2, 2400, 254400,
@@ -8452,9 +8452,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Logistics & Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@apex-ecotech-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@apex-ecotech-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@apex-ecotech-ipo.com', 'https://www.apex-ecotech-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/apex-ecotech-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 133.56, 133.56, 26.0,
+  'https://www.sebi.gov.in/filings/approved-option/apex-ecotech-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 133.56, 133.56, 26.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8561,8 +8561,8 @@ INSERT INTO public.ipos (
   '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-18',
   101, 107, 107, 10, 1200, 28,
   '65.5', 42.58, 'NSE, BSE',
-  51.5, 37.4, 23.8,
-  31.5, 40.2, 35.5,
+  56.5, 42.4, 18.8,
+  24.5, 45.2, 34.5,
   1, 1200, 128400,
   1, 1200, 128400,
   2, 2400, 256800,
@@ -8575,9 +8575,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@bhandari-hosiery-exports-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@bhandari-hosiery-exports-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@bhandari-hosiery-exports-ipo.com', 'https://www.bhandari-hosiery-exports-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/bhandari-hosiery-exports-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 135.89000000000001, 135.89000000000001, 27.0,
+  'https://www.sebi.gov.in/filings/approved-option/bhandari-hosiery-exports-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 135.89000000000001, 135.89000000000001, 27.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8684,8 +8684,8 @@ INSERT INTO public.ipos (
   '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-23',
   102, 108, 108, 10, 30, 30,
   '66.5', 43.23, 'NSE, BSE',
-  53.5, 34.4, 15.8,
-  25.5, 37.2, 29.5,
+  59.5, 35.4, 21.8,
+  23.5, 38.2, 33.5,
   1, 30, 3240,
   61, 1830, 197640,
   62, 1860, 200880,
@@ -8807,8 +8807,8 @@ INSERT INTO public.ipos (
   '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-20',
   103, 109, 109, 10, 1200, 31,
   '67.5', 43.88, 'NSE, BSE',
-  59.5, 40.4, 21.8,
-  31.5, 43.2, 29.5,
+  54.5, 30.4, 16.8,
+  30.5, 33.2, 40.5,
   1, 1200, 130800,
   1, 1200, 130800,
   2, 2400, 261600,
@@ -8821,9 +8821,9 @@ INSERT INTO public.ipos (
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Infrastructure & Construction industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@delta-autocorp-ipo.com', 'https://linkintime.co.in',
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@delta-autocorp-ipo.com', 'https://ris.kfintech.com',
   'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@delta-autocorp-ipo.com', 'https://www.delta-autocorp-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/delta-autocorp-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 140.61, 140.61, 29.0,
+  'https://www.sebi.gov.in/filings/approved-option/delta-autocorp-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 140.61, 140.61, 29.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8930,8 +8930,8 @@ INSERT INTO public.ipos (
   '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-24',
   104, 110, 110, 10, 1200, 33,
   '68.5', 44.52, 'NSE, BSE',
-  54.5, 35.4, 16.8,
-  26.5, 38.2, 36.5,
+  50.5, 41.4, 22.8,
+  26.5, 44.2, 42.5,
   1, 1200, 132000,
   1, 1200, 132000,
   2, 2400, 264000,

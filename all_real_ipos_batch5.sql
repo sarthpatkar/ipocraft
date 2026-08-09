@@ -48,7 +48,7 @@ ALTER TABLE public.ipos DROP CONSTRAINT IF EXISTS ipos_slug_key;
 ALTER TABLE public.ipos ADD CONSTRAINT ipos_slug_key UNIQUE (slug);
 
 -- ------------------------------------------------------------------------------
--- Vision Pharma Labs (Maharashtra) Limited (vision-pharma-labs-maharashtra-ipo)
+-- Vision Pharma Labs Components Limited (vision-pharma-labs-components-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -70,12 +70,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Vision Pharma Labs (Maharashtra) Limited', 'vision-pharma-labs-maharashtra-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Vision Pharma Labs Components Limited', 'vision-pharma-labs-components-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-18',
   244, 257, 257, 10, 1200, 95,
   '215.5', 140.08, 'NSE, BSE',
-  52.5, 33.4, 14.8,
-  24.5, 36.2, 34.5,
+  47.5, 38.4, 19.8,
+  23.5, 41.2, 27.5,
   1, 1200, 308400,
   1, 1200, 308400,
   2, 2400, 616800,
@@ -84,13 +84,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 905.1,
   76.5, 64.2,
-  'Vision Pharma Labs (Maharashtra) Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Vision Pharma Labs Components Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@vision-pharma-labs-maharashtra-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@vision-pharma-labs-maharashtra-ipo.com', 'https://www.vision-pharma-labs-maharashtra-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/vision-pharma-labs-maharashtra-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 352.09000000000003, 352.09000000000003, 37.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@vision-pharma-labs-components-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@vision-pharma-labs-components-ipo.com', 'https://www.vision-pharma-labs-components-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/vision-pharma-labs-components-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 352.09000000000003, 352.09000000000003, 37.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -171,7 +171,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Wind Solar Kraft (Tamil Nadu) Limited (wind-solar-kraft-tamil nadu-ipo)
+-- Wind Solar Kraft Clean Energy Limited (wind-solar-kraft-clean energy-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -193,12 +193,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Wind Solar Kraft (Tamil Nadu) Limited', 'wind-solar-kraft-tamil nadu-ipo', 'Mainboard', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Wind Solar Kraft Clean Energy Limited', 'wind-solar-kraft-clean energy-ipo', 'Mainboard', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-23',
   245, 258, 258, 10, 30, 98,
   '216.5', 140.72, 'NSE, BSE',
-  56.5, 32.4, 18.8,
-  32.5, 35.2, 42.5,
+  44.5, 30.4, 16.8,
+  24.5, 33.2, 34.5,
   1, 30, 7740,
   25, 750, 193500,
   26, 780, 201240,
@@ -207,13 +207,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 909.3,
   76.5, 64.2,
-  'Wind Solar Kraft (Tamil Nadu) Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Wind Solar Kraft Clean Energy Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@wind-solar-kraft-tamil nadu-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@wind-solar-kraft-tamil nadu-ipo.com', 'https://www.wind-solar-kraft-tamil nadu-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/wind-solar-kraft-tamil nadu-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 356.03999999999996, 356.03999999999996, 38.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@wind-solar-kraft-clean energy-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@wind-solar-kraft-clean energy-ipo.com', 'https://www.wind-solar-kraft-clean energy-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/wind-solar-kraft-clean energy-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 356.03999999999996, 356.03999999999996, 38.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -294,7 +294,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Xcell Biotech Enzymes (Karnataka) Limited (xcell-biotech-enzymes-karnataka-ipo)
+-- Xcell Biotech Enzymes Power Limited (xcell-biotech-enzymes-power-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -316,12 +316,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Xcell Biotech Enzymes (Karnataka) Limited', 'xcell-biotech-enzymes-karnataka-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Xcell Biotech Enzymes Power Limited', 'xcell-biotech-enzymes-power-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-20',
   246, 259, 259, 10, 1200, 101,
   '217.5', 141.38, 'NSE, BSE',
-  59.5, 40.4, 21.8,
-  31.5, 43.2, 35.5,
+  46.5, 32.4, 18.8,
+  26.5, 35.2, 30.5,
   1, 1200, 310800,
   1, 1200, 310800,
   2, 2400, 621600,
@@ -330,13 +330,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 913.5,
   76.5, 64.2,
-  'Xcell Biotech Enzymes (Karnataka) Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Xcell Biotech Enzymes Power Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Infrastructure & Construction industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@xcell-biotech-enzymes-karnataka-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@xcell-biotech-enzymes-karnataka-ipo.com', 'https://www.xcell-biotech-enzymes-karnataka-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/xcell-biotech-enzymes-karnataka-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 360.01000000000005, 360.01000000000005, 39.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@xcell-biotech-enzymes-power-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@xcell-biotech-enzymes-power-ipo.com', 'https://www.xcell-biotech-enzymes-power-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/xcell-biotech-enzymes-power-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 360.01000000000005, 360.01000000000005, 39.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -417,7 +417,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Yield Fintech Solutions (Delhi) Limited (yield-fintech-solutions-delhi-ipo)
+-- Yield Fintech Solutions Biotech Limited (yield-fintech-solutions-biotech-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -439,12 +439,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Yield Fintech Solutions (Delhi) Limited', 'yield-fintech-solutions-delhi-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Yield Fintech Solutions Biotech Limited', 'yield-fintech-solutions-biotech-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-24',
   247, 260, 260, 10, 1200, 104,
   '218.5', 142.03, 'NSE, BSE',
-  61.5, 32.4, 23.8,
-  29.5, 35.2, 39.5,
+  54.5, 30.4, 16.8,
+  30.5, 33.2, 34.5,
   1, 1200, 312000,
   1, 1200, 312000,
   2, 2400, 624000,
@@ -453,13 +453,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 917.7,
   76.5, 64.2,
-  'Yield Fintech Solutions (Delhi) Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Yield Fintech Solutions Biotech Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Specialty Chemicals industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@yield-fintech-solutions-delhi-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@yield-fintech-solutions-delhi-ipo.com', 'https://www.yield-fintech-solutions-delhi-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/yield-fintech-solutions-delhi-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 364.0, 364.0, 40.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@yield-fintech-solutions-biotech-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@yield-fintech-solutions-biotech-ipo.com', 'https://www.yield-fintech-solutions-biotech-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/yield-fintech-solutions-biotech-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 364.0, 364.0, 40.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -540,7 +540,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Zenith Polymers (Telangana) Limited (zenith-polymers-telangana-ipo)
+-- Zenith Polymers Chemicals Limited (zenith-polymers-chemicals-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -562,12 +562,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Zenith Polymers (Telangana) Limited', 'zenith-polymers-telangana-ipo', 'Mainboard', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Zenith Polymers Chemicals Limited', 'zenith-polymers-chemicals-ipo', 'Mainboard', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-10-14', '2025-10-14', '2025-10-14', '2025-10-14', '2025-10-22',
   247, 261, 261, 10, 30, 107,
   '219.5', 142.68, 'NSE, BSE',
-  52.5, 38.4, 14.8,
-  32.5, 41.2, 36.5,
+  61.5, 32.4, 23.8,
+  29.5, 35.2, 39.5,
   1, 30, 7830,
   25, 750, 195750,
   26, 780, 203580,
@@ -576,13 +576,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 921.9,
   76.5, 64.2,
-  'Zenith Polymers (Telangana) Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Zenith Polymers Chemicals Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@zenith-polymers-telangana-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@zenith-polymers-telangana-ipo.com', 'https://www.zenith-polymers-telangana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/zenith-polymers-telangana-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 368.01, 368.01, 41.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@zenith-polymers-chemicals-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@zenith-polymers-chemicals-ipo.com', 'https://www.zenith-polymers-chemicals-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/zenith-polymers-chemicals-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 368.01, 368.01, 41.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -663,7 +663,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Ambica Specialty Steels (Rajasthan) Limited (ambica-specialty-steels-rajasthan-ipo)
+-- Ambica Specialty Steels Exports Limited (ambica-specialty-steels-exports-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -685,12 +685,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Ambica Specialty Steels (Rajasthan) Limited', 'ambica-specialty-steels-rajasthan-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Ambica Specialty Steels Exports Limited', 'ambica-specialty-steels-exports-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-11-11', '2025-11-11', '2025-11-11', '2025-11-11', '2025-11-19',
   248, 262, 262, 10, 1200, 110,
   '220.5', 143.33, 'NSE, BSE',
-  50.5, 36.4, 22.8,
-  30.5, 39.2, 34.5,
+  60.5, 31.4, 22.8,
+  28.5, 34.2, 38.5,
   1, 1200, 314400,
   1, 1200, 314400,
   2, 2400, 628800,
@@ -699,13 +699,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 926.1,
   76.5, 64.2,
-  'Ambica Specialty Steels (Rajasthan) Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Ambica Specialty Steels Exports Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@ambica-specialty-steels-rajasthan-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@ambica-specialty-steels-rajasthan-ipo.com', 'https://www.ambica-specialty-steels-rajasthan-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/ambica-specialty-steels-rajasthan-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 372.03999999999996, 372.03999999999996, 42.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@ambica-specialty-steels-exports-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@ambica-specialty-steels-exports-ipo.com', 'https://www.ambica-specialty-steels-exports-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/ambica-specialty-steels-exports-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 372.03999999999996, 372.03999999999996, 42.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -786,7 +786,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Bharat Clean Energy Tech (Punjab) Limited (bharat-clean-energy-tech-punjab-ipo)
+-- Bharat Clean Energy Tech Trading Limited (bharat-clean-energy-tech-trading-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -808,12 +808,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Bharat Clean Energy Tech (Punjab) Limited', 'bharat-clean-energy-tech-punjab-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Bharat Clean Energy Tech Trading Limited', 'bharat-clean-energy-tech-trading-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-12-09', '2025-12-09', '2025-12-09', '2025-12-09', '2025-12-17',
   249, 263, 263, 10, 1200, 113,
   '221.5', 143.97, 'NSE, BSE',
-  43.5, 34.4, 15.8,
-  31.5, 37.2, 35.5,
+  59.5, 30.4, 21.8,
+  27.5, 33.2, 31.5,
   1, 1200, 315600,
   1, 1200, 315600,
   2, 2400, 631200,
@@ -822,13 +822,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 930.3,
   76.5, 64.2,
-  'Bharat Clean Energy Tech (Punjab) Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Bharat Clean Energy Tech Trading Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@bharat-clean-energy-tech-punjab-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@bharat-clean-energy-tech-punjab-ipo.com', 'https://www.bharat-clean-energy-tech-punjab-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/bharat-clean-energy-tech-punjab-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 376.09, 376.09, 43.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@bharat-clean-energy-tech-trading-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@bharat-clean-energy-tech-trading-ipo.com', 'https://www.bharat-clean-energy-tech-trading-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/bharat-clean-energy-tech-trading-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 376.09, 376.09, 43.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -909,7 +909,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Cyber Shield Systems (Haryana) Limited (cyber-shield-systems-haryana-ipo)
+-- Cyber Shield Systems Holdings Limited (cyber-shield-systems-holdings-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -931,12 +931,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Cyber Shield Systems (Haryana) Limited', 'cyber-shield-systems-haryana-ipo', 'Mainboard', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Cyber Shield Systems Holdings Limited', 'cyber-shield-systems-holdings-ipo', 'Mainboard', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-01-13', '2026-01-13', '2026-01-13', '2026-01-13', '2026-01-21',
   250, 264, 264, 10, 30, 116,
   '222.5', 144.62, 'NSE, BSE',
-  42.5, 33.4, 14.8,
-  30.5, 36.2, 34.5,
+  49.5, 30.4, 21.8,
+  33.5, 33.2, 37.5,
   1, 30, 7920,
   25, 750, 198000,
   26, 780, 205920,
@@ -945,13 +945,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 934.5,
   76.5, 64.2,
-  'Cyber Shield Systems (Haryana) Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Cyber Shield Systems Holdings Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Energy industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@cyber-shield-systems-haryana-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@cyber-shield-systems-haryana-ipo.com', 'https://www.cyber-shield-systems-haryana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/cyber-shield-systems-haryana-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 380.15999999999997, 380.15999999999997, 44.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@cyber-shield-systems-holdings-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@cyber-shield-systems-holdings-ipo.com', 'https://www.cyber-shield-systems-holdings-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/cyber-shield-systems-holdings-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 380.15999999999997, 380.15999999999997, 44.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1032,7 +1032,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Deep Sea Marine Logistics (West Bengal) Limited (deep-sea-marine-logistics-west bengal-ipo)
+-- Deep Sea Marine Logistics Ventures Limited (deep-sea-marine-logistics-ventures-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -1054,12 +1054,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Deep Sea Marine Logistics (West Bengal) Limited', 'deep-sea-marine-logistics-west bengal-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Deep Sea Marine Logistics Ventures Limited', 'deep-sea-marine-logistics-ventures-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-02-10', '2026-02-10', '2026-02-10', '2026-02-10', '2026-02-18',
   251, 265, 265, 10, 1200, 119,
   '223.5', 145.28, 'NSE, BSE',
-  56.5, 37.4, 18.8,
-  28.5, 40.2, 32.5,
+  46.5, 37.4, 18.8,
+  22.5, 40.2, 38.5,
   1, 1200, 318000,
   1, 1200, 318000,
   2, 2400, 636000,
@@ -1068,13 +1068,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 938.7,
   76.5, 64.2,
-  'Deep Sea Marine Logistics (West Bengal) Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Deep Sea Marine Logistics Ventures Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Components industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@deep-sea-marine-logistics-west bengal-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@deep-sea-marine-logistics-west bengal-ipo.com', 'https://www.deep-sea-marine-logistics-west bengal-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/deep-sea-marine-logistics-west bengal-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 384.25, 384.25, 45.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@deep-sea-marine-logistics-ventures-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@deep-sea-marine-logistics-ventures-ipo.com', 'https://www.deep-sea-marine-logistics-ventures-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/deep-sea-marine-logistics-ventures-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 384.25, 384.25, 45.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1155,7 +1155,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Evergreen Agri Inputs (Madhya Pradesh) Limited (evergreen-agri-inputs-madhya pradesh-ipo)
+-- Evergreen Agri Inputs Enterprises Limited (evergreen-agri-inputs-enterprises-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -1177,12 +1177,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Evergreen Agri Inputs (Madhya Pradesh) Limited', 'evergreen-agri-inputs-madhya pradesh-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Evergreen Agri Inputs Enterprises Limited', 'evergreen-agri-inputs-enterprises-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-03-10', '2026-03-10', '2026-03-10', '2026-03-10', '2026-03-18',
   252, 266, 266, 10, 1200, 122,
   '224.5', 145.93, 'NSE, BSE',
-  46.5, 42.4, 18.8,
-  30.5, 45.2, 28.5,
+  55.5, 41.4, 17.8,
+  23.5, 44.2, 39.5,
   1, 1200, 319200,
   1, 1200, 319200,
   2, 2400, 638400,
@@ -1191,13 +1191,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 942.9,
   76.5, 64.2,
-  'Evergreen Agri Inputs (Madhya Pradesh) Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Evergreen Agri Inputs Enterprises Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Logistics & Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@evergreen-agri-inputs-madhya pradesh-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@evergreen-agri-inputs-madhya pradesh-ipo.com', 'https://www.evergreen-agri-inputs-madhya pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/evergreen-agri-inputs-madhya pradesh-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 388.36, 388.36, 46.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@evergreen-agri-inputs-enterprises-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@evergreen-agri-inputs-enterprises-ipo.com', 'https://www.evergreen-agri-inputs-enterprises-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/evergreen-agri-inputs-enterprises-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 388.36, 388.36, 46.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1278,7 +1278,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Future EV Mobility (Kerala) Limited (future-ev-mobility-kerala-ipo)
+-- Future EV Mobility Solutions Limited (future-ev-mobility-solutions-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -1300,12 +1300,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Future EV Mobility (Kerala) Limited', 'future-ev-mobility-kerala-ipo', 'Mainboard', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Future EV Mobility Solutions Limited', 'future-ev-mobility-solutions-ipo', 'Mainboard', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-04-14', '2026-04-14', '2026-04-14', '2026-04-14', '2026-04-22',
   253, 267, 267, 10, 30, 125,
   '225.5', 146.58, 'NSE, BSE',
-  53.5, 39.4, 15.8,
-  33.5, 42.2, 31.5,
+  57.5, 38.4, 19.8,
+  29.5, 41.2, 33.5,
   1, 30, 8010,
   24, 720, 192240,
   25, 750, 200250,
@@ -1314,13 +1314,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 947.1,
   76.5, 64.2,
-  'Future EV Mobility (Kerala) Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Future EV Mobility Solutions Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@future-ev-mobility-kerala-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@future-ev-mobility-kerala-ipo.com', 'https://www.future-ev-mobility-kerala-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/future-ev-mobility-kerala-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 392.49, 392.49, 47.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@future-ev-mobility-solutions-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@future-ev-mobility-solutions-ipo.com', 'https://www.future-ev-mobility-solutions-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/future-ev-mobility-solutions-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 392.49, 392.49, 47.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1401,7 +1401,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Global Defense Electronics (Uttar Pradesh) Limited (global-defense-electronics-uttar pradesh-ipo)
+-- Global Defense Electronics Technologies Limited (global-defense-electronics-technologies-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -1423,12 +1423,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Global Defense Electronics (Uttar Pradesh) Limited', 'global-defense-electronics-uttar pradesh-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Global Defense Electronics Technologies Limited', 'global-defense-electronics-technologies-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-05-12', '2026-05-12', '2026-05-12', '2026-05-12', '2026-05-20',
   254, 268, 268, 10, 1200, 128,
   '226.5', 147.22, 'NSE, BSE',
-  61.5, 42.4, 23.8,
-  33.5, 45.2, 31.5,
+  52.5, 33.4, 14.8,
+  24.5, 36.2, 40.5,
   1, 1200, 321600,
   1, 1200, 321600,
   2, 2400, 643200,
@@ -1437,13 +1437,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 951.3,
   76.5, 64.2,
-  'Global Defense Electronics (Uttar Pradesh) Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Global Defense Electronics Technologies Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@global-defense-electronics-uttar pradesh-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@global-defense-electronics-uttar pradesh-ipo.com', 'https://www.global-defense-electronics-uttar pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/global-defense-electronics-uttar pradesh-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 396.64, 396.64, 48.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@global-defense-electronics-technologies-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@global-defense-electronics-technologies-ipo.com', 'https://www.global-defense-electronics-technologies-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/global-defense-electronics-technologies-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 396.64, 396.64, 48.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1524,7 +1524,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Hyperion Solar Glass (Andhra Pradesh) Limited (hyperion-solar-glass-andhra pradesh-ipo)
+-- Hyperion Solar Glass Industries Limited (hyperion-solar-glass-industries-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -1546,12 +1546,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Hyperion Solar Glass (Andhra Pradesh) Limited', 'hyperion-solar-glass-andhra pradesh-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Hyperion Solar Glass Industries Limited', 'hyperion-solar-glass-industries-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-06-09', '2026-06-09', '2026-06-09', '2026-06-09', '2026-06-17',
   255, 269, 269, 10, 1200, 131,
   '227.5', 147.88, 'NSE, BSE',
-  48.5, 34.4, 20.8,
-  28.5, 37.2, 32.5,
+  55.5, 31.4, 17.8,
+  31.5, 34.2, 29.5,
   1, 1200, 322800,
   1, 1200, 322800,
   2, 2400, 645600,
@@ -1560,13 +1560,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 955.5,
   76.5, 64.2,
-  'Hyperion Solar Glass (Andhra Pradesh) Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Hyperion Solar Glass Industries Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Infrastructure & Construction industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@hyperion-solar-glass-andhra pradesh-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@hyperion-solar-glass-andhra pradesh-ipo.com', 'https://www.hyperion-solar-glass-andhra pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/hyperion-solar-glass-andhra pradesh-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 400.81, 400.81, 49.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@hyperion-solar-glass-industries-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@hyperion-solar-glass-industries-ipo.com', 'https://www.hyperion-solar-glass-industries-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/hyperion-solar-glass-industries-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 400.81, 400.81, 49.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1647,7 +1647,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Infra Prime Bridge Build (Gujarat) Limited (infra-prime-bridge-build-gujarat-ipo)
+-- Infra Prime Bridge Build Services Limited (infra-prime-bridge-build-services-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -1669,12 +1669,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Infra Prime Bridge Build (Gujarat) Limited', 'infra-prime-bridge-build-gujarat-ipo', 'Mainboard', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Infra Prime Bridge Build Services Limited', 'infra-prime-bridge-build-services-ipo', 'Mainboard', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-01-10', '2024-01-10', '2024-01-10', '2024-01-10', '2024-01-18',
   256, 270, 270, 10, 30, 40,
   '228.5', 148.53, 'NSE, BSE',
-  50.5, 31.4, 22.8,
-  22.5, 34.2, 32.5,
+  44.5, 35.4, 16.8,
+  32.5, 38.2, 36.5,
   1, 30, 8100,
   24, 720, 194400,
   25, 750, 202500,
@@ -1683,13 +1683,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 959.7,
   76.5, 64.2,
-  'Infra Prime Bridge Build (Gujarat) Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Infra Prime Bridge Build Services Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Specialty Chemicals industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@infra-prime-bridge-build-gujarat-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@infra-prime-bridge-build-gujarat-ipo.com', 'https://www.infra-prime-bridge-build-gujarat-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/infra-prime-bridge-build-gujarat-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 310.5, 310.5, 15.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@infra-prime-bridge-build-services-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@infra-prime-bridge-build-services-ipo.com', 'https://www.infra-prime-bridge-build-services-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/infra-prime-bridge-build-services-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 310.5, 310.5, 15.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1770,7 +1770,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Zen Cardiovascular Devices (Maharashtra) Limited (zen-cardiovascular-devices-maharashtra-ipo)
+-- Zen Cardiovascular Devices Infra Limited (zen-cardiovascular-devices-infra-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -1792,12 +1792,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Zen Cardiovascular Devices (Maharashtra) Limited', 'zen-cardiovascular-devices-maharashtra-ipo', 'SME', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Zen Cardiovascular Devices Infra Limited', 'zen-cardiovascular-devices-infra-ipo', 'SME', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-02-14', '2024-02-14', '2024-02-14', '2024-02-14', '2024-02-22',
   257, 271, 271, 10, 1200, 43,
   '229.5', 149.18, 'NSE, BSE',
-  48.5, 39.4, 20.8,
-  24.5, 42.2, 28.5,
+  55.5, 41.4, 17.8,
+  23.5, 44.2, 33.5,
   1, 1200, 325200,
   1, 1200, 325200,
   2, 2400, 650400,
@@ -1806,13 +1806,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 963.9,
   76.5, 64.2,
-  'Zen Cardiovascular Devices (Maharashtra) Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Zen Cardiovascular Devices Infra Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@zen-cardiovascular-devices-maharashtra-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@zen-cardiovascular-devices-maharashtra-ipo.com', 'https://www.zen-cardiovascular-devices-maharashtra-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/zen-cardiovascular-devices-maharashtra-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 314.35999999999996, 314.35999999999996, 16.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@zen-cardiovascular-devices-infra-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@zen-cardiovascular-devices-infra-ipo.com', 'https://www.zen-cardiovascular-devices-infra-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/zen-cardiovascular-devices-infra-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 314.35999999999996, 314.35999999999996, 16.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -1893,7 +1893,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Astra Precision Components (Tamil Nadu) Limited (astra-precision-components-tamil nadu-ipo)
+-- Astra Precision Components Global Limited (astra-precision-components-global-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -1915,12 +1915,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Astra Precision Components (Tamil Nadu) Limited', 'astra-precision-components-tamil nadu-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Astra Precision Components Global Limited', 'astra-precision-components-global-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-03-12', '2024-03-12', '2024-03-12', '2024-03-12', '2024-03-20',
   258, 272, 272, 10, 1200, 46,
   '230.5', 149.83, 'NSE, BSE',
-  45.5, 36.4, 17.8,
-  33.5, 39.2, 31.5,
+  42.5, 38.4, 14.8,
+  26.5, 41.2, 42.5,
   1, 1200, 326400,
   1, 1200, 326400,
   2, 2400, 652800,
@@ -1929,13 +1929,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 968.1,
   76.5, 64.2,
-  'Astra Precision Components (Tamil Nadu) Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Astra Precision Components Global Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@astra-precision-components-tamil nadu-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@astra-precision-components-tamil nadu-ipo.com', 'https://www.astra-precision-components-tamil nadu-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/astra-precision-components-tamil nadu-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 318.24, 318.24, 17.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@astra-precision-components-global-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@astra-precision-components-global-ipo.com', 'https://www.astra-precision-components-global-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/astra-precision-components-global-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 318.24, 318.24, 17.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2016,7 +2016,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Bravura Power Cables (Karnataka) Limited (bravura-power-cables-karnataka-ipo)
+-- Bravura Power Cables International Limited (bravura-power-cables-international-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -2038,12 +2038,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Bravura Power Cables (Karnataka) Limited', 'bravura-power-cables-karnataka-ipo', 'Mainboard', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Bravura Power Cables International Limited', 'bravura-power-cables-international-ipo', 'Mainboard', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-04-16', '2024-04-16', '2024-04-16', '2024-04-16', '2024-04-24',
   259, 273, 273, 10, 30, 49,
   '231.5', 150.47, 'NSE, BSE',
-  44.5, 40.4, 16.8,
-  28.5, 43.2, 26.5,
+  54.5, 30.4, 16.8,
+  30.5, 33.2, 40.5,
   1, 30, 8190,
   24, 720, 196560,
   25, 750, 204750,
@@ -2052,13 +2052,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 972.3,
   76.5, 64.2,
-  'Bravura Power Cables (Karnataka) Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Bravura Power Cables International Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@bravura-power-cables-karnataka-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@bravura-power-cables-karnataka-ipo.com', 'https://www.bravura-power-cables-karnataka-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/bravura-power-cables-karnataka-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 322.14, 322.14, 18.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@bravura-power-cables-international-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@bravura-power-cables-international-ipo.com', 'https://www.bravura-power-cables-international-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/bravura-power-cables-international-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 322.14, 322.14, 18.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2139,7 +2139,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Celeste Organic Fine Chem (Delhi) Limited (celeste-organic-fine-chem-delhi-ipo)
+-- Celeste Organic Fine Chem Logistics Limited (celeste-organic-fine-chem-logistics-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -2161,12 +2161,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Celeste Organic Fine Chem (Delhi) Limited', 'celeste-organic-fine-chem-delhi-ipo', 'SME', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Celeste Organic Fine Chem Logistics Limited', 'celeste-organic-fine-chem-logistics-ipo', 'SME', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-05-14', '2024-05-14', '2024-05-14', '2024-05-14', '2024-05-22',
   260, 274, 274, 10, 1200, 52,
   '232.5', 151.12, 'NSE, BSE',
-  59.5, 40.4, 21.8,
-  31.5, 43.2, 29.5,
+  57.5, 38.4, 19.8,
+  29.5, 41.2, 27.5,
   1, 1200, 328800,
   1, 1200, 328800,
   2, 2400, 657600,
@@ -2175,13 +2175,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 976.5,
   76.5, 64.2,
-  'Celeste Organic Fine Chem (Delhi) Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Celeste Organic Fine Chem Logistics Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Energy industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@celeste-organic-fine-chem-delhi-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@celeste-organic-fine-chem-delhi-ipo.com', 'https://www.celeste-organic-fine-chem-delhi-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/celeste-organic-fine-chem-delhi-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 326.06, 326.06, 19.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@celeste-organic-fine-chem-logistics-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@celeste-organic-fine-chem-logistics-ipo.com', 'https://www.celeste-organic-fine-chem-logistics-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/celeste-organic-fine-chem-logistics-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 326.06, 326.06, 19.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2262,7 +2262,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Dura Tech Fasteners (Telangana) Limited (dura-tech-fasteners-telangana-ipo)
+-- Dura Tech Fasteners Pharma Limited (dura-tech-fasteners-pharma-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -2284,12 +2284,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Dura Tech Fasteners (Telangana) Limited', 'dura-tech-fasteners-telangana-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Dura Tech Fasteners Pharma Limited', 'dura-tech-fasteners-pharma-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-06-11', '2024-06-11', '2024-06-11', '2024-06-11', '2024-06-19',
   261, 275, 275, 10, 1200, 55,
   '233.5', 151.78, 'NSE, BSE',
-  49.5, 35.4, 21.8,
-  29.5, 38.2, 39.5,
+  59.5, 40.4, 21.8,
+  31.5, 43.2, 41.5,
   1, 1200, 330000,
   1, 1200, 330000,
   2, 2400, 660000,
@@ -2298,13 +2298,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 980.7,
   76.5, 64.2,
-  'Dura Tech Fasteners (Telangana) Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Dura Tech Fasteners Pharma Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Components industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@dura-tech-fasteners-telangana-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@dura-tech-fasteners-telangana-ipo.com', 'https://www.dura-tech-fasteners-telangana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/dura-tech-fasteners-telangana-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 330.0, 330.0, 20.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@dura-tech-fasteners-pharma-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@dura-tech-fasteners-pharma-ipo.com', 'https://www.dura-tech-fasteners-pharma-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/dura-tech-fasteners-pharma-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 330.0, 330.0, 20.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2385,7 +2385,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Echo Electronics Assembly (Rajasthan) Limited (echo-electronics-assembly-rajasthan-ipo)
+-- Echo Electronics Assembly Energy Limited (echo-electronics-assembly-energy-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -2407,12 +2407,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Echo Electronics Assembly (Rajasthan) Limited', 'echo-electronics-assembly-rajasthan-ipo', 'Mainboard', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Echo Electronics Assembly Energy Limited', 'echo-electronics-assembly-energy-ipo', 'Mainboard', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-07-16', '2024-07-16', '2024-07-16', '2024-07-16', '2024-07-24',
   262, 276, 276, 10, 30, 57,
   '234.5', 152.43, 'NSE, BSE',
-  58.5, 29.4, 20.8,
-  26.5, 32.2, 36.5,
+  55.5, 31.4, 17.8,
+  31.5, 34.2, 41.5,
   1, 30, 8280,
   24, 720, 198720,
   25, 750, 207000,
@@ -2421,13 +2421,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 984.9,
   76.5, 64.2,
-  'Echo Electronics Assembly (Rajasthan) Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Echo Electronics Assembly Energy Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Logistics & Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@echo-electronics-assembly-rajasthan-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@echo-electronics-assembly-rajasthan-ipo.com', 'https://www.echo-electronics-assembly-rajasthan-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/echo-electronics-assembly-rajasthan-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 333.96, 333.96, 21.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@echo-electronics-assembly-energy-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@echo-electronics-assembly-energy-ipo.com', 'https://www.echo-electronics-assembly-energy-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/echo-electronics-assembly-energy-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 333.96, 333.96, 21.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2508,7 +2508,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- FinEdge Software Solutions (Punjab) Limited (finedge-software-solutions-punjab-ipo)
+-- FinEdge Software Solutions Capital Limited (finedge-software-solutions-capital-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -2530,12 +2530,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'FinEdge Software Solutions (Punjab) Limited', 'finedge-software-solutions-punjab-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'FinEdge Software Solutions Capital Limited', 'finedge-software-solutions-capital-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-08-13', '2024-08-13', '2024-08-13', '2024-08-13', '2024-08-21',
   263, 277, 277, 10, 1200, 60,
   '235.5', 153.08, 'NSE, BSE',
-  55.5, 31.4, 17.8,
-  31.5, 34.2, 35.5,
+  58.5, 39.4, 20.8,
+  30.5, 42.2, 40.5,
   1, 1200, 332400,
   1, 1200, 332400,
   2, 2400, 664800,
@@ -2544,13 +2544,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 989.1,
   76.5, 64.2,
-  'FinEdge Software Solutions (Punjab) Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'FinEdge Software Solutions Capital Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@finedge-software-solutions-punjab-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@finedge-software-solutions-punjab-ipo.com', 'https://www.finedge-software-solutions-punjab-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/finedge-software-solutions-punjab-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 337.94, 337.94, 22.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@finedge-software-solutions-capital-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@finedge-software-solutions-capital-ipo.com', 'https://www.finedge-software-solutions-capital-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/finedge-software-solutions-capital-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 337.94, 337.94, 22.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2631,7 +2631,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Genesis Agri Products (Haryana) Limited (genesis-agri-products-haryana-ipo)
+-- Genesis Agri Products Tech Limited (genesis-agri-products-tech-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -2653,12 +2653,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Genesis Agri Products (Haryana) Limited', 'genesis-agri-products-haryana-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Genesis Agri Products Tech Limited', 'genesis-agri-products-tech-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-09-17', '2024-09-17', '2024-09-17', '2024-09-17', '2024-09-25',
   264, 278, 278, 10, 1200, 63,
   '236.5', 153.72, 'NSE, BSE',
-  57.5, 38.4, 19.8,
-  29.5, 41.2, 27.5,
+  53.5, 34.4, 15.8,
+  25.5, 37.2, 29.5,
   1, 1200, 333600,
   1, 1200, 333600,
   2, 2400, 667200,
@@ -2667,13 +2667,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 993.3,
   76.5, 64.2,
-  'Genesis Agri Products (Haryana) Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Genesis Agri Products Tech Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@genesis-agri-products-haryana-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@genesis-agri-products-haryana-ipo.com', 'https://www.genesis-agri-products-haryana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/genesis-agri-products-haryana-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 341.94, 341.94, 23.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@genesis-agri-products-tech-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@genesis-agri-products-tech-ipo.com', 'https://www.genesis-agri-products-tech-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/genesis-agri-products-tech-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 341.94, 341.94, 23.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2754,7 +2754,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Helios Clean Power (West Bengal) Limited (helios-clean-power-west bengal-ipo)
+-- Helios Clean Power Systems Limited (helios-clean-power-systems-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -2776,12 +2776,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Helios Clean Power (West Bengal) Limited', 'helios-clean-power-west bengal-ipo', 'Mainboard', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Helios Clean Power Systems Limited', 'helios-clean-power-systems-ipo', 'Mainboard', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-10-15', '2024-10-15', '2024-10-15', '2024-10-15', '2024-10-23',
   265, 279, 279, 10, 30, 66,
   '237.5', 154.38, 'NSE, BSE',
-  59.5, 30.4, 21.8,
-  27.5, 33.2, 43.5,
+  60.5, 41.4, 22.8,
+  32.5, 44.2, 30.5,
   1, 30, 8370,
   23, 690, 192510,
   24, 720, 200880,
@@ -2790,13 +2790,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 997.5,
   76.5, 64.2,
-  'Helios Clean Power (West Bengal) Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Helios Clean Power Systems Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Infrastructure & Construction industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@helios-clean-power-west bengal-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@helios-clean-power-west bengal-ipo.com', 'https://www.helios-clean-power-west bengal-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/helios-clean-power-west bengal-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 345.96, 345.96, 24.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@helios-clean-power-systems-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@helios-clean-power-systems-ipo.com', 'https://www.helios-clean-power-systems-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/helios-clean-power-systems-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 345.96, 345.96, 24.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -2877,7 +2877,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Impulse Logistics Services (Madhya Pradesh) Limited (impulse-logistics-services-madhya pradesh-ipo)
+-- Impulse Logistics Services Products Limited (impulse-logistics-services-products-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -2899,12 +2899,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Impulse Logistics Services (Madhya Pradesh) Limited', 'impulse-logistics-services-madhya pradesh-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Impulse Logistics Services Products Limited', 'impulse-logistics-services-products-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-11-12', '2024-11-12', '2024-11-12', '2024-11-12', '2024-11-20',
   266, 280, 280, 10, 1200, 70,
   '238.5', 155.03, 'NSE, BSE',
-  52.5, 33.4, 14.8,
-  24.5, 36.2, 40.5,
+  46.5, 42.4, 18.8,
+  30.5, 45.2, 28.5,
   1, 1200, 336000,
   1, 1200, 336000,
   2, 2400, 672000,
@@ -2913,13 +2913,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1001.7,
   76.5, 64.2,
-  'Impulse Logistics Services (Madhya Pradesh) Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Impulse Logistics Services Products Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Specialty Chemicals industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@impulse-logistics-services-madhya pradesh-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@impulse-logistics-services-madhya pradesh-ipo.com', 'https://www.impulse-logistics-services-madhya pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/impulse-logistics-services-madhya pradesh-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 350.0, 350.0, 25.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@impulse-logistics-services-products-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@impulse-logistics-services-products-ipo.com', 'https://www.impulse-logistics-services-products-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/impulse-logistics-services-products-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 350.0, 350.0, 25.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3000,7 +3000,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Jyoti Bio-Energy (Kerala) Limited (jyoti-bio-energy-kerala-ipo)
+-- Jyoti Bio-Energy Engineering Limited (jyoti-bio-energy-engineering-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -3022,12 +3022,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Jyoti Bio-Energy (Kerala) Limited', 'jyoti-bio-energy-kerala-ipo', 'SME', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Jyoti Bio-Energy Engineering Limited', 'jyoti-bio-energy-engineering-ipo', 'SME', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-12-10', '2024-12-10', '2024-12-10', '2024-12-10', '2024-12-18',
   266, 281, 281, 10, 1200, 73,
   '239.5', 155.68, 'NSE, BSE',
-  58.5, 29.4, 20.8,
-  26.5, 32.2, 30.5,
+  47.5, 38.4, 19.8,
+  23.5, 41.2, 27.5,
   1, 1200, 337200,
   1, 1200, 337200,
   2, 2400, 674400,
@@ -3036,13 +3036,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1005.9,
   76.5, 64.2,
-  'Jyoti Bio-Energy (Kerala) Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Jyoti Bio-Energy Engineering Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@jyoti-bio-energy-kerala-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@jyoti-bio-energy-kerala-ipo.com', 'https://www.jyoti-bio-energy-kerala-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/jyoti-bio-energy-kerala-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 354.06, 354.06, 26.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@jyoti-bio-energy-engineering-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@jyoti-bio-energy-engineering-ipo.com', 'https://www.jyoti-bio-energy-engineering-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/jyoti-bio-energy-engineering-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 354.06, 354.06, 26.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3123,7 +3123,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Kaveri Infra Projects (Uttar Pradesh) Limited (kaveri-infra-projects-uttar pradesh-ipo)
+-- Kaveri Infra Projects Digital Limited (kaveri-infra-projects-digital-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -3145,12 +3145,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Kaveri Infra Projects (Uttar Pradesh) Limited', 'kaveri-infra-projects-uttar pradesh-ipo', 'Mainboard', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Kaveri Infra Projects Digital Limited', 'kaveri-infra-projects-digital-ipo', 'Mainboard', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-01-14', '2025-01-14', '2025-01-14', '2025-01-14', '2025-01-22',
   267, 282, 282, 10, 30, 76,
   '240.5', 156.33, 'NSE, BSE',
-  44.5, 40.4, 16.8,
-  28.5, 43.2, 26.5,
+  58.5, 34.4, 20.8,
+  22.5, 37.2, 32.5,
   1, 30, 8460,
   23, 690, 194580,
   24, 720, 203040,
@@ -3159,13 +3159,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1010.1,
   76.5, 64.2,
-  'Kaveri Infra Projects (Uttar Pradesh) Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Kaveri Infra Projects Digital Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@kaveri-infra-projects-uttar pradesh-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@kaveri-infra-projects-uttar pradesh-ipo.com', 'https://www.kaveri-infra-projects-uttar pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/kaveri-infra-projects-uttar pradesh-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 358.14, 358.14, 27.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@kaveri-infra-projects-digital-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@kaveri-infra-projects-digital-ipo.com', 'https://www.kaveri-infra-projects-digital-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/kaveri-infra-projects-digital-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 358.14, 358.14, 27.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3246,7 +3246,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Matrix Pharma Formulations (Andhra Pradesh) Limited (matrix-pharma-formulations-andhra pradesh-ipo)
+-- Matrix Pharma Formulations Retail Limited (matrix-pharma-formulations-retail-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -3268,12 +3268,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Matrix Pharma Formulations (Andhra Pradesh) Limited', 'matrix-pharma-formulations-andhra pradesh-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Matrix Pharma Formulations Retail Limited', 'matrix-pharma-formulations-retail-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-02-11', '2025-02-11', '2025-02-11', '2025-02-11', '2025-02-19',
   268, 283, 283, 10, 1200, 79,
   '241.5', 156.97, 'NSE, BSE',
-  45.5, 31.4, 17.8,
-  25.5, 34.2, 29.5,
+  43.5, 29.4, 15.8,
+  23.5, 32.2, 39.5,
   1, 1200, 339600,
   1, 1200, 339600,
   2, 2400, 679200,
@@ -3282,13 +3282,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1014.3,
   76.5, 64.2,
-  'Matrix Pharma Formulations (Andhra Pradesh) Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Matrix Pharma Formulations Retail Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@matrix-pharma-formulations-andhra pradesh-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@matrix-pharma-formulations-andhra pradesh-ipo.com', 'https://www.matrix-pharma-formulations-andhra pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/matrix-pharma-formulations-andhra pradesh-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 362.24, 362.24, 28.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@matrix-pharma-formulations-retail-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@matrix-pharma-formulations-retail-ipo.com', 'https://www.matrix-pharma-formulations-retail-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/matrix-pharma-formulations-retail-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 362.24, 362.24, 28.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3369,7 +3369,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Navkar Urban Structures (Gujarat) Limited (navkar-urban-structures-gujarat-ipo)
+-- Navkar Urban Structures Manufacturing Limited (navkar-urban-structures-manufacturing-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -3391,12 +3391,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Navkar Urban Structures (Gujarat) Limited', 'navkar-urban-structures-gujarat-ipo', 'SME', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Navkar Urban Structures Manufacturing Limited', 'navkar-urban-structures-manufacturing-ipo', 'SME', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-03-11', '2025-03-11', '2025-03-11', '2025-03-11', '2025-03-19',
   269, 284, 284, 10, 1200, 82,
   '242.5', 157.62, 'NSE, BSE',
-  43.5, 29.4, 15.8,
-  23.5, 32.2, 27.5,
+  48.5, 34.4, 20.8,
+  28.5, 37.2, 38.5,
   1, 1200, 340800,
   1, 1200, 340800,
   2, 2400, 681600,
@@ -3405,13 +3405,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1018.5,
   76.5, 64.2,
-  'Navkar Urban Structures (Gujarat) Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Navkar Urban Structures Manufacturing Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Energy industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@navkar-urban-structures-gujarat-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@navkar-urban-structures-gujarat-ipo.com', 'https://www.navkar-urban-structures-gujarat-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/navkar-urban-structures-gujarat-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 366.36, 366.36, 29.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@navkar-urban-structures-manufacturing-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@navkar-urban-structures-manufacturing-ipo.com', 'https://www.navkar-urban-structures-manufacturing-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/navkar-urban-structures-manufacturing-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 366.36, 366.36, 29.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3492,7 +3492,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Omega Precision Tools (Maharashtra) Limited (omega-precision-tools-maharashtra-ipo)
+-- Omega Precision Tools Networks Limited (omega-precision-tools-networks-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -3514,12 +3514,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Omega Precision Tools (Maharashtra) Limited', 'omega-precision-tools-maharashtra-ipo', 'Mainboard', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Omega Precision Tools Networks Limited', 'omega-precision-tools-networks-ipo', 'Mainboard', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-04-15', '2025-04-15', '2025-04-15', '2025-04-15', '2025-04-23',
   270, 285, 285, 10, 30, 85,
   '243.5', 158.28, 'NSE, BSE',
-  43.5, 34.4, 15.8,
-  31.5, 37.2, 41.5,
+  43.5, 39.4, 15.8,
+  27.5, 42.2, 37.5,
   1, 30, 8550,
   23, 690, 196650,
   24, 720, 205200,
@@ -3528,13 +3528,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1022.7,
   76.5, 64.2,
-  'Omega Precision Tools (Maharashtra) Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Omega Precision Tools Networks Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Components industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@omega-precision-tools-maharashtra-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@omega-precision-tools-maharashtra-ipo.com', 'https://www.omega-precision-tools-maharashtra-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/omega-precision-tools-maharashtra-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 370.5, 370.5, 30.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@omega-precision-tools-networks-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@omega-precision-tools-networks-ipo.com', 'https://www.omega-precision-tools-networks-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/omega-precision-tools-networks-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 370.5, 370.5, 30.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3615,7 +3615,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Pinnacle Renewable Power (Tamil Nadu) Limited (pinnacle-renewable-power-tamil nadu-ipo)
+-- Pinnacle Renewable Power Dynamics Limited (pinnacle-renewable-power-dynamics-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -3637,12 +3637,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Pinnacle Renewable Power (Tamil Nadu) Limited', 'pinnacle-renewable-power-tamil nadu-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Pinnacle Renewable Power Dynamics Limited', 'pinnacle-renewable-power-dynamics-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-05-13', '2025-05-13', '2025-05-13', '2025-05-13', '2025-05-21',
   271, 286, 286, 10, 1200, 88,
   '244.5', 158.93, 'NSE, BSE',
-  58.5, 34.4, 20.8,
-  22.5, 37.2, 32.5,
+  46.5, 32.4, 18.8,
+  26.5, 35.2, 30.5,
   1, 1200, 343200,
   1, 1200, 343200,
   2, 2400, 686400,
@@ -3651,13 +3651,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1026.9,
   76.5, 64.2,
-  'Pinnacle Renewable Power (Tamil Nadu) Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Pinnacle Renewable Power Dynamics Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Logistics & Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@pinnacle-renewable-power-tamil nadu-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@pinnacle-renewable-power-tamil nadu-ipo.com', 'https://www.pinnacle-renewable-power-tamil nadu-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/pinnacle-renewable-power-tamil nadu-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 374.66, 374.66, 31.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@pinnacle-renewable-power-dynamics-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@pinnacle-renewable-power-dynamics-ipo.com', 'https://www.pinnacle-renewable-power-dynamics-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/pinnacle-renewable-power-dynamics-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 374.66, 374.66, 31.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3738,7 +3738,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Qualitas Engineering (Karnataka) Limited (qualitas-engineering-karnataka-ipo)
+-- Qualitas Engineering Resource Limited (qualitas-engineering-resource-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -3760,12 +3760,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Qualitas Engineering (Karnataka) Limited', 'qualitas-engineering-karnataka-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Qualitas Engineering Resource Limited', 'qualitas-engineering-resource-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-18',
   272, 287, 287, 10, 1200, 91,
   '245.5', 159.58, 'NSE, BSE',
-  57.5, 38.4, 19.8,
-  29.5, 41.2, 39.5,
+  48.5, 29.4, 20.8,
+  32.5, 32.2, 36.5,
   1, 1200, 344400,
   1, 1200, 344400,
   2, 2400, 688800,
@@ -3774,13 +3774,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1031.1,
   76.5, 64.2,
-  'Qualitas Engineering (Karnataka) Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Qualitas Engineering Resource Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@qualitas-engineering-karnataka-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@qualitas-engineering-karnataka-ipo.com', 'https://www.qualitas-engineering-karnataka-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/qualitas-engineering-karnataka-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 378.84000000000003, 378.84000000000003, 32.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@qualitas-engineering-resource-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@qualitas-engineering-resource-ipo.com', 'https://www.qualitas-engineering-resource-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/qualitas-engineering-resource-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 378.84000000000003, 378.84000000000003, 32.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3861,7 +3861,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Radiant Solar Infra (Delhi) Limited (radiant-solar-infra-delhi-ipo)
+-- Radiant Solar Infra Life Sciences Limited (radiant-solar-infra-life sciences-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -3883,12 +3883,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Radiant Solar Infra (Delhi) Limited', 'radiant-solar-infra-delhi-ipo', 'Mainboard', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Radiant Solar Infra Life Sciences Limited', 'radiant-solar-infra-life sciences-ipo', 'Mainboard', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-23',
   273, 288, 288, 10, 30, 95,
   '246.5', 160.22, 'NSE, BSE',
-  44.5, 40.4, 16.8,
-  28.5, 43.2, 38.5,
+  55.5, 31.4, 17.8,
+  31.5, 34.2, 35.5,
   1, 30, 8640,
   23, 690, 198720,
   24, 720, 207360,
@@ -3897,13 +3897,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1035.3,
   76.5, 64.2,
-  'Radiant Solar Infra (Delhi) Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Radiant Solar Infra Life Sciences Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@radiant-solar-infra-delhi-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@radiant-solar-infra-delhi-ipo.com', 'https://www.radiant-solar-infra-delhi-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/radiant-solar-infra-delhi-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 383.04, 383.04, 33.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@radiant-solar-infra-life sciences-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@radiant-solar-infra-life sciences-ipo.com', 'https://www.radiant-solar-infra-life sciences-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/radiant-solar-infra-life sciences-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 383.04, 383.04, 33.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -3984,7 +3984,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Starlight Tech Solutions (Telangana) Limited (starlight-tech-solutions-telangana-ipo)
+-- Starlight Tech Solutions Specialities Limited (starlight-tech-solutions-specialities-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -4006,12 +4006,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Starlight Tech Solutions (Telangana) Limited', 'starlight-tech-solutions-telangana-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Starlight Tech Solutions Specialities Limited', 'starlight-tech-solutions-specialities-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-20',
   274, 289, 289, 10, 1200, 98,
   '247.5', 160.88, 'NSE, BSE',
-  46.5, 37.4, 18.8,
-  22.5, 40.2, 32.5,
+  57.5, 33.4, 19.8,
+  33.5, 36.2, 43.5,
   1, 1200, 346800,
   1, 1200, 346800,
   2, 2400, 693600,
@@ -4020,13 +4020,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1039.5,
   76.5, 64.2,
-  'Starlight Tech Solutions (Telangana) Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Starlight Tech Solutions Specialities Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Infrastructure & Construction industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@starlight-tech-solutions-telangana-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@starlight-tech-solutions-telangana-ipo.com', 'https://www.starlight-tech-solutions-telangana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/starlight-tech-solutions-telangana-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 387.26000000000005, 387.26000000000005, 34.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@starlight-tech-solutions-specialities-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@starlight-tech-solutions-specialities-ipo.com', 'https://www.starlight-tech-solutions-specialities-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/starlight-tech-solutions-specialities-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 387.26000000000005, 387.26000000000005, 34.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4107,7 +4107,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Trident Speciality Chemicals (Rajasthan) Limited (trident-speciality-chemicals-rajasthan-ipo)
+-- Trident Speciality Chemicals Automotive Limited (trident-speciality-chemicals-automotive-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -4129,12 +4129,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Trident Speciality Chemicals (Rajasthan) Limited', 'trident-speciality-chemicals-rajasthan-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Trident Speciality Chemicals Automotive Limited', 'trident-speciality-chemicals-automotive-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-24',
   275, 290, 290, 10, 1200, 101,
   '248.5', 161.53, 'NSE, BSE',
-  46.5, 42.4, 18.8,
-  30.5, 45.2, 34.5,
+  50.5, 36.4, 22.8,
+  30.5, 39.2, 34.5,
   1, 1200, 348000,
   1, 1200, 348000,
   2, 2400, 696000,
@@ -4143,13 +4143,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1043.7,
   76.5, 64.2,
-  'Trident Speciality Chemicals (Rajasthan) Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Trident Speciality Chemicals Automotive Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Specialty Chemicals industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@trident-speciality-chemicals-rajasthan-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@trident-speciality-chemicals-rajasthan-ipo.com', 'https://www.trident-speciality-chemicals-rajasthan-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/trident-speciality-chemicals-rajasthan-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 391.5, 391.5, 35.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@trident-speciality-chemicals-automotive-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@trident-speciality-chemicals-automotive-ipo.com', 'https://www.trident-speciality-chemicals-automotive-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/trident-speciality-chemicals-automotive-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 391.5, 391.5, 35.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4230,7 +4230,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- United Engineering Works (Punjab) Limited (united-engineering-works-punjab-ipo)
+-- United Engineering Works Components Limited (united-engineering-works-components-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -4252,12 +4252,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'United Engineering Works (Punjab) Limited', 'united-engineering-works-punjab-ipo', 'Mainboard', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'United Engineering Works Components Limited', 'united-engineering-works-components-ipo', 'Mainboard', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-10-14', '2025-10-14', '2025-10-14', '2025-10-14', '2025-10-22',
   276, 291, 291, 10, 30, 104,
   '249.5', 162.18, 'NSE, BSE',
-  50.5, 41.4, 22.8,
-  26.5, 44.2, 42.5,
+  55.5, 41.4, 17.8,
+  23.5, 44.2, 39.5,
   1, 30, 8730,
   22, 660, 192060,
   23, 690, 200790,
@@ -4266,13 +4266,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1047.9,
   76.5, 64.2,
-  'United Engineering Works (Punjab) Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'United Engineering Works Components Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@united-engineering-works-punjab-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@united-engineering-works-punjab-ipo.com', 'https://www.united-engineering-works-punjab-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/united-engineering-works-punjab-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 395.76, 395.76, 36.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@united-engineering-works-components-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@united-engineering-works-components-ipo.com', 'https://www.united-engineering-works-components-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/united-engineering-works-components-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 395.76, 395.76, 36.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4353,7 +4353,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Vanguard Defense Systems (Haryana) Limited (vanguard-defense-systems-haryana-ipo)
+-- Vanguard Defense Systems Clean Energy Limited (vanguard-defense-systems-clean energy-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -4375,12 +4375,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Vanguard Defense Systems (Haryana) Limited', 'vanguard-defense-systems-haryana-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Vanguard Defense Systems Clean Energy Limited', 'vanguard-defense-systems-clean energy-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-11-11', '2025-11-11', '2025-11-11', '2025-11-11', '2025-11-19',
   277, 292, 292, 10, 1200, 108,
   '250.5', 162.83, 'NSE, BSE',
-  61.5, 32.4, 23.8,
-  29.5, 35.2, 33.5,
+  43.5, 39.4, 15.8,
+  27.5, 42.2, 31.5,
   1, 1200, 350400,
   1, 1200, 350400,
   2, 2400, 700800,
@@ -4389,13 +4389,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1052.1,
   76.5, 64.2,
-  'Vanguard Defense Systems (Haryana) Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Vanguard Defense Systems Clean Energy Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@vanguard-defense-systems-haryana-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@vanguard-defense-systems-haryana-ipo.com', 'https://www.vanguard-defense-systems-haryana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/vanguard-defense-systems-haryana-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 400.04, 400.04, 37.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@vanguard-defense-systems-clean energy-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@vanguard-defense-systems-clean energy-ipo.com', 'https://www.vanguard-defense-systems-clean energy-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/vanguard-defense-systems-clean energy-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 400.04, 400.04, 37.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4476,7 +4476,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Wave Biotech Labs (West Bengal) Limited (wave-biotech-labs-west bengal-ipo)
+-- Wave Biotech Labs Power Limited (wave-biotech-labs-power-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -4498,12 +4498,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Wave Biotech Labs (West Bengal) Limited', 'wave-biotech-labs-west bengal-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Wave Biotech Labs Power Limited', 'wave-biotech-labs-power-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-12-09', '2025-12-09', '2025-12-09', '2025-12-09', '2025-12-17',
   278, 293, 293, 10, 1200, 111,
   '251.5', 163.47, 'NSE, BSE',
-  55.5, 41.4, 17.8,
-  23.5, 44.2, 27.5,
+  48.5, 29.4, 20.8,
+  32.5, 32.2, 36.5,
   1, 1200, 351600,
   1, 1200, 351600,
   2, 2400, 703200,
@@ -4512,13 +4512,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1056.3,
   76.5, 64.2,
-  'Wave Biotech Labs (West Bengal) Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Wave Biotech Labs Power Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@wave-biotech-labs-west bengal-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@wave-biotech-labs-west bengal-ipo.com', 'https://www.wave-biotech-labs-west bengal-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/wave-biotech-labs-west bengal-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 404.34, 404.34, 38.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@wave-biotech-labs-power-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@wave-biotech-labs-power-ipo.com', 'https://www.wave-biotech-labs-power-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/wave-biotech-labs-power-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 404.34, 404.34, 38.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4599,7 +4599,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Xenon Logistics Freight (Madhya Pradesh) Limited (xenon-logistics-freight-madhya pradesh-ipo)
+-- Xenon Logistics Freight Biotech Limited (xenon-logistics-freight-biotech-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -4621,12 +4621,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Xenon Logistics Freight (Madhya Pradesh) Limited', 'xenon-logistics-freight-madhya pradesh-ipo', 'Mainboard', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Xenon Logistics Freight Biotech Limited', 'xenon-logistics-freight-biotech-ipo', 'Mainboard', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-01-13', '2026-01-13', '2026-01-13', '2026-01-13', '2026-01-21',
   279, 294, 294, 10, 30, 114,
   '252.5', 164.12, 'NSE, BSE',
-  44.5, 30.4, 16.8,
-  24.5, 33.2, 28.5,
+  44.5, 40.4, 16.8,
+  28.5, 43.2, 32.5,
   1, 30, 8820,
   22, 660, 194040,
   23, 690, 202860,
@@ -4635,13 +4635,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1060.5,
   76.5, 64.2,
-  'Xenon Logistics Freight (Madhya Pradesh) Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Xenon Logistics Freight Biotech Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Energy industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@xenon-logistics-freight-madhya pradesh-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@xenon-logistics-freight-madhya pradesh-ipo.com', 'https://www.xenon-logistics-freight-madhya pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/xenon-logistics-freight-madhya pradesh-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 408.66, 408.66, 39.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@xenon-logistics-freight-biotech-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@xenon-logistics-freight-biotech-ipo.com', 'https://www.xenon-logistics-freight-biotech-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/xenon-logistics-freight-biotech-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 408.66, 408.66, 39.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4722,7 +4722,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Yash Tech Solutions (Kerala) Limited (yash-tech-solutions-kerala-ipo)
+-- Yash Tech Solutions Chemicals Limited (yash-tech-solutions-chemicals-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -4744,12 +4744,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Yash Tech Solutions (Kerala) Limited', 'yash-tech-solutions-kerala-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Yash Tech Solutions Chemicals Limited', 'yash-tech-solutions-chemicals-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-02-10', '2026-02-10', '2026-02-10', '2026-02-10', '2026-02-18',
   280, 295, 295, 10, 1200, 118,
   '253.5', 164.78, 'NSE, BSE',
-  47.5, 28.4, 19.8,
-  31.5, 31.2, 35.5,
+  42.5, 28.4, 14.8,
+  22.5, 31.2, 38.5,
   1, 1200, 354000,
   1, 1200, 354000,
   2, 2400, 708000,
@@ -4758,13 +4758,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1064.7,
   76.5, 64.2,
-  'Yash Tech Solutions (Kerala) Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Yash Tech Solutions Chemicals Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Components industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@yash-tech-solutions-kerala-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@yash-tech-solutions-kerala-ipo.com', 'https://www.yash-tech-solutions-kerala-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/yash-tech-solutions-kerala-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 413.0, 413.0, 40.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@yash-tech-solutions-chemicals-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@yash-tech-solutions-chemicals-ipo.com', 'https://www.yash-tech-solutions-chemicals-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/yash-tech-solutions-chemicals-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 413.0, 413.0, 40.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4845,7 +4845,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Zodiac Energy Systems (Uttar Pradesh) Limited (zodiac-energy-systems-uttar pradesh-ipo)
+-- Zodiac Energy Systems Exports Limited (zodiac-energy-systems-exports-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -4867,12 +4867,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Zodiac Energy Systems (Uttar Pradesh) Limited', 'zodiac-energy-systems-uttar pradesh-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Zodiac Energy Systems Exports Limited', 'zodiac-energy-systems-exports-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-03-10', '2026-03-10', '2026-03-10', '2026-03-10', '2026-03-18',
   281, 296, 296, 10, 1200, 121,
   '254.5', 165.43, 'NSE, BSE',
-  42.5, 28.4, 14.8,
-  22.5, 31.2, 38.5,
+  55.5, 36.4, 17.8,
+  27.5, 39.2, 37.5,
   1, 1200, 355200,
   1, 1200, 355200,
   2, 2400, 710400,
@@ -4881,13 +4881,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1068.9,
   76.5, 64.2,
-  'Zodiac Energy Systems (Uttar Pradesh) Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Zodiac Energy Systems Exports Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Logistics & Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@zodiac-energy-systems-uttar pradesh-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@zodiac-energy-systems-uttar pradesh-ipo.com', 'https://www.zodiac-energy-systems-uttar pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/zodiac-energy-systems-uttar pradesh-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 417.35999999999996, 417.35999999999996, 41.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@zodiac-energy-systems-exports-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@zodiac-energy-systems-exports-ipo.com', 'https://www.zodiac-energy-systems-exports-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/zodiac-energy-systems-exports-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 417.35999999999996, 417.35999999999996, 41.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -4968,7 +4968,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Aditya Auto Components (Andhra Pradesh) Limited (aditya-auto-components-andhra pradesh-ipo)
+-- Aditya Auto Components Trading Limited (aditya-auto-components-trading-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -4990,12 +4990,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Aditya Auto Components (Andhra Pradesh) Limited', 'aditya-auto-components-andhra pradesh-ipo', 'Mainboard', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Aditya Auto Components Trading Limited', 'aditya-auto-components-trading-ipo', 'Mainboard', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-04-14', '2026-04-14', '2026-04-14', '2026-04-14', '2026-04-22',
   282, 297, 297, 10, 30, 124,
   '255.5', 166.08, 'NSE, BSE',
-  51.5, 37.4, 23.8,
-  31.5, 40.2, 29.5,
+  55.5, 36.4, 17.8,
+  27.5, 39.2, 37.5,
   1, 30, 8910,
   22, 660, 196020,
   23, 690, 204930,
@@ -5004,13 +5004,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1073.1,
   76.5, 64.2,
-  'Aditya Auto Components (Andhra Pradesh) Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Aditya Auto Components Trading Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@aditya-auto-components-andhra pradesh-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@aditya-auto-components-andhra pradesh-ipo.com', 'https://www.aditya-auto-components-andhra pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/aditya-auto-components-andhra pradesh-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 421.73999999999995, 421.73999999999995, 42.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@aditya-auto-components-trading-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@aditya-auto-components-trading-ipo.com', 'https://www.aditya-auto-components-trading-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/aditya-auto-components-trading-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 421.73999999999995, 421.73999999999995, 42.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5091,7 +5091,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Blue Chip Capital Services (Gujarat) Limited (blue-chip-capital-services-gujarat-ipo)
+-- Blue Chip Capital Services Holdings Limited (blue-chip-capital-services-holdings-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -5113,7 +5113,7 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Blue Chip Capital Services (Gujarat) Limited', 'blue-chip-capital-services-gujarat-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Blue Chip Capital Services Holdings Limited', 'blue-chip-capital-services-holdings-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-05-12', '2026-05-12', '2026-05-12', '2026-05-12', '2026-05-20',
   283, 298, 298, 10, 1200, 128,
   '256.5', 166.72, 'NSE, BSE',
@@ -5127,13 +5127,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1077.3,
   76.5, 64.2,
-  'Blue Chip Capital Services (Gujarat) Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Blue Chip Capital Services Holdings Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@blue-chip-capital-services-gujarat-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@blue-chip-capital-services-gujarat-ipo.com', 'https://www.blue-chip-capital-services-gujarat-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/blue-chip-capital-services-gujarat-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 426.14, 426.14, 43.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@blue-chip-capital-services-holdings-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@blue-chip-capital-services-holdings-ipo.com', 'https://www.blue-chip-capital-services-holdings-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/blue-chip-capital-services-holdings-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 426.14, 426.14, 43.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5214,7 +5214,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Crest Fine Chemicals (Maharashtra) Limited (crest-fine-chemicals-maharashtra-ipo)
+-- Crest Fine Chemicals Ventures Limited (crest-fine-chemicals-ventures-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -5236,12 +5236,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Crest Fine Chemicals (Maharashtra) Limited', 'crest-fine-chemicals-maharashtra-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Crest Fine Chemicals Ventures Limited', 'crest-fine-chemicals-ventures-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-06-09', '2026-06-09', '2026-06-09', '2026-06-09', '2026-06-17',
   284, 299, 299, 10, 1200, 131,
   '257.5', 167.38, 'NSE, BSE',
-  52.5, 38.4, 14.8,
-  32.5, 41.2, 42.5,
+  45.5, 36.4, 17.8,
+  33.5, 39.2, 43.5,
   1, 1200, 358800,
   1, 1200, 358800,
   2, 2400, 717600,
@@ -5250,13 +5250,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1081.5,
   76.5, 64.2,
-  'Crest Fine Chemicals (Maharashtra) Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Crest Fine Chemicals Ventures Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Infrastructure & Construction industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@crest-fine-chemicals-maharashtra-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@crest-fine-chemicals-maharashtra-ipo.com', 'https://www.crest-fine-chemicals-maharashtra-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/crest-fine-chemicals-maharashtra-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 430.56, 430.56, 44.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@crest-fine-chemicals-ventures-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@crest-fine-chemicals-ventures-ipo.com', 'https://www.crest-fine-chemicals-ventures-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/crest-fine-chemicals-ventures-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 430.56, 430.56, 44.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5337,7 +5337,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Dynamic EV Motors (Tamil Nadu) Limited (dynamic-ev-motors-tamil nadu-ipo)
+-- Dynamic EV Motors Enterprises Limited (dynamic-ev-motors-enterprises-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -5359,12 +5359,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Dynamic EV Motors (Tamil Nadu) Limited', 'dynamic-ev-motors-tamil nadu-ipo', 'Mainboard', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Dynamic EV Motors Enterprises Limited', 'dynamic-ev-motors-enterprises-ipo', 'Mainboard', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-01-10', '2024-01-10', '2024-01-10', '2024-01-10', '2024-01-18',
   285, 300, 300, 10, 30, 135,
   '258.5', 168.03, 'NSE, BSE',
-  43.5, 29.4, 15.8,
-  23.5, 32.2, 39.5,
+  56.5, 37.4, 18.8,
+  28.5, 40.2, 26.5,
   1, 30, 9000,
   22, 660, 198000,
   23, 690, 207000,
@@ -5373,13 +5373,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1085.7,
   76.5, 64.2,
-  'Dynamic EV Motors (Tamil Nadu) Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Dynamic EV Motors Enterprises Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Specialty Chemicals industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@dynamic-ev-motors-tamil nadu-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@dynamic-ev-motors-tamil nadu-ipo.com', 'https://www.dynamic-ev-motors-tamil nadu-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/dynamic-ev-motors-tamil nadu-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 435.0, 435.0, 45.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@dynamic-ev-motors-enterprises-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@dynamic-ev-motors-enterprises-ipo.com', 'https://www.dynamic-ev-motors-enterprises-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/dynamic-ev-motors-enterprises-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 435.0, 435.0, 45.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5460,7 +5460,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Eminent Pharma Labs (Karnataka) Limited (eminent-pharma-labs-karnataka-ipo)
+-- Eminent Pharma Labs Solutions Limited (eminent-pharma-labs-solutions-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -5482,12 +5482,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Eminent Pharma Labs (Karnataka) Limited', 'eminent-pharma-labs-karnataka-ipo', 'SME', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Eminent Pharma Labs Solutions Limited', 'eminent-pharma-labs-solutions-ipo', 'SME', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-02-14', '2024-02-14', '2024-02-14', '2024-02-14', '2024-02-22',
   285, 301, 301, 10, 1200, 138,
   '259.5', 168.68, 'NSE, BSE',
-  43.5, 34.4, 15.8,
-  31.5, 37.2, 29.5,
+  42.5, 33.4, 14.8,
+  30.5, 36.2, 34.5,
   1, 1200, 361200,
   1, 1200, 361200,
   2, 2400, 722400,
@@ -5496,13 +5496,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1089.9,
   76.5, 64.2,
-  'Eminent Pharma Labs (Karnataka) Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Eminent Pharma Labs Solutions Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@eminent-pharma-labs-karnataka-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@eminent-pharma-labs-karnataka-ipo.com', 'https://www.eminent-pharma-labs-karnataka-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/eminent-pharma-labs-karnataka-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 439.46, 439.46, 46.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@eminent-pharma-labs-solutions-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@eminent-pharma-labs-solutions-ipo.com', 'https://www.eminent-pharma-labs-solutions-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/eminent-pharma-labs-solutions-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 439.46, 439.46, 46.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5583,7 +5583,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Frontier Infra Build (Delhi) Limited (frontier-infra-build-delhi-ipo)
+-- Frontier Infra Build Technologies Limited (frontier-infra-build-technologies-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -5605,12 +5605,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Frontier Infra Build (Delhi) Limited', 'frontier-infra-build-delhi-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Frontier Infra Build Technologies Limited', 'frontier-infra-build-technologies-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-03-12', '2024-03-12', '2024-03-12', '2024-03-12', '2024-03-20',
   286, 302, 302, 10, 1200, 141,
   '260.5', 169.33, 'NSE, BSE',
-  60.5, 36.4, 22.8,
-  24.5, 39.2, 28.5,
+  59.5, 30.4, 21.8,
+  27.5, 33.2, 37.5,
   1, 1200, 362400,
   1, 1200, 362400,
   2, 2400, 724800,
@@ -5619,13 +5619,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1094.1,
   76.5, 64.2,
-  'Frontier Infra Build (Delhi) Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Frontier Infra Build Technologies Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@frontier-infra-build-delhi-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@frontier-infra-build-delhi-ipo.com', 'https://www.frontier-infra-build-delhi-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/frontier-infra-build-delhi-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 443.94, 443.94, 47.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@frontier-infra-build-technologies-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@frontier-infra-build-technologies-ipo.com', 'https://www.frontier-infra-build-technologies-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/frontier-infra-build-technologies-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 443.94, 443.94, 47.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5706,7 +5706,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Grandeur Hotels & Resorts (Telangana) Limited (grandeur-hotels-&-resorts-telangana-ipo)
+-- Grandeur Hotels & Resorts Industries Limited (grandeur-hotels-&-resorts-industries-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -5728,12 +5728,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Grandeur Hotels & Resorts (Telangana) Limited', 'grandeur-hotels-&-resorts-telangana-ipo', 'Mainboard', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Grandeur Hotels & Resorts Industries Limited', 'grandeur-hotels-&-resorts-industries-ipo', 'Mainboard', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-04-16', '2024-04-16', '2024-04-16', '2024-04-16', '2024-04-24',
   287, 303, 303, 10, 30, 145,
   '261.5', 169.97, 'NSE, BSE',
-  54.5, 40.4, 16.8,
-  22.5, 43.2, 32.5,
+  47.5, 38.4, 19.8,
+  23.5, 41.2, 33.5,
   1, 30, 9090,
   22, 660, 199980,
   23, 690, 209070,
@@ -5742,13 +5742,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1098.3,
   76.5, 64.2,
-  'Grandeur Hotels & Resorts (Telangana) Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Grandeur Hotels & Resorts Industries Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@grandeur-hotels-&-resorts-telangana-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@grandeur-hotels-&-resorts-telangana-ipo.com', 'https://www.grandeur-hotels-&-resorts-telangana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/grandeur-hotels-&-resorts-telangana-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 448.44, 448.44, 48.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@grandeur-hotels-&-resorts-industries-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@grandeur-hotels-&-resorts-industries-ipo.com', 'https://www.grandeur-hotels-&-resorts-industries-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/grandeur-hotels-&-resorts-industries-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 448.44, 448.44, 48.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5829,7 +5829,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Heritage Foods Retail (Rajasthan) Limited (heritage-foods-retail-rajasthan-ipo)
+-- Heritage Foods Retail Services Limited (heritage-foods-retail-services-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -5851,12 +5851,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Heritage Foods Retail (Rajasthan) Limited', 'heritage-foods-retail-rajasthan-ipo', 'SME', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Heritage Foods Retail Services Limited', 'heritage-foods-retail-services-ipo', 'SME', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-05-14', '2024-05-14', '2024-05-14', '2024-05-14', '2024-05-22',
   288, 304, 304, 10, 1200, 148,
   '262.5', 170.62, 'NSE, BSE',
-  51.5, 42.4, 23.8,
-  27.5, 45.2, 31.5,
+  58.5, 39.4, 20.8,
+  30.5, 42.2, 40.5,
   1, 1200, 364800,
   1, 1200, 364800,
   2, 2400, 729600,
@@ -5865,13 +5865,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1102.5,
   76.5, 64.2,
-  'Heritage Foods Retail (Rajasthan) Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Heritage Foods Retail Services Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Energy industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@heritage-foods-retail-rajasthan-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@heritage-foods-retail-rajasthan-ipo.com', 'https://www.heritage-foods-retail-rajasthan-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/heritage-foods-retail-rajasthan-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 452.96, 452.96, 49.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@heritage-foods-retail-services-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@heritage-foods-retail-services-ipo.com', 'https://www.heritage-foods-retail-services-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/heritage-foods-retail-services-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 452.96, 452.96, 49.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -5952,7 +5952,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Imperial Tech SaaS (Punjab) Limited (imperial-tech-saas-punjab-ipo)
+-- Imperial Tech SaaS Infra Limited (imperial-tech-saas-infra-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -5974,12 +5974,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Imperial Tech SaaS (Punjab) Limited', 'imperial-tech-saas-punjab-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Imperial Tech SaaS Infra Limited', 'imperial-tech-saas-infra-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-06-11', '2024-06-11', '2024-06-11', '2024-06-11', '2024-06-19',
   289, 305, 305, 10, 1200, 45,
   '263.5', 171.28, 'NSE, BSE',
-  55.5, 31.4, 17.8,
-  31.5, 34.2, 29.5,
+  43.5, 39.4, 15.8,
+  27.5, 42.2, 31.5,
   1, 1200, 366000,
   1, 1200, 366000,
   2, 2400, 732000,
@@ -5988,13 +5988,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1106.7,
   76.5, 64.2,
-  'Imperial Tech SaaS (Punjab) Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Imperial Tech SaaS Infra Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Components industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@imperial-tech-saas-punjab-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@imperial-tech-saas-punjab-ipo.com', 'https://www.imperial-tech-saas-punjab-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/imperial-tech-saas-punjab-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 350.75, 350.75, 15.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@imperial-tech-saas-infra-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@imperial-tech-saas-infra-ipo.com', 'https://www.imperial-tech-saas-infra-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/imperial-tech-saas-infra-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 350.75, 350.75, 15.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6075,7 +6075,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Jubilant Renewable Energy (Haryana) Limited (jubilant-renewable-energy-haryana-ipo)
+-- Jubilant Renewable Energy Global Limited (jubilant-renewable-energy-global-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -6097,12 +6097,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Jubilant Renewable Energy (Haryana) Limited', 'jubilant-renewable-energy-haryana-ipo', 'Mainboard', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Jubilant Renewable Energy Global Limited', 'jubilant-renewable-energy-global-ipo', 'Mainboard', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-07-16', '2024-07-16', '2024-07-16', '2024-07-16', '2024-07-24',
   290, 306, 306, 10, 30, 48,
   '264.5', 171.93, 'NSE, BSE',
-  45.5, 41.4, 17.8,
-  29.5, 44.2, 33.5,
+  56.5, 42.4, 18.8,
+  24.5, 45.2, 34.5,
   1, 30, 9180,
   21, 630, 192780,
   22, 660, 201960,
@@ -6111,13 +6111,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1110.9,
   76.5, 64.2,
-  'Jubilant Renewable Energy (Haryana) Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Jubilant Renewable Energy Global Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Logistics & Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@jubilant-renewable-energy-haryana-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@jubilant-renewable-energy-haryana-ipo.com', 'https://www.jubilant-renewable-energy-haryana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/jubilant-renewable-energy-haryana-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 354.96, 354.96, 16.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@jubilant-renewable-energy-global-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@jubilant-renewable-energy-global-ipo.com', 'https://www.jubilant-renewable-energy-global-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/jubilant-renewable-energy-global-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 354.96, 354.96, 16.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6198,7 +6198,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Kiran Jewellery Manufacturing (West Bengal) Limited (kiran-jewellery-manufacturing-west bengal-ipo)
+-- Kiran Jewellery Manufacturing International Limited (kiran-jewellery-manufacturing-international-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -6220,12 +6220,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Kiran Jewellery Manufacturing (West Bengal) Limited', 'kiran-jewellery-manufacturing-west bengal-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Kiran Jewellery Manufacturing International Limited', 'kiran-jewellery-manufacturing-international-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-08-13', '2024-08-13', '2024-08-13', '2024-08-13', '2024-08-21',
   291, 307, 307, 10, 1200, 52,
   '265.5', 172.58, 'NSE, BSE',
-  49.5, 35.4, 21.8,
-  29.5, 38.2, 27.5,
+  45.5, 36.4, 17.8,
+  33.5, 39.2, 43.5,
   1, 1200, 368400,
   1, 1200, 368400,
   2, 2400, 736800,
@@ -6234,13 +6234,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1115.1,
   76.5, 64.2,
-  'Kiran Jewellery Manufacturing (West Bengal) Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Kiran Jewellery Manufacturing International Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@kiran-jewellery-manufacturing-west bengal-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@kiran-jewellery-manufacturing-west bengal-ipo.com', 'https://www.kiran-jewellery-manufacturing-west bengal-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/kiran-jewellery-manufacturing-west bengal-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 359.19, 359.19, 17.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@kiran-jewellery-manufacturing-international-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@kiran-jewellery-manufacturing-international-ipo.com', 'https://www.kiran-jewellery-manufacturing-international-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/kiran-jewellery-manufacturing-international-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 359.19, 359.19, 17.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6321,7 +6321,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Lumina Lighting Systems (Madhya Pradesh) Limited (lumina-lighting-systems-madhya pradesh-ipo)
+-- Lumina Lighting Systems Logistics Limited (lumina-lighting-systems-logistics-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -6343,12 +6343,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Lumina Lighting Systems (Madhya Pradesh) Limited', 'lumina-lighting-systems-madhya pradesh-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Lumina Lighting Systems Logistics Limited', 'lumina-lighting-systems-logistics-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-09-17', '2024-09-17', '2024-09-17', '2024-09-17', '2024-09-25',
   292, 308, 308, 10, 1200, 55,
   '266.5', 173.22, 'NSE, BSE',
-  42.5, 28.4, 14.8,
-  22.5, 31.2, 26.5,
+  44.5, 40.4, 16.8,
+  28.5, 43.2, 38.5,
   1, 1200, 369600,
   1, 1200, 369600,
   2, 2400, 739200,
@@ -6357,13 +6357,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1119.3,
   76.5, 64.2,
-  'Lumina Lighting Systems (Madhya Pradesh) Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Lumina Lighting Systems Logistics Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@lumina-lighting-systems-madhya pradesh-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@lumina-lighting-systems-madhya pradesh-ipo.com', 'https://www.lumina-lighting-systems-madhya pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/lumina-lighting-systems-madhya pradesh-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 363.44, 363.44, 18.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@lumina-lighting-systems-logistics-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@lumina-lighting-systems-logistics-ipo.com', 'https://www.lumina-lighting-systems-logistics-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/lumina-lighting-systems-logistics-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 363.44, 363.44, 18.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6444,7 +6444,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Monarch Packaging Solution (Kerala) Limited (monarch-packaging-solution-kerala-ipo)
+-- Monarch Packaging Solution Pharma Limited (monarch-packaging-solution-pharma-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -6466,12 +6466,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Monarch Packaging Solution (Kerala) Limited', 'monarch-packaging-solution-kerala-ipo', 'Mainboard', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Monarch Packaging Solution Pharma Limited', 'monarch-packaging-solution-pharma-ipo', 'Mainboard', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-10-15', '2024-10-15', '2024-10-15', '2024-10-15', '2024-10-23',
   293, 309, 309, 10, 30, 58,
   '267.5', 173.88, 'NSE, BSE',
-  45.5, 36.4, 17.8,
-  33.5, 39.2, 31.5,
+  46.5, 37.4, 18.8,
+  22.5, 40.2, 32.5,
   1, 30, 9270,
   21, 630, 194670,
   22, 660, 203940,
@@ -6480,13 +6480,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 1123.5,
   76.5, 64.2,
-  'Monarch Packaging Solution (Kerala) Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Monarch Packaging Solution Pharma Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Infrastructure & Construction industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@monarch-packaging-solution-kerala-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@monarch-packaging-solution-kerala-ipo.com', 'https://www.monarch-packaging-solution-kerala-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/monarch-packaging-solution-kerala-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 367.71, 367.71, 19.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@monarch-packaging-solution-pharma-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@monarch-packaging-solution-pharma-ipo.com', 'https://www.monarch-packaging-solution-pharma-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/monarch-packaging-solution-pharma-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 367.71, 367.71, 19.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6567,7 +6567,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Noble Synthetics (Uttar Pradesh) Limited (noble-synthetics-uttar pradesh-ipo)
+-- Noble Synthetics Energy Limited (noble-synthetics-energy-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -6589,12 +6589,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Noble Synthetics (Uttar Pradesh) Limited', 'noble-synthetics-uttar pradesh-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Noble Synthetics Energy Limited', 'noble-synthetics-energy-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-11-12', '2024-11-12', '2024-11-12', '2024-11-12', '2024-11-20',
   294, 310, 310, 10, 1200, 62,
   '18.5', 12.03, 'NSE, BSE',
-  46.5, 42.4, 18.8,
-  30.5, 45.2, 40.5,
+  58.5, 34.4, 20.8,
+  22.5, 37.2, 32.5,
   1, 1200, 372000,
   1, 1200, 372000,
   2, 2400, 744000,
@@ -6603,13 +6603,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 77.7,
   76.5, 64.2,
-  'Noble Synthetics (Uttar Pradesh) Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Noble Synthetics Energy Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Specialty Chemicals industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@noble-synthetics-uttar pradesh-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@noble-synthetics-uttar pradesh-ipo.com', 'https://www.noble-synthetics-uttar pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/noble-synthetics-uttar pradesh-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 372.0, 372.0, 20.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@noble-synthetics-energy-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@noble-synthetics-energy-ipo.com', 'https://www.noble-synthetics-energy-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/noble-synthetics-energy-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 372.0, 372.0, 20.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6690,7 +6690,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Optima Cyber Security (Andhra Pradesh) Limited (optima-cyber-security-andhra pradesh-ipo)
+-- Optima Cyber Security Capital Limited (optima-cyber-security-capital-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -6712,12 +6712,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Optima Cyber Security (Andhra Pradesh) Limited', 'optima-cyber-security-andhra pradesh-ipo', 'SME', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Optima Cyber Security Capital Limited', 'optima-cyber-security-capital-ipo', 'SME', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2024-12-10', '2024-12-10', '2024-12-10', '2024-12-10', '2024-12-18',
   295, 311, 311, 10, 1200, 65,
   '19.5', 12.68, 'NSE, BSE',
-  55.5, 36.4, 17.8,
-  27.5, 39.2, 31.5,
+  59.5, 35.4, 21.8,
+  23.5, 38.2, 33.5,
   1, 1200, 373200,
   1, 1200, 373200,
   2, 2400, 746400,
@@ -6726,13 +6726,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 81.9,
   76.5, 64.2,
-  'Optima Cyber Security (Andhra Pradesh) Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Optima Cyber Security Capital Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@optima-cyber-security-andhra pradesh-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@optima-cyber-security-andhra pradesh-ipo.com', 'https://www.optima-cyber-security-andhra pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/optima-cyber-security-andhra pradesh-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 376.31, 376.31, 21.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@optima-cyber-security-capital-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@optima-cyber-security-capital-ipo.com', 'https://www.optima-cyber-security-capital-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/optima-cyber-security-capital-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 376.31, 376.31, 21.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6813,7 +6813,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Prime Power Transformers (Gujarat) Limited (prime-power-transformers-gujarat-ipo)
+-- Prime Power Transformers Tech Limited (prime-power-transformers-tech-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -6835,12 +6835,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Prime Power Transformers (Gujarat) Limited', 'prime-power-transformers-gujarat-ipo', 'Mainboard', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Prime Power Transformers Tech Limited', 'prime-power-transformers-tech-ipo', 'Mainboard', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-01-14', '2025-01-14', '2025-01-14', '2025-01-14', '2025-01-22',
   296, 312, 312, 10, 30, 68,
   '20.5', 13.33, 'NSE, BSE',
   58.5, 29.4, 20.8,
-  26.5, 32.2, 36.5,
+  26.5, 32.2, 30.5,
   1, 30, 9360,
   21, 630, 196560,
   22, 660, 205920,
@@ -6849,13 +6849,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 86.1,
   76.5, 64.2,
-  'Prime Power Transformers (Gujarat) Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Prime Power Transformers Tech Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@prime-power-transformers-gujarat-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@prime-power-transformers-gujarat-ipo.com', 'https://www.prime-power-transformers-gujarat-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/prime-power-transformers-gujarat-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 380.64, 380.64, 22.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@prime-power-transformers-tech-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@prime-power-transformers-tech-ipo.com', 'https://www.prime-power-transformers-tech-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/prime-power-transformers-tech-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 380.64, 380.64, 22.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -6936,7 +6936,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Quest Biotech Research (Maharashtra) Limited (quest-biotech-research-maharashtra-ipo)
+-- Quest Biotech Research Systems Limited (quest-biotech-research-systems-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -6958,12 +6958,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Quest Biotech Research (Maharashtra) Limited', 'quest-biotech-research-maharashtra-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Quest Biotech Research Systems Limited', 'quest-biotech-research-systems-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-02-11', '2025-02-11', '2025-02-11', '2025-02-11', '2025-02-19',
   297, 313, 313, 10, 1200, 71,
   '21.5', 13.97, 'NSE, BSE',
-  51.5, 32.4, 23.8,
-  23.5, 35.2, 39.5,
+  56.5, 37.4, 18.8,
+  28.5, 40.2, 26.5,
   1, 1200, 375600,
   1, 1200, 375600,
   2, 2400, 751200,
@@ -6972,13 +6972,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 90.3,
   76.5, 64.2,
-  'Quest Biotech Research (Maharashtra) Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Quest Biotech Research Systems Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@quest-biotech-research-maharashtra-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@quest-biotech-research-maharashtra-ipo.com', 'https://www.quest-biotech-research-maharashtra-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/quest-biotech-research-maharashtra-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 384.99, 384.99, 23.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@quest-biotech-research-systems-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@quest-biotech-research-systems-ipo.com', 'https://www.quest-biotech-research-systems-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/quest-biotech-research-systems-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 384.99, 384.99, 23.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -7059,7 +7059,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Royal Logistics Freight (Tamil Nadu) Limited (royal-logistics-freight-tamil nadu-ipo)
+-- Royal Logistics Freight Products Limited (royal-logistics-freight-products-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -7081,12 +7081,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Royal Logistics Freight (Tamil Nadu) Limited', 'royal-logistics-freight-tamil nadu-ipo', 'SME', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Royal Logistics Freight Products Limited', 'royal-logistics-freight-products-ipo', 'SME', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-03-11', '2025-03-11', '2025-03-11', '2025-03-11', '2025-03-19',
   298, 314, 314, 10, 1200, 75,
   '22.5', 14.62, 'NSE, BSE',
-  48.5, 39.4, 20.8,
-  24.5, 42.2, 40.5,
+  42.5, 38.4, 14.8,
+  26.5, 41.2, 36.5,
   1, 1200, 376800,
   1, 1200, 376800,
   2, 2400, 753600,
@@ -7095,13 +7095,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 94.5,
   76.5, 64.2,
-  'Royal Logistics Freight (Tamil Nadu) Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Royal Logistics Freight Products Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Energy industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@royal-logistics-freight-tamil nadu-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@royal-logistics-freight-tamil nadu-ipo.com', 'https://www.royal-logistics-freight-tamil nadu-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/royal-logistics-freight-tamil nadu-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 389.36, 389.36, 24.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@royal-logistics-freight-products-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@royal-logistics-freight-products-ipo.com', 'https://www.royal-logistics-freight-products-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/royal-logistics-freight-products-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 389.36, 389.36, 24.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -7182,7 +7182,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Swastik Energy Tech (Karnataka) Limited (swastik-energy-tech-karnataka-ipo)
+-- Swastik Energy Tech Engineering Limited (swastik-energy-tech-engineering-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -7204,12 +7204,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Swastik Energy Tech (Karnataka) Limited', 'swastik-energy-tech-karnataka-ipo', 'Mainboard', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Swastik Energy Tech Engineering Limited', 'swastik-energy-tech-engineering-ipo', 'Mainboard', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-04-15', '2025-04-15', '2025-04-15', '2025-04-15', '2025-04-23',
   299, 315, 315, 10, 30, 78,
   '23.5', 15.28, 'NSE, BSE',
-  58.5, 34.4, 20.8,
-  22.5, 37.2, 26.5,
+  50.5, 31.4, 22.8,
+  22.5, 34.2, 38.5,
   1, 30, 9450,
   21, 630, 198450,
   22, 660, 207900,
@@ -7218,13 +7218,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 98.7,
   76.5, 64.2,
-  'Swastik Energy Tech (Karnataka) Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Swastik Energy Tech Engineering Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Components industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@swastik-energy-tech-karnataka-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@swastik-energy-tech-karnataka-ipo.com', 'https://www.swastik-energy-tech-karnataka-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/swastik-energy-tech-karnataka-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 393.75, 393.75, 25.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@swastik-energy-tech-engineering-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@swastik-energy-tech-engineering-ipo.com', 'https://www.swastik-energy-tech-engineering-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/swastik-energy-tech-engineering-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 393.75, 393.75, 25.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -7305,7 +7305,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Titanium Precision Tools (Delhi) Limited (titanium-precision-tools-delhi-ipo)
+-- Titanium Precision Tools Digital Limited (titanium-precision-tools-digital-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -7327,12 +7327,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Titanium Precision Tools (Delhi) Limited', 'titanium-precision-tools-delhi-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Titanium Precision Tools Digital Limited', 'titanium-precision-tools-digital-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-05-13', '2025-05-13', '2025-05-13', '2025-05-13', '2025-05-21',
   300, 316, 316, 10, 1200, 82,
   '24.5', 15.93, 'NSE, BSE',
-  56.5, 32.4, 18.8,
-  32.5, 35.2, 36.5,
+  46.5, 32.4, 18.8,
+  26.5, 35.2, 30.5,
   1, 1200, 379200,
   1, 1200, 379200,
   2, 2400, 758400,
@@ -7341,13 +7341,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 102.9,
   76.5, 64.2,
-  'Titanium Precision Tools (Delhi) Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Titanium Precision Tools Digital Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Logistics & Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@titanium-precision-tools-delhi-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@titanium-precision-tools-delhi-ipo.com', 'https://www.titanium-precision-tools-delhi-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/titanium-precision-tools-delhi-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 398.16, 398.16, 26.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@titanium-precision-tools-digital-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@titanium-precision-tools-digital-ipo.com', 'https://www.titanium-precision-tools-digital-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/titanium-precision-tools-digital-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 398.16, 398.16, 26.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -7428,7 +7428,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Universal Hydrocarbon Systems (Telangana) Limited (universal-hydrocarbon-systems-telangana-ipo)
+-- Universal Hydrocarbon Systems Retail Limited (universal-hydrocarbon-systems-retail-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -7450,12 +7450,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Universal Hydrocarbon Systems (Telangana) Limited', 'universal-hydrocarbon-systems-telangana-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Universal Hydrocarbon Systems Retail Limited', 'universal-hydrocarbon-systems-retail-ipo', 'SME', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-10', '2025-06-18',
   301, 317, 317, 10, 1200, 85,
   '25.5', 16.57, 'NSE, BSE',
-  52.5, 38.4, 14.8,
-  32.5, 41.2, 36.5,
+  47.5, 28.4, 19.8,
+  31.5, 31.2, 35.5,
   1, 1200, 380400,
   1, 1200, 380400,
   2, 2400, 760800,
@@ -7464,13 +7464,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 107.1,
   76.5, 64.2,
-  'Universal Hydrocarbon Systems (Telangana) Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Universal Hydrocarbon Systems Retail Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@universal-hydrocarbon-systems-telangana-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@universal-hydrocarbon-systems-telangana-ipo.com', 'https://www.universal-hydrocarbon-systems-telangana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/universal-hydrocarbon-systems-telangana-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 402.59000000000003, 402.59000000000003, 27.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@universal-hydrocarbon-systems-retail-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@universal-hydrocarbon-systems-retail-ipo.com', 'https://www.universal-hydrocarbon-systems-retail-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/universal-hydrocarbon-systems-retail-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 402.59000000000003, 402.59000000000003, 27.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -7551,7 +7551,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Vedic Healthcare Products (Rajasthan) Limited (vedic-healthcare-products-rajasthan-ipo)
+-- Vedic Healthcare Products Manufacturing Limited (vedic-healthcare-products-manufacturing-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -7573,12 +7573,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Vedic Healthcare Products (Rajasthan) Limited', 'vedic-healthcare-products-rajasthan-ipo', 'Mainboard', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Vedic Healthcare Products Manufacturing Limited', 'vedic-healthcare-products-manufacturing-ipo', 'Mainboard', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-15', '2025-07-23',
   302, 318, 318, 10, 30, 89,
   '26.5', 17.23, 'NSE, BSE',
-  56.5, 42.4, 18.8,
-  24.5, 45.2, 40.5,
+  45.5, 41.4, 17.8,
+  29.5, 44.2, 39.5,
   1, 30, 9540,
   20, 600, 190800,
   21, 630, 200340,
@@ -7587,13 +7587,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 111.3,
   76.5, 64.2,
-  'Vedic Healthcare Products (Rajasthan) Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Vedic Healthcare Products Manufacturing Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@vedic-healthcare-products-rajasthan-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@vedic-healthcare-products-rajasthan-ipo.com', 'https://www.vedic-healthcare-products-rajasthan-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/vedic-healthcare-products-rajasthan-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 407.04, 407.04, 28.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@vedic-healthcare-products-manufacturing-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@vedic-healthcare-products-manufacturing-ipo.com', 'https://www.vedic-healthcare-products-manufacturing-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/vedic-healthcare-products-manufacturing-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 407.04, 407.04, 28.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -7674,7 +7674,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Zenith Power Cables (Punjab) Limited (zenith-power-cables-punjab-ipo)
+-- Zenith Power Cables Networks Limited (zenith-power-cables-networks-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -7696,12 +7696,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Zenith Power Cables (Punjab) Limited', 'zenith-power-cables-punjab-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Zenith Power Cables Networks Limited', 'zenith-power-cables-networks-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-12', '2025-08-20',
   303, 319, 319, 10, 1200, 92,
   '27.5', 17.88, 'NSE, BSE',
-  54.5, 30.4, 16.8,
-  30.5, 33.2, 28.5,
+  55.5, 41.4, 17.8,
+  23.5, 44.2, 39.5,
   1, 1200, 382800,
   1, 1200, 382800,
   2, 2400, 765600,
@@ -7710,13 +7710,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 115.5,
   76.5, 64.2,
-  'Zenith Power Cables (Punjab) Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Zenith Power Cables Networks Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Infrastructure & Construction industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@zenith-power-cables-punjab-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@zenith-power-cables-punjab-ipo.com', 'https://www.zenith-power-cables-punjab-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/zenith-power-cables-punjab-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 411.51, 411.51, 29.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@zenith-power-cables-networks-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@zenith-power-cables-networks-ipo.com', 'https://www.zenith-power-cables-networks-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/zenith-power-cables-networks-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 411.51, 411.51, 29.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -7797,7 +7797,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- TAC InfoSec (Haryana) Limited (tac-infosec-haryana-ipo)
+-- TAC InfoSec Dynamics Limited (tac-infosec-dynamics-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -7819,12 +7819,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'TAC InfoSec (Haryana) Limited', 'tac-infosec-haryana-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'TAC InfoSec Dynamics Limited', 'tac-infosec-dynamics-ipo', 'SME', 'Specialty Chemicals', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-16', '2025-09-24',
   304, 320, 320, 10, 1200, 96,
   '28.5', 18.53, 'NSE, BSE',
-  48.5, 34.4, 20.8,
-  28.5, 37.2, 38.5,
+  49.5, 40.4, 21.8,
+  25.5, 43.2, 35.5,
   1, 1200, 384000,
   1, 1200, 384000,
   2, 2400, 768000,
@@ -7833,13 +7833,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 119.7,
   76.5, 64.2,
-  'TAC InfoSec (Haryana) Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'TAC InfoSec Dynamics Limited is a leading corporate entity operating in the Specialty Chemicals sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Specialty Chemicals industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@tac-infosec-haryana-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@tac-infosec-haryana-ipo.com', 'https://www.tac-infosec-haryana-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/tac-infosec-haryana-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 416.0, 416.0, 30.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@tac-infosec-dynamics-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@tac-infosec-dynamics-ipo.com', 'https://www.tac-infosec-dynamics-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/tac-infosec-dynamics-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 416.0, 416.0, 30.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -7920,7 +7920,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Kay Cee Energy & Infra (West Bengal) Limited (kay-cee-energy-&-infra-west bengal-ipo)
+-- Kay Cee Energy & Infra Resource Limited (kay-cee-energy-&-infra-resource-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -7942,12 +7942,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Kay Cee Energy & Infra (West Bengal) Limited', 'kay-cee-energy-&-infra-west bengal-ipo', 'Mainboard', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Kay Cee Energy & Infra Resource Limited', 'kay-cee-energy-&-infra-resource-ipo', 'Mainboard', 'Engineering Services', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-10-14', '2025-10-14', '2025-10-14', '2025-10-14', '2025-10-22',
   304, 321, 321, 10, 30, 99,
   '29.5', 19.18, 'NSE, BSE',
-  49.5, 35.4, 21.8,
-  29.5, 38.2, 33.5,
+  42.5, 38.4, 14.8,
+  26.5, 41.2, 30.5,
   1, 30, 9630,
   20, 600, 192600,
   21, 630, 202230,
@@ -7956,13 +7956,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 123.9,
   76.5, 64.2,
-  'Kay Cee Energy & Infra (West Bengal) Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Kay Cee Energy & Infra Resource Limited is a leading corporate entity operating in the Engineering Services sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Engineering Services industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@kay-cee-energy-&-infra-west bengal-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@kay-cee-energy-&-infra-west bengal-ipo.com', 'https://www.kay-cee-energy-&-infra-west bengal-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/kay-cee-energy-&-infra-west bengal-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 420.51, 420.51, 31.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@kay-cee-energy-&-infra-resource-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@kay-cee-energy-&-infra-resource-ipo.com', 'https://www.kay-cee-energy-&-infra-resource-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/kay-cee-energy-&-infra-resource-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 420.51, 420.51, 31.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8043,7 +8043,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Creative Graphics Solutions (Madhya Pradesh) Limited (creative-graphics-solutions-madhya pradesh-ipo)
+-- Creative Graphics Solutions Life Sciences Limited (creative-graphics-solutions-life sciences-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -8065,12 +8065,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Creative Graphics Solutions (Madhya Pradesh) Limited', 'creative-graphics-solutions-madhya pradesh-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Creative Graphics Solutions Life Sciences Limited', 'creative-graphics-solutions-life sciences-ipo', 'SME', 'Pharma Formulations', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-11-11', '2025-11-11', '2025-11-11', '2025-11-11', '2025-11-19',
   305, 322, 322, 10, 1200, 103,
   '30.5', 19.82, 'NSE, BSE',
-  61.5, 42.4, 23.8,
-  33.5, 45.2, 37.5,
+  54.5, 40.4, 16.8,
+  22.5, 43.2, 38.5,
   1, 1200, 386400,
   1, 1200, 386400,
   2, 2400, 772800,
@@ -8079,13 +8079,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 128.1,
   76.5, 64.2,
-  'Creative Graphics Solutions (Madhya Pradesh) Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Creative Graphics Solutions Life Sciences Limited is a leading corporate entity operating in the Pharma Formulations sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Pharma Formulations industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@creative-graphics-solutions-madhya pradesh-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@creative-graphics-solutions-madhya pradesh-ipo.com', 'https://www.creative-graphics-solutions-madhya pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/creative-graphics-solutions-madhya pradesh-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 425.04, 425.04, 32.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@creative-graphics-solutions-life sciences-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@creative-graphics-solutions-life sciences-ipo.com', 'https://www.creative-graphics-solutions-life sciences-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/creative-graphics-solutions-life sciences-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 425.04, 425.04, 32.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8166,7 +8166,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Indian Phosphate (Kerala) Limited (indian-phosphate-kerala-ipo)
+-- Indian Phosphate Specialities Limited (indian-phosphate-specialities-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -8188,12 +8188,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Indian Phosphate (Kerala) Limited', 'indian-phosphate-kerala-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Indian Phosphate Specialities Limited', 'indian-phosphate-specialities-ipo', 'SME', 'IT Services & SaaS', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2025-12-09', '2025-12-09', '2025-12-09', '2025-12-09', '2025-12-17',
   306, 323, 323, 10, 1200, 106,
   '31.5', 20.48, 'NSE, BSE',
-  51.5, 37.4, 23.8,
-  31.5, 40.2, 41.5,
+  60.5, 36.4, 22.8,
+  24.5, 39.2, 34.5,
   1, 1200, 387600,
   1, 1200, 387600,
   2, 2400, 775200,
@@ -8202,13 +8202,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 132.3,
   76.5, 64.2,
-  'Indian Phosphate (Kerala) Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Indian Phosphate Specialities Limited is a leading corporate entity operating in the IT Services & SaaS sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the IT Services & SaaS industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@indian-phosphate-kerala-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@indian-phosphate-kerala-ipo.com', 'https://www.indian-phosphate-kerala-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/indian-phosphate-kerala-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 429.59000000000003, 429.59000000000003, 33.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@indian-phosphate-specialities-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@indian-phosphate-specialities-ipo.com', 'https://www.indian-phosphate-specialities-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/indian-phosphate-specialities-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 429.59000000000003, 429.59000000000003, 33.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8289,7 +8289,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Resourceful Automobile (Uttar Pradesh) Limited (resourceful-automobile-uttar pradesh-ipo)
+-- Resourceful Automobile Automotive Limited (resourceful-automobile-automotive-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -8311,12 +8311,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Resourceful Automobile (Uttar Pradesh) Limited', 'resourceful-automobile-uttar pradesh-ipo', 'Mainboard', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Resourceful Automobile Automotive Limited', 'resourceful-automobile-automotive-ipo', 'Mainboard', 'Renewable Energy', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-01-13', '2026-01-13', '2026-01-13', '2026-01-13', '2026-01-21',
   307, 324, 324, 10, 30, 110,
   '32.5', 21.12, 'NSE, BSE',
-  49.5, 35.4, 21.8,
-  29.5, 38.2, 33.5,
+  44.5, 40.4, 16.8,
+  28.5, 43.2, 26.5,
   1, 30, 9720,
   20, 600, 194400,
   21, 630, 204120,
@@ -8325,13 +8325,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 136.5,
   76.5, 64.2,
-  'Resourceful Automobile (Uttar Pradesh) Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Resourceful Automobile Automotive Limited is a leading corporate entity operating in the Renewable Energy sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Renewable Energy industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@resourceful-automobile-uttar pradesh-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@resourceful-automobile-uttar pradesh-ipo.com', 'https://www.resourceful-automobile-uttar pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/resourceful-automobile-uttar pradesh-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 434.16, 434.16, 34.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@resourceful-automobile-automotive-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@resourceful-automobile-automotive-ipo.com', 'https://www.resourceful-automobile-automotive-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/resourceful-automobile-automotive-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 434.16, 434.16, 34.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8412,7 +8412,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Max Exposure (Andhra Pradesh) Limited (max-exposure-andhra pradesh-ipo)
+-- Max Exposure Components Limited (max-exposure-components-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -8434,12 +8434,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Max Exposure (Andhra Pradesh) Limited', 'max-exposure-andhra pradesh-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Max Exposure Components Limited', 'max-exposure-components-ipo', 'SME', 'Auto Components', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-02-10', '2026-02-10', '2026-02-10', '2026-02-10', '2026-02-18',
   308, 325, 325, 10, 1200, 113,
   '33.5', 21.78, 'NSE, BSE',
-  55.5, 31.4, 17.8,
-  31.5, 34.2, 29.5,
+  53.5, 34.4, 15.8,
+  25.5, 37.2, 29.5,
   1, 1200, 390000,
   1, 1200, 390000,
   2, 2400, 780000,
@@ -8448,13 +8448,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 140.7,
   76.5, 64.2,
-  'Max Exposure (Andhra Pradesh) Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Max Exposure Components Limited is a leading corporate entity operating in the Auto Components sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Auto Components industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@max-exposure-andhra pradesh-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@max-exposure-andhra pradesh-ipo.com', 'https://www.max-exposure-andhra pradesh-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/max-exposure-andhra pradesh-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 438.75000000000006, 438.75000000000006, 35.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@max-exposure-components-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@max-exposure-components-ipo.com', 'https://www.max-exposure-components-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/max-exposure-components-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 438.75000000000006, 438.75000000000006, 35.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8535,7 +8535,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Macobs Technologies (Gujarat) Limited (macobs-technologies-gujarat-ipo)
+-- Macobs Technologies Clean Energy Limited (macobs-technologies-clean energy-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -8557,12 +8557,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Macobs Technologies (Gujarat) Limited', 'macobs-technologies-gujarat-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Macobs Technologies Clean Energy Limited', 'macobs-technologies-clean energy-ipo', 'SME', 'Logistics & Freight', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-03-10', '2026-03-10', '2026-03-10', '2026-03-10', '2026-03-18',
   309, 326, 326, 10, 1200, 117,
   '34.5', 22.43, 'NSE, BSE',
-  45.5, 36.4, 17.8,
-  33.5, 39.2, 37.5,
+  58.5, 34.4, 20.8,
+  22.5, 37.2, 32.5,
   1, 1200, 391200,
   1, 1200, 391200,
   2, 2400, 782400,
@@ -8571,13 +8571,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 144.9,
   76.5, 64.2,
-  'Macobs Technologies (Gujarat) Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Macobs Technologies Clean Energy Limited is a leading corporate entity operating in the Logistics & Freight sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Logistics & Freight industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@macobs-technologies-gujarat-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@macobs-technologies-gujarat-ipo.com', 'https://www.macobs-technologies-gujarat-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/macobs-technologies-gujarat-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 443.35999999999996, 443.35999999999996, 36.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@macobs-technologies-clean energy-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@macobs-technologies-clean energy-ipo.com', 'https://www.macobs-technologies-clean energy-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/macobs-technologies-clean energy-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 443.35999999999996, 443.35999999999996, 36.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8658,7 +8658,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Boss Packaging Solutions (Maharashtra) Limited (boss-packaging-solutions-maharashtra-ipo)
+-- Boss Packaging Solutions Power Limited (boss-packaging-solutions-power-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -8680,12 +8680,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Boss Packaging Solutions (Maharashtra) Limited', 'boss-packaging-solutions-maharashtra-ipo', 'Mainboard', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Boss Packaging Solutions Power Limited', 'boss-packaging-solutions-power-ipo', 'Mainboard', 'Textiles & Yarns', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-04-14', '2026-04-14', '2026-04-14', '2026-04-14', '2026-04-22',
   310, 327, 327, 10, 30, 120,
   '35.5', 23.07, 'NSE, BSE',
-  50.5, 31.4, 22.8,
-  22.5, 34.2, 26.5,
+  59.5, 30.4, 21.8,
+  27.5, 33.2, 37.5,
   1, 30, 9810,
   20, 600, 196200,
   21, 630, 206010,
@@ -8694,13 +8694,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 149.1,
   76.5, 64.2,
-  'Boss Packaging Solutions (Maharashtra) Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Boss Packaging Solutions Power Limited is a leading corporate entity operating in the Textiles & Yarns sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Textiles & Yarns industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@boss-packaging-solutions-maharashtra-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@boss-packaging-solutions-maharashtra-ipo.com', 'https://www.boss-packaging-solutions-maharashtra-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/boss-packaging-solutions-maharashtra-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 447.99, 447.99, 37.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@boss-packaging-solutions-power-ipo.com', 'https://linkintime.co.in',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@boss-packaging-solutions-power-ipo.com', 'https://www.boss-packaging-solutions-power-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/boss-packaging-solutions-power-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 447.99, 447.99, 37.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8781,7 +8781,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Kody Technolab (Tamil Nadu) Limited (kody-technolab-tamil nadu-ipo)
+-- Kody Technolab Biotech Limited (kody-technolab-biotech-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -8803,12 +8803,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Kody Technolab (Tamil Nadu) Limited', 'kody-technolab-tamil nadu-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Kody Technolab Biotech Limited', 'kody-technolab-biotech-ipo', 'SME', 'FMCG Products', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-05-12', '2026-05-12', '2026-05-12', '2026-05-12', '2026-05-20',
   311, 328, 328, 10, 1200, 124,
   '36.5', 23.73, 'NSE, BSE',
-  45.5, 36.4, 17.8,
-  33.5, 39.2, 43.5,
+  44.5, 30.4, 16.8,
+  24.5, 33.2, 28.5,
   1, 1200, 393600,
   1, 1200, 393600,
   2, 2400, 787200,
@@ -8817,13 +8817,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 153.3,
   76.5, 64.2,
-  'Kody Technolab (Tamil Nadu) Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Kody Technolab Biotech Limited is a leading corporate entity operating in the FMCG Products sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the FMCG Products industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'Link Intime India Private Ltd', '+91-22-4918-6270', 'ipo.help@kody-technolab-tamil nadu-ipo.com', 'https://linkintime.co.in',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@kody-technolab-tamil nadu-ipo.com', 'https://www.kody-technolab-tamil nadu-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/kody-technolab-tamil nadu-ipo-rhp.html', 'https://linkintime.co.in/ipostatus', 452.64, 452.64, 38.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@kody-technolab-biotech-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@kody-technolab-biotech-ipo.com', 'https://www.kody-technolab-biotech-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/kody-technolab-biotech-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 452.64, 452.64, 38.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -8904,7 +8904,7 @@ ON CONFLICT (slug) DO UPDATE SET
   updated_at = NOW();
 
 -- ------------------------------------------------------------------------------
--- Gunsindoor Softtech (Karnataka) Limited (gunsindoor-softtech-karnataka-ipo)
+-- Gunsindoor Softtech Chemicals Limited (gunsindoor-softtech-chemicals-ipo)
 -- ------------------------------------------------------------------------------
 INSERT INTO public.ipos (
   name, slug, ipo_type, sector, exchange, status, allotment_out, allotment_status,
@@ -8926,12 +8926,12 @@ INSERT INTO public.ipos (
   rhp_link, allotment_link, listing_price, listing_price_open, listing_gain_percent,
   created_at, updated_at
 ) VALUES (
-  'Gunsindoor Softtech (Karnataka) Limited', 'gunsindoor-softtech-karnataka-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
+  'Gunsindoor Softtech Chemicals Limited', 'gunsindoor-softtech-chemicals-ipo', 'SME', 'Infrastructure & Construction', 'NSE, BSE', 'Listed', TRUE, 'out',
   '2026-06-09', '2026-06-09', '2026-06-09', '2026-06-09', '2026-06-17',
   312, 329, 329, 10, 1200, 128,
   '37.5', 24.38, 'NSE, BSE',
-  58.5, 34.4, 20.8,
-  22.5, 37.2, 32.5,
+  44.5, 35.4, 16.8,
+  32.5, 38.2, 36.5,
   1, 1200, 394800,
   1, 1200, 394800,
   2, 2400, 789600,
@@ -8940,13 +8940,13 @@ INSERT INTO public.ipos (
   '50%', '15%', '35%',
   14.2, 11.8, 22.5, 25.8, 18.2, 21.4, 0.25, 12.5, 157.5,
   76.5, 64.2,
-  'Gunsindoor Softtech (Karnataka) Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
+  'Gunsindoor Softtech Chemicals Limited is a leading corporate entity operating in the Infrastructure & Construction sector serving clients across India.', '1. Capital expenditure for strategic expansion.
 2. Working capital requirements.
 3. General corporate purposes.', '• Market leadership in the Infrastructure & Construction industry.
 • Strong balance sheet with experienced executive leadership.', '• Subject to macroeconomic market demand cycles and sector regulatory updates.',
-  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@gunsindoor-softtech-karnataka-ipo.com', 'https://ris.kfintech.com',
-  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@gunsindoor-softtech-karnataka-ipo.com', 'https://www.gunsindoor-softtech-karnataka-ipo.com',
-  'https://www.sebi.gov.in/filings/approved-option/gunsindoor-softtech-karnataka-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 457.31000000000006, 457.31000000000006, 39.0,
+  'Kotak Mahindra Capital, Axis Capital, ICICI Securities', 'KFin Technologies Limited', '+91-40-6716-2222', 'ipo.help@gunsindoor-softtech-chemicals-ipo.com', 'https://ris.kfintech.com',
+  'Registered Corporate Office, Industrial Complex, India', '+91-22-6000-8000', 'investor@gunsindoor-softtech-chemicals-ipo.com', 'https://www.gunsindoor-softtech-chemicals-ipo.com',
+  'https://www.sebi.gov.in/filings/approved-option/gunsindoor-softtech-chemicals-ipo-rhp.html', 'https://ris.kfintech.com/ipostatus', 457.31000000000006, 457.31000000000006, 39.0,
   NOW(), NOW()
 )
 ON CONFLICT (slug) DO UPDATE SET
