@@ -1230,7 +1230,7 @@ export default async function IPODetail({
               </p>
             </div>
 
-          </div>
+          </div>{/* ── end left column ── */}
 
 {/* Right sidebar */}
           <aside className="space-y-5">
