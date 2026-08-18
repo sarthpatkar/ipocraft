@@ -1120,7 +1120,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
 
   const fetchDetails = async () => {
     if (!form.name.trim()) {
-      alert("Enter company name first");
+      alert("Enter company name or symbol first");
       return;
     }
 
@@ -1135,30 +1135,64 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         body: JSON.stringify({ companyName: form.name }),
       });
 
-      const data = (await res.json()) as {
-        logo?: string;
-        industry?: string;
-        description?: string;
-        gmp?: number | string | null;
-      };
+      const json = await res.json();
 
-      if (data.logo) setLogo(data.logo);
-      if (data.industry) {
-        setForm((prev) => ({ ...prev, sector: data.industry ?? "" }));
+      if (!json.found || !json.data) {
+        alert(json.message || "No match found in live market data.");
+        return;
       }
-      if (data.description) {
-        setDescription(data.description);
-        setForm((prev) => ({
-          ...prev,
-          about_company: prev.about_company || data.description || "",
-        }));
-      }
-      if (data.gmp !== undefined && data.gmp !== null) {
-        setForm((prev) => ({ ...prev, gmp: String(data.gmp) }));
-      }
+
+      const d = json.data;
+
+      if (d.logo_url) setLogo(d.logo_url);
+      if (d.about_company) setDescription(d.about_company);
+
+      setForm((prev) => ({
+        ...prev,
+        name: d.name || prev.name,
+        exchange: d.exchange || prev.exchange,
+        ipo_type: d.ipo_type?.toLowerCase() || prev.ipo_type,
+        status: d.status || prev.status,
+        price_min: d.price_min != null ? String(d.price_min) : prev.price_min,
+        price_max: d.price_max != null ? String(d.price_max) : prev.price_max,
+        lot_size: d.lot_size != null ? String(d.lot_size) : prev.lot_size,
+        gmp: d.gmp != null ? String(d.gmp) : prev.gmp,
+        sub_total: d.sub_total != null ? String(d.sub_total) : prev.sub_total,
+        sub_qib: d.sub_qib != null ? String(d.sub_qib) : prev.sub_qib,
+        sub_nii: d.sub_nii != null ? String(d.sub_nii) : prev.sub_nii,
+        sub_rii: d.sub_rii != null ? String(d.sub_rii) : prev.sub_rii,
+        open_date: d.open_date || prev.open_date,
+        close_date: d.close_date || prev.close_date,
+        listing_date: d.listing_date || prev.listing_date,
+        allotment_date: d.allotment_date || prev.allotment_date,
+        refund_date: d.refund_date || prev.refund_date,
+        about_company: d.about_company || prev.about_company,
+        company_strengths: d.company_strengths || prev.company_strengths,
+        company_risks: d.company_risks || prev.company_risks,
+        objectives: d.objectives || prev.objectives,
+        issue_size: d.issue_size || prev.issue_size,
+        fresh_issue: d.fresh_issue || prev.fresh_issue,
+        drhp_link: d.drhp_link || prev.drhp_link,
+        rhp_link: d.rhp_link || prev.rhp_link,
+        retail_min_lots: d.retail_min_lots != null ? String(d.retail_min_lots) : prev.retail_min_lots,
+        retail_min_shares: d.retail_min_shares != null ? String(d.retail_min_shares) : prev.retail_min_shares,
+        retail_min_amount: d.retail_min_amount != null ? String(d.retail_min_amount) : prev.retail_min_amount,
+        retail_max_lots: d.retail_max_lots != null ? String(d.retail_max_lots) : prev.retail_max_lots,
+        retail_max_shares: d.retail_max_shares != null ? String(d.retail_max_shares) : prev.retail_max_shares,
+        retail_max_amount: d.retail_max_amount != null ? String(d.retail_max_amount) : prev.retail_max_amount,
+        shni_min_lots: d.shni_min_lots != null ? String(d.shni_min_lots) : prev.shni_min_lots,
+        shni_min_shares: d.shni_min_shares != null ? String(d.shni_min_shares) : prev.shni_min_shares,
+        shni_min_amount: d.shni_min_amount != null ? String(d.shni_min_amount) : prev.shni_min_amount,
+        shni_max_lots: d.shni_max_lots != null ? String(d.shni_max_lots) : prev.shni_max_lots,
+        shni_max_shares: d.shni_max_shares != null ? String(d.shni_max_shares) : prev.shni_max_shares,
+        shni_max_amount: d.shni_max_amount != null ? String(d.shni_max_amount) : prev.shni_max_amount,
+        bhni_min_lots: d.bhni_min_lots != null ? String(d.bhni_min_lots) : prev.bhni_min_lots,
+        bhni_min_shares: d.bhni_min_shares != null ? String(d.bhni_min_shares) : prev.bhni_min_shares,
+        bhni_min_amount: d.bhni_min_amount != null ? String(d.bhni_min_amount) : prev.bhni_min_amount,
+      }));
     } catch (err) {
       console.error(err);
-      alert("Failed to fetch IPO details");
+      alert("Failed to fetch IPO details from live market data.");
     } finally {
       setAutoLoading(false);
     }

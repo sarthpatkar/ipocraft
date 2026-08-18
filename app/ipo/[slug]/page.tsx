@@ -213,7 +213,16 @@ export default async function IPODetail({
 
   const lastUpdated = latestHistoryPoint
     ? new Date(latestHistoryPoint.created_at)
+    : ipo.updated_at
+    ? new Date(ipo.updated_at)
     : null;
+
+  const subscriptionLastUpdated = ipo.subscription_updated_at
+    ? new Date(ipo.subscription_updated_at)
+    : ipo.updated_at
+    ? new Date(ipo.updated_at)
+    : null;
+
   const hasGmpHistory = gmpSeries.length > 0;
 
   // ===== Allotment & Listed Logic (Priority System Fixed) =====
@@ -444,12 +453,20 @@ export default async function IPODetail({
           <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-4 lg:pb-0 lg:grid lg:grid-cols-4 lg:gap-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {[
               { label: "Price Band", value: priceBand, highlight: true },
-              { label: "GMP (Indicative)", value: gmpDisplay, note: "Unofficial · not guaranteed" },
+              {
+                label: "GMP (Indicative)",
+                value: gmpDisplay,
+                note: lastUpdated ? `Live • ${timeAgo(lastUpdated)}` : "Unofficial · not guaranteed",
+              },
               { label: "Lot Size", value: ipo.lot_size ? `${ipo.lot_size} shares` : "—" },
               { label: "Status", value: ipo.status ?? "—" },
               { label: "Open Date", value: ipo.open_date ?? "—" },
               { label: "Close Date", value: ipo.close_date ?? "—" },
-              { label: "Listing Date", value: ipo.listing_date ?? "—" },
+              {
+                label: "Subscription",
+                value: ipo.sub_total != null ? `${ipo.sub_total}x` : "—",
+                note: subscriptionLastUpdated ? `Live • ${timeAgo(subscriptionLastUpdated)}` : undefined,
+              },
               { label: "Min. Investment", value: minInvestment },
             ].map((card) => (
               <div
@@ -561,14 +578,22 @@ export default async function IPODetail({
 
             {/* Subscription (Structured Table) */}
             <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
-                <Eyebrow>Subscription</Eyebrow>
-                <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
-                >
-                  Live Subscription Details
-                </h2>
+              <div className="pb-4 border-b border-[#f1f5f9] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                  <Eyebrow>Subscription</Eyebrow>
+                  <h2
+                    className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
+                    style={{ fontFamily: "var(--font-playfair)" }}
+                  >
+                    Live Subscription Details
+                  </h2>
+                </div>
+                {subscriptionLastUpdated && (
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 self-start sm:self-auto">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Live • {timeAgo(subscriptionLastUpdated)}
+                  </span>
+                )}
               </div>
 
               <div className="mt-4 flex flex-col gap-3">
@@ -694,14 +719,22 @@ export default async function IPODetail({
 
             {/* GMP Card */}
             <section id="gmp" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
-                <Eyebrow>GMP (Grey Market Premium)</Eyebrow>
-                <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
-                  style={{ fontFamily: "var(--font-outfit)" }}
-                >
-                  GMP Overview
-                </h2>
+              <div className="pb-4 border-b border-[#f1f5f9] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                  <Eyebrow>GMP (Grey Market Premium)</Eyebrow>
+                  <h2
+                    className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
+                    style={{ fontFamily: "var(--font-outfit)" }}
+                  >
+                    GMP Overview
+                  </h2>
+                </div>
+                {lastUpdated && (
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 self-start sm:self-auto">
+                    <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Live Tracking • {timeAgo(lastUpdated)}
+                  </span>
+                )}
               </div>
 
               <div>

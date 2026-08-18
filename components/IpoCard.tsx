@@ -30,6 +30,8 @@ export type IPOListItem = {
   allotment_link?: string | null;
   issue_price?: number | null; // usually same as price_max
   listing_price?: number | null; // exact listing price on exchange
+  subscription_updated_at?: string | null;
+  updated_at?: string | null;
 };
 
 const STATUS_STYLES: Record<string, string> = {
@@ -266,8 +268,14 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           </p>
         </div>
         <div>
-          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
+          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5 flex items-center gap-1.5">
             Subscription
+            {displayStatus === "Open" && ipo.sub_total && (
+              <span className="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                LIVE
+              </span>
+            )}
           </p>
           <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
             {formatSubscription(ipo.sub_total)}
@@ -282,8 +290,14 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           </p>
         </div>
         <div>
-          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
+          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5 flex items-center gap-1.5">
             <GlossaryTooltip term="GMP">GMP</GlossaryTooltip>
+            {ipo.gmp != null && (displayStatus === "Open" || displayStatus === "Upcoming") && (
+              <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded border border-blue-200">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                LIVE
+              </span>
+            )}
           </p>
           <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${ipo.gmp != null
               ? ipo.gmp >= 0

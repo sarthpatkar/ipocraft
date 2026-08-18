@@ -312,7 +312,7 @@ export default function GmpTableClient({
         )}
       </div>
 
-      {/* Search & Counter Bar */}
+      {/* Search & Counter Bar with Live Indicator */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="relative w-full sm:w-96">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -328,8 +328,14 @@ export default function GmpTableClient({
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
           />
         </div>
-        <div className="text-sm font-medium text-gray-500">
-          Showing <span className="font-bold text-gray-900">{filtered.length}</span> IPOs
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+            Live GMP • Auto-refreshed
+          </span>
+          <div className="text-sm font-medium text-gray-500">
+            Showing <span className="font-bold text-gray-900">{filtered.length}</span> IPOs
+          </div>
         </div>
       </div>
 

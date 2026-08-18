@@ -157,21 +157,27 @@ export default function SubscriptionTableClient({
           })}
         </div>
 
-        {/* Type Select */}
-        <div className="flex items-center gap-2">
-          <label className="text-[12px] font-semibold text-[#64748b] uppercase tracking-wider" style={{ fontFamily: "var(--font-inter)" }}>
-            Type
-          </label>
-          <select
-            value={activeType}
-            onChange={(e) => setActiveType(e.target.value)}
-            className="text-[13px] font-medium border border-[#cbd5e1] rounded-md px-3 py-1.5 bg-white text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-shadow"
-            style={{ fontFamily: "var(--font-inter)" }}
-          >
-            <option value="all">All IPOs</option>
-            <option value="mainboard">Mainboard</option>
-            <option value="sme">SME</option>
-          </select>
+        {/* Live Indicator & Type Select */}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Live Demand • Updated every 30m
+          </span>
+          <div className="flex items-center gap-2">
+            <label className="text-[12px] font-semibold text-[#64748b] uppercase tracking-wider" style={{ fontFamily: "var(--font-inter)" }}>
+              Type
+            </label>
+            <select
+              value={activeType}
+              onChange={(e) => setActiveType(e.target.value)}
+              className="text-[13px] font-medium border border-[#cbd5e1] rounded-md px-3 py-1.5 bg-white text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-shadow"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              <option value="all">All IPOs</option>
+              <option value="mainboard">Mainboard</option>
+              <option value="sme">SME</option>
+            </select>
+          </div>
         </div>
       </div>
 

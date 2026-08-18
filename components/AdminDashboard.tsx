@@ -6,7 +6,15 @@ import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import AdminForm from "./AdminForm";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
-import { deleteIpoAction, deleteBrokerAction, duplicateIpoAction, updateGmpAction, saveBrokerAction } from "@/app/actions/admin";
+import {
+  deleteIpoAction,
+  deleteBrokerAction,
+  duplicateIpoAction,
+  updateGmpAction,
+  saveBrokerAction,
+  triggerFinapiSyncAction,
+  getFinapiStatusAction,
+} from "@/app/actions/admin";
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -62,6 +70,14 @@ export default function AdminDashboard() {
   const [deleting, setDeleting] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
+  // FinAPI Live Automation State
+  const [syncing, setSyncing] = useState(false);
+  const [syncStatus, setSyncStatus] = useState<{
+    lastSyncAt: string | null;
+    lastSubscriptionSyncAt: string | null;
+    rateLimit: { remainingEndpoint: number | null };
+  } | null>(null);
+
   function getStatusClass(status: string | null) {
     switch (status) {
       case "Open":
@@ -113,10 +129,41 @@ export default function AdminDashboard() {
     setBrokerLoading(false);
   }
 
+  async function fetchFinapiStatus() {
+    try {
+      const res = await getFinapiStatusAction();
+      setSyncStatus(res);
+    } catch {
+      // ignore
+    }
+  }
+
   useEffect(() => {
     fetchIpos();
     fetchBrokers();
+    fetchFinapiStatus();
   }, []);
+
+  async function handleTriggerFinapiSync(type: "all" | "subs" | "gmp" = "all") {
+    try {
+      setSyncing(true);
+      const res = await triggerFinapiSyncAction({ syncType: type, bypassCache: true });
+      if (res.success) {
+        setToast(
+          `Sync Completed: ${res.totalFetched} fetched (${res.insertedCount} new added, ${res.updatedCount} updated, ${res.gmpPointsCount} GMP points)`
+        );
+      } else {
+        setToast(`Sync Warning: ${res.errors.join(", ")}`);
+      }
+      setTimeout(() => setToast(null), 5000);
+      await fetchIpos();
+      await fetchFinapiStatus();
+    } catch (err: any) {
+      alert(err?.message || "Failed to trigger FinAPI sync");
+    } finally {
+      setSyncing(false);
+    }
+  }
 
   useEffect(() => {
     let list = [...ipos];
@@ -264,6 +311,72 @@ export default function AdminDashboard() {
       {/* IPO TAB */}
       {tab === "ipos" && (
         <>
+          {/* FinAPI Autonomous Ingestion & Refresh Monitor */}
+          <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-xl p-5 shadow-sm border border-blue-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="text-xs uppercase font-bold tracking-wider text-emerald-300">
+                  Autonomous Ingestion Engine Active
+                </span>
+                <span className="text-xs bg-white/10 text-white/90 px-2 py-0.5 rounded border border-white/15">
+                  FinAPI Upvaly Free Quota
+                </span>
+              </div>
+              <h2 className="text-lg font-semibold tracking-tight text-white">
+                Live Market Data & Daily Auto-Discovery
+              </h2>
+              <p className="text-xs text-blue-200">
+                Subscriptions auto-refreshed every 30m • GMP refreshed every 1h • New IPOs auto-added
+              </p>
+              {syncStatus?.lastSyncAt && (
+                <p className="text-[11px] text-blue-300/80 pt-0.5">
+                  Last Synced: {new Date(syncStatus.lastSyncAt).toLocaleString("en-IN")} • Quota remaining:{" "}
+                  {syncStatus.rateLimit?.remainingEndpoint ?? "30"}/30 req/min
+                </p>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <button
+                onClick={() => handleTriggerFinapiSync("subs")}
+                disabled={syncing}
+                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all disabled:opacity-50"
+              >
+                Sync Subscriptions (30m)
+              </button>
+              <button
+                onClick={() => handleTriggerFinapiSync("gmp")}
+                disabled={syncing}
+                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all disabled:opacity-50"
+              >
+                Sync GMP (1h)
+              </button>
+              <button
+                onClick={() => handleTriggerFinapiSync("all")}
+                disabled={syncing}
+                className="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white shadow transition-all flex items-center gap-1.5 disabled:opacity-50"
+              >
+                {syncing ? (
+                  <>
+                    <svg className="animate-spin h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                    Syncing...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Run Full Sync Now
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
           {/* IPO Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="border rounded p-4">

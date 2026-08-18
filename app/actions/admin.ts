@@ -1,6 +1,9 @@
 "use server";
 
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { syncFinApiIpos } from "@/lib/finapi/sync";
+import { getRateLimitStatus } from "@/lib/finapi/client";
+import type { SyncOptions, SyncTelemetry } from "@/lib/finapi/types";
 
 export async function deleteIpoAction(id: string) {
   const supabase = await createSupabaseServerClient();
@@ -32,7 +35,7 @@ export async function duplicateIpoAction(ipo: any) {
 
 export async function updateGmpAction(ipoId: string, gmp: number) {
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.from("ipos").update({ gmp }).eq("id", ipoId);
+  const { error } = await supabase.from("ipos").update({ gmp, updated_at: new Date().toISOString() }).eq("id", ipoId);
   
   if (error) throw new Error(error.message);
 
@@ -70,4 +73,25 @@ export async function saveIpoAction(payload: any, isUpdate: boolean, ipoId?: str
     if (error) throw new Error(error.message);
     return { success: true, data };
   }
+}
+
+export async function triggerFinapiSyncAction(options?: SyncOptions): Promise<SyncTelemetry> {
+  return await syncFinApiIpos(options);
+}
+
+export async function getFinapiStatusAction() {
+  const rateLimit = getRateLimitStatus();
+  const supabase = await createSupabaseServerClient();
+  const { data: latest } = await supabase
+    .from("ipos")
+    .select("updated_at, subscription_updated_at")
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  return {
+    rateLimit,
+    lastSyncAt: latest?.updated_at || null,
+    lastSubscriptionSyncAt: latest?.subscription_updated_at || null,
+  };
 }
