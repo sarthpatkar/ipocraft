@@ -20,22 +20,25 @@ jobs:
     steps:
       - name: Trigger FinAPI Full Sync
         run: |
-          SITE_URL="${{ secrets.SITE_URL || 'https://ipocraft.in' }}"
-          CRON_SECRET="${{ secrets.CRON_SECRET }}"
+          SITE_URL="${{ secrets.SITE_URL || 'https://www.ipocraft.com' }}"
+          CRON_SECRET="${{ secrets.CRON_SECRET || 'ipocraft_cron_secret_live_2026' }}"
           echo "🔄 Triggering FinAPI full sync on $SITE_URL..."
-          RESPONSE=$(curl -f -s -w "\n%{http_code}" -X GET \
-            "$SITE_URL/api/cron/sync?type=all&secret=$CRON_SECRET" \
+          
+          HTTP_STATUS=$(curl -s -o /tmp/sync_response.json -w "%{http_code}" \
+            -X GET "$SITE_URL/api/cron/sync?type=all&secret=$CRON_SECRET" \
             -H "Content-Type: application/json" \
-            --max-time 60)
-          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
-          BODY=$(echo "$RESPONSE" | head -n -1)
-          echo "HTTP $HTTP_CODE"
-          echo "$BODY"
-          if [ "$HTTP_CODE" -ge 400 ]; then
-            echo "❌ Sync failed with HTTP $HTTP_CODE"
+            --max-time 120)
+          
+          echo "HTTP Status: $HTTP_STATUS"
+          echo "Response Body:"
+          cat /tmp/sync_response.json || true
+          echo ""
+          
+          if [ "$HTTP_STATUS" -ne 200 ]; then
+            echo "❌ FinAPI sync failed with HTTP $HTTP_STATUS"
             exit 1
           fi
-          echo "✅ FinAPI sync completed."
+          echo "✅ FinAPI sync completed successfully."
 
   # ── Job 2: IPOAlerts Enrichment (every 6 hours) ───────────────────────────
   enrich-ipoalerts:
@@ -46,19 +49,22 @@ jobs:
     steps:
       - name: Trigger IPOAlerts Enrichment
         run: |
-          SITE_URL="${{ secrets.SITE_URL || 'https://ipocraft.in' }}"
-          CRON_SECRET="${{ secrets.CRON_SECRET }}"
+          SITE_URL="${{ secrets.SITE_URL || 'https://www.ipocraft.com' }}"
+          CRON_SECRET="${{ secrets.CRON_SECRET || 'ipocraft_cron_secret_live_2026' }}"
           echo "✨ Triggering IPOAlerts enrichment on $SITE_URL..."
-          RESPONSE=$(curl -f -s -w "\n%{http_code}" -X GET \
-            "$SITE_URL/api/cron/sync?type=enrich&secret=$CRON_SECRET" \
+          
+          HTTP_STATUS=$(curl -s -o /tmp/enrich_response.json -w "%{http_code}" \
+            -X GET "$SITE_URL/api/cron/sync?type=enrich&secret=$CRON_SECRET" \
             -H "Content-Type: application/json" \
             --max-time 120)
-          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
-          BODY=$(echo "$RESPONSE" | head -n -1)
-          echo "HTTP $HTTP_CODE"
-          echo "$BODY"
-          if [ "$HTTP_CODE" -ge 400 ]; then
-            echo "❌ Enrichment failed with HTTP $HTTP_CODE"
+          
+          echo "HTTP Status: $HTTP_STATUS"
+          echo "Response Body:"
+          cat /tmp/enrich_response.json || true
+          echo ""
+          
+          if [ "$HTTP_STATUS" -ne 200 ]; then
+            echo "❌ IPOAlerts enrichment failed with HTTP $HTTP_STATUS"
             exit 1
           fi
-          echo "✅ IPOAlerts enrichment completed."
+          echo "✅ IPOAlerts enrichment completed successfully."
