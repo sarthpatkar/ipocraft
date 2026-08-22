@@ -827,42 +827,43 @@ export default async function IPODetail({
                 </h2>
               </div>
               <div className="mt-4 flex flex-col gap-3">
-                {/* Desktop Header */}
-                <div className="hidden md:grid grid-cols-4 px-4 py-2 bg-gray-50 dark:bg-[#0f172a] rounded-lg text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
-                  <div>Application</div>
-                  <div>Lots</div>
-                  <div>Shares</div>
-                  <div>Amount</div>
-                </div>
-
-                {/* Rows */}
                 {(() => {
                   const lotSz = ipo.lot_size ? Number(ipo.lot_size) : null;
                   const prcMax = ipo.price_max ? Number(ipo.price_max) : (ipo.price_min ? Number(ipo.price_min) : null);
+
+                  if (!lotSz || !prcMax) {
+                    return (
+                      <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-lg p-4 text-center">
+                        <p className="text-[13px] text-[#64748b]" style={{ fontFamily: "var(--font-inter)" }}>
+                          Market lot sizes, share allocations, and bidding tiers will be announced upon price band finalization.
+                        </p>
+                      </div>
+                    );
+                  }
                   
-                  const rMinLots = ipo.retail_min_lots ?? (lotSz ? 1 : null);
-                  const rMinShares = ipo.retail_min_shares ?? (lotSz && rMinLots ? rMinLots * lotSz : null);
-                  const rMinAmt = ipo.retail_min_amount ?? (rMinShares && prcMax ? rMinShares * prcMax : null);
+                  const rMinLots = ipo.retail_min_lots ?? 1;
+                  const rMinShares = ipo.retail_min_shares ?? (rMinLots * lotSz);
+                  const rMinAmt = ipo.retail_min_amount ?? (rMinShares * prcMax);
 
-                  const rMaxLots = ipo.retail_max_lots ?? (lotSz && prcMax ? Math.max(1, Math.floor(200000 / (lotSz * prcMax))) : null);
-                  const rMaxShares = ipo.retail_max_shares ?? (lotSz && rMaxLots ? rMaxLots * lotSz : null);
-                  const rMaxAmt = ipo.retail_max_amount ?? (rMaxShares && prcMax ? rMaxShares * prcMax : null);
+                  const rMaxLots = ipo.retail_max_lots ?? Math.max(1, Math.floor(200000 / (lotSz * prcMax)));
+                  const rMaxShares = ipo.retail_max_shares ?? (rMaxLots * lotSz);
+                  const rMaxAmt = ipo.retail_max_amount ?? (rMaxShares * prcMax);
 
-                  const sMinLots = ipo.shni_lots ?? (rMaxLots ? rMaxLots + 1 : null);
-                  const sMinShares = ipo.shni_shares ?? (lotSz && sMinLots ? sMinLots * lotSz : null);
-                  const sMinAmt = ipo.shni_amount ?? (sMinShares && prcMax ? sMinShares * prcMax : null);
+                  const sMinLots = ipo.shni_min_lots ?? ipo.shni_lots ?? (rMaxLots + 1);
+                  const sMinShares = ipo.shni_min_shares ?? (sMinLots * lotSz);
+                  const sMinAmt = ipo.shni_min_amount ?? (sMinShares * prcMax);
 
-                  const sMaxLots = ipo.shni_max_lots ?? (lotSz && prcMax ? Math.floor(1000000 / (lotSz * prcMax)) : null);
-                  const sMaxShares = ipo.shni_max_shares ?? (lotSz && sMaxLots ? sMaxLots * lotSz : null);
-                  const sMaxAmt = ipo.shni_max_amount ?? (sMaxShares && prcMax ? sMaxShares * prcMax : null);
+                  const sMaxLots = ipo.shni_max_lots ?? Math.floor(1000000 / (lotSz * prcMax));
+                  const sMaxShares = ipo.shni_max_shares ?? (sMaxLots * lotSz);
+                  const sMaxAmt = ipo.shni_max_amount ?? (sMaxShares * prcMax);
 
-                  const bMinLots = ipo.bhni_lots ?? (sMaxLots ? sMaxLots + 1 : null);
-                  const bMinShares = ipo.bhni_shares ?? (lotSz && bMinLots ? bMinLots * lotSz : null);
-                  const bMinAmt = ipo.bhni_amount ?? (bMinShares && prcMax ? bMinShares * prcMax : null);
+                  const bMinLots = ipo.bhni_min_lots ?? ipo.bhni_lots ?? (sMaxLots + 1);
+                  const bMinShares = ipo.bhni_min_shares ?? (bMinLots * lotSz);
+                  const bMinAmt = ipo.bhni_min_amount ?? (bMinShares * prcMax);
 
                   const fmtAmt = (amt: number | null) => amt ? `₹${amt.toLocaleString("en-IN")}` : "—";
 
-                  return [
+                  const rows = [
                     { label: "Retail (Min)", lots: rMinLots, shares: rMinShares, amount: fmtAmt(rMinAmt) },
                     { label: "Retail (Max)", lots: rMaxLots, shares: rMaxShares, amount: fmtAmt(rMaxAmt) },
                     { label: "sNII (Min)", lots: sMinLots, shares: sMinShares, amount: fmtAmt(sMinAmt) },
@@ -870,14 +871,28 @@ export default async function IPODetail({
                     { label: "bNII (Min)", lots: bMinLots, shares: bMinShares, amount: fmtAmt(bMinAmt) },
                     { label: "bNII (Max)", lots: ipo.bhni_max_lots ?? "—", shares: ipo.bhni_max_shares ?? "—", amount: ipo.bhni_max_amount ? fmtAmt(ipo.bhni_max_amount) : "—" }
                   ];
-                })().map((row, i) => (
-                  <div key={i} className="flex flex-col md:grid md:grid-cols-4 gap-2 md:gap-0 px-4 py-3 md:py-4 border border-gray-100 dark:border-gray-800 rounded-xl bg-white dark:bg-[#1e293b] hover:shadow-sm transition-shadow text-sm">
-                    <div className="font-semibold text-gray-900 dark:text-gray-100 mb-1 md:mb-0 md:flex md:items-center">{row.label}</div>
-                    <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Lots:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.lots ?? "—"}</span></div>
-                    <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Shares:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.shares ?? "—"}</span></div>
-                    <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Amount:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.amount ?? "—"}</span></div>
-                  </div>
-                ))}
+
+                  return (
+                    <>
+                      {/* Desktop Header */}
+                      <div className="hidden md:grid grid-cols-4 px-4 py-2 bg-gray-50 dark:bg-[#0f172a] rounded-lg text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+                        <div>Application</div>
+                        <div>Lots</div>
+                        <div>Shares</div>
+                        <div>Amount</div>
+                      </div>
+
+                      {rows.map((row, i) => (
+                        <div key={i} className="flex flex-col md:grid md:grid-cols-4 gap-2 md:gap-0 px-4 py-3 md:py-4 border border-gray-100 dark:border-gray-800 rounded-xl bg-white dark:bg-[#1e293b] hover:shadow-sm transition-shadow text-sm">
+                          <div className="font-semibold text-gray-900 dark:text-gray-100 mb-1 md:mb-0 md:flex md:items-center">{row.label}</div>
+                          <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Lots:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.lots ?? "—"}</span></div>
+                          <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Shares:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.shares ?? "—"}</span></div>
+                          <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Amount:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.amount ?? "—"}</span></div>
+                        </div>
+                      ))}
+                    </>
+                  );
+                })()}
               </div>
 
               <p className="text-[11.5px] text-[#94a3b8] mt-3">
@@ -952,28 +967,36 @@ export default async function IPODetail({
                   Promoter Holdings
                 </h2>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                {[
-                  {
-                    label: "Pre Issue",
-                    value: percentOrDash(ipo.promoter_holding_pre),
-                  },
-                  {
-                    label: "Post Issue",
-                    value: percentOrDash(ipo.promoter_holding_post),
-                  },
-                ].map((row) => (
-                  <div key={row.label} className="space-y-1.5">
-                    <DataLabel>{row.label}</DataLabel>
-                    <p
-                      className="text-[15px] font-semibold text-[#0f172a] leading-tight"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      {row.value}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              {ipo.promoter_holding_pre != null || ipo.promoter_holding_post != null ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                  {[
+                    {
+                      label: "Pre Issue",
+                      value: percentOrDash(ipo.promoter_holding_pre),
+                    },
+                    {
+                      label: "Post Issue",
+                      value: percentOrDash(ipo.promoter_holding_post),
+                    },
+                  ].map((row) => (
+                    <div key={row.label} className="space-y-1.5">
+                      <DataLabel>{row.label}</DataLabel>
+                      <p
+                        className="text-[15px] font-semibold text-[#0f172a] leading-tight"
+                        style={{ fontFamily: "var(--font-inter)" }}
+                      >
+                        {row.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-lg p-4 text-center">
+                  <p className="text-[13px] text-[#64748b]" style={{ fontFamily: "var(--font-inter)" }}>
+                    Promoter shareholding pre and post-issue will be updated once the final capital structure is published.
+                  </p>
+                </div>
+              )}
             </section>
 
             {/* Contact Details */}
@@ -981,23 +1004,31 @@ export default async function IPODetail({
               <div className="pb-4 border-b border-[#f1f5f9]">
                 <Eyebrow>Contacts</Eyebrow>
                 <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]" style={{ fontFamily: "var(--font-outfit)" }}>
-                  Company & Registrar Details
+                  Company &amp; Registrar Details
                 </h2>
               </div>
 
-              <div className="space-y-2 text-sm">
-                <p><strong>Company Address:</strong> {valueOrDash(ipo.company_address)}</p>
-                <p><strong>Phone:</strong> {valueOrDash(ipo.company_phone)}</p>
-                <p><strong>Email:</strong> {valueOrDash(ipo.company_email)}</p>
-                <p><strong>Website:</strong> {valueOrDash(ipo.company_website)}</p>
+              {ipo.company_address || ipo.company_phone || ipo.company_email || ipo.company_website || ipo.registrar ? (
+                <div className="space-y-2 text-sm">
+                  {ipo.company_address && <p><strong>Company Address:</strong> {ipo.company_address}</p>}
+                  {ipo.company_phone && <p><strong>Phone:</strong> {ipo.company_phone}</p>}
+                  {ipo.company_email && <p><strong>Email:</strong> {ipo.company_email}</p>}
+                  {ipo.company_website && <p><strong>Website:</strong> {ipo.company_website}</p>}
 
-                <hr className="my-3"/>
+                  {(ipo.company_address || ipo.company_phone) && ipo.registrar && <hr className="my-3"/>}
 
-                <p><strong>Registrar:</strong> {valueOrDash(ipo.registrar)}</p>
-                <p><strong>Registrar Phone:</strong> {valueOrDash(ipo.registrar_phone)}</p>
-                <p><strong>Registrar Email:</strong> {valueOrDash(ipo.registrar_email)}</p>
-                <p><strong>Registrar Website:</strong> {valueOrDash(ipo.registrar_website)}</p>
-              </div>
+                  {ipo.registrar && <p><strong>Registrar:</strong> {ipo.registrar}</p>}
+                  {ipo.registrar_phone && <p><strong>Registrar Phone:</strong> {ipo.registrar_phone}</p>}
+                  {ipo.registrar_email && <p><strong>Registrar Email:</strong> {ipo.registrar_email}</p>}
+                  {ipo.registrar_website && <p><strong>Registrar Website:</strong> {ipo.registrar_website}</p>}
+                </div>
+              ) : (
+                <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-lg p-4 text-center">
+                  <p className="text-[13px] text-[#64748b]" style={{ fontFamily: "var(--font-inter)" }}>
+                    Registrar appointment and registered office contacts will be confirmed in the statutory exchange disclosures.
+                  </p>
+                </div>
+              )}
             </section>
 
             {/* Anchor Investors */}

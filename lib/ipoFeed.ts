@@ -30,6 +30,10 @@ type RawIpoRow = {
   issue_size?: unknown;
   ipo_type?: unknown;
   listing_price?: unknown;
+  issue_price?: unknown;
+  listing_gain?: unknown;
+  subscription_updated_at?: unknown;
+  updated_at?: unknown;
   created_at?: unknown;
 };
 
@@ -131,6 +135,10 @@ function normalizeIpoEntry(row: RawIpoRow): IpoFeedEntry | null {
       issue_size: row.issue_size == null ? null : String(row.issue_size),
       ipo_type: toStringOrNull(row.ipo_type),
       listing_price: toNumberOrNull(row.listing_price),
+      issue_price: toNumberOrNull(row.issue_price),
+      listing_gain: toStringOrNull(row.listing_gain),
+      subscription_updated_at: toStringOrNull(row.subscription_updated_at),
+      updated_at: toStringOrNull(row.updated_at),
     },
     cursor: {
       open_date: toStringOrNull(row.open_date),

@@ -239,7 +239,12 @@ export function transformFinApiIpo(raw: RawFinApiIpo): NormalizedIpoData {
   // GMP
   const gmpTrends = parseGmpTrends(raw.greyMarketPremium?.gmpTrends);
   const latestGmpPoint = gmpTrends.at(-1);
-  const gmp = latestGmpPoint ? latestGmpPoint.gmp : null;
+  const fallbackGmp =
+    parseNumber((raw.greyMarketPremium as any)?.currentGmp) ??
+    parseNumber((raw.greyMarketPremium as any)?.gmp) ??
+    parseNumber((raw as any)?.gmp) ??
+    null;
+  const gmp = latestGmpPoint ? latestGmpPoint.gmp : fallbackGmp;
 
   // Subscriptions
   const sub_total = parseNumber(raw.subscriptionNumbers?.total?.subscription);
