@@ -296,11 +296,10 @@ export default function AdminDashboard() {
             <button
               key={t.id}
               onClick={() => setTab(t.id as Tab)}
-              className={`px-4 py-2 -mb-px border-b-2 ${
-                tab === t.id
+              className={`px-4 py-2 -mb-px border-b-2 ${tab === t.id
                   ? "border-black font-semibold"
                   : "border-transparent text-gray-500 dark:text-slate-400"
-              }`}
+                }`}
             >
               {t.label}
             </button>
@@ -476,11 +475,10 @@ export default function AdminDashboard() {
                       <td className="p-3 font-medium">{ipo.name}</td>
                       <td>
                         <span
-                          className={`px-2 py-1 rounded text-xs ${
-                            ipo.ipo_type === "SME"
+                          className={`px-2 py-1 rounded text-xs ${ipo.ipo_type === "SME"
                               ? "bg-purple-100 text-purple-700"
                               : "bg-blue-100 text-blue-700"
-                          }`}
+                            }`}
                         >
                           {ipo.ipo_type ?? "-"}
                         </span>
@@ -748,4 +746,3 @@ export default function AdminDashboard() {
     </div>
   );
 }
-
