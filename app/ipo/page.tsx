@@ -120,72 +120,50 @@ export default async function IPOPage({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased overflow-x-hidden will-change-transform`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#080D18] text-[#0f172a] dark:text-[#F1F5F9] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
-
-      {/* Animated Hero */}
-      <section className="relative overflow-hidden border-b border-[#e2e8f0]">
-        {/* Gradient Background */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#e0e7ff] via-white to-[#f1f5f9] animate-[gradientShift_12s_ease_infinite]" />
-
-        {/* Subtle Glow */}
-        <div className="absolute -top-24 -left-24 w-72 h-72 bg-blue-200 rounded-full blur-3xl opacity-40" />
-        <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-indigo-200 rounded-full blur-3xl opacity-40" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-16">
+      {/* Hero */}
+      <section className="border-b border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#0D1525]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
           <p
-            className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] mb-4"
+            className="text-[10.5px] font-semibold tracking-[0.2em] uppercase text-[#2563eb] dark:text-[#3B82F6] mb-2"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            IPO Listings
+            IPO Directory
           </p>
 
           <h1
-            className="text-2xl sm:text-3xl lg:text-[2.5rem] font-semibold leading-[1.15] tracking-[-0.01em] text-[#0f172a]"
+            className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#0f172a] dark:text-[#F1F5F9]"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
             Latest IPO Listings in India
           </h1>
 
           <p
-            className="mt-4 text-[14.5px] text-[#475569] leading-[1.78] max-w-3xl"
+            className="mt-2 text-[14px] text-[#475569] dark:text-[#94A3B8] leading-relaxed max-w-2xl"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            Track open, upcoming, and recently listed IPOs with offer dates, price bands, subscription demand, and GMP insights in one place.
+            Track open, upcoming, and recently listed IPOs with offer dates, price bands, subscription demand, and GMP insights.
           </p>
 
           {/* CTA Buttons */}
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-4 flex flex-wrap gap-2.5">
             <Link
               href="/gmp"
-              className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-[#1e3a8a] rounded-lg shadow hover:shadow-md hover:bg-[#1a327a] transition"
+              className="inline-flex items-center justify-center px-4 py-2 text-[13px] font-semibold text-white bg-[#1e3a8a] dark:bg-[#3B82F6] hover:bg-[#1a327a] dark:hover:bg-[#2563EB] rounded-lg shadow-xs transition-colors"
             >
               View GMP Tracker
             </Link>
 
             <Link
               href="/ipo?status=open"
-              className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-[#1e3a8a] bg-white border border-[#c7d2fe] rounded-lg hover:bg-[#eef2ff] transition"
+              className="inline-flex items-center justify-center px-4 py-2 text-[13px] font-semibold text-[#1e3a8a] dark:text-[#F1F5F9] bg-white dark:bg-[#162238] border border-[#c7d2fe] dark:border-[#22304A] rounded-lg hover:bg-[#eef2ff] dark:hover:bg-[#1c2b47] transition-colors"
             >
               Open IPOs
             </Link>
           </div>
         </div>
-
-        {/* Gradient Animation Keyframes */}
-        <style>{`
-          @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-          }
-          div[class*="gradient-to"] {
-            background-size: 200% 200%;
-          }
-          @media (prefers-reduced-motion: reduce) {
-            div[class*="animate-"] { animation: none !important; }
-          }
-        `}</style>
       </section>
 
       {/* Structured Data for SEO + GEO */}
@@ -207,29 +185,30 @@ export default async function IPOPage({
         }}
       />
 
-      {/* Trust + Info Badges */}
-      <section className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6 flex flex-wrap gap-3 text-[12px] text-[#475569]">
-          <div className="px-3 py-1.5 rounded-full bg-[#f1f5f9] border border-[#e2e8f0]">
-            Data sourced from public filings & exchange disclosures
-          </div>
-          <div className="px-3 py-1.5 rounded-full bg-[#f1f5f9] border border-[#e2e8f0]">
-            Informational platform — not investment advice
-          </div>
-          <div className="px-3 py-1.5 rounded-full bg-[#f1f5f9] border border-[#e2e8f0]">
+      {/* Trust Badges */}
+      <section className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap gap-2 text-[11.5px] text-[#475569] dark:text-[#94A3B8]">
+          <span className="px-2.5 py-1 rounded-md bg-[#f1f5f9] dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A]">
+            Exchange disclosures &amp; filings referenced
+          </span>
+          <span className="px-2.5 py-1 rounded-md bg-[#f1f5f9] dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A]">
+            Research &amp; informational platform
+          </span>
+          <span className="px-2.5 py-1 rounded-md bg-[#f1f5f9] dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A]">
             Updated regularly for accuracy
-          </div>
+          </span>
         </div>
       </section>
 
-      <section className="bg-[#f8fafc]">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-10 py-8 sm:py-12 w-full overflow-x-hidden relative md:pt-10">
-          <div className="md:sticky md:top-[88px] z-30 relative bg-white/80 backdrop-blur-xl border border-[#e2e8f0]/70 rounded-lg p-4 sm:p-5 mb-8 md:mb-10 shadow-sm supports-[backdrop-filter]:bg-white/70">
+      <section className="bg-[#f8fafc] dark:bg-[#080D18]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
+          {/* Filters & Search Box */}
+          <div className="bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-4 sm:p-5 mb-6 shadow-xs">
             <form id="searchForm" method="GET" className="flex flex-col sm:flex-row gap-3">
               <div className="relative w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8]"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8] dark:text-[#64748B]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -247,7 +226,7 @@ export default async function IPOPage({
                   spellCheck={false}
                   inputMode="search"
                   aria-label="Search IPO"
-                  className="border border-[#dbe4f0] rounded pl-9 pr-3 py-2 text-[13px] w-full focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]/20"
+                  className="bg-white dark:bg-[#162238] border border-[#dbe4f0] dark:border-[#22304A] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#64748B] rounded-lg pl-9 pr-3 py-2 text-[13px] w-full focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
                 />
               </div>
 
@@ -279,59 +258,46 @@ export default async function IPOPage({
       `,
               }}
             />
-            <div className="flex flex-wrap gap-2 mt-3 text-[11px]">
-              <span className="px-2.5 py-1 rounded-full bg-green-100 text-green-700 border border-green-200 animate-[pulse_2s_ease-in-out_1]">
-                Open IPOs
-              </span>
-              <span className="px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 border border-blue-200 animate-[pulse_2s_ease-in-out_1]">
-                Upcoming IPOs
-              </span>
-              <span className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200">
-                Listed / Closed
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-4">
+            <div className="flex flex-wrap items-center gap-1.5 mt-3.5 pt-3 border-t border-gray-100 dark:border-[#22304A]">
               <Link
                 href={buildHref(selectedStatus, searchQuery, "mainboard")}
-                className={`px-3 py-1.5 text-[12px] rounded border transition ${
+                className={`px-3 py-1.5 text-[12px] font-medium rounded-lg border transition-colors ${
                   selectedType === "mainboard"
-                    ? "bg-green-600 text-white border-green-600"
-                    : "bg-white text-[#475569] border-[#e2e8f0]"
+                    ? "bg-[#3B82F6] text-white border-[#3B82F6] shadow-xs font-semibold"
+                    : "bg-white dark:bg-[#162238] text-[#475569] dark:text-[#94A3B8] border-[#e2e8f0] dark:border-[#22304A] hover:border-[#3B82F6]/50 hover:text-[#0f172a] dark:hover:text-[#F1F5F9]"
                 }`}
               >
                 Mainboard
               </Link>
-
               <Link
                 href={buildHref(selectedStatus, searchQuery, "sme")}
-                className={`px-3 py-1.5 text-[12px] rounded border transition ${
+                className={`px-3 py-1.5 text-[12px] font-medium rounded-lg border transition-colors ${
                   selectedType === "sme"
-                    ? "bg-purple-600 text-white border-purple-600"
-                    : "bg-white text-[#475569] border-[#e2e8f0]"
+                    ? "bg-[#8B5CF6] text-white border-[#8B5CF6] shadow-xs font-semibold"
+                    : "bg-white dark:bg-[#162238] text-[#475569] dark:text-[#94A3B8] border-[#e2e8f0] dark:border-[#22304A] hover:border-[#8B5CF6]/50 hover:text-[#0f172a] dark:hover:text-[#F1F5F9]"
                 }`}
               >
                 SME
               </Link>
+              {selectedType && selectedType !== "all" && (
+                <Link
+                  href={buildHref(selectedStatus, searchQuery, "")}
+                  className={`px-3 py-1.5 text-[12px] font-medium rounded-lg border border-red-200 dark:border-rose-900/50 bg-red-50 dark:bg-rose-950/40 text-red-600 dark:text-rose-300 hover:bg-red-100`}
+                >
+                  All Segments
+                </Link>
+              )}
 
-              <Link
-                href={buildHref(selectedStatus, searchQuery, "")}
-                className={`px-3 py-1.5 text-[12px] rounded border transition ${
-                  !selectedType
-                    ? "bg-[#1e3a8a] text-white border-[#1e3a8a]"
-                    : "bg-white text-[#475569] border-[#e2e8f0]"
-                }`}
-              >
-                All
-              </Link>
+              <span className="hidden sm:inline-block w-px h-4 bg-gray-200 dark:bg-[#22304A] mx-1" />
 
               {STATUS_FILTERS.map((status) => (
                 <Link
                   key={status}
                   href={buildHref(status, searchQuery, selectedType)}
-                  className={`px-3 py-1.5 text-[12px] rounded border transition ${
+                  className={`px-3 py-1.5 text-[12px] font-medium rounded-lg border transition-colors ${
                     selectedStatus === status
-                      ? "bg-[#1e3a8a] text-white border-[#1e3a8a]"
-                      : "bg-white text-[#475569] border-[#e2e8f0] hover:border-[#94a3b8]"
+                      ? "bg-[#1e3a8a] dark:bg-[#3B82F6] text-white border-[#1e3a8a] dark:border-[#3B82F6] shadow-xs font-semibold"
+                      : "bg-white dark:bg-[#162238] text-[#475569] dark:text-[#94A3B8] border-[#e2e8f0] dark:border-[#22304A] hover:border-[#3B82F6]/50 hover:text-[#0f172a] dark:hover:text-[#F1F5F9]"
                   }`}
                 >
                   {status}
@@ -339,10 +305,9 @@ export default async function IPOPage({
               ))}
             </div>
           </div>
-          {/* Spacer to prevent sticky overlap on larger screens */}
-          <div className="hidden md:block h-28 lg:h-32" />
 
-          <div className="mt-6 md:mt-8">
+          {/* Cards Stream */}
+          <div>
             <IpoLoadMoreClient
               initialItems={initialFeed.items}
               initialHasMore={initialFeed.hasMore}
@@ -354,19 +319,20 @@ export default async function IPOPage({
               limit={6}
             />
           </div>
-          {/* SEO Content Section */}
-          <div className="mt-10 bg-white border border-[#e2e8f0] rounded-lg p-5 sm:p-6 text-[14px] text-[#475569] leading-relaxed">
-            <h2 className="text-[16px] font-semibold text-[#0f172a] mb-3">
+
+          {/* Educational Content Section */}
+          <div className="mt-8 bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 text-[13.5px] text-[#475569] dark:text-[#94A3B8] leading-relaxed">
+            <h2 className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2.5">
               About IPO Listings in India
             </h2>
-            <p className="mb-3">
-              Initial Public Offerings (IPOs) allow companies to raise capital by offering shares to the public. Investors typically monitor open dates, price bands, <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">allotment timelines</Link>, and listing performance to make structured decisions based on publicly available data.
+            <p className="mb-2.5">
+              Initial Public Offerings (IPOs) allow companies to raise capital by offering shares to the public. Investors track open dates, price bands, <Link href="/how-ipo-allotment-works" className="text-[#2563eb] dark:text-[#3B82F6] hover:underline font-medium">allotment timelines</Link>, and listing performance to analyze market participation.
             </p>
-            <p className="mb-3">
-              IPOCraft provides structured information about ongoing, upcoming, and recently listed IPOs. You can also track indicative demand sentiment through the <Link href="/gmp" className="text-[#2563eb] hover:underline font-medium">IPO GMP tracker</Link> and understand subscription category allocation in our guide on <Link href="/qib-hni-retail-explained" className="text-[#2563eb] hover:underline font-medium">QIB, HNI, and Retail IPO structure</Link>.
+            <p className="mb-2.5">
+              IPOCraft aggregates publicly available offer data across Mainboard and SME segments. You can view indicative pricing through the <Link href="/gmp" className="text-[#2563eb] dark:text-[#3B82F6] hover:underline font-medium">IPO GMP tracker</Link> and learn about category allocation in our guide on <Link href="/qib-hni-retail-explained" className="text-[#2563eb] dark:text-[#3B82F6] hover:underline font-medium">QIB, HNI, and Retail quotas</Link>.
             </p>
             <p>
-              For educational context on grey market mechanics, see <Link href="/what-is-ipo-gmp" className="text-[#2563eb] hover:underline font-medium">what IPO GMP means</Link> and our <Link href="/ipo-grey-market-guide" className="text-[#2563eb] hover:underline font-medium">grey market premium guide</Link>. Always verify details directly through official exchange filings and offer documents before making financial decisions.
+              Always review official RHP / DRHP offer documents submitted to SEBI and stock exchanges before making financial decisions.
             </p>
           </div>
         </div>
@@ -374,3 +340,4 @@ export default async function IPOPage({
     </div>
   );
 }
+

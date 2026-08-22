@@ -112,65 +112,50 @@ export default async function SMEIPOPage({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased overflow-x-hidden`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#080D18] text-[#0f172a] dark:text-[#F1F5F9] antialiased overflow-x-hidden`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
-
-      {/* Animated Hero */}
-      <section className="relative overflow-hidden border-b border-[#e2e8f0]">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#f3e8ff] via-white to-[#fdf4ff] animate-[gradientShift_12s_ease_infinite]" />
-        <div className="absolute -top-24 -left-24 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-40" />
-        <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-fuchsia-200 rounded-full blur-3xl opacity-40" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-16">
+      {/* Hero */}
+      <section className="border-b border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#0D1525]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
           <p
-            className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-purple-700 mb-4"
+            className="text-[10.5px] font-semibold tracking-[0.2em] uppercase text-purple-700 dark:text-purple-400 mb-2"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            SME IPO Hub
+            SME IPO Segment
           </p>
 
           <h1
-            className="text-2xl sm:text-3xl lg:text-[2.5rem] font-semibold leading-[1.15] tracking-[-0.01em] text-[#0f172a]"
+            className="text-2xl sm:text-3xl lg:text-[2.25rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F5F9]"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
             Latest SME IPOs in India
           </h1>
 
           <p
-            className="mt-4 text-[14.5px] text-[#475569] leading-[1.78] max-w-3xl"
+            className="mt-2 text-sm sm:text-[14.5px] text-[#475569] dark:text-[#94A3B8] leading-relaxed max-w-2xl"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            Small and Medium Enterprise (SME) IPOs often see massive oversubscription and high listing gains. Track live GMP, live subscriptions, and expert ratings for all active SME issues.
+            Small and Medium Enterprise (SME) IPOs listed on BSE SME and NSE Emerge. Track price bands, lot sizes, subscription multipliers, and indicative GMPs.
           </p>
 
           {/* CTA Buttons */}
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap gap-2.5">
             <Link
               href="/sme-ipo?status=open"
-              className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-purple-700 rounded-lg shadow hover:shadow-md hover:bg-purple-800 transition"
+              className="inline-flex items-center justify-center px-4 py-2 text-[13px] font-semibold text-white bg-[#8B5CF6] hover:bg-[#7C3AED] rounded-lg shadow-xs transition-colors"
             >
               View Open SME IPOs
             </Link>
 
             <Link
               href="/gmp?type=sme"
-              className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-purple-700 bg-white border border-purple-200 rounded-lg hover:bg-purple-50 transition"
+              className="inline-flex items-center justify-center px-4 py-2 text-[13px] font-semibold text-purple-700 dark:text-purple-300 bg-white dark:bg-[#162238] border border-purple-200 dark:border-[#22304A] rounded-lg hover:bg-purple-50 dark:hover:bg-[#1c2b47] transition-colors"
             >
               SME GMP Tracker
             </Link>
           </div>
         </div>
-
-        <style>{`
-          @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-          }
-          div[class*="gradient-to"] {
-            background-size: 200% 200%;
-          }
-        `}</style>
       </section>
 
       {/* Structured Data */}
@@ -191,19 +176,19 @@ export default async function SMEIPOPage({
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 pb-20 flex flex-col lg:flex-row gap-8 sm:gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col lg:flex-row gap-6">
         
         {/* Main Feed Content */}
         <div className="w-full lg:w-[70%] xl:w-[72%]">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 pb-4 border-b border-gray-200 gap-4">
-            <div className="flex bg-[#f1f5f9] p-1 rounded-lg w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 pb-3.5 border-b border-gray-200 dark:border-[#22304A] gap-3">
+            <div className="flex bg-[#f1f5f9] dark:bg-[#0D1525] p-1 rounded-lg border border-[#e2e8f0] dark:border-[#22304A] w-full sm:w-auto">
               <Link
                 href={buildHref("All", searchQuery)}
-                className={`flex-1 sm:flex-none text-center px-4 py-1.5 text-[13px] font-semibold rounded-md transition-all duration-200 ${
+                className={`flex-1 sm:flex-none text-center px-3 py-1.5 text-[12.5px] font-semibold rounded-md transition-colors ${
                   selectedStatus === "All"
-                    ? "bg-white text-purple-700 shadow-sm"
-                    : "text-[#64748b] hover:text-[#0f172a]"
+                    ? "bg-white dark:bg-[#162238] text-purple-700 dark:text-purple-300 shadow-xs"
+                    : "text-[#64748b] dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9]"
                 }`}
                 style={{ fontFamily: "var(--font-inter)" }}
                 scroll={false}
@@ -214,10 +199,10 @@ export default async function SMEIPOPage({
                 <Link
                   key={s}
                   href={buildHref(s, searchQuery)}
-                  className={`flex-1 sm:flex-none text-center px-4 py-1.5 text-[13px] font-semibold rounded-md transition-all duration-200 ${
+                  className={`flex-1 sm:flex-none text-center px-3 py-1.5 text-[12.5px] font-semibold rounded-md transition-colors ${
                     selectedStatus === s
-                      ? "bg-white text-purple-700 shadow-sm"
-                      : "text-[#64748b] hover:text-[#0f172a]"
+                      ? "bg-white dark:bg-[#162238] text-purple-700 dark:text-purple-300 shadow-xs"
+                      : "text-[#64748b] dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9]"
                   }`}
                   style={{ fontFamily: "var(--font-inter)" }}
                   scroll={false}
@@ -231,15 +216,15 @@ export default async function SMEIPOPage({
               {selectedStatus !== "All" && (
                 <input type="hidden" name="status" value={selectedStatusParam} />
               )}
-              <svg className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-gray-400 dark:text-[#64748B] absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input
                 type="text"
                 name="q"
                 defaultValue={searchQuery}
-                placeholder="Search SME IPOs..."
-                className="w-full pl-9 pr-4 py-1.5 bg-white border border-gray-200 rounded-md text-[13px] focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500 transition-colors"
+                placeholder="Search SME IPOs…"
+                className="w-full pl-9 pr-3 py-1.5 bg-white dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#64748B] rounded-lg text-[13px] focus:outline-none focus:ring-1 focus:ring-[#8B5CF6] transition-colors"
                 style={{ fontFamily: "var(--font-inter)" }}
               />
             </form>
@@ -258,22 +243,22 @@ export default async function SMEIPOPage({
         </div>
 
         {/* Sidebar */}
-        <aside className="w-full lg:w-[30%] xl:w-[28%] space-y-8 mt-10 lg:mt-0">
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 shadow-sm">
+        <aside className="w-full lg:w-[30%] xl:w-[28%] space-y-4">
+          <div className="bg-white dark:bg-[#11182D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 shadow-xs">
             <h3
-              className="text-[14px] font-semibold text-[#0f172a] mb-4 uppercase tracking-wide"
+              className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-3 uppercase tracking-wide"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               What is an SME IPO?
             </h3>
-            <div className="prose prose-sm prose-slate text-[13.5px] leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
+            <div className="text-[13px] text-[#475569] dark:text-[#94A3B8] leading-relaxed space-y-2.5" style={{ fontFamily: "var(--font-inter)" }}>
               <p>
-                SME IPOs allow Small and Medium Enterprises to raise capital from the public and get listed on the SME platforms of BSE (BSE SME) or NSE (NSE Emerge).
+                SME IPOs allow Small and Medium Enterprises to raise public capital on BSE SME or NSE Emerge platforms.
               </p>
-              <ul className="pl-4 space-y-2 mt-3">
-                <li><strong>Lot Size:</strong> SME IPOs are traded in larger lot sizes (e.g., 1000, 2000 shares).</li>
-                <li><strong>Investment:</strong> The minimum investment amount is typically above ₹1 Lakh.</li>
-                <li><strong>Volatility:</strong> They often see massive listing gains but are highly volatile and illiquid compared to Mainboard IPOs.</li>
+              <ul className="pl-3.5 list-disc space-y-1.5">
+                <li><strong>Lot Size:</strong> Traded in standardized large lot sizes (e.g. 1,000–3,000 shares).</li>
+                <li><strong>Investment:</strong> Minimum bidding ticket size is typically ≥ ₹1 Lakh.</li>
+                <li><strong>Liquidity:</strong> Appointed market makers provide two-way bid-ask quotes post listing.</li>
               </ul>
             </div>
           </div>
@@ -282,3 +267,4 @@ export default async function SMEIPOPage({
     </div>
   );
 }
+

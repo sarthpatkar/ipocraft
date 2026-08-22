@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { sanitizeIpoSlug } from "@/lib/ipo.server";
 import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
-import { Outfit, Inter } from "next/font/google";
 import GMPChart from "@/components/GmpChart";
 import HeroSection from "@/components/IpoDetail/HeroSection";
 import FinancialMetrics from "@/components/IpoDetail/FinancialMetrics";
@@ -13,9 +12,21 @@ import ProfitCalculator from "@/components/IpoDetail/ProfitCalculator";
 import AllotmentCalculator from "@/components/IpoDetail/AllotmentCalculator";
 import GlossaryTooltip from "@/components/GlossaryTooltip";
 import DataFreshnessBar from "@/components/DataFreshnessBar";
+import BackButton from "@/components/BackButton";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import ShareButton from "@/components/ShareButton";
+import CopyButton from "@/components/CopyButton";
+import SubscriptionChart from "@/components/IpoDetail/SubscriptionChart";
+import JumpNav from "@/components/IpoDetail/JumpNav";
+import RelatedIpos from "@/components/IpoDetail/RelatedIpos";
+import { formatDisplayDate, formatTimeAgo, formatSubscriptionDayHeader, formatSubscriptionTimes } from "@/lib/formatters";
 import { cache } from "react";
 
+// ISR: revalidate every 30 minutes
+export const revalidate = 1800;
+
 const getCachedIpoBySlug = cache(async (slug: string) => {
+  const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("ipos")
     .select("*")
@@ -81,19 +92,7 @@ export async function generateMetadata({
   };
 }
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 type StatusType = "Open" | "Upcoming" | "Listed" | "Closed";
 
@@ -107,7 +106,7 @@ const STATUS_STYLES: Record<StatusType, string> = {
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
     <p
-      className={`text-[10.5px] font-semibold tracking-[0.22em] uppercase mb-4 ${light ? "text-[#93c5fd]" : "text-[#2563eb]"}`}
+      className={`text-[10.5px] font-semibold tracking-[0.22em] uppercase mb-4 ${light ? "text-[#93c5fd]" : "text-[#2563eb] dark:text-blue-400"}`}
       style={{ fontFamily: "var(--font-inter)" }}
     >
       {children}
@@ -118,7 +117,7 @@ function Eyebrow({ children, light = false }: { children: React.ReactNode; light
 function DataLabel({ children }: { children: React.ReactNode }) {
   return (
     <p
-      className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] mb-1.5"
+      className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] dark:text-slate-500 mb-1.5"
       style={{ fontFamily: "var(--font-inter)" }}
     >
       {children}
@@ -145,6 +144,8 @@ export default async function IPODetail({
   }
 
   const detailUrl = canonicalUrl(`/ipo/${encodeURIComponent(slug)}`);
+
+  const supabase = await createSupabaseServerClient();
 
   const { data: subscriptionHistory } = await supabase
     .from("subscription_history")
@@ -206,23 +207,23 @@ export default async function IPODetail({
   const issuePrice = issuePriceRaw != null ? Number(issuePriceRaw) : null;
   const gmpVsIssuePricePercent =
     latestGmp != null &&
-    issuePrice != null &&
-    !Number.isNaN(issuePrice) &&
-    issuePrice > 0
+      issuePrice != null &&
+      !Number.isNaN(issuePrice) &&
+      issuePrice > 0
       ? (latestGmp / issuePrice) * 100
       : null;
 
   const lastUpdated = latestHistoryPoint
     ? new Date(latestHistoryPoint.created_at)
     : ipo.updated_at
-    ? new Date(ipo.updated_at)
-    : null;
+      ? new Date(ipo.updated_at)
+      : null;
 
   const subscriptionLastUpdated = ipo.subscription_updated_at
     ? new Date(ipo.subscription_updated_at)
     : ipo.updated_at
-    ? new Date(ipo.updated_at)
-    : null;
+      ? new Date(ipo.updated_at)
+      : null;
 
   const hasGmpHistory = gmpSeries.length > 0;
 
@@ -343,7 +344,7 @@ export default async function IPODetail({
       <ol className="space-y-2 list-none">
         {points.map((point, i) => (
           <li key={i} className="flex gap-2 items-start">
-            <span className="text-[#2563eb] font-bold shrink-0 mt-0.5">{i + 1}.</span>
+            <span className="text-[#2563eb] dark:text-blue-400 font-bold shrink-0 mt-0.5">{i + 1}.</span>
             <span>{point}</span>
           </li>
         ))}
@@ -378,7 +379,7 @@ export default async function IPODetail({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased pb-20`}
+      className="min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100 antialiased pb-20"
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <script
@@ -411,85 +412,75 @@ export default async function IPODetail({
         }}
       />
 
-      {/* ── Breadcrumb ── */}
-      <div className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-11 flex items-center gap-2">
-          <Link
-            href="/"
-            className="text-[11.5px] text-[#94a3b8] hover:text-[#0f172a] transition-colors"
-            style={{ fontFamily: "var(--font-inter)" }}
-          >
-            Home
-          </Link>
-          <svg className="w-3 h-3 text-[#cbd5e1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-          <Link
-            href="/"
-            className="text-[11.5px] text-[#94a3b8] hover:text-[#0f172a] transition-colors"
-            style={{ fontFamily: "var(--font-inter)" }}
-          >
-            IPO Listings
-          </Link>
-          <svg className="w-3 h-3 text-[#cbd5e1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-          <span
-            className="text-[11.5px] text-[#0f172a] font-medium truncate max-w-[18rem]"
-            style={{ fontFamily: "var(--font-inter)" }}
-          >
-            {ipo.name}
-          </span>
+      {/* ── Navigation Bar ── */}
+      <div className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center gap-3">
+          <BackButton fallbackHref="/ipo" />
+          <span className="text-gray-300 dark:text-[#22304A]">|</span>
+          <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "IPO", href: "/ipo" },
+            { label: ipo.name },
+          ]} />
         </div>
       </div>
 
       {/* ── Hero Header ── */}
-      <HeroSection ipo={ipo} statusStyle={statusStyle} allotmentBadge={allotmentBadge} />
-
-
+      <HeroSection ipo={ipo} statusStyle={statusStyle} allotmentBadge={allotmentBadge} shareButton={
+        <ShareButton
+          title={`${ipo.name} IPO`}
+          url={detailUrl}
+          text={`${ipo.name} IPO — GMP: ${gmpDisplay}, Price: ${priceBand} | ipocraft.com`}
+        />
+      } />
 
       {/* ── Summary Cards ── */}
-      <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8">
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-4 lg:pb-0 lg:grid lg:grid-cols-4 lg:gap-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+      <section className="bg-[#f8fafc] dark:bg-[#080D18] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-2.5 pb-2 lg:pb-0 lg:grid lg:grid-cols-4 lg:gap-3.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {[
               { label: "Price Band", value: priceBand, highlight: true },
               {
                 label: "GMP (Indicative)",
                 value: gmpDisplay,
-                note: lastUpdated ? `Live • ${timeAgo(lastUpdated)}` : "Unofficial · not guaranteed",
+                isCopyable: true,
+                note: lastUpdated ? formatTimeAgo(lastUpdated, "Live · ") : "Unofficial · not guaranteed",
               },
               { label: "Lot Size", value: ipo.lot_size ? `${ipo.lot_size} shares` : "—" },
               { label: "Status", value: ipo.status ?? "—" },
-              { label: "Open Date", value: ipo.open_date ?? "—" },
-              { label: "Close Date", value: ipo.close_date ?? "—" },
+              { label: "Open Date", value: formatDisplayDate(ipo.open_date) },
+              { label: "Close Date", value: formatDisplayDate(ipo.close_date) },
               {
                 label: "Subscription",
                 value: ipo.sub_total != null ? `${ipo.sub_total}x` : "—",
-                note: subscriptionLastUpdated ? `Live • ${timeAgo(subscriptionLastUpdated)}` : undefined,
+                note: subscriptionLastUpdated ? formatTimeAgo(subscriptionLastUpdated, "Live • ") : undefined,
               },
               { label: "Min. Investment", value: minInvestment },
             ].map((card) => (
               <div
                 key={card.label}
-                className={`shrink-0 w-[180px] lg:w-auto snap-start border rounded-xl p-5 space-y-1.5 card-hover ${
+                className={`shrink-0 w-[170px] lg:w-auto snap-start border rounded-xl p-3.5 sm:p-4 space-y-1 ${
                   card.highlight
-                    ? "border-[#1e3a8a]/20 bg-[#eff6ff]"
-                    : "border-[#e2e8f0] bg-white"
+                    ? "border-blue-500/30 bg-blue-50/70 dark:bg-[#162238] dark:border-[#3B82F6]/50"
+                    : "border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#111B2D]"
                 }`}
               >
                 <DataLabel>{card.label}</DataLabel>
-                <p
-                  className={`text-[15px] font-semibold leading-tight ${
-                    card.highlight ? "text-[#1e3a8a]" : "text-[#0f172a]"
+                <div
+                  className={`text-[14.5px] font-semibold leading-tight ${
+                    card.highlight ? "text-[#1e3a8a] dark:text-[#3B82F6]" : "text-[#0f172a] dark:text-[#F1F5F9]"
                   }`}
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
-                  {card.value}
-                </p>
+                  {card.isCopyable && card.value !== "—" ? (
+                    <CopyButton value={String(card.value)}>{card.value}</CopyButton>
+                  ) : (
+                    card.value
+                  )}
+                </div>
                 {card.note && (
                   <p
-                    className="text-[10.5px] text-[#94a3b8]"
+                    className="text-[10px] text-[#94a3b8] dark:text-[#64748B]"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {card.note}
@@ -502,38 +493,40 @@ export default async function IPODetail({
       </section>
 
       {/* ── Sticky Tabbed Navigation ── */}
-      <div className="sticky top-[60px] z-40 bg-white/90 backdrop-blur-md border-b border-[#e2e8f0] shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          <nav className="flex gap-6 text-[13px] sm:text-[14px] font-semibold text-[#64748b]" style={{ fontFamily: "var(--font-inter)" }}>
-            <a href="#overview" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">Overview</a>
-            <a href="#financials" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">Financials</a>
-            <a href="#issue-details" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">Issue Details</a>
-            <a href="#gmp" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">GMP Tracker</a>
-            <a href="#performance" className="px-1 py-4 hover:text-[#1e3a8a] border-b-2 border-transparent hover:border-[#1e3a8a] transition-colors">Listing Performance</a>
+      <div className="sticky top-[56px] z-40 bg-white/95 dark:bg-[#0D1525]/95 backdrop-blur-md border-b border-[#e2e8f0] dark:border-[#22304A] shadow-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <nav className="flex gap-5 text-[13px] font-medium text-[#64748b] dark:text-[#94A3B8]" style={{ fontFamily: "var(--font-inter)" }}>
+            <a href="#overview" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-[#3B82F6] transition-colors">Overview</a>
+            <a href="#issue-details" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-[#3B82F6] transition-colors">Issue Details</a>
+            <a href="#subscription" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-[#3B82F6] transition-colors">Subscription</a>
+            <a href="#gmp" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-[#3B82F6] transition-colors">GMP Tracker</a>
+            <a href="#profit-calculator" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-[#3B82F6] transition-colors">Profit Calculator</a>
+            <a href="#financials" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-[#3B82F6] transition-colors">Financials</a>
+            <a href="#performance" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-[#3B82F6] transition-colors">Listing Performance</a>
           </nav>
         </div>
       </div>
 
       {/* ── Main Content ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-6 lg:gap-10 items-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 bg-[#f8fafc] dark:bg-[#080D18]">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-6 items-start">
 
           {/* Left column */}
-          <div className="min-w-0 pt-4 flex flex-col stagger-children">
+          <div className="min-w-0 flex flex-col">
 
-{/* About */}
-            <section id="overview" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
+            {/* About */}
+            <section id="overview" className="scroll-mt-[120px] bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                 <Eyebrow>Overview</Eyebrow>
                 <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
+                  className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
                   style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   About the Company
                 </h2>
               </div>
               <p
-                className="text-[14.5px] text-[#475569] leading-loose"
+                className="text-[13.5px] text-[#475569] dark:text-[#94A3B8] leading-relaxed"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {valueOrDash(ipo.about_company ?? ipo.description) !== "—"
@@ -541,65 +534,66 @@ export default async function IPODetail({
                   : "Detailed company information will appear here once the data is available from official exchange filings and the offer document (DRHP / RHP)."}
               </p>
               <p
-                className="text-[12.5px] text-[#64748b] mt-3"
+                className="text-[12.5px] text-[#64748b] dark:text-slate-400 mt-3"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                New to IPO analysis? You may review our structured guides on <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">how IPO allotment works</Link> and <Link href="/ipo-subscription-meaning" className="text-[#2563eb] hover:underline font-medium">IPO subscription meaning</Link> to better understand demand and allocation mechanics.
+                New to IPO analysis? You may review our structured guides on <Link href="/how-ipo-allotment-works" className="text-[#2563eb] dark:text-blue-400 hover:underline font-medium">how IPO allotment works</Link> and <Link href="/ipo-subscription-meaning" className="text-[#2563eb] dark:text-blue-400 hover:underline font-medium">IPO subscription meaning</Link> to better understand demand and allocation mechanics.
               </p>
             </section>
 
             {/* Issue Details */}
-            <section id="issue-details" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
-                <Eyebrow>Issue</Eyebrow>
-                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]" style={{ fontFamily: "var(--font-outfit)" }}>
+            <section id="issue-details" className="scroll-mt-[120px] bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
+                <Eyebrow>Issue Details</Eyebrow>
+                <h2 className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]" style={{ fontFamily: "var(--font-outfit)" }}>
                   IPO Issue Details
                 </h2>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                <div><DataLabel>Issue Price</DataLabel><p>{priceBand}</p></div>
-                <div><DataLabel>Face Value</DataLabel><p>{currencyOrDash(ipo.face_value)}</p></div>
-                <div><DataLabel>Issue Size</DataLabel><p>{valueOrDash(ipo.issue_size)}</p></div>
-                <div><DataLabel>Fresh Issue</DataLabel><p>{valueOrDash(ipo.fresh_issue)}</p></div>
-                <div><DataLabel>Listing At</DataLabel><p>{valueOrDash(ipo.listing_exchange)}</p></div>
-                <div><DataLabel>Lead Manager</DataLabel><p>{valueOrDash(ipo.lead_managers)}</p></div>
-                <div><DataLabel>Registrar</DataLabel><p>{valueOrDash(ipo.registrar)}</p></div>
-                <div><DataLabel>Lot Size</DataLabel><p>{ipo.lot_size ?? "—"}</p></div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-4">
+                <div><DataLabel>Issue Price</DataLabel><p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{priceBand}</p></div>
+                <div><DataLabel>Face Value</DataLabel><p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{currencyOrDash(ipo.face_value)}</p></div>
+                <div><DataLabel>Issue Size</DataLabel><p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{valueOrDash(ipo.issue_size)}</p></div>
+                <div><DataLabel>Fresh Issue</DataLabel><p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{valueOrDash(ipo.fresh_issue)}</p></div>
+                <div><DataLabel>Listing At</DataLabel><p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{valueOrDash(ipo.listing_exchange)}</p></div>
+                <div><DataLabel>Lead Manager</DataLabel><p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{valueOrDash(ipo.lead_managers)}</p></div>
+                <div><DataLabel>Registrar</DataLabel><p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{valueOrDash(ipo.registrar)}</p></div>
+                <div><DataLabel>Lot Size</DataLabel><p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{ipo.lot_size ? `${ipo.lot_size} shares` : "—"}</p></div>
               </div>
               <p
-                className="text-[12.5px] text-[#64748b] mt-4"
+                className="text-[12px] text-[#64748b] dark:text-[#94A3B8] mt-3"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                For category-wise quota breakdown such as QIB, HNI, and Retail allocation, refer to our <Link href="/qib-hni-retail-explained" className="text-[#2563eb] hover:underline font-medium">IPO quota structure explanation</Link>.
+                For category-wise quota breakdown such as QIB, HNI, and Retail allocation, refer to our <Link href="/qib-hni-retail-explained" className="text-[#2563eb] dark:text-blue-400 hover:underline font-medium">IPO quota structure explanation</Link>.
               </p>
             </section>
 
-            <TimelineTracker ipo={ipo} />
+            <div id="timeline" className="scroll-mt-[120px]">
+              <TimelineTracker ipo={ipo} />
+            </div>
 
             {/* Subscription (Structured Table) */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <section id="subscription" className="scroll-mt-[120px] bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
                   <Eyebrow>Subscription</Eyebrow>
                   <h2
-                    className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                    style={{ fontFamily: "var(--font-playfair)" }}
+                    className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
+                    style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     Live Subscription Details
                   </h2>
                 </div>
                 {subscriptionLastUpdated && (
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 self-start sm:self-auto">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Live • {timeAgo(subscriptionLastUpdated)}
+                  <span className="text-[11px] font-medium text-[#64748B] dark:text-[#94A3B8]">
+                    {formatTimeAgo(subscriptionLastUpdated, "Updated ")}
                   </span>
                 )}
               </div>
 
-              <div className="mt-4 flex flex-col gap-3">
+              <div className="mt-3 flex flex-col gap-2">
                 {/* Desktop Header */}
-                <div className="hidden lg:grid grid-cols-7 px-4 py-2 bg-gray-50 dark:bg-[#0f172a] rounded-lg text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+                <div className="hidden lg:grid grid-cols-7 px-3.5 py-2 bg-gray-50 dark:bg-[#0D1525] border border-gray-100 dark:border-[#22304A] rounded-lg text-[11px] font-semibold uppercase text-gray-500 dark:text-[#94A3B8]">
                   <div>Day</div>
                   <div>QIB</div>
                   <div>NII</div>
@@ -612,25 +606,29 @@ export default async function IPODetail({
                 {/* Rows */}
                 {subscriptionHistory && subscriptionHistory.length > 0 ? (
                   subscriptionHistory.map((row: any, idx: number) => (
-                    <div key={idx} className="flex flex-col lg:grid lg:grid-cols-7 gap-1 lg:gap-0 px-4 py-3 border border-gray-100 dark:border-gray-800 rounded-xl bg-white dark:bg-[#1e293b] hover:shadow-sm transition-shadow text-sm">
-                      <div className="font-semibold text-gray-900 dark:text-gray-100 mb-2 lg:mb-0 lg:flex lg:items-center border-b lg:border-none pb-2 lg:pb-0">{row.day ?? "Day"}</div>
-                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">QIB:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.qib ?? "—"}x</span></div>
-                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">NII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.nii ?? "—"}x</span></div>
-                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">sNII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.shni ?? "—"}x</span></div>
-                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">bNII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.bhni ?? "—"}x</span></div>
-                      <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">Retail:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.rii ?? "—"}x</span></div>
-                      <div className="flex justify-between lg:block pt-1 lg:pt-0 mt-1 lg:mt-0 border-t lg:border-none"><span className="text-xs font-semibold text-gray-600 lg:hidden">Total:</span> <span className="font-bold text-gray-900 dark:text-gray-100">{row.total ?? "—"}x</span></div>
+                    <div key={idx} className="flex flex-col lg:grid lg:grid-cols-7 gap-1 lg:gap-0 px-3.5 py-2.5 border border-gray-100 dark:border-[#22304A] rounded-lg bg-white dark:bg-[#162238] text-[13px]">
+                      <div className="font-semibold text-gray-900 dark:text-[#F1F5F9] mb-1.5 lg:mb-0 lg:flex lg:items-center border-b lg:border-none pb-1.5 lg:pb-0">
+                        {formatSubscriptionDayHeader(row.day, idx)}
+                      </div>
+                      <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">QIB:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(row.qib)}</span></div>
+                      <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">NII:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(row.nii)}</span></div>
+                      <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">sNII:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(row.shni)}</span></div>
+                      <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">bNII:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(row.bhni)}</span></div>
+                      <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">Retail:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(row.rii)}</span></div>
+                      <div className="flex justify-between lg:block pt-1 lg:pt-0 mt-1 lg:mt-0 border-t lg:border-none"><span className="text-[11px] font-semibold text-gray-600 dark:text-[#64748B] lg:hidden">Total:</span> <span className="font-bold text-[#0f172a] dark:text-[#F1F5F9] tabular-nums">{formatSubscriptionTimes(row.total)}</span></div>
                     </div>
                   ))
                 ) : (
-                  <div className="flex flex-col lg:grid lg:grid-cols-7 gap-1 lg:gap-0 px-4 py-3 border border-gray-100 dark:border-gray-800 rounded-xl bg-white dark:bg-[#1e293b] hover:shadow-sm transition-shadow text-sm">
-                    <div className="font-semibold text-gray-900 dark:text-gray-100 mb-2 lg:mb-0 lg:flex lg:items-center border-b lg:border-none pb-2 lg:pb-0">{ipo.subscription_updated_at ?? "Latest"}</div>
-                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">QIB:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_qib ?? "—"}x</span></div>
-                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">NII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_nii ?? "—"}x</span></div>
-                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">sNII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_shni ?? "—"}x</span></div>
-                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">bNII:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_bhni ?? "—"}x</span></div>
-                    <div className="flex justify-between lg:block"><span className="text-xs text-gray-500 lg:hidden">Retail:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{ipo.sub_rii ?? "—"}x</span></div>
-                    <div className="flex justify-between lg:block pt-1 lg:pt-0 mt-1 lg:mt-0 border-t lg:border-none"><span className="text-xs font-semibold text-gray-600 lg:hidden">Total:</span> <span className="font-bold text-gray-900 dark:text-gray-100">{ipo.sub_total ?? "—"}x</span></div>
+                  <div className="flex flex-col lg:grid lg:grid-cols-7 gap-1 lg:gap-0 px-3.5 py-2.5 border border-gray-100 dark:border-[#22304A] rounded-lg bg-white dark:bg-[#162238] text-[13px]">
+                    <div className="font-semibold text-gray-900 dark:text-[#F1F5F9] mb-1.5 lg:mb-0 lg:flex lg:items-center border-b lg:border-none pb-1.5 lg:pb-0">
+                      {formatSubscriptionDayHeader(ipo.subscription_updated_at)}
+                    </div>
+                    <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">QIB:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(ipo.sub_qib)}</span></div>
+                    <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">NII:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(ipo.sub_nii)}</span></div>
+                    <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">sNII:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(ipo.sub_shni)}</span></div>
+                    <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">bNII:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(ipo.sub_bhni)}</span></div>
+                    <div className="flex justify-between lg:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] lg:hidden">Retail:</span> <span className="font-medium text-[#334155] dark:text-[#CBD5E1] tabular-nums">{formatSubscriptionTimes(ipo.sub_rii)}</span></div>
+                    <div className="flex justify-between lg:block pt-1 lg:pt-0 mt-1 lg:mt-0 border-t lg:border-none"><span className="text-[11px] font-semibold text-gray-600 dark:text-[#64748B] lg:hidden">Total:</span> <span className="font-bold text-[#0f172a] dark:text-[#F1F5F9] tabular-nums">{formatSubscriptionTimes(ipo.sub_total)}</span></div>
                   </div>
                 )}
               </div>
@@ -641,13 +639,13 @@ export default async function IPODetail({
                   subscriptionHistory && subscriptionHistory.length > 0
                     ? subscriptionHistory[subscriptionHistory.length - 1]
                     : {
-                        qib: ipo.sub_qib,
-                        nii: ipo.sub_nii,
-                        shni: ipo.sub_shni,
-                        bhni: ipo.sub_bhni,
-                        rii: ipo.sub_rii,
-                        total: ipo.sub_total,
-                      };
+                      qib: ipo.sub_qib,
+                      nii: ipo.sub_nii,
+                      shni: ipo.sub_shni,
+                      bhni: ipo.sub_bhni,
+                      rii: ipo.sub_rii,
+                      total: ipo.sub_total,
+                    };
 
                 const categories = [
                   { label: "QIB", value: Number(latest?.qib) || 0 },
@@ -663,29 +661,29 @@ export default async function IPODetail({
                 );
 
                 return (
-                  <div className="mt-6 space-y-3">
+                  <div className="mt-4 space-y-2.5">
                     <p
-                      className="text-[12px] font-semibold text-[#475569]"
+                      className="text-[11.5px] font-semibold text-[#475569] dark:text-[#94A3B8]"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       Subscription Progress
                     </p>
 
                     {categories.map((cat) => {
-                      const width = (cat.value / maxValue) * 100;
+                      const width = Math.min((cat.value / maxValue) * 100, 100);
 
                       return (
                         <div key={cat.label} className="space-y-1">
-                          <div className="flex justify-between text-[12px]">
-                            <span><GlossaryTooltip term={cat.label}>{cat.label}</GlossaryTooltip></span>
-                            <span className="font-semibold">
+                          <div className="flex justify-between text-[11.5px]">
+                            <span className="text-[#475569] dark:text-[#94A3B8]"><GlossaryTooltip term={cat.label}>{cat.label}</GlossaryTooltip></span>
+                            <span className="font-semibold text-[#0f172a] dark:text-[#F1F5F9]">
                               {cat.value || "—"}x
                             </span>
                           </div>
 
-                          <div className="w-full h-2 bg-[#e2e8f0] rounded overflow-hidden">
+                          <div className="w-full h-1.5 bg-[#e2e8f0] dark:bg-[#162238] rounded overflow-hidden">
                             <div
-                              className="h-full bg-[#2563eb] rounded transition-all"
+                              className="h-full bg-[#3B82F6] rounded transition-all"
                               style={{ width: `${width}%` }}
                             />
                           </div>
@@ -696,22 +694,16 @@ export default async function IPODetail({
                 );
               })()}
 
-              <p className="text-[11.5px] text-[#94a3b8] pt-2 border-t border-[#f1f5f9]">
-                Subscription data sourced from exchange updates. Values represent times subscribed (x).
-              </p>
-              <p className="text-[12px] text-[#64748b] mt-2" style={{ fontFamily: "var(--font-inter)" }}>
-                Learn how subscription categories are allocated by reading our guide on <Link href="/qib-hni-retail-explained" className="text-[#2563eb] hover:underline font-medium">QIB, HNI and Retail IPO quota structure</Link>.
-              </p>
-              <p
-                className="text-[12px] text-[#64748b] mt-2"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                If you are tracking GMP alongside subscription demand, see our <Link href="/ipo-grey-market-guide" className="text-[#2563eb] hover:underline font-medium">grey market premium guide</Link> for a structured comparison framework.
+              {/* Day-wise Subscription Chart */}
+              <SubscriptionChart history={subscriptionHistory ?? []} />
+
+              <p className="text-[11.5px] text-[#94a3b8] dark:text-[#64748B] pt-2 border-t border-[#f1f5f9] dark:border-[#22304A]">
+                Subscription figures represent category demand ratios reported by exchange bidding engines.
               </p>
             </section>
 
             {/* Allotment Probability Calculator */}
-            <AllotmentCalculator 
+            <AllotmentCalculator
               subRii={ipo.sub_rii != null ? Number(ipo.sub_rii) : null}
               subShni={ipo.sub_shni != null ? Number(ipo.sub_shni) : null}
               subBhni={ipo.sub_bhni != null ? Number(ipo.sub_bhni) : null}
@@ -719,38 +711,41 @@ export default async function IPODetail({
             />
 
             {/* GMP Card */}
-            <section id="gmp" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <section id="gmp" className="scroll-mt-[120px] bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
                   <Eyebrow>GMP (Grey Market Premium)</Eyebrow>
                   <h2
-                    className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
+                    className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
                     style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     GMP Overview
                   </h2>
                 </div>
                 {lastUpdated && (
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 self-start sm:self-auto">
-                    <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-                    Live Tracking • {timeAgo(lastUpdated)}
+                  <span className="text-[11px] font-medium text-[#64748B] dark:text-[#94A3B8]">
+                    Recorded {timeAgo(lastUpdated)}
                   </span>
                 )}
               </div>
 
               <div>
                 <div className="flex items-end gap-3 mb-2">
-                  <p
-                    className="text-[1.9rem] font-semibold text-[#0f172a] leading-none"
+                  <div
+                    className="text-[1.75rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-none"
                     style={{ fontFamily: "var(--font-outfit)" }}
                   >
-                    {gmpDisplay}
-                  </p>
+                    {gmpDisplay !== "—" ? (
+                      <CopyButton value={gmpDisplay}>{gmpDisplay}</CopyButton>
+                    ) : (
+                      gmpDisplay
+                    )}
+                  </div>
 
                   {gmpChangePercent != null && (
                     <span
-                      className={`text-[12px] font-semibold px-2 py-0.5 rounded ${
-                        trendUp ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-600"
+                      className={`text-[11.5px] font-semibold px-2 py-0.5 rounded ${
+                        trendUp ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300" : "bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-300"
                       }`}
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
@@ -759,21 +754,17 @@ export default async function IPODetail({
                   )}
                 </div>
 
-                <p className="text-[11.5px] text-[#94a3b8] mb-1">
-                  {timeAgo(lastUpdated)}
-                </p>
-
-                <div className="flex items-center gap-2 text-[11.5px] text-[#64748b] mb-1">
+                <div className="flex items-center gap-2 text-[11.5px] text-[#64748b] dark:text-[#94A3B8] mb-1">
                   <span>
                     High {highGmp != null ? `₹${highGmp.toLocaleString("en-IN")}` : "—"}
                   </span>
-                  <span className="text-[#cbd5e1]">·</span>
+                  <span className="text-gray-300 dark:text-[#22304A]">·</span>
                   <span>
                     Low {lowGmp != null ? `₹${lowGmp.toLocaleString("en-IN")}` : "—"}
                   </span>
                 </div>
 
-                <p className="text-[11.5px] text-[#64748b] mb-2">
+                <p className="text-[11.5px] text-[#64748b] dark:text-[#94A3B8] mb-2">
                   {gmpVsIssuePricePercent != null
                     ? `${gmpVsIssuePricePercent >= 0 ? "+" : ""}${gmpVsIssuePricePercent.toFixed(1)}% ${
                         gmpVsIssuePricePercent >= 0 ? "over" : "below"
@@ -781,66 +772,63 @@ export default async function IPODetail({
                     : "Issue price comparison unavailable"}
                 </p>
 
-                <p className="text-[11.5px] text-[#94a3b8]">
+                <p className="text-[11px] text-[#94a3b8] dark:text-[#64748B]">
                   GMP is unofficial and indicative only. It does not guarantee listing price or returns.
-                </p>
-                <p
-                  className="text-[12px] text-[#64748b] mt-2"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                >
-                  GMP is unofficial and indicative. To understand interpretation logic and limitations, read our <Link href="/ipo-grey-market-guide" className="text-[#2563eb] hover:underline font-medium">IPO Grey Market Guide</Link> or begin with <Link href="/what-is-ipo-gmp" className="text-[#2563eb] hover:underline font-medium">what IPO GMP means</Link>.
                 </p>
               </div>
             </section>
 
             {/* GMP Trend */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
+            <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                 <Eyebrow>Trend</Eyebrow>
                 <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
+                  className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
                   style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   GMP Trend
                 </h2>
               </div>
 
-              <div className="mt-4 w-full min-w-0 h-[260px] sm:h-[280px]">
+              <div className="mt-4 w-full min-w-0 h-[240px] sm:h-[260px]">
                 {hasGmpHistory ? (
                   <div className="w-full min-w-0 h-full">
                     <GMPChart data={gmpSeries} />
                   </div>
                 ) : (
-                  <p className="text-[12px] text-[#94a3b8] text-center">
-                    No GMP data yet. Updates will appear once available.
+                  <p className="text-[12px] text-[#94a3b8] dark:text-[#64748B] text-center pt-20">
+                    No historical GMP data points recorded yet.
                   </p>
                 )}
               </div>
             </section>
 
+            {/* Listing Profit Calculator */}
+            <ProfitCalculator ipo={ipo} />
+
             {/* Market Lot Details (Structured) */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
+            <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                 <Eyebrow>Investment</Eyebrow>
-                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]" style={{ fontFamily: "var(--font-outfit)" }}>
+                <h2 className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]" style={{ fontFamily: "var(--font-outfit)" }}>
                   Market Lot Details
                 </h2>
               </div>
-              <div className="mt-4 flex flex-col gap-3">
+              <div className="mt-3 flex flex-col gap-2">
                 {(() => {
                   const lotSz = ipo.lot_size ? Number(ipo.lot_size) : null;
                   const prcMax = ipo.price_max ? Number(ipo.price_max) : (ipo.price_min ? Number(ipo.price_min) : null);
 
                   if (!lotSz || !prcMax) {
                     return (
-                      <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-lg p-4 text-center">
-                        <p className="text-[13px] text-[#64748b]" style={{ fontFamily: "var(--font-inter)" }}>
-                          Market lot sizes, share allocations, and bidding tiers will be announced upon price band finalization.
+                      <div className="bg-[#f8fafc] dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-lg p-4 text-center">
+                        <p className="text-[12.5px] text-[#64748b] dark:text-[#94A3B8]" style={{ fontFamily: "var(--font-inter)" }}>
+                          Market lot sizes and allocation brackets will be announced upon price band finalization.
                         </p>
                       </div>
                     );
                   }
-                  
+
                   const rMinLots = ipo.retail_min_lots ?? 1;
                   const rMinShares = ipo.retail_min_shares ?? (rMinLots * lotSz);
                   const rMinAmt = ipo.retail_min_amount ?? (rMinShares * prcMax);
@@ -875,7 +863,7 @@ export default async function IPODetail({
                   return (
                     <>
                       {/* Desktop Header */}
-                      <div className="hidden md:grid grid-cols-4 px-4 py-2 bg-gray-50 dark:bg-[#0f172a] rounded-lg text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+                      <div className="hidden md:grid grid-cols-4 px-3.5 py-2 bg-gray-50 dark:bg-[#0D1525] border border-gray-100 dark:border-[#22304A] rounded-lg text-[11px] font-semibold uppercase text-gray-500 dark:text-[#94A3B8]">
                         <div>Application</div>
                         <div>Lots</div>
                         <div>Shares</div>
@@ -883,11 +871,11 @@ export default async function IPODetail({
                       </div>
 
                       {rows.map((row, i) => (
-                        <div key={i} className="flex flex-col md:grid md:grid-cols-4 gap-2 md:gap-0 px-4 py-3 md:py-4 border border-gray-100 dark:border-gray-800 rounded-xl bg-white dark:bg-[#1e293b] hover:shadow-sm transition-shadow text-sm">
-                          <div className="font-semibold text-gray-900 dark:text-gray-100 mb-1 md:mb-0 md:flex md:items-center">{row.label}</div>
-                          <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Lots:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.lots ?? "—"}</span></div>
-                          <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Shares:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.shares ?? "—"}</span></div>
-                          <div className="flex justify-between md:block"><span className="text-xs text-gray-500 md:hidden">Amount:</span> <span className="font-medium text-gray-800 dark:text-gray-200">{row.amount ?? "—"}</span></div>
+                        <div key={i} className="flex flex-col md:grid md:grid-cols-4 gap-1.5 md:gap-0 px-3.5 py-2.5 border border-gray-100 dark:border-[#22304A] rounded-lg bg-white dark:bg-[#162238] text-[13px]">
+                          <div className="font-semibold text-gray-900 dark:text-[#F1F5F9] mb-1 md:mb-0 md:flex md:items-center">{row.label}</div>
+                          <div className="flex justify-between md:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] md:hidden">Lots:</span> <span className="font-medium text-gray-800 dark:text-[#F1F5F9]">{row.lots ?? "—"}</span></div>
+                          <div className="flex justify-between md:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] md:hidden">Shares:</span> <span className="font-medium text-gray-800 dark:text-[#F1F5F9]">{row.shares ?? "—"}</span></div>
+                          <div className="flex justify-between md:block"><span className="text-[11px] text-gray-500 dark:text-[#64748B] md:hidden">Amount:</span> <span className="font-medium text-gray-800 dark:text-[#F1F5F9]">{row.amount ?? "—"}</span></div>
                         </div>
                       ))}
                     </>
@@ -895,23 +883,23 @@ export default async function IPODetail({
                 })()}
               </div>
 
-              <p className="text-[11.5px] text-[#94a3b8] mt-3">
-                Investors can bid in multiples of the lot size. Final investment depends on the cutoff price.
+              <p className="text-[11.5px] text-[#94a3b8] dark:text-[#64748B] mt-2.5">
+                Investors can bid in multiples of the lot size at the cut-off price.
               </p>
             </section>
 
             {/* Reservation Details */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
+            <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                 <Eyebrow>Allocation</Eyebrow>
                 <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
+                  className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
                   style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   Reservation Details
                 </h2>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                 {[
                   { label: "QIB", value: valueOrDash(ipo.reservation_qib || (ipo.ipo_type?.toLowerCase() === "sme" ? "50%" : "50%")) },
                   { label: "NII", value: valueOrDash(ipo.reservation_nii || "15%") },
@@ -921,10 +909,10 @@ export default async function IPODetail({
                     value: valueOrDash(ipo.reservation_employee),
                   },
                 ].map((row) => (
-                  <div key={row.label} className="space-y-1.5">
+                  <div key={row.label} className="space-y-1">
                     <DataLabel>{row.label}</DataLabel>
                     <p
-                      className="text-[15px] font-semibold text-[#0f172a] leading-tight"
+                      className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {row.value}
@@ -935,40 +923,42 @@ export default async function IPODetail({
             </section>
 
             {/* Objectives */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
-                <Eyebrow>Issue Summary</Eyebrow>
-                <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-outfit)" }}
+            {ipo.objectives && (
+              <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+                <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
+                  <Eyebrow>Issue Summary</Eyebrow>
+                  <h2
+                    className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
+                    style={{ fontFamily: "var(--font-outfit)" }}
+                  >
+                    Objectives of Issue
+                  </h2>
+                </div>
+                <div
+                  className="text-[13.5px] text-[#475569] dark:text-[#94A3B8] leading-relaxed"
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
-                  Objectives of Issue
-                </h2>
-              </div>
-              <div
-                className="text-[14.5px] text-[#475569] leading-[1.78]"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                {renderPoints(ipo.objectives)}
-              </div>
-            </section>
+                  {renderPoints(ipo.objectives)}
+                </div>
+              </section>
+            )}
 
             {/* Financials */}
             <FinancialMetrics ipo={ipo} />
 
             {/* Promoter Holdings */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
+            <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                 <Eyebrow>Ownership</Eyebrow>
                 <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
+                  className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
                   style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   Promoter Holdings
                 </h2>
               </div>
               {ipo.promoter_holding_pre != null || ipo.promoter_holding_post != null ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   {[
                     {
                       label: "Pre Issue",
@@ -979,10 +969,10 @@ export default async function IPODetail({
                       value: percentOrDash(ipo.promoter_holding_post),
                     },
                   ].map((row) => (
-                    <div key={row.label} className="space-y-1.5">
+                    <div key={row.label} className="space-y-1">
                       <DataLabel>{row.label}</DataLabel>
                       <p
-                        className="text-[15px] font-semibold text-[#0f172a] leading-tight"
+                        className="text-[14.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         {row.value}
@@ -991,8 +981,8 @@ export default async function IPODetail({
                   ))}
                 </div>
               ) : (
-                <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-lg p-4 text-center">
-                  <p className="text-[13px] text-[#64748b]" style={{ fontFamily: "var(--font-inter)" }}>
+                <div className="bg-[#f8fafc] dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-lg p-4 text-center">
+                  <p className="text-[12.5px] text-[#64748b] dark:text-[#94A3B8]" style={{ fontFamily: "var(--font-inter)" }}>
                     Promoter shareholding pre and post-issue will be updated once the final capital structure is published.
                   </p>
                 </div>
@@ -1000,31 +990,31 @@ export default async function IPODetail({
             </section>
 
             {/* Contact Details */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
+            <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                 <Eyebrow>Contacts</Eyebrow>
-                <h2 className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]" style={{ fontFamily: "var(--font-outfit)" }}>
+                <h2 className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]" style={{ fontFamily: "var(--font-outfit)" }}>
                   Company &amp; Registrar Details
                 </h2>
               </div>
 
               {ipo.company_address || ipo.company_phone || ipo.company_email || ipo.company_website || ipo.registrar ? (
-                <div className="space-y-2 text-sm">
-                  {ipo.company_address && <p><strong>Company Address:</strong> {ipo.company_address}</p>}
-                  {ipo.company_phone && <p><strong>Phone:</strong> {ipo.company_phone}</p>}
-                  {ipo.company_email && <p><strong>Email:</strong> {ipo.company_email}</p>}
-                  {ipo.company_website && <p><strong>Website:</strong> {ipo.company_website}</p>}
+                <div className="space-y-2 text-[13px] text-[#475569] dark:text-[#94A3B8]">
+                  {ipo.company_address && <p><strong className="text-[#0f172a] dark:text-[#F1F5F9]">Company Address:</strong> {ipo.company_address}</p>}
+                  {ipo.company_phone && <p><strong className="text-[#0f172a] dark:text-[#F1F5F9]">Phone:</strong> {ipo.company_phone}</p>}
+                  {ipo.company_email && <p><strong className="text-[#0f172a] dark:text-[#F1F5F9]">Email:</strong> {ipo.company_email}</p>}
+                  {ipo.company_website && <p><strong className="text-[#0f172a] dark:text-[#F1F5F9]">Website:</strong> {ipo.company_website}</p>}
 
-                  {(ipo.company_address || ipo.company_phone) && ipo.registrar && <hr className="my-3"/>}
+                  {(ipo.company_address || ipo.company_phone) && ipo.registrar && <hr className="my-2.5 border-[#f1f5f9] dark:border-[#22304A]" />}
 
-                  {ipo.registrar && <p><strong>Registrar:</strong> {ipo.registrar}</p>}
-                  {ipo.registrar_phone && <p><strong>Registrar Phone:</strong> {ipo.registrar_phone}</p>}
-                  {ipo.registrar_email && <p><strong>Registrar Email:</strong> {ipo.registrar_email}</p>}
-                  {ipo.registrar_website && <p><strong>Registrar Website:</strong> {ipo.registrar_website}</p>}
+                  {ipo.registrar && <p><strong className="text-[#0f172a] dark:text-[#F1F5F9]">Registrar:</strong> {ipo.registrar}</p>}
+                  {ipo.registrar_phone && <p><strong className="text-[#0f172a] dark:text-[#F1F5F9]">Registrar Phone:</strong> {ipo.registrar_phone}</p>}
+                  {ipo.registrar_email && <p><strong className="text-[#0f172a] dark:text-[#F1F5F9]">Registrar Email:</strong> {ipo.registrar_email}</p>}
+                  {ipo.registrar_website && <p><strong className="text-[#0f172a] dark:text-[#F1F5F9]">Registrar Website:</strong> {ipo.registrar_website}</p>}
                 </div>
               ) : (
-                <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-lg p-4 text-center">
-                  <p className="text-[13px] text-[#64748b]" style={{ fontFamily: "var(--font-inter)" }}>
+                <div className="bg-[#f8fafc] dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-lg p-4 text-center">
+                  <p className="text-[12.5px] text-[#64748b] dark:text-[#94A3B8]" style={{ fontFamily: "var(--font-inter)" }}>
                     Registrar appointment and registered office contacts will be confirmed in the statutory exchange disclosures.
                   </p>
                 </div>
@@ -1033,11 +1023,11 @@ export default async function IPODetail({
 
             {/* Anchor Investors */}
             {ipo.anchor_investors && (
-              <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-                <div className="pb-4 border-b border-[#f1f5f9]">
+              <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+                <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                   <Eyebrow>Investors</Eyebrow>
                   <h2
-                    className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
+                    className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
                     style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     Anchor Investors
@@ -1045,7 +1035,7 @@ export default async function IPODetail({
                 </div>
 
                 <p
-                  className="text-[14.5px] text-[#475569] leading-[1.78]"
+                  className="text-[13.5px] text-[#475569] dark:text-[#94A3B8] leading-relaxed"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {valueOrDash(ipo.anchor_investors)}
@@ -1055,31 +1045,31 @@ export default async function IPODetail({
 
             {/* SME Market Maker Details */}
             {ipo.ipo_type?.toLowerCase() === "sme" && (
-              <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-                <div className="pb-4 border-b border-[#f1f5f9]">
+              <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+                <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                   <Eyebrow>SME Specific</Eyebrow>
                   <h2
-                    className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a]"
+                    className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
                     style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     Market Maker Details
                   </h2>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-4">
                   <div>
                     <DataLabel>Market Maker Shares Offered</DataLabel>
-                    <p>{valueOrDash(ipo.market_maker_shares)}</p>
+                    <p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{valueOrDash(ipo.market_maker_shares)}</p>
                   </div>
 
                   <div>
                     <DataLabel>Market Maker Reservation (%)</DataLabel>
-                    <p>{percentOrDash(ipo.market_maker_reservation)}</p>
+                    <p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">{percentOrDash(ipo.market_maker_reservation)}</p>
                   </div>
                 </div>
 
                 <p
-                  className="text-[11.5px] text-[#94a3b8] pt-2 border-t border-[#f1f5f9]"
+                  className="text-[11.5px] text-[#94a3b8] dark:text-[#64748B] pt-2 border-t border-[#f1f5f9] dark:border-[#22304A]"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   Applicable only for SME IPOs where a market maker is appointed to provide liquidity post listing.
@@ -1088,36 +1078,36 @@ export default async function IPODetail({
             )}
 
             {/* Important Links */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
+            <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                 <Eyebrow>Documents</Eyebrow>
                 <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
+                  className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
                   style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   Important Links
                 </h2>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 {[
                   ...importantLinks,
                   ...(ipo.nse_info_url ? [{ label: "NSE Info Page", href: ipo.nse_info_url }] : []),
                 ].map((link) => (
-                  <div key={link.label} className="space-y-1.5">
+                  <div key={link.label} className="space-y-1">
                     <DataLabel>{link.label}</DataLabel>
                     {link.href ? (
                       <a
                         href={link.href}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="text-[13.5px] font-medium text-[#2563eb] hover:text-[#1e3a8a] transition-colors break-all"
+                        className="text-[13px] font-medium text-[#2563eb] dark:text-[#3B82F6] hover:underline transition-colors break-all"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
-                        Open Link
+                        Open Link ↗
                       </a>
                     ) : (
                       <p
-                        className="text-[13.5px] font-medium text-[#0f172a]"
+                        className="text-[13px] font-medium text-[#0f172a] dark:text-[#F1F5F9]"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         —
@@ -1128,19 +1118,19 @@ export default async function IPODetail({
               </div>
             </section>
 
-            {/* In the News — from IPOAlerts media_links enrichment */}
+            {/* In the News */}
             {(() => {
               let mediaLinks: string[] = [];
               try {
                 if (ipo.media_links) mediaLinks = JSON.parse(ipo.media_links);
-              } catch {}
+              } catch { }
               if (mediaLinks.length === 0) return null;
               return (
-                <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-                  <div className="pb-4 border-b border-[#f1f5f9]">
+                <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+                  <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                     <Eyebrow>Media Coverage</Eyebrow>
                     <h2
-                      className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
+                      className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
                       style={{ fontFamily: "var(--font-outfit)" }}
                     >
                       In the News
@@ -1149,15 +1139,15 @@ export default async function IPODetail({
                   <ul className="space-y-2">
                     {mediaLinks.map((href, i) => {
                       let domain = "";
-                      try { domain = new URL(href).hostname.replace(/^www\./, ""); } catch {}
+                      try { domain = new URL(href).hostname.replace(/^www\./, ""); } catch { }
                       return (
                         <li key={i} className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
                           <a
                             href={href}
                             target="_blank"
                             rel="noreferrer noopener"
-                            className="text-[13.5px] font-medium text-[#2563eb] hover:text-[#1e3a8a] transition-colors truncate"
+                            className="text-[13px] font-medium text-[#2563eb] dark:text-[#3B82F6] hover:underline transition-colors truncate"
                             style={{ fontFamily: "var(--font-inter)" }}
                           >
                             {domain || `Coverage ${i + 1}`} ↗
@@ -1170,20 +1160,19 @@ export default async function IPODetail({
               );
             })()}
 
-
             {/* Listing Performance */}
             {ipo.status === "Listed" && (
-              <section id="performance" className="scroll-mt-[120px] bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
-                <div className="pb-4 border-b border-[#f1f5f9]">
+              <section id="performance" className="scroll-mt-[120px] bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
+                <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                   <Eyebrow>Performance</Eyebrow>
                   <h2
-                    className="text-2xl sm:text-[1.75rem] font-bold text-[#0f172a] leading-tight"
+                    className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight"
                     style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     Listing Performance
                   </h2>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
                   {[
                     {
                       label: "Listing Exchange",
@@ -1198,10 +1187,10 @@ export default async function IPODetail({
                       value: percentOrDash(ipo.listing_gain_percent),
                     },
                   ].map((item) => (
-                    <div key={item.label} className="space-y-1.5">
+                    <div key={item.label} className="space-y-1">
                       <DataLabel>{item.label}</DataLabel>
                       <p
-                        className="text-[15px] font-semibold text-[#0f172a] leading-tight"
+                        className="text-[14.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         {item.value}
@@ -1211,40 +1200,37 @@ export default async function IPODetail({
                 </div>
 
                 {ipo.listing_gain_percent != null && ipo.gmp != null && ipo.price_max != null && (
-                  <div className="mt-6 p-4 rounded-lg bg-gray-50 border border-gray-100">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                  <div className="mt-4 p-3.5 rounded-lg bg-[#f8fafc] dark:bg-[#0D1525] border border-gray-100 dark:border-[#22304A]">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5">
                       <div>
-                        <p className="text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Pre-Listing Prediction</p>
-                        <p className="text-[14px] text-gray-700 mt-1">
-                          Est. Gain: <span className="font-semibold text-gray-900">{((Number(ipo.gmp) / Number(ipo.price_max)) * 100).toFixed(2)}%</span>
-                          <span className="mx-2 text-gray-300">|</span>
-                          Actual Gain: <span className="font-semibold text-gray-900">{Number(ipo.listing_gain_percent).toFixed(2)}%</span>
+                        <p className="text-[10.5px] font-semibold text-gray-500 dark:text-[#94A3B8] uppercase tracking-wide">Pre-Listing Prediction</p>
+                        <p className="text-[13px] text-gray-700 dark:text-[#94A3B8] mt-1">
+                          Est. Gain: <span className="font-semibold text-gray-900 dark:text-[#F1F5F9]">{((Number(ipo.gmp) / Number(ipo.price_max)) * 100).toFixed(2)}%</span>
+                          <span className="mx-2 text-gray-300 dark:text-[#22304A]">|</span>
+                          Actual Gain: <span className="font-semibold text-gray-900 dark:text-[#F1F5F9]">{Number(ipo.listing_gain_percent).toFixed(2)}%</span>
                         </p>
                       </div>
-                      
+
                       {(() => {
                         const estGain = (Number(ipo.gmp) / Number(ipo.price_max)) * 100;
                         const actualGain = Number(ipo.listing_gain_percent);
                         const diff = Math.abs(estGain - actualGain);
-                        
+
                         if (diff <= 5) {
                           return (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">
-                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-green-100 dark:bg-emerald-950/40 text-green-700 dark:text-emerald-300 border border-green-200 dark:border-emerald-800/40">
                               High Accuracy Prediction
                             </span>
                           );
                         } else if (diff <= 15) {
                           return (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 border border-blue-200">
-                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/40">
                               Moderate Accuracy
                             </span>
                           );
                         } else {
                           return (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700 border border-orange-200">
-                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-100 dark:bg-amber-950/40 text-orange-700 dark:text-amber-300 border border-orange-200 dark:border-amber-800/40">
                               Market Diverged
                             </span>
                           );
@@ -1259,18 +1245,18 @@ export default async function IPODetail({
             {/* How to Apply */}
             <section
               id="how-to-apply"
-              className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12"
+              className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6"
             >
-              <div className="pb-4 border-b border-[#f1f5f9]">
+              <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                 <Eyebrow>Application</Eyebrow>
                 <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
+                  style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   How to Apply
                 </h2>
               </div>
-              <div className="space-y-6 pt-2">
+              <div className="space-y-4 pt-1">
                 {[
                   {
                     index: "01",
@@ -1288,22 +1274,22 @@ export default async function IPODetail({
                     body: "Allotment status is typically available within 6 days of the IPO close date. Refunds for unallotted bids are credited within 2 working days post allotment.",
                   },
                 ].map((step) => (
-                  <div key={step.index} className="flex gap-5">
+                  <div key={step.index} className="flex gap-4">
                     <span
-                      className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#cbd5e1] shrink-0 pt-0.5"
+                      className="text-[10px] font-semibold tracking-[0.2em] uppercase text-gray-400 dark:text-[#64748B] shrink-0 pt-0.5"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {step.index}
                     </span>
                     <div>
                       <p
-                        className="text-[13px] font-semibold text-[#0f172a] mb-1.5"
+                        className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-1"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         {step.title}
                       </p>
                       <p
-                        className="text-[14.5px] text-[#475569] leading-[1.78]"
+                        className="text-[13.5px] text-[#475569] dark:text-[#94A3B8] leading-relaxed"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         {step.body}
@@ -1312,78 +1298,82 @@ export default async function IPODetail({
                   </div>
                 ))}
               </div>
-              <p className="text-[12px] text-[#64748b] pt-4 border-t border-[#f1f5f9]" style={{ fontFamily: "var(--font-inter)" }}>
-                You may also review the complete <Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline font-medium">IPO allotment process explanation</Link> to understand lottery mechanics and refund timelines.
+              <p className="text-[11.5px] text-[#64748b] dark:text-[#64748B] pt-3 border-t border-[#f1f5f9] dark:border-[#22304A]" style={{ fontFamily: "var(--font-inter)" }}>
+                You may also review the complete <Link href="/how-ipo-allotment-works" className="text-[#2563eb] dark:text-[#3B82F6] hover:underline font-medium">IPO allotment process explanation</Link> to understand lottery mechanics and refund timelines.
               </p>
             </section>
 
             {/* Strengths & Risks */}
-            <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-6 mb-10 sm:mb-12">
-              <div className="pb-4 border-b border-[#f1f5f9]">
-                <Eyebrow>Qualitative Factors</Eyebrow>
-                <h2
-                  className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair)" }}
-                >
-                  Strengths &amp; Risks
-                </h2>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <DataLabel>Company Strengths</DataLabel>
-                  <div
-                    className="text-[14.5px] text-[#475569] leading-[1.78]"
-                    style={{ fontFamily: "var(--font-inter)" }}
+            {(ipo.company_strengths || ipo.company_risks) && (
+              <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-4 mb-6">
+                <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
+                  <Eyebrow>Qualitative Factors</Eyebrow>
+                  <h2
+                    className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
+                    style={{ fontFamily: "var(--font-outfit)" }}
                   >
-                    {renderPoints(ipo.company_strengths)}
-                  </div>
+                    Strengths &amp; Risks
+                  </h2>
                 </div>
-                <div className="space-y-2">
-                  <DataLabel>Company Risks</DataLabel>
-                  <div
-                    className="text-[14.5px] text-[#475569] leading-[1.78]"
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    {renderPoints(ipo.company_risks)}
-                  </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                  {ipo.company_strengths && (
+                    <div className="space-y-1.5">
+                      <DataLabel>Company Strengths</DataLabel>
+                      <div
+                        className="text-[13px] text-[#475569] dark:text-[#94A3B8] leading-relaxed"
+                        style={{ fontFamily: "var(--font-inter)" }}
+                      >
+                        {renderPoints(ipo.company_strengths)}
+                      </div>
+                    </div>
+                  )}
+                  {ipo.company_risks && (
+                    <div className="space-y-1.5">
+                      <DataLabel>Company Risks</DataLabel>
+                      <div
+                        className="text-[13px] text-[#475569] dark:text-[#94A3B8] leading-relaxed"
+                        style={{ fontFamily: "var(--font-inter)" }}
+                      >
+                        {renderPoints(ipo.company_risks)}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* Legal Disclaimer */}
-            <div className="border border-[#dce4ef] bg-[#f8fafc] rounded-lg p-6 md:p-8 mb-10 sm:mb-12">
+            <div className="border border-[#e2e8f0] dark:border-[#22304A] bg-[#f1f5f9] dark:bg-[#0D1525] rounded-xl p-4 sm:p-5 mb-6">
               <p
-                className="text-[12.5px] font-semibold text-[#334155] mb-2"
+                className="text-[12px] font-semibold text-[#334155] dark:text-[#F1F5F9] mb-1"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 Legal Disclaimer
               </p>
               <p
-                className="text-[13.5px] text-[#64748b] leading-[1.78]"
+                className="text-[12.5px] text-[#64748b] dark:text-[#94A3B8] leading-relaxed"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                Information is sourced from publicly available exchange filings
-                and company offer documents. GMP is unofficial and indicative.
-                IPOCraft does not provide investment advice.
+                Information is sourced from publicly available exchange filings and company offer documents. GMP is unofficial and indicative. IPOCraft does not provide investment advice.
               </p>
             </div>
 
           </div>{/* ── end left column ── */}
 
-{/* Right sidebar */}
-          <aside className="space-y-5">
+          {/* Right sidebar */}
+          <aside className="space-y-4">
 
             {/* Quick Facts */}
-            <div className="bg-white border border-[#e2e8f0] rounded-lg overflow-hidden">
-              <div className="px-5 py-4 border-b border-[#f1f5f9]">
+            <div className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl overflow-hidden">
+              <div className="px-4 py-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
                 <p
-                  className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8]"
+                  className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] dark:text-[#64748B]"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   Quick Facts
                 </p>
               </div>
-              <div className="px-5 py-2 divide-y divide-[#f8fafc]">
+              <div className="px-4 py-1.5 divide-y divide-[#f8fafc] dark:divide-[#22304A]">
                 {[
                   { label: "Issue Size", value: valueOrDash(ipo.issue_size), isLink: false },
                   { label: "IPO Type", value: valueOrDash(ipo.ipo_type), isLink: false },
@@ -1394,9 +1384,9 @@ export default async function IPODetail({
                   { label: "Min. Investment", value: minInvestment, isLink: false },
                   ...(ipo.nse_info_url ? [{ label: "NSE Info", value: ipo.nse_info_url, isLink: true }] : []),
                 ].map((row) => (
-                  <div key={row.label} className="flex items-start justify-between gap-3 py-3">
+                  <div key={row.label} className="flex items-start justify-between gap-3 py-2.5">
                     <p
-                      className="text-[11.5px] text-[#94a3b8]"
+                      className="text-[11.5px] text-[#94a3b8] dark:text-[#94A3B8]"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {row.label}
@@ -1406,14 +1396,14 @@ export default async function IPODetail({
                         href={row.value}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="text-[12px] font-medium text-[#2563eb] hover:underline text-right"
+                        className="text-[12px] font-medium text-[#2563eb] dark:text-[#3B82F6] hover:underline text-right"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         View on NSE ↗
                       </a>
                     ) : (
                       <p
-                        className="text-[12px] font-medium text-[#0f172a] text-right"
+                        className="text-[12px] font-medium text-[#0f172a] dark:text-[#F1F5F9] text-right"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         {row.value}
@@ -1424,29 +1414,25 @@ export default async function IPODetail({
               </div>
             </div>
 
-            {/* GMP Card */}
-
-            {/* GMP Trend Chart */}
-
             {/* Trust badge */}
-            <div className="border border-[#dce4ef] bg-white rounded-lg p-5 flex gap-4 items-start">
-              <div className="w-8 h-8 rounded-full border border-[#dce4ef] flex items-center justify-center shrink-0">
-                <svg className="w-4 h-4 text-[#1e3a8a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="border border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#111B2D] rounded-xl p-4 flex gap-3 items-start">
+              <div className="w-7 h-7 rounded-full border border-blue-200 dark:border-[#3B82F6]/30 flex items-center justify-center shrink-0 mt-0.5">
+                <svg className="w-3.5 h-3.5 text-[#1e3a8a] dark:text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                 </svg>
               </div>
               <p
-                className="text-[11.5px] text-[#64748b] leading-[1.75]"
+                className="text-[11.5px] text-[#64748b] dark:text-[#94A3B8] leading-relaxed"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                Structured data sourced from official SEBI filings and exchange disclosures. IPOCraft is not SEBI-registered. Content is informational only.
+                Structured data sourced from official SEBI filings and exchange disclosures. Content is for informational research only.
               </p>
             </div>
 
             {/* Back link */}
             <Link
               href="/ipo"
-              className="inline-flex items-center gap-2 text-[12.5px] font-medium text-[#2563eb] hover:text-[#1e3a8a] transition-colors"
+              className="inline-flex items-center gap-2 text-[12px] font-medium text-[#2563eb] dark:text-[#3B82F6] hover:underline transition-colors"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -1457,41 +1443,44 @@ export default async function IPODetail({
           </aside>
         </div>
 
-      {/* ── CTA Strip ── */}
-      <section className="bg-[#1e3a8a]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-16 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        {/* ── CTA Strip ── */}
+        <section className="mt-8 rounded-xl overflow-hidden bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p
-              className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#93c5fd] mb-2"
+              className="text-[10px] font-semibold tracking-[0.2em] uppercase text-blue-600 dark:text-[#3B82F6] mb-1"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Research Before You Apply
             </p>
             <h2
-              className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-white leading-[1.2] tracking-[-0.01em]"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
+              style={{ fontFamily: "var(--font-outfit)" }}
             >
-              Explore More IPO Listings
+              Explore More IPO Listings &amp; GMP
             </h2>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/ipo"
-              className="inline-flex items-center gap-2 bg-white hover:bg-[#f1f5f9] text-[#1e3a8a] text-[13px] font-semibold px-6 py-[0.65rem] rounded-[4px] transition-colors duration-150"
+              className="inline-flex items-center gap-2 bg-[#1e3a8a] dark:bg-[#3B82F6] text-white text-[12.5px] font-semibold px-4 py-2 rounded-lg transition-colors hover:bg-[#1a327a] dark:hover:bg-[#2563EB]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               View All IPOs
             </Link>
             <Link
               href="/gmp"
-              className="inline-flex items-center gap-2 bg-transparent border border-[#3b5fad] hover:border-[#5272c0] text-white text-[13px] font-medium px-6 py-[0.65rem] rounded-[4px] transition-colors duration-150"
+              className="inline-flex items-center gap-2 bg-[#f1f5f9] dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] text-[#0f172a] dark:text-[#F1F5F9] text-[12.5px] font-medium px-4 py-2 rounded-lg transition-colors hover:border-[#3B82F6]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               GMP Tracker
             </Link>
           </div>
+        </section>
+
+        {/* Related IPOs */}
+        <div className="mt-8">
+          <RelatedIpos sector={ipo.sector} currentSlug={slug} />
         </div>
-      </section>
 
       </div>
     </div>

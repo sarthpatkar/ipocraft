@@ -547,7 +547,7 @@ function buildInitialForm(ipo?: IpoSource | null): IpoFormState {
 }
 
 const INPUT_CLASS =
-  "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-900/15";
+  "w-full rounded-md border border-slate-300 bg-white dark:bg-[#111827] px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-900/15";
 const LABEL_CLASS = "text-xs font-semibold uppercase tracking-wide text-slate-600";
 const HINT_CLASS = "text-xs text-slate-500";
 
@@ -576,7 +576,7 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+    <section className="rounded-xl border border-slate-200 bg-white dark:bg-[#111827] shadow-sm">
       <div className="flex w-full items-center justify-between border-b border-transparent data-[expanded=true]:border-slate-200">
         <button
           type="button"
@@ -1454,7 +1454,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         noValidate
         className="flex h-full min-h-0 flex-col"
       >
-      <div className="shrink-0 border-b border-slate-200 bg-white px-5 py-3">
+      <div className="shrink-0 border-b border-slate-200 bg-white dark:bg-[#111827] px-5 py-3">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="relative w-full max-w-md">
             <label htmlFor="field-jump" className={`${LABEL_CLASS} mb-1 block`}>
@@ -1483,7 +1483,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
               autoComplete="off"
             />
             {jumpOpen && jumpOptions.length > 0 && (
-              <div className="absolute z-30 mt-1 max-h-56 w-full overflow-y-auto rounded-md border border-slate-200 bg-white shadow-lg">
+              <div className="absolute z-30 mt-1 max-h-56 w-full overflow-y-auto rounded-md border border-slate-200 bg-white dark:bg-[#111827] shadow-lg">
                 {jumpOptions.map((item) => (
                   <button
                     key={item.name}
@@ -1531,7 +1531,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
               <div className="mt-3 flex items-center gap-3">
                 <label
                   htmlFor="rhp-upload"
-                  className={`inline-flex cursor-pointer items-center gap-2 rounded-md border border-indigo-300 bg-white px-3 py-1.5 text-sm font-medium text-indigo-700 shadow-sm transition hover:bg-indigo-50 ${
+                  className={`inline-flex cursor-pointer items-center gap-2 rounded-md border border-indigo-300 bg-white dark:bg-[#111827] px-3 py-1.5 text-sm font-medium text-indigo-700 shadow-sm transition hover:bg-indigo-50 ${
                     rhpLoading ? "pointer-events-none opacity-60" : ""
                   }`}
                 >
@@ -1887,7 +1887,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
                     <img
                       src={logo}
                       alt="Company logo"
-                      className="h-12 w-12 rounded border border-slate-200 object-contain bg-white"
+                      className="h-12 w-12 rounded border border-slate-200 object-contain bg-white dark:bg-[#111827]"
                     />
                   )}
                   {description && <p className="text-sm text-slate-700">{description}</p>}
@@ -2825,7 +2825,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         </SectionCard>
       </div>
 
-      <div className="shrink-0 border-t border-slate-200 bg-white px-5 py-3">
+      <div className="shrink-0 border-t border-slate-200 bg-white dark:bg-[#111827] px-5 py-3">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <p className="text-xs text-slate-500">
             Save with Ctrl/Cmd + S. Cancel closes this modal without persisting.

@@ -55,29 +55,24 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a]`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-[#e2e8f0] bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff]">
-        <div className="absolute inset-0 opacity-[0.4] pointer-events-none">
-          <div className="absolute -top-24 -left-24 w-72 h-72 bg-blue-200 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-indigo-200 rounded-full blur-3xl animate-pulse" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-14 lg:py-16">
-          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] mb-3">
+      <section className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12 lg:py-14">
+          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] dark:text-[#3B82F6] mb-2">
             Get in Touch
           </p>
 
           <h1
-            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight text-[#0f172a] dark:text-white"
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Contact IPOCraft
           </h1>
 
-          <p className="mt-4 text-sm sm:text-[15px] text-[#475569] max-w-2xl leading-relaxed">
+          <p className="mt-4 text-sm sm:text-[15px] text-[#475569] dark:text-slate-300 max-w-2xl leading-relaxed">
             For platform‑related matters such as technical issues, data corrections,
             partnerships, or business communication, please contact us using the
             details below. IPOCraft does not provide personalized advisory,
@@ -86,13 +81,13 @@ export default function ContactPage() {
 
           {/* Trust badges */}
           <div className="flex flex-wrap gap-3 mt-6 text-xs">
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
               Public Data Sources
             </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
               SEBI Filings Referenced
             </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
               Informational Platform
             </span>
           </div>
@@ -103,34 +98,34 @@ export default function ContactPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
           {/* Support */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-7 lg:p-8 hover:shadow-[0_6px_28px_rgba(0,0,0,0.07)] transition-all duration-200">
-            <p className="text-sm text-[#64748b] mb-1">Platform Support</p>
+          <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 sm:p-7 lg:p-8 hover:shadow-[0_6px_28px_rgba(0,0,0,0.07)] transition-all duration-200">
+            <p className="text-sm text-[#64748b] dark:text-slate-400 mb-1">Platform Support</p>
             <p className="font-semibold text-[15px]">
               contact@ipocraft.com
             </p>
 
-            <p className="mt-3 text-sm text-[#64748b] leading-[1.7]">
+            <p className="mt-3 text-sm text-[#64748b] dark:text-slate-400 leading-[1.7]">
               For reporting technical issues or requesting corrections to publicly displayed data.
             </p>
           </div>
 
           {/* Business */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-7 lg:p-8 hover:shadow-[0_6px_28px_rgba(0,0,0,0.07)] transition-all duration-200">
-            <p className="text-sm text-[#64748b] mb-1">
+          <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 sm:p-7 lg:p-8 hover:shadow-[0_6px_28px_rgba(0,0,0,0.07)] transition-all duration-200">
+            <p className="text-sm text-[#64748b] dark:text-slate-400 mb-1">
               Partnerships & Business
             </p>
             <p className="font-semibold text-[15px]">
               contact@ipocraft.com
             </p>
 
-            <p className="mt-3 text-sm text-[#64748b] leading-[1.7]">
+            <p className="mt-3 text-sm text-[#64748b] dark:text-slate-400 leading-[1.7]">
               For partnerships, advertising opportunities, or business communication related to the platform.
             </p>
           </div>
         </div>
 
         {/* LEGAL */}
-        <div className="mt-8 bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-7 lg:p-8">
+        <div className="mt-8 bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 sm:p-7 lg:p-8">
           <h2
             className="font-semibold mb-3 text-[16px]"
             style={{ fontFamily: "var(--font-playfair)" }}
@@ -138,30 +133,30 @@ export default function ContactPage() {
             Important Legal Disclaimer
           </h2>
 
-          <p className="text-sm text-[#64748b] leading-[1.75]">
+          <p className="text-sm text-[#64748b] dark:text-slate-400 leading-[1.75]">
             IPOCraft is an independent informational platform that provides
             publicly available IPO‑related data such as Grey Market Premium (GMP),
             subscription statistics, and issue details. We are not registered with
             SEBI as an investment advisor, research analyst, or financial intermediary.
           </p>
 
-          <p className="text-sm text-[#64748b] leading-[1.75] mt-3">
+          <p className="text-sm text-[#64748b] dark:text-slate-400 leading-[1.75] mt-3">
             Nothing on this website constitutes investment advice, recommendation,
             or solicitation to buy or sell securities. Users should perform their
             own research and consult licensed financial professionals before making
             investment decisions.
           </p>
 
-          <p className="text-sm text-[#64748b] leading-[1.75] mt-3">
+          <p className="text-sm text-[#64748b] dark:text-slate-400 leading-[1.75] mt-3">
             IPOCraft does not guarantee the accuracy, completeness, or reliability
             of any information presented. Market data may change without notice.
           </p>
 
-          <div className="mt-6 pt-6 border-t border-[#f1f5f9]">
+          <div className="mt-6 pt-6 border-t border-[#f1f5f9] dark:border-[#1e293b]">
             <h3 className="font-semibold text-[14.5px] mb-2">
               Transparency & Compliance
             </h3>
-            <p className="text-sm text-[#64748b] leading-[1.7]">
+            <p className="text-sm text-[#64748b] dark:text-slate-400 leading-[1.7]">
               IPOCraft operates as an informational financial data platform and is
               not affiliated with stock exchanges, regulators, or issuing companies.
               Users should verify IPO details through official filings such as SEBI,
@@ -173,15 +168,15 @@ export default function ContactPage() {
       </section>
 
       {/* ABOUT */}
-      <section className="bg-white border-t border-[#e2e8f0]">
+      <section className="bg-white dark:bg-[#111827] border-t border-[#e2e8f0] dark:border-[#1e293b]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
           <h2
-            className="text-[1.5rem] sm:text-[1.75rem] font-semibold leading-[1.2] text-[#0f172a] mb-3"
+            className="text-[1.5rem] sm:text-[1.75rem] font-semibold leading-[1.2] text-[#0f172a] dark:text-slate-100 mb-3"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
             About IPOCraft
           </h2>
-          <p className="text-[14px] sm:text-[14.5px] text-[#64748b] leading-[1.78] max-w-4xl">
+          <p className="text-[14px] sm:text-[14.5px] text-[#64748b] dark:text-slate-400 leading-[1.78] max-w-4xl">
             IPOCraft is a modern IPO information platform focused on Grey Market
             Premium (GMP), subscription trends, and IPO tracking tools across
             Mainboard and SME segments in India. Our goal is to provide structured,

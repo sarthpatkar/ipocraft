@@ -20,17 +20,17 @@ function valueOrDash(value: string | null) {
 
 export default function BrokerCard({ broker }: { broker: BrokerListItem }) {
   return (
-    <div className="bg-white border border-[#e2e8f0] rounded-lg overflow-hidden h-full hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-      <div className="px-5 py-4 border-b border-[#f8fafc]">
-        <h3 className="text-[1.1rem] font-semibold text-[#0f172a] leading-tight">
+    <div className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl overflow-hidden h-full hover:border-[#3B82F6]/50 transition-colors shadow-xs">
+      <div className="px-5 py-3.5 border-b border-[#f8fafc] dark:border-[#22304A]">
+        <h3 className="text-[1.05rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight" style={{ fontFamily: "var(--font-outfit)" }}>
           {broker.name}
         </h3>
-        <p className="text-[11px] text-[#94a3b8] mt-1">
+        <p className="text-[11px] text-[#94a3b8] dark:text-[#64748B] mt-0.5">
           Core charges snapshot
         </p>
       </div>
 
-      <div className="px-5 py-5 grid grid-cols-2 gap-x-6 gap-y-4">
+      <div className="px-5 py-4 grid grid-cols-2 gap-x-5 gap-y-3.5">
         {[
           { label: "Account Opening", value: valueOrDash(broker.account_opening) },
           { label: "Account Maintenance", value: valueOrDash(broker.account_maintenance) },
@@ -40,18 +40,18 @@ export default function BrokerCard({ broker }: { broker: BrokerListItem }) {
           { label: "Options", value: valueOrDash(broker.options) },
         ].map((row) => (
           <div key={row.label}>
-            <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] mb-1.5">
+            <p className="text-[10px] font-semibold tracking-[0.14em] uppercase text-[#94a3b8] dark:text-[#64748B] mb-1">
               {row.label}
             </p>
-            <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
+            <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight">
               {row.value}
             </p>
           </div>
         ))}
       </div>
 
-      <div className="px-5 py-3.5 border-t border-[#f8fafc] bg-[#fafbfd] flex items-center justify-between gap-3">
-        <p className="text-[11.5px] text-[#64748b] truncate">
+      <div className="px-5 py-3 border-t border-[#f8fafc] dark:border-[#22304A] bg-[#fafbfd] dark:bg-[#0D1525] flex items-center justify-between gap-3">
+        <p className="text-[11.5px] text-[#64748b] dark:text-[#94A3B8] truncate">
           {valueOrDash(broker.notes)}
         </p>
         {broker.cta_url ? (
@@ -59,12 +59,12 @@ export default function BrokerCard({ broker }: { broker: BrokerListItem }) {
             href={broker.cta_url}
             target="_blank"
             rel="noreferrer noopener"
-            className="inline-flex items-center justify-center bg-gradient-to-r from-blue-700 to-indigo-600 hover:from-blue-800 hover:to-indigo-700 text-white text-[12px] font-semibold px-4 py-1.5 rounded-[4px] transition-all duration-200 transform hover:-translate-y-0.5 shadow-sm shrink-0"
+            className="inline-flex items-center justify-center bg-[#3B82F6] hover:bg-[#2563EB] text-white text-[12px] font-semibold px-3.5 py-1.5 rounded-lg transition-colors shadow-xs shrink-0"
           >
             Open Account
           </a>
         ) : (
-          <span className="inline-flex items-center justify-center bg-[#e2e8f0] text-[#64748b] text-[12px] font-semibold px-4 py-1.5 rounded-[4px] shrink-0">
+          <span className="inline-flex items-center justify-center bg-[#e2e8f0] dark:bg-[#162238] text-[#64748b] dark:text-[#94A3B8] text-[12px] font-semibold px-3.5 py-1.5 rounded-lg shrink-0">
             —
           </span>
         )}

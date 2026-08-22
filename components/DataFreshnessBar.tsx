@@ -46,10 +46,10 @@ export default function DataFreshnessBar({
 
   return (
     <div
-      className={`w-full flex items-center justify-center gap-2 px-4 py-1.5 text-[11.5px] font-medium
+      className={`w-full flex items-center justify-center gap-2 px-4 py-1.5 text-[11.5px] font-medium transition-colors
         ${isStale
-          ? "bg-amber-50 border-b border-amber-200 text-amber-700"
-          : "bg-emerald-50 border-b border-emerald-200 text-emerald-700"
+          ? "bg-amber-50 border-b border-amber-200 text-amber-700 dark:bg-amber-950/40 dark:border-amber-800/40 dark:text-amber-300"
+          : "bg-emerald-50 border-b border-emerald-200 text-emerald-700 dark:bg-emerald-950/40 dark:border-emerald-800/40 dark:text-emerald-300"
         }`}
     >
       {/* Live pulse dot */}

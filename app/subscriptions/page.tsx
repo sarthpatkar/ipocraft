@@ -82,21 +82,21 @@ export default async function SubscriptionsPage({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#080D18] text-[#0f172a] dark:text-[#F1F5F9] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* ── Breadcrumb ── */}
-      <div className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-11 flex items-center gap-2">
+      <div className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center gap-2">
           <Link
             href="/"
-            className="text-[11.5px] text-[#94a3b8] hover:text-[#0f172a] transition-colors"
+            className="text-[11.5px] text-[#94a3b8] dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] transition-colors"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Home
           </Link>
           <svg
-            className="w-3 h-3 text-[#cbd5e1]"
+            className="w-3 h-3 text-[#cbd5e1] dark:text-[#64748B]"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -105,7 +105,7 @@ export default async function SubscriptionsPage({
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
           </svg>
           <span
-            className="text-[11.5px] text-[#0f172a] font-medium"
+            className="text-[11.5px] text-[#0f172a] dark:text-[#F1F5F9] font-medium"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Live Subscriptions
@@ -114,23 +114,25 @@ export default async function SubscriptionsPage({
       </div>
 
       {/* ── Header ── */}
-      <section className="bg-white border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-14 text-center">
+      <section className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 text-center">
+          <p className="text-[10.5px] font-semibold uppercase text-blue-600 dark:text-[#3B82F6] mb-2 tracking-wide">
+            Subscription Analytics
+          </p>
           <h1
-            className="text-2xl sm:text-[2rem] font-semibold text-[#0f172a] tracking-tight mb-3"
+            className="text-2xl sm:text-3xl md:text-[2.25rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight mb-2"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
-            Live Subscription Tracker
+            Live IPO Subscription Tracker
           </h1>
-          <p className="text-[14.5px] sm:text-[15.5px] text-[#475569] max-w-2xl mx-auto leading-relaxed">
-            Monitor real-time demand across institutional, high-net-worth, and retail categories. 
-            Smart money flows (QIB) are often the strongest indicator of a successful listing.
+          <p className="text-sm sm:text-[14.5px] text-[#475569] dark:text-[#94A3B8] max-w-xl mx-auto leading-relaxed">
+            Monitor verified exchange bidding across institutional (QIB), non-institutional (NII), and retail investor categories.
           </p>
         </div>
       </section>
 
       {/* ── Table Section ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 pb-24">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-16">
         <SubscriptionTableClient
           data={data}
           filterStatus={filterStatus}
@@ -138,29 +140,29 @@ export default async function SubscriptionsPage({
         />
 
         {/* SEO Content */}
-        <article className="mt-16 bg-white border border-[#e2e8f0] rounded-xl p-8 shadow-sm">
+        <article className="mt-8 bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 shadow-xs">
           <h2
-            className="text-[1.3rem] font-semibold text-[#0f172a] mb-4"
+            className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-3"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
             How to Interpret IPO Subscriptions
           </h2>
           <div
-            className="prose prose-sm prose-slate max-w-none text-[14px]"
+            className="prose prose-sm prose-slate dark:prose-invert max-w-none text-[13px]"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            <p className="mb-4">
-              Subscription data reveals the exact market demand for an IPO. Unlike Grey Market Premium (GMP) which is unofficial and subject to manipulation, subscription numbers are verified by the exchanges (BSE/NSE).
+            <p className="mb-3 text-[#475569] dark:text-[#94A3B8]">
+              Subscription data reflects official demand submitted on stock exchange order books (BSE/NSE).
             </p>
-            <ul className="list-disc pl-5 space-y-2 mb-6 text-[#475569]">
+            <ul className="list-disc pl-4 space-y-1.5 text-[#475569] dark:text-[#94A3B8]">
               <li>
-                <strong>QIB (Qualified Institutional Buyers):</strong> Banks, mutual funds, and FIIs. They usually bid on the final day. High QIB demand (&gt;50x) indicates smart money is highly confident in the company&apos;s valuation.
+                <strong>QIB (Qualified Institutional Buyers):</strong> Mutual funds, banks, and FPIs. Heavy QIB subscription (&gt;30x) typically reflects institutional conviction.
               </li>
               <li>
-                <strong>NII (Non-Institutional Investors):</strong> High Net-Worth Individuals (HNIs). This category is often split into sNII (bids below ₹10L) and bNII (bids above ₹10L). HNIs use leverage to apply for IPOs, meaning high demand here usually aligns with high listing gains.
+                <strong>NII / HNI:</strong> High Net-Worth Individuals subdivided into sNII (&lt; ₹10L) and bNII (&gt; ₹10L).
               </li>
               <li>
-                <strong>Retail:</strong> Retail investors applying up to ₹2 Lakhs. Overwhelming retail demand often indicates massive public hype, but does not always guarantee a successful listing if institutions do not support the issue.
+                <strong>Retail:</strong> Individual applications up to ₹2 Lakhs per applicant.
               </li>
             </ul>
           </div>

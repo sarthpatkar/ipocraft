@@ -45,37 +45,37 @@ export const metadata: Metadata = {
 export default function IpoAllotmentGuide() {
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen scroll-smooth bg-[#f8fafc] text-[#0f172a]`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen scroll-smooth bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <p className="text-[11px] tracking-[0.22em] uppercase text-[#2563eb] font-semibold mb-4">
+        <p className="text-[11px] tracking-[0.22em] uppercase text-[#2563eb] dark:text-blue-400 font-semibold mb-4">
           IPO Learning Guide
         </p>
 
         <h1
-          className="text-2xl sm:text-3xl lg:text-[2.5rem] font-semibold leading-tight"
+          className="text-2xl sm:text-3xl lg:text-[2.5rem] font-semibold leading-tight text-[#0f172a] dark:text-white"
           style={{ fontFamily: "var(--font-outfit)" }}
         >
           How IPO Allotment Works in India – Complete Process Explained (2026)
         </h1>
 
-        <div className="mt-3 text-xs text-[#64748b] flex flex-wrap gap-3">
+        <div className="mt-3 text-xs text-[#64748b] dark:text-slate-400 flex flex-wrap gap-3">
           <span>Last Updated: {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span>
           <span>•</span>
           <span>Approx. 8–10 min read</span>
         </div>
 
-        <p className="mt-6 text-[15px] text-[#475569] leading-relaxed">
+        <p className="mt-6 text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed">
           IPO allotment is the process through which shares are distributed to
           investors after the IPO bidding period closes. When demand exceeds
           supply (oversubscription), allotment follows structured rules defined
           by stock exchanges and SEBI regulations.
         </p>
 
-        <p className="mt-4 text-[15px] text-[#475569] leading-relaxed">
+        <p className="mt-4 text-[15px] text-[#475569] dark:text-slate-400 leading-relaxed">
           Investors tracking IPO demand through subscription ratios and{" "}
-          <Link href="/gmp" className="text-[#2563eb] underline">
+          <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">
             IPO GMP
           </Link>{" "}
           often want to understand how shares are actually allocated. This guide
@@ -84,15 +84,15 @@ export default function IpoAllotmentGuide() {
         </p>
 
         {/* Jump Navigation */}
-        <div className="mt-8 sticky top-24 z-30 bg-white/95 backdrop-blur border border-[#e2e8f0] rounded-xl p-5 shadow-sm">
+        <div className="mt-8 sticky top-24 z-30 bg-white dark:bg-[#111827]/95 backdrop-blur border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 shadow-sm">
           <p className="text-sm font-semibold mb-3">Jump to Section</p>
           <div className="grid sm:grid-cols-2 gap-2 text-sm">
-            <a href="#timeline" className="text-[#2563eb] hover:underline">IPO Timeline</a>
-            <a href="#retail" className="text-[#2563eb] hover:underline">Retail Allotment</a>
-            <a href="#hni" className="text-[#2563eb] hover:underline">HNI Allotment</a>
-            <a href="#qib" className="text-[#2563eb] hover:underline">QIB Allotment</a>
-            <a href="#probability" className="text-[#2563eb] hover:underline">Probability Example</a>
-            <a href="#comparison" className="text-[#2563eb] hover:underline">Allotment vs GMP vs Listing</a>
+            <a href="#timeline" className="text-[#2563eb] dark:text-blue-400 hover:underline">IPO Timeline</a>
+            <a href="#retail" className="text-[#2563eb] dark:text-blue-400 hover:underline">Retail Allotment</a>
+            <a href="#hni" className="text-[#2563eb] dark:text-blue-400 hover:underline">HNI Allotment</a>
+            <a href="#qib" className="text-[#2563eb] dark:text-blue-400 hover:underline">QIB Allotment</a>
+            <a href="#probability" className="text-[#2563eb] dark:text-blue-400 hover:underline">Probability Example</a>
+            <a href="#comparison" className="text-[#2563eb] dark:text-blue-400 hover:underline">Allotment vs GMP vs Listing</a>
           </div>
         </div>
 
@@ -109,7 +109,7 @@ export default function IpoAllotmentGuide() {
             </ul>
             <p>
               You can track upcoming IPO timelines via the{" "}
-              <Link href="/ipo-calendar" className="text-[#2563eb] underline">
+              <Link href="/ipo-calendar" className="text-[#2563eb] dark:text-blue-400 underline">
                 IPO Calendar
               </Link>.
             </p>
@@ -196,7 +196,7 @@ export default function IpoAllotmentGuide() {
               You can estimate retail allotment probability using a simple formula:
             </p>
 
-            <div className="bg-white border border-[#e2e8f0] rounded-lg p-4 text-sm font-medium">
+            <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4 text-sm font-medium">
               Probability (%) = (Retail Lots Available ÷ Retail Applications) × 100
             </div>
 
@@ -238,7 +238,7 @@ export default function IpoAllotmentGuide() {
               Since only 20,000 lots are available but 2,00,000 applicants applied,
               the probability of receiving one lot becomes approximately:
             </p>
-            <div className="bg-white border border-[#e2e8f0] rounded-lg p-4 text-sm font-medium text-[#0f172a]">
+            <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4 text-sm font-medium text-[#0f172a] dark:text-slate-100">
               Probability ≈ 20,000 ÷ 2,00,000 = 10%
             </div>
             <p>
@@ -313,7 +313,7 @@ export default function IpoAllotmentGuide() {
             </ul>
             <p>
               You can also monitor IPO timelines via the{" "}
-              <Link href="/ipo-calendar" className="text-[#2563eb] underline">
+              <Link href="/ipo-calendar" className="text-[#2563eb] dark:text-blue-400 underline">
                 IPO Calendar
               </Link>.
             </p>
@@ -322,26 +322,26 @@ export default function IpoAllotmentGuide() {
 
           <Section title="Frequently Asked Questions (FAQs)">
             <h3 className="font-semibold mt-4">How is IPO allotment decided?</h3>
-            <p className="text-[#475569] mt-1">
+            <p className="text-[#475569] dark:text-slate-400 mt-1">
               Allotment is determined based on category subscription and
               exchange-approved allocation rules.
             </p>
 
             <h3 className="font-semibold mt-4">Is IPO allotment random?</h3>
-            <p className="text-[#475569] mt-1">
+            <p className="text-[#475569] dark:text-slate-400 mt-1">
               In retail oversubscription cases, allotment may be through a
               computerized lottery system.
             </p>
 
             <h3 className="font-semibold mt-4">When is IPO allotment date?</h3>
-            <p className="text-[#475569] mt-1">
+            <p className="text-[#475569] dark:text-slate-400 mt-1">
               Typically 2–3 working days after IPO closure.
             </p>
           </Section>
 
         </div>
 
-        <div className="mt-12 text-xs text-[#64748b] bg-[#f1f5f9] border border-[#e2e8f0] rounded-lg p-4">
+        <div className="mt-12 text-xs text-[#64748b] dark:text-slate-400 bg-[#f1f5f9] dark:bg-[#1e293b] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4">
           IPOCraft provides informational content only and is not registered
           with SEBI. This guide is for educational and research purposes and
           does not constitute investment advice.
@@ -465,14 +465,15 @@ function Section({ title, children }: any) {
   return (
     <div className="scroll-mt-24">
       <h2
-        className="text-xl sm:text-2xl font-semibold mb-4"
-        style={{ fontFamily: "var(--font-playfair)" }}
+        className="text-xl sm:text-2xl font-semibold mb-4 text-[#0f172a] dark:text-white"
+        style={{ fontFamily: "var(--font-outfit)" }}
       >
         {title}
       </h2>
-      <div className="text-[15px] text-[#475569] leading-relaxed space-y-3">
+      <div className="text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed space-y-3">
         {children}
       </div>
     </div>
   );
 }
+

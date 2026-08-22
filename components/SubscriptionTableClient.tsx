@@ -54,33 +54,23 @@ function compareByClosingSoon(a: IpoRow, b: IpoRow) {
   return aTimestamp - bTimestamp;
 }
 
-function parseSub(val: any): number {
-  if (!val) return 0;
-  const parsed = Number(val);
-  return isNaN(parsed) ? 0 : parsed;
-}
+import { formatSubscriptionTimes, formatDisplayDate } from "@/lib/formatters";
 
-function SubCell({ value }: { value: any }) {
-  const num = parseSub(value);
-  if (num === 0) return <span className="text-gray-400">—</span>;
-  
-  let colorClass = "text-gray-900";
-  let bgClass = "bg-transparent";
-  
-  if (num >= 50) {
-    colorClass = "text-emerald-700 font-bold";
-    bgClass = "bg-emerald-100/50";
-  } else if (num >= 10) {
-    colorClass = "text-green-600 font-semibold";
-  } else if (num >= 1) {
-    colorClass = "text-blue-600 font-medium";
-  } else {
-    colorClass = "text-orange-500";
+function SubCell({ value, isTotal = false }: { value: any; isTotal?: boolean }) {
+  const formatted = formatSubscriptionTimes(value, "—");
+  if (formatted === "—") {
+    return <span className="text-[#94A3B8] dark:text-[#64748B]">—</span>;
   }
 
   return (
-    <span className={`inline-block px-1.5 py-0.5 rounded ${colorClass} ${bgClass}`}>
-      {num.toFixed(2)}x
+    <span
+      className={`tabular-nums ${
+        isTotal
+          ? "font-bold text-[#0f172a] dark:text-[#F1F5F9]"
+          : "font-medium text-[#334155] dark:text-[#CBD5E1]"
+      }`}
+    >
+      {formatted}
     </span>
   );
 }
@@ -129,11 +119,11 @@ export default function SubscriptionTableClient({
   }, [data, activeTab, activeType, todayStr]);
 
   return (
-    <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden shadow-sm">
+    <div className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl overflow-hidden shadow-xs">
       {/* ── Filters ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 border-b border-[#f1f5f9] gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 sm:p-4 border-b border-[#f1f5f9] dark:border-[#22304A] gap-3">
         {/* Status Tabs */}
-        <div className="flex bg-[#f8fafc] p-1 rounded-lg border border-[#e2e8f0] w-fit">
+        <div className="flex bg-[#f8fafc] dark:bg-[#0D1525] p-1 rounded-lg border border-[#e2e8f0] dark:border-[#22304A] w-fit">
           {[
             { id: "active", label: "Active" },
             { id: "upcoming", label: "Upcoming" },
@@ -144,10 +134,10 @@ export default function SubscriptionTableClient({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-1.5 text-[13px] font-semibold rounded-md transition-all ${
+                className={`px-3 py-1.5 text-[12.5px] font-semibold rounded-md transition-colors ${
                   isActive
-                    ? "bg-white text-indigo-600 shadow-sm border border-[#e2e8f0]"
-                    : "text-[#64748b] hover:text-[#0f172a] border border-transparent"
+                    ? "bg-white dark:bg-[#162238] text-blue-600 dark:text-[#3B82F6] shadow-xs border border-[#e2e8f0] dark:border-[#22304A]"
+                    : "text-[#64748b] dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] border border-transparent"
                 }`}
                 style={{ fontFamily: "var(--font-inter)" }}
               >
@@ -157,62 +147,56 @@ export default function SubscriptionTableClient({
           })}
         </div>
 
-        {/* Live Indicator & Type Select */}
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Live Demand • Updated every 30m
-          </span>
-          <div className="flex items-center gap-2">
-            <label className="text-[12px] font-semibold text-[#64748b] uppercase tracking-wider" style={{ fontFamily: "var(--font-inter)" }}>
-              Type
-            </label>
-            <select
-              value={activeType}
-              onChange={(e) => setActiveType(e.target.value)}
-              className="text-[13px] font-medium border border-[#cbd5e1] rounded-md px-3 py-1.5 bg-white text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-shadow"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              <option value="all">All IPOs</option>
-              <option value="mainboard">Mainboard</option>
-              <option value="sme">SME</option>
-            </select>
-          </div>
+        {/* Type Select */}
+        <div className="flex items-center gap-2">
+          <label className="text-[11.5px] font-semibold text-[#64748b] dark:text-[#94A3B8] uppercase tracking-wider" style={{ fontFamily: "var(--font-inter)" }}>
+            Segment
+          </label>
+          <select
+            value={activeType}
+            onChange={(e) => setActiveType(e.target.value)}
+            className="text-[12.5px] font-medium border border-[#cbd5e1] dark:border-[#22304A] rounded-lg px-2.5 py-1.5 bg-white dark:bg-[#162238] text-[#0f172a] dark:text-[#F1F5F9] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+            style={{ fontFamily: "var(--font-inter)" }}
+          >
+            <option value="all">All IPOs</option>
+            <option value="mainboard">Mainboard</option>
+            <option value="sme">SME</option>
+          </select>
         </div>
       </div>
 
       {/* ── Desktop Table ── */}
       <div className="hidden lg:block overflow-x-auto">
         <table className="w-full text-left border-collapse min-w-[900px]">
-          <thead className="bg-[#f8fafc] border-b border-[#e2e8f0]">
+          <thead className="bg-[#f8fafc] dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
             <tr>
-              <th className="py-3 px-5 text-[11px] font-bold text-[#64748b] uppercase tracking-wider sticky left-0 bg-[#f8fafc] z-10 w-[220px]">
+              <th className="py-2.5 px-4 text-[11px] font-semibold text-[#64748b] dark:text-[#94A3B8] uppercase tracking-wider sticky left-0 bg-[#f8fafc] dark:bg-[#0D1525] z-10 w-[220px]">
                 IPO Name
               </th>
-              <th className="py-3 px-4 text-[11px] font-bold text-[#64748b] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#64748b] dark:text-[#94A3B8] uppercase tracking-wider">
                 Status
               </th>
-              <th className="py-3 px-4 text-[11px] font-bold text-[#64748b] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#64748b] dark:text-[#94A3B8] uppercase tracking-wider">
                 <GlossaryTooltip term="QIB">QIB</GlossaryTooltip>
               </th>
-              <th className="py-3 px-4 text-[11px] font-bold text-[#64748b] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#64748b] dark:text-[#94A3B8] uppercase tracking-wider">
                 <GlossaryTooltip term="NII">NII</GlossaryTooltip>
               </th>
-              <th className="py-3 px-4 text-[11px] font-bold text-[#64748b] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#64748b] dark:text-[#94A3B8] uppercase tracking-wider">
                 <GlossaryTooltip term="sNII">sNII</GlossaryTooltip>
               </th>
-              <th className="py-3 px-4 text-[11px] font-bold text-[#64748b] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#64748b] dark:text-[#94A3B8] uppercase tracking-wider">
                 <GlossaryTooltip term="bNII">bNII</GlossaryTooltip>
               </th>
-              <th className="py-3 px-4 text-[11px] font-bold text-[#64748b] uppercase tracking-wider bg-indigo-50/50">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#64748b] dark:text-[#94A3B8] uppercase tracking-wider">
                 <GlossaryTooltip term="Retail">Retail</GlossaryTooltip>
               </th>
-              <th className="py-3 px-4 text-[11px] font-bold text-[#0f172a] uppercase tracking-wider bg-indigo-50">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] uppercase tracking-wider">
                 Total
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#f1f5f9]">
+          <tbody className="divide-y divide-[#f1f5f9] dark:divide-[#22304A]">
             {processedData.length > 0 ? (
               processedData.map((row) => {
                 const status = getLifecycleStatus(row);
@@ -221,59 +205,64 @@ export default function SubscriptionTableClient({
                 return (
                   <tr
                     key={row.id}
-                    className={`hover:bg-[#f8fafc] transition-colors ${
-                      isClosed ? "opacity-70 bg-gray-50/50" : ""
+                    className={`group hover:bg-[#f8fafc] dark:hover:bg-[#162238]/60 bg-white dark:bg-[#11182D] transition-colors ${
+                      isClosed ? "opacity-75" : ""
                     }`}
                   >
-                    <td className="py-3.5 px-5 align-middle sticky left-0 bg-white z-10 w-[220px]">
+                    <td className="py-3 px-4 align-middle sticky left-0 bg-white dark:bg-[#11182D] group-hover:bg-[#f8fafc] dark:group-hover:bg-[#162238] z-10 w-[220px] border-r border-[#e2e8f0] dark:border-[#22304A]">
                       <Link
                         href={`/ipo/${row.slug}`}
-                        className="text-[14px] font-semibold text-[#0f172a] hover:text-[#2563eb] transition-colors line-clamp-1"
+                        className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] hover:text-[#3B82F6] dark:hover:text-[#3B82F6] transition-colors line-clamp-1"
                         style={{ fontFamily: "var(--font-outfit)" }}
                       >
                         {row.name}
                       </Link>
-                      <div className="flex gap-2 items-center mt-1">
+                      <div className="flex gap-1.5 items-center mt-0.5">
                         {row.ipo_type && (
-                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${row.ipo_type.toLowerCase() === 'sme' ? 'bg-purple-100 text-purple-700' : 'bg-indigo-100 text-indigo-700'}`}>
+                          <span className={`text-[9.5px] font-semibold px-1.5 py-0.2 rounded ${
+                            row.ipo_type.toLowerCase() === 'sme' 
+                              ? 'bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300' 
+                              : 'bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300'
+                          }`}>
                             {row.ipo_type}
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 align-middle">
-                      <span className={`text-[11px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${
-                        status === 'open' ? 'bg-emerald-100 text-emerald-700' :
-                        status === 'upcoming' ? 'bg-blue-100 text-blue-700' : 'bg-gray-200 text-gray-700'
+                    <td className="py-3 px-3.5 align-middle">
+                      <span className={`text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded ${
+                        status === 'open' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300' :
+                        status === 'upcoming' ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300' : 
+                        'bg-gray-100 text-gray-700 dark:bg-[#162238] dark:text-[#94A3B8]'
                       }`}>
                         {status}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 align-middle text-[13px]" style={{ fontFamily: "var(--font-inter)" }}>
+                    <td className="py-3 px-3.5 align-middle text-[13px]" style={{ fontFamily: "var(--font-inter)" }}>
                       <SubCell value={row.sub_qib} />
                     </td>
-                    <td className="py-3.5 px-4 align-middle text-[13px]" style={{ fontFamily: "var(--font-inter)" }}>
+                    <td className="py-3 px-3.5 align-middle text-[13px]" style={{ fontFamily: "var(--font-inter)" }}>
                       <SubCell value={row.sub_nii} />
                     </td>
-                    <td className="py-3.5 px-4 align-middle text-[13px]" style={{ fontFamily: "var(--font-inter)" }}>
+                    <td className="py-3 px-3.5 align-middle text-[13px]" style={{ fontFamily: "var(--font-inter)" }}>
                       <SubCell value={row.sub_shni} />
                     </td>
-                    <td className="py-3.5 px-4 align-middle text-[13px]" style={{ fontFamily: "var(--font-inter)" }}>
+                    <td className="py-3 px-3.5 align-middle text-[13px]" style={{ fontFamily: "var(--font-inter)" }}>
                       <SubCell value={row.sub_bhni} />
                     </td>
-                    <td className="py-3.5 px-4 align-middle text-[13px] bg-indigo-50/30" style={{ fontFamily: "var(--font-inter)" }}>
+                    <td className="py-3 px-3.5 align-middle text-[13px]" style={{ fontFamily: "var(--font-inter)" }}>
                       <SubCell value={row.sub_rii} />
                     </td>
-                    <td className="py-3.5 px-4 align-middle text-[14px] font-bold bg-indigo-50/50" style={{ fontFamily: "var(--font-inter)" }}>
-                      <SubCell value={row.sub_total} />
+                    <td className="py-3 px-3.5 align-middle text-[13.5px]" style={{ fontFamily: "var(--font-inter)" }}>
+                      <SubCell value={row.sub_total} isTotal={true} />
                     </td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan={8} className="py-12 text-center">
-                  <p className="text-[14px] text-[#64748b] font-medium" style={{ fontFamily: "var(--font-inter)" }}>
+                <td colSpan={8} className="py-10 text-center">
+                  <p className="text-[13.5px] text-[#64748b] dark:text-[#94A3B8] font-medium" style={{ fontFamily: "var(--font-inter)" }}>
                     No IPOs found matching the criteria.
                   </p>
                 </td>
@@ -284,7 +273,7 @@ export default function SubscriptionTableClient({
       </div>
 
       {/* ── Mobile View (Cards) ── */}
-      <div className="block lg:hidden divide-y divide-[#f1f5f9]">
+      <div className="block lg:hidden divide-y divide-[#f1f5f9] dark:divide-[#22304A]">
         {processedData.length > 0 ? (
           processedData.map((row) => {
             const status = getLifecycleStatus(row);
@@ -293,48 +282,48 @@ export default function SubscriptionTableClient({
             return (
               <div
                 key={row.id}
-                className={`p-4 ${isClosed ? "opacity-75 bg-gray-50/50" : "bg-white"}`}
+                className={`p-3.5 ${isClosed ? "opacity-75 bg-gray-50/50 dark:bg-[#0D1525]/50" : "bg-white dark:bg-[#111B2D]"}`}
               >
                 <div className="flex justify-between items-start gap-2 mb-2">
                   <Link
                     href={`/ipo/${row.slug}`}
-                    className="text-[15px] font-semibold text-[#0f172a] hover:text-[#2563eb] leading-tight"
+                    className="text-[14.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] hover:text-[#3B82F6] leading-tight"
                     style={{ fontFamily: "var(--font-outfit)" }}
                   >
                     {row.name}
                   </Link>
-                  <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full shrink-0 ${
-                    status === 'open' ? 'bg-emerald-100 text-emerald-700' :
-                    status === 'upcoming' ? 'bg-blue-100 text-blue-700' : 'bg-gray-200 text-gray-700'
+                  <span className={`text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded shrink-0 ${
+                    status === 'open' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300' :
+                    status === 'upcoming' ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300' : 'bg-gray-100 text-gray-700 dark:bg-[#162238] dark:text-[#94A3B8]'
                   }`}>
                     {status}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 mt-4">
-                  <div className="bg-gray-50 p-2 rounded border border-gray-100">
-                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">QIB</p>
+                <div className="grid grid-cols-2 gap-2 mt-3">
+                  <div className="bg-gray-50 dark:bg-[#0D1525] p-2 rounded-lg border border-gray-100 dark:border-[#22304A]">
+                    <p className="text-[10px] font-semibold text-gray-500 dark:text-[#94A3B8] uppercase tracking-wide">QIB</p>
                     <p className="text-[13px] mt-0.5"><SubCell value={row.sub_qib} /></p>
                   </div>
-                  <div className="bg-gray-50 p-2 rounded border border-gray-100">
-                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">NII</p>
+                  <div className="bg-gray-50 dark:bg-[#0D1525] p-2 rounded-lg border border-gray-100 dark:border-[#22304A]">
+                    <p className="text-[10px] font-semibold text-gray-500 dark:text-[#94A3B8] uppercase tracking-wide">NII</p>
                     <p className="text-[13px] mt-0.5"><SubCell value={row.sub_nii} /></p>
                   </div>
-                  <div className="bg-indigo-50/50 p-2 rounded border border-indigo-100">
-                    <p className="text-[10px] font-bold text-indigo-500 uppercase tracking-wide">Retail</p>
+                  <div className="bg-gray-50 dark:bg-[#0D1525] p-2 rounded-lg border border-gray-100 dark:border-[#22304A]">
+                    <p className="text-[10px] font-semibold text-gray-500 dark:text-[#94A3B8] uppercase tracking-wide">Retail</p>
                     <p className="text-[13px] mt-0.5"><SubCell value={row.sub_rii} /></p>
                   </div>
-                  <div className="bg-indigo-100/50 p-2 rounded border border-indigo-200">
-                    <p className="text-[10px] font-bold text-indigo-700 uppercase tracking-wide">Total</p>
-                    <p className="text-[14px] mt-0.5 font-bold"><SubCell value={row.sub_total} /></p>
+                  <div className="bg-gray-50 dark:bg-[#0D1525] p-2 rounded-lg border border-gray-100 dark:border-[#22304A]">
+                    <p className="text-[10px] font-semibold text-gray-500 dark:text-[#94A3B8] uppercase tracking-wide">Total</p>
+                    <p className="text-[13.5px] mt-0.5"><SubCell value={row.sub_total} isTotal={true} /></p>
                   </div>
                 </div>
               </div>
             );
           })
         ) : (
-          <div className="py-12 text-center px-4">
-            <p className="text-[14px] text-[#64748b] font-medium" style={{ fontFamily: "var(--font-inter)" }}>
+          <div className="py-10 text-center px-4">
+            <p className="text-[13.5px] text-[#64748b] dark:text-[#94A3B8] font-medium" style={{ fontFamily: "var(--font-inter)" }}>
               No IPOs found matching the criteria.
             </p>
           </div>
@@ -343,3 +332,4 @@ export default function SubscriptionTableClient({
     </div>
   );
 }
+

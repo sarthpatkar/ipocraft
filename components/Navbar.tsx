@@ -11,24 +11,25 @@ import {
 } from "react";
 import { 
   HomeIcon, 
-  BanknotesIcon, 
-  CalendarDaysIcon, 
+  BanknotesIcon,
   ChartBarIcon,
+  UsersIcon,
+  EllipsisHorizontalIcon,
+  MagnifyingGlassIcon,
+  BuildingStorefrontIcon,
+  CalendarDaysIcon,
   BriefcaseIcon,
   DocumentTextIcon,
-  UsersIcon,
-  BuildingStorefrontIcon
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { 
   HomeIcon as HomeIconSolid, 
   BanknotesIcon as BanknotesIconSolid, 
-  CalendarDaysIcon as CalendarDaysIconSolid, 
   ChartBarIcon as ChartBarIconSolid,
-  BriefcaseIcon as BriefcaseIconSolid,
-  DocumentTextIcon as DocumentTextIconSolid,
   UsersIcon as UsersIconSolid,
-  BuildingStorefrontIcon as BuildingStorefrontIconSolid
 } from "@heroicons/react/24/solid";
+import ThemeToggle from "@/components/ThemeToggle";
+import SearchCommand from "@/components/SearchCommand";
 
 type LinkItem = { 
   href: string; 
@@ -37,20 +38,33 @@ type LinkItem = {
   ActiveIcon: React.ElementType 
 };
 
-const LINKS: LinkItem[] = [
+const MAIN_NAV_LINKS: LinkItem[] = [
   { href: "/", label: "Home", Icon: HomeIcon, ActiveIcon: HomeIconSolid },
   { href: "/ipo", label: "IPO", Icon: BanknotesIcon, ActiveIcon: BanknotesIconSolid },
-  { href: "/sme-ipo", label: "SME IPO", Icon: BuildingStorefrontIcon, ActiveIcon: BuildingStorefrontIconSolid },
   { href: "/gmp", label: "GMP", Icon: ChartBarIcon, ActiveIcon: ChartBarIconSolid },
-  { href: "/subscriptions", label: "Subscriptions", Icon: UsersIcon, ActiveIcon: UsersIconSolid },
-  { href: "/ipo-calendar", label: "Calendar", Icon: CalendarDaysIcon, ActiveIcon: CalendarDaysIconSolid },
-  { href: "/brokers", label: "Brokers", Icon: BriefcaseIcon, ActiveIcon: BriefcaseIconSolid },
-  { href: "/blog", label: "Blog", Icon: DocumentTextIcon, ActiveIcon: DocumentTextIconSolid },
+  { href: "/subscriptions", label: "Subs", Icon: UsersIcon, ActiveIcon: UsersIconSolid },
+];
+
+const ALL_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/ipo", label: "IPO" },
+  { href: "/sme-ipo", label: "SME IPO" },
+  { href: "/gmp", label: "GMP" },
+  { href: "/subscriptions", label: "Subscriptions" },
+  { href: "/ipo-calendar", label: "Calendar" },
+  { href: "/brokers", label: "Brokers" },
+  { href: "/blog", label: "Blog" },
+];
+
+const MORE_LINKS = [
+  { href: "/sme-ipo", label: "SME IPO", Icon: BuildingStorefrontIcon },
+  { href: "/ipo-calendar", label: "Calendar", Icon: CalendarDaysIcon },
+  { href: "/brokers", label: "Brokers", Icon: BriefcaseIcon },
+  { href: "/blog", label: "Blog", Icon: DocumentTextIcon },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
-
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(href + "/");
@@ -58,38 +72,47 @@ export default function Navbar() {
 
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // Desktop active pill indicator
   const navRef = useRef<HTMLDivElement | null>(null);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const [indicator, setIndicator] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      setScrollProgress(progress);
+      setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
     };
-
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
   useLayoutEffect(() => {
     const onResize = () => {
-      const activeLink = LINKS.find((l) => isActive(l.href));
+      const activeLink = ALL_LINKS.find((l) => isActive(l.href));
       const activeEl = activeLink ? linkRefs.current[activeLink.href] : null;
       const navEl = navRef.current;
       if (activeEl && navEl) {
         const navRect = navEl.getBoundingClientRect();
         const rect = activeEl.getBoundingClientRect();
-        setIndicator({
-          left: rect.left - navRect.left,
-          width: rect.width,
-        });
+        setIndicator({ left: rect.left - navRect.left, width: rect.width });
       }
     };
     onResize();
@@ -97,94 +120,167 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", onResize);
   }, [pathname]);
 
-  const DesktopNavLink = ({ href, label }: LinkItem) => {
-    const active = isActive(href);
-    return (
-      <Link
-        href={href}
-        ref={(el) => { linkRefs.current[href] = el; }}
-        className={`relative z-10 px-5 py-2 rounded-xl text-[15px] font-medium transition-all duration-300 ${
-          active ? "text-white" : "text-gray-600 hover:text-blue-700"
-        }`}
-      >
-        <span className="relative z-10">{label}</span>
-      </Link>
-    );
-  };
+  const showScrollProgress = pathname.startsWith("/blog/");
 
   return (
     <>
-      {/* Top Navbar (Desktop & Mobile Header) */}
+      <SearchCommand open={searchOpen} onClose={() => setSearchOpen(false)} />
+
+      {/* Top Navbar */}
       <header
-        className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${
-          scrolled ? "bg-white/80 backdrop-blur-lg shadow-sm border-[#e2e8f0]" : "bg-white border-transparent"
-        }`}
-        style={{ paddingTop: "env(safe-area-inset-top)" }}
+        className={`fixed top-0 w-full z-50 transition-all duration-200 border-b ${
+          scrolled ? "border-[#e2e8f0] dark:border-[#22304A] shadow-xs" : "border-transparent"
+        } bg-white/90 dark:bg-[#080D18]/95 backdrop-blur-md`}
+        style={{
+          paddingTop: "env(safe-area-inset-top)",
+        }}
       >
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group outline-none">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-15 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 group outline-none shrink-0">
             <Image
-              src="/logo2.png"
+              src="/logo-light.png"
               alt="IPOCraft Logo"
-              width={120}
-              height={30}
+              width={116}
+              height={28}
               priority
-              className="h-[30px] w-auto object-contain darkreader-ignore"
-              style={{ filter: "invert(0) hue-rotate(0deg)" }}
+              className="h-7 w-auto object-contain dark:hidden"
+            />
+            <Image
+              src="/logo-dark.png"
+              alt="IPOCraft Logo"
+              width={116}
+              height={28}
+              priority
+              className="h-7 w-auto object-contain hidden dark:block"
             />
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:block">
-            <div ref={navRef} className="relative flex items-center gap-2">
-              <div
-                className="absolute -z-0 top-1 bottom-1 rounded-xl bg-[#1e3a8a] shadow-md transition-all"
-                style={{
-                  transform: `translate3d(${indicator.left}px, 0, 0)`,
-                  width: indicator.width,
-                  transition: "transform 350ms cubic-bezier(0.22, 1, 0.36, 1), width 350ms cubic-bezier(0.22, 1, 0.36, 1)",
-                  willChange: "transform, width",
-                }}
-              />
-              {LINKS.map((l) => (
-                <DesktopNavLink key={l.href} {...l} />
-              ))}
+          <div className="hidden md:flex items-center gap-1.5">
+            <nav className="flex items-center gap-1">
+              {ALL_LINKS.map((l) => {
+                const active = isActive(l.href);
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    className={`px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-colors duration-150 ${
+                      active
+                        ? "bg-[#1e3a8a] text-white dark:bg-[#3B82F6] dark:text-white font-semibold shadow-xs"
+                        : "text-gray-600 dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] hover:bg-gray-100/80 dark:hover:bg-[#162238]"
+                    }`}
+                  >
+                    {l.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="flex items-center gap-1.5 ml-2">
+              <button
+                onClick={() => setSearchOpen(true)}
+                aria-label="Search IPOs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[12.5px] rounded-lg border transition-colors duration-150 bg-white dark:bg-[#162238] border-gray-200 dark:border-[#22304A] text-gray-500 dark:text-[#94A3B8] hover:border-gray-300 dark:hover:border-[#3B82F6]/50"
+              >
+                <MagnifyingGlassIcon className="w-3.5 h-3.5" />
+                <span>Search IPOs</span>
+                <kbd className="hidden lg:inline text-[10px] px-1.5 py-0.5 rounded border border-gray-200 dark:border-[#22304A] bg-gray-50 dark:bg-[#111B2D] text-gray-400 dark:text-[#64748B]">⌘K</kbd>
+              </button>
+              <ThemeToggle />
             </div>
+          </div>
+
+          {/* Mobile Header */}
+          <div className="flex md:hidden items-center gap-1">
+            <button
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search"
+              className="p-2 rounded-lg text-gray-600 dark:text-[#94A3B8] hover:bg-gray-100 dark:hover:bg-[#162238]"
+            >
+              <MagnifyingGlassIcon className="w-5 h-5" />
+            </button>
+            <ThemeToggle />
           </div>
         </div>
 
-        {/* Scroll Progress Line */}
-        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
-          <div
-            className="h-full bg-[#1e3a8a] transition-all duration-150"
-            style={{ width: `${scrollProgress}%` }}
-          />
-        </div>
+        {/* Scroll Progress */}
+        {showScrollProgress && (
+          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
+            <div
+              className="h-full transition-all duration-150 bg-[#3B82F6]"
+              style={{ width: `${scrollProgress}%` }}
+            />
+          </div>
+        )}
       </header>
 
-      {/* Mobile Bottom Navigation (Glassmorphism + Safe Area Support) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white/85 backdrop-blur-xl border-t border-gray-200 z-50 pb-[env(safe-area-inset-bottom)]">
-        <div className="flex items-center justify-around h-[68px] px-2">
-          {LINKS.map(({ href, label, Icon, ActiveIcon }) => {
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 border-t z-50 bg-white/95 dark:bg-[#080D18]/95 border-gray-200 dark:border-[#22304A] backdrop-blur-md"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        <div className="flex items-center justify-around h-14 px-1">
+          {MAIN_NAV_LINKS.map(({ href, label, Icon, ActiveIcon }) => {
             const active = isActive(href);
             const CurrentIcon = active ? ActiveIcon : Icon;
             return (
               <Link
                 key={href}
                 href={href}
-                className="flex flex-col items-center justify-center w-full h-full gap-1"
+                className="flex flex-col items-center justify-center w-full h-full gap-0.5 min-w-0"
               >
-                <div className={`transition-all duration-200 ${active ? "scale-110 text-blue-600" : "text-gray-500"}`}>
-                  <CurrentIcon className="w-[22px] h-[22px]" strokeWidth={active ? 2 : 1.5} />
+                <div className={`transition-transform duration-150 ${active ? "scale-105" : ""}`}
+                  style={{ color: active ? "#3B82F6" : undefined }}
+                >
+                  <CurrentIcon className={`w-5 h-5 ${active ? "text-blue-600 dark:text-[#3B82F6]" : "text-gray-500 dark:text-[#64748B]"}`} />
                 </div>
-                <span className={`text-[10px] font-medium transition-colors ${active ? "text-blue-600" : "text-gray-500"}`}>
+                <span className={`text-[10px] truncate ${active ? "font-semibold text-blue-600 dark:text-[#3B82F6]" : "text-gray-500 dark:text-[#64748B]"}`}>
                   {label}
                 </span>
               </Link>
             );
           })}
+          <button
+            onClick={() => setMoreDrawerOpen(true)}
+            className="flex flex-col items-center justify-center w-full h-full gap-0.5"
+          >
+            <EllipsisHorizontalIcon className="w-5 h-5 text-gray-500 dark:text-[#64748B]" strokeWidth={1.5} />
+            <span className="text-[10px] font-medium text-gray-500 dark:text-[#64748B]">More</span>
+          </button>
         </div>
       </nav>
+
+
+      {/* More Drawer */}
+      {moreDrawerOpen && (
+        <>
+          <div
+            className="md:hidden fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+            onClick={() => setMoreDrawerOpen(false)}
+          />
+          <div className="md:hidden fixed bottom-0 inset-x-0 z-[70] rounded-t-2xl shadow-xl pb-[env(safe-area-inset-bottom)] bg-white dark:bg-[#0D1525] border border-gray-200 dark:border-[#22304A]">
+            <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-gray-100 dark:border-[#22304A]">
+              <span className="text-[13px] font-semibold text-gray-900 dark:text-[#F1F5F9]">More Pages</span>
+              <button onClick={() => setMoreDrawerOpen(false)} className="text-gray-500 dark:text-[#94A3B8]">
+                <XMarkIcon className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5 p-4">
+              {MORE_LINKS.map(({ href, label, Icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setMoreDrawerOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 dark:border-[#22304A] bg-gray-50 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                >
+                  <Icon className="w-4 h-4 shrink-0 text-blue-600 dark:text-[#3B82F6]" />
+                  <span className="text-[13px] font-medium">{label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+        </>
+      )}
     </>
   );
 }

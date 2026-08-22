@@ -87,9 +87,9 @@ export default function AdminDashboard() {
       case "Listed":
         return "bg-purple-100 text-purple-700";
       case "Closed":
-        return "bg-gray-200 text-gray-700";
+        return "bg-gray-200 text-gray-700 dark:text-slate-300";
       default:
-        return "bg-gray-100 text-gray-600";
+        return "bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-slate-400";
     }
   }
 
@@ -100,7 +100,7 @@ export default function AdminDashboard() {
       case "pending":
         return "bg-yellow-100 text-yellow-700";
       default:
-        return "bg-gray-100 text-gray-600";
+        return "bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-slate-400";
     }
   }
 
@@ -299,7 +299,7 @@ export default function AdminDashboard() {
               className={`px-4 py-2 -mb-px border-b-2 ${
                 tab === t.id
                   ? "border-black font-semibold"
-                  : "border-transparent text-gray-500"
+                  : "border-transparent text-gray-500 dark:text-slate-400"
               }`}
             >
               {t.label}
@@ -319,7 +319,7 @@ export default function AdminDashboard() {
                 <span className="text-xs uppercase font-bold tracking-wider text-emerald-300">
                   Autonomous Ingestion Engine Active
                 </span>
-                <span className="text-xs bg-white/10 text-white/90 px-2 py-0.5 rounded border border-white/15">
+                <span className="text-xs bg-white dark:bg-[#111827]/10 text-white/90 px-2 py-0.5 rounded border border-white/15">
                   FinAPI Upvaly Free Quota
                 </span>
               </div>
@@ -341,14 +341,14 @@ export default function AdminDashboard() {
               <button
                 onClick={() => handleTriggerFinapiSync("subs")}
                 disabled={syncing}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all disabled:opacity-50"
+                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-[#111827]/10 hover:bg-white dark:bg-[#111827]/20 text-white border border-white/20 transition-all disabled:opacity-50"
               >
                 Sync Subscriptions (30m)
               </button>
               <button
                 onClick={() => handleTriggerFinapiSync("gmp")}
                 disabled={syncing}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all disabled:opacity-50"
+                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-[#111827]/10 hover:bg-white dark:bg-[#111827]/20 text-white border border-white/20 transition-all disabled:opacity-50"
               >
                 Sync GMP (1h)
               </button>
@@ -380,26 +380,26 @@ export default function AdminDashboard() {
           {/* IPO Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="border rounded p-4">
-              <div className="text-sm text-gray-500">Total IPOs</div>
+              <div className="text-sm text-gray-500 dark:text-slate-400">Total IPOs</div>
               <div className="text-xl font-semibold">{ipos.length}</div>
             </div>
 
             <div className="border rounded p-4">
-              <div className="text-sm text-gray-500">Open IPOs</div>
+              <div className="text-sm text-gray-500 dark:text-slate-400">Open IPOs</div>
               <div className="text-xl font-semibold">
                 {ipos.filter((i) => i.status === "Open").length}
               </div>
             </div>
 
             <div className="border rounded p-4">
-              <div className="text-sm text-gray-500">Listed IPOs</div>
+              <div className="text-sm text-gray-500 dark:text-slate-400">Listed IPOs</div>
               <div className="text-xl font-semibold">
                 {ipos.filter((i) => i.status === "Listed").length}
               </div>
             </div>
 
             <div className="border rounded p-4">
-              <div className="text-sm text-gray-500">Upcoming IPOs</div>
+              <div className="text-sm text-gray-500 dark:text-slate-400">Upcoming IPOs</div>
               <div className="text-xl font-semibold">
                 {ipos.filter((i) => i.status === "Upcoming").length}
               </div>
@@ -442,7 +442,7 @@ export default function AdminDashboard() {
           {/* Table */}
           <div className="border rounded-lg overflow-hidden shadow-sm">
             <table className="w-full text-sm">
-              <thead className="bg-gray-100 text-gray-700">
+              <thead className="bg-gray-100 dark:bg-[#1e293b] text-gray-700 dark:text-slate-300">
                 <tr>
                   <th className="p-3 text-left">Company</th>
                   <th>Type</th>
@@ -460,19 +460,19 @@ export default function AdminDashboard() {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={8} className="p-6 text-center text-gray-500">
+                    <td colSpan={8} className="p-6 text-center text-gray-500 dark:text-slate-400">
                       Loading IPO data...
                     </td>
                   </tr>
                 ) : filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="p-6 text-center text-gray-500">
+                    <td colSpan={8} className="p-6 text-center text-gray-500 dark:text-slate-400">
                       No IPOs found. Try adjusting filters or add a new IPO.
                     </td>
                   </tr>
                 ) : (
                   filtered.map((ipo) => (
-                    <tr key={ipo.id} className="border-t hover:bg-gray-50">
+                    <tr key={ipo.id} className="border-t hover:bg-gray-50 dark:bg-[#0f172a]">
                       <td className="p-3 font-medium">{ipo.name}</td>
                       <td>
                         <span
@@ -549,7 +549,7 @@ export default function AdminDashboard() {
 
                         <button
                           onClick={() => window.open(`/ipo/${ipo.slug}`, "_blank")}
-                          className="text-gray-700 hover:underline"
+                          className="text-gray-700 dark:text-slate-300 hover:underline"
                         >
                           View
                         </button>
@@ -583,19 +583,19 @@ export default function AdminDashboard() {
           {/* Broker Stats */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <div className="border rounded p-4">
-              <div className="text-sm text-gray-500">Total Brokers</div>
+              <div className="text-sm text-gray-500 dark:text-slate-400">Total Brokers</div>
               <div className="text-xl font-semibold">{brokers.length}</div>
             </div>
 
             <div className="border rounded p-4">
-              <div className="text-sm text-gray-500">Active Brokers</div>
+              <div className="text-sm text-gray-500 dark:text-slate-400">Active Brokers</div>
               <div className="text-xl font-semibold">
                 {brokers.filter((b) => b.is_active !== false).length}
               </div>
             </div>
 
             <div className="border rounded p-4">
-              <div className="text-sm text-gray-500">Inactive</div>
+              <div className="text-sm text-gray-500 dark:text-slate-400">Inactive</div>
               <div className="text-xl font-semibold">
                 {brokers.filter((b) => b.is_active === false).length}
               </div>
@@ -617,7 +617,7 @@ export default function AdminDashboard() {
 
           <div className="border rounded-lg overflow-hidden shadow-sm">
             <table className="w-full text-sm">
-              <thead className="bg-gray-100 text-gray-700">
+              <thead className="bg-gray-100 dark:bg-[#1e293b] text-gray-700 dark:text-slate-300">
                 <tr>
                   <th className="p-3 text-left">Broker</th>
                   <th>Delivery</th>
@@ -638,12 +638,12 @@ export default function AdminDashboard() {
                   </tr>
                 ) : (
                   brokers.map((b) => (
-                    <tr key={b.id} className="border-t hover:bg-gray-50">
+                    <tr key={b.id} className="border-t hover:bg-gray-50 dark:bg-[#0f172a]">
                       <td className="p-3 font-medium">{b.name}</td>
                       <td>{b.equity_delivery ?? "-"}</td>
                       <td>{b.equity_intraday ?? "-"}</td>
                       <td>
-                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${b.is_active !== false ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${b.is_active !== false ? 'bg-green-100 text-green-700' : 'bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-slate-400'}`}>
                           {b.is_active !== false ? 'Active' : 'Inactive'}
                         </span>
                       </td>
@@ -677,9 +677,9 @@ export default function AdminDashboard() {
 
       {/* SETTINGS TAB */}
       {tab === "settings" && (
-        <div className="border rounded-lg p-6 bg-gray-50">
+        <div className="border rounded-lg p-6 bg-gray-50 dark:bg-[#0f172a]">
           <h2 className="text-xl font-semibold mb-2">Settings</h2>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-slate-400">
             Future settings like automation, cron jobs, SEO, disclaimers.
           </p>
         </div>
@@ -700,7 +700,7 @@ export default function AdminDashboard() {
       {/* Modal */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-6">
-          <div className="relative flex h-[calc(100vh-1.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-xl bg-white shadow-xl sm:h-[calc(100vh-3rem)]">
+          <div className="relative flex h-[calc(100vh-1.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-xl bg-white dark:bg-[#111827] shadow-xl sm:h-[calc(100vh-3rem)]">
             <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-5 py-4">
               <h2 className="text-xl font-semibold">
                 {editingIpo ? "Edit IPO" : "Add IPO"}
@@ -708,7 +708,7 @@ export default function AdminDashboard() {
 
               <button
                 onClick={() => setShowForm(false)}
-                className="text-gray-500 hover:text-black"
+                className="text-gray-500 dark:text-slate-400 hover:text-black"
               >
                 ✕
               </button>

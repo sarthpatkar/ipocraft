@@ -115,7 +115,7 @@ export default function IpoGreyMarketGuide() {
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a]`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -126,34 +126,37 @@ export default function IpoGreyMarketGuide() {
       />
 
       {/* HERO */}
-      <section className="border-b border-[#e2e8f0] bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <section className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14">
+          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] dark:text-[#3B82F6] mb-2">
+            Educational Research Guide
+          </p>
           <h1
-            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            className="text-2xl sm:text-3xl lg:text-[2.25rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F5F9]"
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             IPO Grey Market Guide – Complete Authority Breakdown
           </h1>
 
-          <p className="mt-6 text-sm sm:text-[15px] text-[#475569] leading-relaxed">
+          <p className="mt-4 text-sm sm:text-[14.5px] text-[#475569] dark:text-[#94A3B8] leading-relaxed">
             The IPO grey market plays a powerful psychological role in shaping investor expectations before listing. This guide explains how Grey Market Premium (GMP) forms, how it correlates with listing performance, historical behaviour patterns, SME differences, and how to interpret probability instead of certainty.
           </p>
 
-          <p className="mt-4 text-xs text-[#64748b]">Last updated: {lastUpdatedReadable}</p>
+          <p className="mt-3 text-xs text-[#64748b] dark:text-[#64748B]">Last updated: {lastUpdatedReadable}</p>
         </div>
       </section>
 
       {/* STICKY NAV */}
-      <div className="sticky top-24 z-30 bg-white/95 backdrop-blur border-b border-[#e2e8f0]">
+      <div className="sticky top-24 z-30 bg-white dark:bg-[#111827]/95 backdrop-blur border-b border-[#e2e8f0] dark:border-[#1e293b]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-xs sm:text-sm flex flex-wrap gap-4">
-          <a href="#how-it-works" className="text-[#2563eb] hover:underline">How It Works</a>
-          <a href="#case-study" className="text-[#2563eb] hover:underline">Case Study</a>
-          <a href="#historical" className="text-[#2563eb] hover:underline">Historical Patterns</a>
-          <a href="#correlation" className="text-[#2563eb] hover:underline">Correlation Table</a>
-          <a href="#probability" className="text-[#2563eb] hover:underline">Probability Logic</a>
-          <a href="#sme" className="text-[#2563eb] hover:underline">SME vs Mainboard</a>
-          <a href="#gmp-trend" className="text-[#2563eb] hover:underline">GMP Trend Example</a>
-          <a href="#faq" className="text-[#2563eb] hover:underline">FAQs</a>
+          <a href="#how-it-works" className="text-[#2563eb] dark:text-blue-400 hover:underline">How It Works</a>
+          <a href="#case-study" className="text-[#2563eb] dark:text-blue-400 hover:underline">Case Study</a>
+          <a href="#historical" className="text-[#2563eb] dark:text-blue-400 hover:underline">Historical Patterns</a>
+          <a href="#correlation" className="text-[#2563eb] dark:text-blue-400 hover:underline">Correlation Table</a>
+          <a href="#probability" className="text-[#2563eb] dark:text-blue-400 hover:underline">Probability Logic</a>
+          <a href="#sme" className="text-[#2563eb] dark:text-blue-400 hover:underline">SME vs Mainboard</a>
+          <a href="#gmp-trend" className="text-[#2563eb] dark:text-blue-400 hover:underline">GMP Trend Example</a>
+          <a href="#faq" className="text-[#2563eb] dark:text-blue-400 hover:underline">FAQs</a>
         </div>
       </div>
 
@@ -191,8 +194,8 @@ export default function IpoGreyMarketGuide() {
 
         <Section id="correlation" title="GMP vs Listing Correlation Table">
           <div className="overflow-x-auto">
-            <table className="min-w-full border border-[#e2e8f0] text-sm">
-              <thead className="bg-[#f1f5f9]">
+            <table className="min-w-full border border-[#e2e8f0] dark:border-[#1e293b] text-sm">
+              <thead className="bg-[#f1f5f9] dark:bg-[#1e293b]">
                 <tr>
                   <th className="p-3 border">Scenario</th>
                   <th className="p-3 border">GMP Trend</th>
@@ -247,7 +250,7 @@ export default function IpoGreyMarketGuide() {
             Below is a simplified illustration of how GMP may trend upward during strong subscription momentum.
           </p>
 
-          <div className="mt-6 bg-white border border-[#e2e8f0] rounded-xl p-4 overflow-x-auto">
+          <div className="mt-6 bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-4 overflow-x-auto">
             <svg viewBox="0 0 400 180" className="w-full max-w-md mx-auto">
               <polyline
                 fill="none"
@@ -284,12 +287,12 @@ export default function IpoGreyMarketGuide() {
             ].map((item, index) => (
               <details
                 key={index}
-                className="bg-white border border-[#e2e8f0] rounded-lg p-4 group"
+                className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4 group"
               >
-                <summary className="cursor-pointer font-medium text-[#0f172a]">
+                <summary className="cursor-pointer font-medium text-[#0f172a] dark:text-slate-100">
                   {item.q}
                 </summary>
-                <p className="mt-3 text-sm text-[#475569] leading-relaxed">
+                <p className="mt-3 text-sm text-[#475569] dark:text-slate-400 leading-relaxed">
                   {item.a}
                 </p>
               </details>
@@ -299,15 +302,15 @@ export default function IpoGreyMarketGuide() {
 
         <Section title="Explore More">
           <ul className="list-disc pl-6 space-y-2 text-sm">
-            <li><Link href="/gmp" className="text-[#2563eb] hover:underline">IPO GMP Tracker</Link></li>
-            <li><Link href="/ipo-calendar" className="text-[#2563eb] hover:underline">IPO Calendar</Link></li>
-            <li><Link href="/how-ipo-allotment-works" className="text-[#2563eb] hover:underline">IPO Allotment Guide</Link></li>
+            <li><Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 hover:underline">IPO GMP Tracker</Link></li>
+            <li><Link href="/ipo-calendar" className="text-[#2563eb] dark:text-blue-400 hover:underline">IPO Calendar</Link></li>
+            <li><Link href="/how-ipo-allotment-works" className="text-[#2563eb] dark:text-blue-400 hover:underline">IPO Allotment Guide</Link></li>
           </ul>
         </Section>
       </section>
 
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div className="text-xs text-[#64748b] bg-[#f1f5f9] border border-[#e2e8f0] rounded-lg p-4">
+        <div className="text-xs text-[#64748b] dark:text-slate-400 bg-[#f1f5f9] dark:bg-[#1e293b] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4">
           IPOCraft is an informational platform and not registered with SEBI. Content is for educational purposes only and does not constitute investment advice.
         </div>
       </section>
@@ -319,14 +322,15 @@ function Section({ id, title, children }: any) {
   return (
     <div id={id} className="scroll-mt-40 sm:scroll-mt-44">
       <h2
-        className="text-xl sm:text-2xl font-semibold mb-4"
-        style={{ fontFamily: "var(--font-playfair)" }}
+        className="text-xl sm:text-2xl font-semibold mb-4 text-[#0f172a] dark:text-white"
+        style={{ fontFamily: "var(--font-outfit)" }}
       >
         {title}
       </h2>
-      <div className="space-y-4 text-sm sm:text-[15px] text-[#475569] leading-relaxed">
+      <div className="space-y-4 text-sm sm:text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed">
         {children}
       </div>
     </div>
   );
 }
+

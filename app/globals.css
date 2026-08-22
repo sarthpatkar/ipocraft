@@ -1,10 +1,17 @@
 @import "tailwindcss";
 
-/* ─── Design System Variables ─────────────────────────────────────────────── */
+/* ─── Tailwind v4: Wire dark: utilities to [data-theme="dark"] ───────────── */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* ─── Design System Variables — Light Mode ────────────────────────────────── */
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
+
+  /* Backgrounds */
   --background: #f8fafc;
   --foreground: #0f172a;
+  --section-bg: #ffffff;
+  --section-alt: #f8fafc;
 
   /* Brand palette */
   --brand-50: #eef2ff;
@@ -24,25 +31,128 @@
   --card-shadow-hover: 0 10px 25px -3px rgba(0, 0, 0, 0.08), 0 4px 10px -4px rgba(0, 0, 0, 0.04);
 
   /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(226, 232, 240, 0.8);
   --glass-blur: 16px;
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-faint: #94a3b8;
+
+  /* Borders */
+  --border: #e2e8f0;
+  --border-subtle: #f1f5f9;
+
+  /* Navbar */
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --nav-border: #e2e8f0;
+  --nav-active-bg: #1e3a8a;
+  --nav-active-text: #ffffff;
+  --nav-text: #374151;
+  --nav-text-hover: #1d4ed8;
+
+  /* Table */
+  --table-header-bg: #f8fafc;
+  --table-row-hover: #f1f5f9;
+
+  /* Skeleton */
+  --skeleton-base: #f1f5f9;
+  --skeleton-highlight: #e2e8f0;
+
+  /* Input */
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-focus-border: #3b82f6;
+  --input-placeholder: #9ca3af;
+
+  /* Footer */
+  --footer-bg: #ffffff;
+  --footer-text: #475569;
+}
+
+/* ─── Dark Mode Variables ─────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Backgrounds: Refined Financial Research Palette */
+  --background: #080D18;
+  --foreground: #F1F5F9;
+  --section-bg: #0D1525;
+  --section-alt: #0D1525;
+
+  /* Brand palette */
+  --brand-50: #0D1525;
+  --brand-100: #162238;
+  --brand-500: #3B82F6;
+  --brand-600: #3B82F6;
+  --brand-700: #2563EB;
+
+  /* Accent for GMP positive/negative (restrained semantic) */
+  --gmp-positive: #10B981;
+  --gmp-negative: #EF4444;
+
+  /* Card system */
+  --card-bg: #111B2D;
+  --card-border: #22304A;
+  --card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --card-shadow-hover: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(13, 21, 37, 0.95);
+  --glass-border: #22304A;
+  --glass-blur: 12px;
+
+  /* Text hierarchy */
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-faint: #475569;
+
+  /* Borders */
+  --border: #22304A;
+  --border-subtle: #162238;
+
+  /* Navbar */
+  --nav-bg: rgba(8, 13, 24, 0.95);
+  --nav-border: #22304A;
+  --nav-active-bg: #3B82F6;
+  --nav-active-text: #ffffff;
+  --nav-text: #94A3B8;
+  --nav-text-hover: #F1F5F9;
+
+  /* Table */
+  --table-header-bg: #0D1525;
+  --table-row-hover: #162238;
+
+  /* Skeleton */
+  --skeleton-base: #111B2D;
+  --skeleton-highlight: #162238;
+
+  /* Input */
+  --input-bg: #162238;
+  --input-border: #22304A;
+  --input-focus-border: #3B82F6;
+  --input-placeholder: #64748B;
+
+  /* Footer */
+  --footer-bg: #080D18;
+  --footer-text: #94A3B8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
 }
 
 /* ─── Base Reset ──────────────────────────────────────────────────────────── */
 html,
 body {
-  color-scheme: light;
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), sans-serif;
   min-height: 100%;
 }
 
@@ -71,38 +181,6 @@ html {
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border: 1px solid var(--glass-border);
-}
-
-/* ─── Status Badge Pulse ──────────────────────────────────────────────────── */
-@keyframes status-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-.status-open {
-  animation: status-pulse 2s ease-in-out infinite;
-}
-
-/* ─── Gradient Accent Border ──────────────────────────────────────────────── */
-.gradient-border {
-  position: relative;
-}
-
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  border-radius: 12px 12px 0 0;
-  background: linear-gradient(90deg, var(--brand-500), #818cf8, var(--brand-600));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.gradient-border:hover::before {
-  opacity: 1;
 }
 
 /* ─── Smooth Fade In ──────────────────────────────────────────────────────── */
@@ -141,7 +219,7 @@ html {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
   border-radius: 6px;
@@ -178,6 +256,7 @@ a {
 /* ─── Scrollbar Styling ───────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -189,6 +268,15 @@ a {
   border-radius: 3px;
 }
 
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+

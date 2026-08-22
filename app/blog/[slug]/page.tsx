@@ -7,6 +7,7 @@ import { canonicalUrl } from "@/lib/site-url";
 import { getMockArticleBySlug, MOCK_ARTICLES } from "@/lib/mock-articles";
 import ReadingProgress from "@/components/ReadingProgress";
 import SocialShare from "@/components/SocialShare";
+import { formatDisplayDate } from "@/lib/formatters";
 import fs from "fs";
 import path from "path";
 
@@ -79,37 +80,36 @@ export default async function BlogDetailPage({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] antialiased pb-20`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#080D18] text-[#0f172a] dark:text-[#F1F5F9] antialiased pb-20`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <ReadingProgress />
-      <div className="bg-gradient-to-b from-blue-50/80 to-white border-b border-[#e2e8f0] relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-12 sm:py-20 relative z-10">
+      <div className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A] relative">
+        <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-8 sm:py-12 relative z-10">
           <Link 
             href="/blog" 
-            className="inline-flex items-center text-sm font-medium text-[#64748b] hover:text-[#0f172a] transition-colors mb-8"
+            className="inline-flex items-center text-xs font-medium text-[#64748b] dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] transition-colors mb-5"
           >
-            <ArrowLeftIcon className="w-4 h-4 mr-2" />
-            Back to Blog
+            <ArrowLeftIcon className="w-3.5 h-3.5 mr-1.5" />
+            Back to Articles
           </Link>
           
-          <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-[#64748b]">
-            <span className="font-semibold tracking-wider uppercase bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs">
+          <div className="flex flex-wrap items-center gap-3 mb-4 text-xs text-[#64748b] dark:text-[#94A3B8]">
+            <span className="font-semibold tracking-wider uppercase bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-[#22304A] px-2.5 py-0.5 rounded-md text-[10.5px]">
               {article.category}
             </span>
-            <div className="flex items-center gap-1.5">
-              <CalendarIcon className="w-4 h-4" />
-              {article.date}
+            <div className="flex items-center gap-1">
+              <CalendarIcon className="w-3.5 h-3.5" />
+              {formatDisplayDate(article.date)}
             </div>
-            <div className="flex items-center gap-1.5">
-              <ClockIcon className="w-4 h-4" />
+            <div className="flex items-center gap-1">
+              <ClockIcon className="w-3.5 h-3.5" />
               {article.readTime}
             </div>
           </div>
           
           <h1
-            className="text-3xl sm:text-4xl md:text-[2.75rem] font-semibold leading-[1.2] tracking-tight text-[#0f172a]"
+            className="text-2xl sm:text-3xl md:text-[2.25rem] font-semibold leading-[1.25] tracking-tight text-[#0f172a] dark:text-[#F1F5F9]"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
             {article.title}
@@ -117,9 +117,9 @@ export default async function BlogDetailPage({
         </div>
       </div>
 
-      <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-12 animate-fade-in-up">
+      <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-8 sm:py-10">
         <article 
-          className="prose prose-slate prose-lg sm:prose-xl max-w-none prose-headings:font-semibold prose-headings:text-[#0f172a] prose-headings:mt-10 prose-headings:mb-4 prose-p:mb-6 prose-p:leading-loose prose-a:text-blue-600 prose-a:decoration-blue-300 prose-a:underline-offset-4 hover:prose-a:decoration-blue-600 prose-img:rounded-xl [&>p:first-of-type]:first-letter:text-[4rem] [&>p:first-of-type]:first-letter:font-bold [&>p:first-of-type]:first-letter:text-blue-600 [&>p:first-of-type]:first-letter:mr-3 [&>p:first-of-type]:first-letter:float-left [&>p:first-of-type]:first-letter:leading-[0.8]"
+          className="prose prose-slate dark:prose-invert prose-base sm:prose-lg max-w-none prose-headings:font-semibold prose-headings:text-[#0f172a] dark:prose-headings:text-[#F1F5F9] prose-p:leading-relaxed prose-p:text-[#334155] dark:prose-p:text-[#94A3B8] prose-a:text-[#3B82F6] dark:prose-a:text-[#3B82F6] prose-img:rounded-xl"
           dangerouslySetInnerHTML={{ __html: article.content }}
           style={{ fontFamily: "var(--font-inter), sans-serif" }}
         />
@@ -127,29 +127,36 @@ export default async function BlogDetailPage({
         <SocialShare title={article.title} />
 
         {/* Legal Disclaimer */}
-        <div className="mt-12 p-5 bg-blue-50/50 border border-blue-100 rounded-xl flex gap-3 text-sm text-[#475569] leading-relaxed">
-          <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="mt-10 p-4 bg-[#f8fafc] dark:bg-[#0D1525] border border-gray-200 dark:border-[#22304A] rounded-xl flex gap-3 text-xs text-[#475569] dark:text-[#94A3B8] leading-relaxed">
+          <svg className="w-4 h-4 text-blue-600 dark:text-[#3B82F6] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <div>
-            <strong className="text-blue-900 font-semibold block mb-1">Important Disclaimer</strong>
-            This article is authored by the IPOCraft Research Team for educational purposes only. It does not constitute financial or investment advice. Always consult with a SEBI-registered financial advisor before making investment decisions.
+            <strong className="text-gray-900 dark:text-[#F1F5F9] font-semibold block mb-0.5">Disclaimer</strong>
+            This article is for educational and informational purposes only. It does not constitute financial or investment advice. Always consult a qualified SEBI-registered financial advisor before making investment decisions.
           </div>
         </div>
       </div>
 
       {/* Read Next Section */}
       {nextArticle && (
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-12 border-t border-[#e2e8f0]">
-          <h3 className="text-2xl font-semibold mb-6" style={{ fontFamily: "var(--font-outfit)" }}>
+        <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-12 border-t border-[#e2e8f0] dark:border-[#22304A]">
+          <h3 className="text-2xl font-semibold mb-6 text-[#0f172a] dark:text-white" style={{ fontFamily: "var(--font-outfit)" }}>
             Read Next
           </h3>
-          <Link href={`/blog/${nextArticle.slug}`} className="block group">
-            <div className="p-6 bg-white border border-[#e2e8f0] rounded-xl group-hover:shadow-md transition-shadow">
-              <span className="text-xs font-semibold uppercase text-blue-600 mb-2 block">{nextArticle.category}</span>
-              <h4 className="text-xl font-medium text-[#0f172a] group-hover:text-blue-600 transition-colors mb-2">{nextArticle.title}</h4>
-              <p className="text-[#64748b] text-sm">{nextArticle.excerpt}</p>
-            </div>
+          <Link
+            href={`/blog/${nextArticle.slug}`}
+            className="group block bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-2xl p-6 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-800 transition-all"
+          >
+            <span className="text-xs font-semibold uppercase text-blue-600 dark:text-blue-400 tracking-wider">
+              {nextArticle.category}
+            </span>
+            <h4 className="text-xl font-semibold text-[#0f172a] dark:text-white mt-2 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              {nextArticle.title}
+            </h4>
+            <p className="text-sm text-[#475569] dark:text-slate-300 line-clamp-2">
+              {nextArticle.excerpt}
+            </p>
           </Link>
         </div>
       )}

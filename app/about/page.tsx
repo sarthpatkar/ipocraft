@@ -56,29 +56,24 @@ const inter = Inter({
 export default function AboutPage() {
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a] overflow-x-hidden`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100 overflow-x-hidden`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-[#e2e8f0] bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff]">
-        <div className="absolute inset-0 opacity-[0.4] pointer-events-none">
-          <div className="absolute -top-24 -left-24 w-72 h-72 bg-blue-200 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-indigo-200 rounded-full blur-3xl animate-pulse" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-14 lg:py-16">
-          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] mb-3">
+      <section className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12 lg:py-14">
+          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] dark:text-[#3B82F6] mb-2">
             About IPOCraft
           </p>
 
           <h1
-            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight text-[#0f172a] dark:text-white"
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             IPO Research Platform for Structured Market Insights
           </h1>
 
-          <p className="mt-4 text-sm sm:text-[15px] text-[#475569] max-w-2xl leading-relaxed">
+          <p className="mt-4 text-sm sm:text-[15px] text-[#475569] dark:text-slate-300 max-w-2xl leading-relaxed">
             IPOCraft helps users track IPO timelines, GMP movements, subscription demand,
             and listing outcomes in a clean and structured interface designed for clarity
             and research‑focused learning.
@@ -86,13 +81,13 @@ export default function AboutPage() {
 
           {/* Trust badges */}
           <div className="flex flex-wrap gap-3 mt-6 text-xs">
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
               Public Data Sources
             </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
               SEBI Filings Referenced
             </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
               Informational Platform
             </span>
           </div>
@@ -111,13 +106,13 @@ export default function AboutPage() {
             About IPOCraft
           </h2>
 
-          <p className="text-sm sm:text-[15px] text-[#475569] leading-loose">
+          <p className="text-sm sm:text-[15px] text-[#475569] dark:text-slate-400 leading-loose">
             IPOCraft is an independent informational platform designed to help users
             monitor Initial Public Offerings (IPOs), Grey Market Premium trends,
             subscription updates, and listing performance across Indian equity markets.
           </p>
 
-          <p className="text-sm sm:text-[15px] text-[#475569] leading-loose">
+          <p className="text-sm sm:text-[15px] text-[#475569] dark:text-slate-400 leading-loose">
             Our objective is to simplify publicly available financial information and
             present it in a structured format so users can stay informed and conduct
             their own independent research.
@@ -133,13 +128,13 @@ export default function AboutPage() {
             What IPOCraft Provides
           </h2>
 
-          <p className="text-sm sm:text-[15px] text-[#475569] leading-loose">
+          <p className="text-sm sm:text-[15px] text-[#475569] dark:text-slate-400 leading-loose">
             IPOCraft provides structured IPO data including Grey Market Premium (GMP),
             subscription demand statistics, price bands, IPO sizes, allotment timelines,
             and listing outcomes across Mainboard and SME IPO segments in India.
           </p>
 
-          <p className="text-sm sm:text-[15px] text-[#475569] leading-loose">
+          <p className="text-sm sm:text-[15px] text-[#475569] dark:text-slate-400 leading-loose">
             The platform aggregates publicly available information from regulatory filings
             and exchange disclosures to help users monitor IPO activity in one place.
             IPOCraft does not provide investment advice or recommendations.
@@ -150,7 +145,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* Mission */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6 shadow-sm">
+          <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 sm:p-6 shadow-sm">
             <h3
               className="text-lg font-semibold mb-2"
               style={{ fontFamily: "var(--font-playfair)" }}
@@ -158,7 +153,7 @@ export default function AboutPage() {
               Our Mission
             </h3>
 
-            <p className="text-sm text-[#475569] leading-loose">
+            <p className="text-sm text-[#475569] dark:text-slate-400 leading-loose">
               We aim to improve accessibility and transparency in IPO market data by
               aggregating information from publicly available sources and presenting
               it in a user‑friendly interface for research purposes.
@@ -166,7 +161,7 @@ export default function AboutPage() {
           </div>
 
           {/* Data Sources */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6 shadow-sm">
+          <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 sm:p-6 shadow-sm">
             <h3
               className="text-lg font-semibold mb-2"
               style={{ fontFamily: "var(--font-playfair)" }}
@@ -174,7 +169,7 @@ export default function AboutPage() {
               Data Sources
             </h3>
 
-            <ul className="text-sm text-[#475569] leading-loose space-y-1 list-disc pl-5">
+            <ul className="text-sm text-[#475569] dark:text-slate-400 leading-loose space-y-1 list-disc pl-5">
               <li>Stock exchange filings (NSE, BSE)</li>
               <li>Company prospectuses and regulatory documents</li>
               <li>Registrar announcements</li>
@@ -214,16 +209,16 @@ export default function AboutPage() {
           ].map((item) => (
             <div
               key={item.title}
-              className="bg-white border border-[#e2e8f0] rounded-xl p-5 shadow-sm hover:shadow-md transition"
+              className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 shadow-sm hover:shadow-md transition"
             >
-              <h4 className="font-semibold text-[#0f172a] mb-1">{item.title}</h4>
-              <p className="text-sm text-[#475569]">{item.desc}</p>
+              <h4 className="font-semibold text-[#0f172a] dark:text-slate-100 mb-1">{item.title}</h4>
+              <p className="text-sm text-[#475569] dark:text-slate-400">{item.desc}</p>
             </div>
           ))}
         </div>
 
         {/* LEGAL */}
-        <div className="text-xs text-[#64748b] leading-loose bg-[#f1f5f9] border border-[#e2e8f0] rounded-lg p-4">
+        <div className="text-xs text-[#64748b] dark:text-slate-400 leading-loose bg-[#f1f5f9] dark:bg-[#1e293b] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4">
           IPOCraft is an informational platform and is not registered with SEBI or
           any financial regulatory authority. Content is provided for informational
           purposes only and does not constitute investment advice or recommendations.
@@ -235,21 +230,21 @@ export default function AboutPage() {
       {/* GEO + TRUST SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pb-12">
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
+          <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 sm:p-6">
             <h3
               className="text-lg font-semibold mb-2"
               style={{ fontFamily: "var(--font-playfair)" }}
             >
               Data Transparency
             </h3>
-            <p className="text-sm text-[#475569] leading-loose">
+            <p className="text-sm text-[#475569] dark:text-slate-400 leading-loose">
               IPOCraft compiles IPO information from publicly available filings,
               exchange announcements, and registrar disclosures. Users should verify
               information with official sources before making financial decisions.
             </p>
           </div>
 
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
+          <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 sm:p-6">
             <h3
               className="text-lg font-semibold mb-2"
               style={{ fontFamily: "var(--font-playfair)" }}
@@ -257,7 +252,7 @@ export default function AboutPage() {
               Frequently Asked Questions
             </h3>
 
-            <div className="space-y-3 text-sm text-[#475569]">
+            <div className="space-y-3 text-sm text-[#475569] dark:text-slate-400">
               <p>
                 <strong>Is IPOCraft SEBI registered?</strong><br />
                 No. IPOCraft is an independent informational platform and is not

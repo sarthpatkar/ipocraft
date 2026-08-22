@@ -21,11 +21,11 @@ export default function SocialShare({ title }: { title: string }) {
   };
 
   return (
-    <div className="flex items-center gap-4 mt-8 pt-8 border-t border-gray-200">
-      <span className="text-sm font-medium text-gray-500">Share this article:</span>
+    <div className="flex items-center gap-4 mt-8 pt-8 border-t border-gray-200 dark:border-slate-700">
+      <span className="text-sm font-medium text-gray-500 dark:text-slate-400">Share this article:</span>
       <button 
         onClick={handleShare}
-        className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-sm font-medium transition-colors"
+        className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 dark:bg-[#1e293b] hover:bg-gray-200 text-gray-700 dark:text-slate-300 rounded-full text-sm font-medium transition-colors"
       >
         {copied ? <CheckIcon className="w-4 h-4 text-green-600" /> : <LinkIcon className="w-4 h-4" />}
         {copied ? "Copied Link!" : "Share Link"}

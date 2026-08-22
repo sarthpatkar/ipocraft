@@ -57,96 +57,81 @@ export const metadata: Metadata = {
 export default async function BrokersPage() {
   return (
     <main
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a]`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#080D18] text-[#0f172a] dark:text-[#F1F5F9]`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-[#e2e8f0] bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff]">
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50/50 via-transparent to-transparent" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-14 lg:py-16">
-          <p className="text-sm font-semibold uppercase text-blue-600 mb-3">
+      <section className="border-b border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#0D1525]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+          <p className="text-[10.5px] font-semibold uppercase text-blue-600 dark:text-[#3B82F6] mb-2 tracking-wide">
             Broker Comparison India
           </p>
 
           <h1
-            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight max-w-3xl"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            className="text-2xl sm:text-3xl lg:text-[2.25rem] font-semibold leading-tight max-w-3xl text-[#0f172a] dark:text-[#F1F5F9]"
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Compare the Best Stock Brokers for IPO Investing
           </h1>
 
-          <p className="mt-4 text-sm sm:text-[15px] text-[#475569] max-w-2xl leading-relaxed">
-            Evaluate brokerage charges, account opening fees, platform features,
-            and IPO application support across major brokers in India to choose
-            the right partner for your investing journey.
+          <p className="mt-2 text-sm sm:text-[14.5px] text-[#475569] dark:text-[#94A3B8] max-w-2xl leading-relaxed">
+            Evaluate brokerage charges, account opening fees, platform features, and UPI IPO bidding support across major brokers in India.
           </p>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap gap-3 mt-6 text-xs">
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
-              Data from Public Sources
+          <div className="flex flex-wrap gap-2 mt-4 text-[11px]">
+            <span className="bg-[#f1f5f9] dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] text-gray-700 dark:text-[#94A3B8] px-2.5 py-1 rounded-md">
+              Data from Public Disclosures
             </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
-              Research‑Focused Platform
-            </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
-              No Investment Advice
+            <span className="bg-[#f1f5f9] dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] text-gray-700 dark:text-[#94A3B8] px-2.5 py-1 rounded-md">
+              Research Comparison
             </span>
           </div>
         </div>
       </section>
 
       {/* BROKER LIST */}
-      <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
+      <section className="bg-[#f8fafc] dark:bg-[#080D18] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <BrokerList />
 
-          <p className="mt-6 text-[11.5px] text-[#94a3b8] leading-relaxed">
-            Broker charges are indicative and subject to change. Please verify
-            details with the respective broker before opening an account.
+          <p className="mt-4 text-[11.5px] text-[#94a3b8] dark:text-[#64748B] leading-relaxed">
+            Broker charges are indicative and subject to change. Please verify current tariffs directly with the respective broker before opening an account.
           </p>
         </div>
       </section>
 
       {/* INFO SECTIONS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="bg-white dark:bg-[#11182D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 shadow-xs">
             <h2
-              className="text-lg font-semibold mb-3"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2"
+              style={{ fontFamily: "var(--font-outfit)" }}
             >
               How to Choose a Broker for IPO Investing
             </h2>
-            <p className="text-sm text-[#475569] leading-relaxed">
-              When selecting a broker, investors typically evaluate account
-              opening fees, annual maintenance charges, brokerage structure,
-              mobile app usability, IPO application process, and customer
-              support quality. Choosing a reliable platform can improve overall
-              investing experience.
+            <p className="text-[13px] text-[#475569] dark:text-[#94A3B8] leading-relaxed">
+              Key considerations include UPI 2.0 IPO mandate reliability, zero-AMC accounts, delivery brokerage rates, and high-frequency stability during peak subscription hours.
             </p>
           </div>
 
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 sm:p-6">
+          <div className="bg-white dark:bg-[#11182D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 shadow-xs">
             <h2
-              className="text-lg font-semibold mb-3"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2"
+              style={{ fontFamily: "var(--font-outfit)" }}
             >
               Data Transparency
             </h2>
-            <p className="text-sm text-[#475569] leading-relaxed">
-              IPOCraft aggregates broker information from publicly available
-              sources including broker websites and regulatory disclosures.
-              Users should always confirm the latest charges and policies
-              directly with the broker before making decisions.
+            <p className="text-[13px] text-[#475569] dark:text-[#94A3B8] leading-relaxed">
+              IPOCraft aggregates tariff schedules from public exchange filings and broker websites for research comparison purposes.
             </p>
           </div>
         </div>
       </section>
 
       {/* LEGAL + AFFILIATE DISCLOSURE */}
-      <section className="bg-white border-t border-[#e2e8f0]">
+      <section className="bg-white dark:bg-[#111827] border-t border-[#e2e8f0] dark:border-[#1e293b]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10">
           <h2
             className="text-lg font-semibold mb-3"
@@ -155,7 +140,7 @@ export default async function BrokersPage() {
             Disclaimer & Disclosure
           </h2>
 
-          <p className="text-[13px] text-[#475569] leading-relaxed max-w-3xl">
+          <p className="text-[13px] text-[#475569] dark:text-slate-400 leading-relaxed max-w-3xl">
             IPOCraft is an informational platform and is not registered with
             SEBI or any financial regulatory authority. This content does not
             constitute investment advice, recommendations, or solicitation.
@@ -163,13 +148,13 @@ export default async function BrokersPage() {
             financial advisors before investing.
           </p>
 
-          <p className="mt-4 text-[12.5px] text-[#64748b] leading-relaxed max-w-3xl">
+          <p className="mt-4 text-[12.5px] text-[#64748b] dark:text-slate-400 leading-relaxed max-w-3xl">
             Some links on this page may be affiliate links. IPOCraft may earn a
             referral commission if users open accounts through partner brokers.
             This does not influence our comparisons or content.
           </p>
 
-          <div className="mt-6 text-[12px] text-[#94a3b8]">
+          <div className="mt-6 text-[12px] text-[#94a3b8] dark:text-slate-500">
             IPOCraft is independent and not affiliated with any broker unless
             explicitly stated.
           </div>

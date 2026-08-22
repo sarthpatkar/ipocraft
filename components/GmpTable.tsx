@@ -123,8 +123,8 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
 
       {/* Table container */}
       <div className="w-full overflow-x-auto overscroll-x-contain">
-        <table className="min-w-[900px] w-full border border-gray-200 rounded-lg overflow-hidden text-sm">
-          <thead className="bg-gray-50 sticky top-0">
+        <table className="min-w-[900px] w-full border border-gray-200 dark:border-slate-700 rounded-lg overflow-hidden text-sm">
+          <thead className="bg-gray-50 dark:bg-[#0f172a] sticky top-0">
             <tr className="text-left">
               <th className="p-3 border-b">IPO</th>
               <th className="p-3 border-b">GMP</th>
@@ -141,14 +141,14 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
           <tbody>
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={9} className="text-center py-10 text-gray-500">
+                <td colSpan={9} className="text-center py-10 text-gray-500 dark:text-slate-400">
                   No IPOs found for selected filters
                 </td>
               </tr>
             )}
 
             {filtered.map((ipo) => (
-              <tr key={ipo.id} className="hover:bg-gray-50">
+              <tr key={ipo.id} className="hover:bg-gray-50 dark:bg-[#0f172a]">
                 <td className="p-3 border-b font-medium">
                   {highlight(ipo.name, debounced)}
                 </td>

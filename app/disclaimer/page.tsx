@@ -34,19 +34,19 @@ export default function DisclaimerPage() {
       className={`${outfit.variable} ${inter.variable} max-w-3xl mx-auto`}
     >
       <h1
-        className="text-3xl sm:text-4xl font-semibold text-[#0f172a] mb-2"
+        className="text-3xl sm:text-4xl font-semibold text-[#0f172a] dark:text-white mb-2"
         style={{ fontFamily: "var(--font-outfit), serif" }}
       >
         Disclaimer
       </h1>
-      <p className="text-sm text-[#64748b] mb-8">
+      <p className="text-sm text-[#64748b] dark:text-slate-400 mb-8">
         Last updated: July 2026
       </p>
 
-      <div className="space-y-6 text-[15px] text-[#334155] leading-relaxed">
+      <div className="space-y-6 text-[15px] text-[#334155] dark:text-slate-300 leading-relaxed">
         {/* Section 1 */}
         <section>
-          <h2 className="text-lg font-semibold text-[#0f172a] mb-2">
+          <h2 className="text-lg font-semibold text-[#0f172a] dark:text-white mb-2">
             1. Not a SEBI-Registered Entity
           </h2>
           <p>
@@ -59,7 +59,7 @@ export default function DisclaimerPage() {
 
         {/* Section 2 */}
         <section>
-          <h2 className="text-lg font-semibold text-[#0f172a] mb-2">
+          <h2 className="text-lg font-semibold text-[#0f172a] dark:text-white mb-2">
             2. Not Financial Advice
           </h2>
           <p>
@@ -73,7 +73,7 @@ export default function DisclaimerPage() {
 
         {/* Section 3 */}
         <section>
-          <h2 className="text-lg font-semibold text-[#0f172a] mb-2">
+          <h2 className="text-lg font-semibold text-[#0f172a] dark:text-white mb-2">
             3. Data Sources &amp; Accuracy
           </h2>
           <p>
@@ -89,7 +89,7 @@ export default function DisclaimerPage() {
               href="https://www.sebi.gov.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2563eb] hover:underline"
+              className="text-[#2563eb] dark:text-blue-400 hover:underline"
             >
               SEBI
             </a>
@@ -98,7 +98,7 @@ export default function DisclaimerPage() {
               href="https://www.nseindia.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2563eb] hover:underline"
+              className="text-[#2563eb] dark:text-blue-400 hover:underline"
             >
               NSE
             </a>
@@ -107,7 +107,7 @@ export default function DisclaimerPage() {
               href="https://www.bseindia.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2563eb] hover:underline"
+              className="text-[#2563eb] dark:text-blue-400 hover:underline"
             >
               BSE
             </a>{" "}
@@ -117,7 +117,7 @@ export default function DisclaimerPage() {
 
         {/* Section 4 */}
         <section>
-          <h2 className="text-lg font-semibold text-[#0f172a] mb-2">
+          <h2 className="text-lg font-semibold text-[#0f172a] dark:text-white mb-2">
             4. Grey Market Premium (GMP) Disclaimer
           </h2>
           <p>
@@ -126,7 +126,7 @@ export default function DisclaimerPage() {
             in the unofficial grey market before listing. IPOCraft reports publicly
             available GMP data for informational purposes only. GMP values:
           </p>
-          <ul className="list-disc list-inside mt-2 space-y-1 text-[#475569]">
+          <ul className="list-disc list-inside mt-2 space-y-1 text-[#475569] dark:text-slate-400">
             <li>Do not guarantee actual listing price or performance</li>
             <li>Are not verified by any regulatory authority</li>
             <li>Can change rapidly and without notice</li>
@@ -136,7 +136,7 @@ export default function DisclaimerPage() {
 
         {/* Section 5 */}
         <section>
-          <h2 className="text-lg font-semibold text-[#0f172a] mb-2">
+          <h2 className="text-lg font-semibold text-[#0f172a] dark:text-white mb-2">
             5. No Liability
           </h2>
           <p>
@@ -150,7 +150,7 @@ export default function DisclaimerPage() {
 
         {/* Section 6 */}
         <section>
-          <h2 className="text-lg font-semibold text-[#0f172a] mb-2">
+          <h2 className="text-lg font-semibold text-[#0f172a] dark:text-white mb-2">
             6. Third-Party Content &amp; Broker Listings
           </h2>
           <p>
@@ -164,7 +164,7 @@ export default function DisclaimerPage() {
 
         {/* Section 7 */}
         <section>
-          <h2 className="text-lg font-semibold text-[#0f172a] mb-2">
+          <h2 className="text-lg font-semibold text-[#0f172a] dark:text-white mb-2">
             7. Privacy &amp; Data Collection
           </h2>
           <p>
@@ -177,7 +177,7 @@ export default function DisclaimerPage() {
           </p>
           <p className="mt-2">
             For detailed information, please see our{" "}
-            <Link href="/privacy" className="text-[#2563eb] hover:underline">
+            <Link href="/privacy" className="text-[#2563eb] dark:text-blue-400 hover:underline">
               Privacy Policy
             </Link>
             .
@@ -186,7 +186,7 @@ export default function DisclaimerPage() {
 
         {/* Section 8 */}
         <section>
-          <h2 className="text-lg font-semibold text-[#0f172a] mb-2">
+          <h2 className="text-lg font-semibold text-[#0f172a] dark:text-white mb-2">
             8. Consult a Financial Advisor
           </h2>
           <p>
@@ -198,7 +198,7 @@ export default function DisclaimerPage() {
 
         {/* Section 9 */}
         <section>
-          <h2 className="text-lg font-semibold text-[#0f172a] mb-2">
+          <h2 className="text-lg font-semibold text-[#0f172a] dark:text-white mb-2">
             9. Changes to This Disclaimer
           </h2>
           <p>
@@ -208,11 +208,11 @@ export default function DisclaimerPage() {
           </p>
         </section>
 
-        <hr className="border-[#e2e8f0]" />
+        <hr className="border-[#e2e8f0] dark:border-[#1e293b]" />
 
-        <p className="text-sm text-[#94a3b8]">
+        <p className="text-sm text-[#94a3b8] dark:text-slate-500">
           If you have any questions about this disclaimer, please{" "}
-          <Link href="/contact" className="text-[#2563eb] hover:underline">
+          <Link href="/contact" className="text-[#2563eb] dark:text-blue-400 hover:underline">
             contact us
           </Link>
           .

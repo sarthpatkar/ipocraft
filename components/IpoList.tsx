@@ -12,8 +12,8 @@ export default function IpoList({
 }: Props) {
   if (items.length === 0) {
     return (
-      <div className="border border-[#e2e8f0] bg-white rounded-lg px-5 py-6 text-center">
-        <p className="text-[13px] text-[#64748b]">{emptyMessage}</p>
+      <div className="border border-[#e2e8f0] dark:border-[#1e293b] bg-white dark:bg-[#111827] rounded-lg px-5 py-6 text-center">
+        <p className="text-[13px] text-[#64748b] dark:text-slate-400">{emptyMessage}</p>
       </div>
     );
   }

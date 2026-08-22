@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
+import { formatDisplayDate, formatShortDate, formatSubscriptionTimes } from "@/lib/formatters";
 
 type IpoRow = {
   id: number;
@@ -79,7 +80,7 @@ function getUrgencyBadge(ipo: Pick<IpoRow, "open_date" | "close_date">) {
     return <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1">Open</span>;
   }
   if (status === "closed") {
-    return <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mt-1">Closed</span>;
+    return <span className="text-[10px] font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider block mt-1">Closed</span>;
   }
   return <span className="text-[10px] font-bold text-blue-500 uppercase tracking-wider block mt-1">Upcoming</span>;
 }
@@ -242,20 +243,20 @@ export default function GmpTableClient({
   }
 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-3.5">
       {/* Date Range Filter Bar */}
-      <div className="flex flex-col gap-3 p-3 sm:p-4 bg-white border border-[#e2e8f0] rounded-xl shadow-sm">
+      <div className="flex flex-col gap-2.5 p-3 sm:p-4 bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-700">
-            <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 dark:text-[#94A3B8]">
+            <svg className="w-4 h-4 text-blue-600 dark:text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            Date Filter:
+            Date Range:
           </div>
 
           <div className="flex flex-wrap gap-1.5 text-xs">
             {[
-              { id: "60days", label: "Last 60 Days (Default)" },
+              { id: "60days", label: "Last 60 Days" },
               { id: "30days", label: "Last 30 Days" },
               { id: "6months", label: "Last 6 Months" },
               { id: "1year", label: "1 Year" },
@@ -266,10 +267,10 @@ export default function GmpTableClient({
                 key={btn.id}
                 type="button"
                 onClick={() => setTimeRange(btn.id as any)}
-                className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
+                className={`px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-colors border ${
                   timeRange === btn.id
-                    ? "bg-blue-600 text-white shadow-sm font-semibold"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-[#3B82F6] text-white border-[#3B82F6] shadow-xs font-semibold"
+                    : "bg-gray-100 dark:bg-[#162238] text-gray-700 dark:text-[#94A3B8] border-transparent dark:border-[#22304A] hover:border-[#3B82F6]/50"
                 }`}
               >
                 {btn.label}
@@ -280,30 +281,30 @@ export default function GmpTableClient({
 
         {/* Custom Date Pickers */}
         {timeRange === "custom" && (
-          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-gray-100 text-xs">
+          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-gray-100 dark:border-[#22304A] text-xs">
             <div className="flex items-center gap-2">
-              <label className="text-gray-500 font-medium">From:</label>
+              <label className="text-gray-500 dark:text-[#94A3B8] font-medium">From:</label>
               <input
                 type="date"
                 value={customStart}
                 onChange={(e) => setCustomStart(e.target.value)}
-                className="px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="px-2.5 py-1 bg-gray-50 dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] text-gray-900 dark:text-[#F1F5F9] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
               />
             </div>
             <div className="flex items-center gap-2">
-              <label className="text-gray-500 font-medium">To:</label>
+              <label className="text-gray-500 dark:text-[#94A3B8] font-medium">To:</label>
               <input
                 type="date"
                 value={customEnd}
                 onChange={(e) => setCustomEnd(e.target.value)}
-                className="px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="px-2.5 py-1 bg-gray-50 dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] text-gray-900 dark:text-[#F1F5F9] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
               />
             </div>
             {(customStart || customEnd) && (
               <button
                 type="button"
                 onClick={() => { setCustomStart(""); setCustomEnd(""); }}
-                className="text-xs text-red-600 hover:underline font-medium"
+                className="text-xs text-red-600 dark:text-rose-400 hover:underline font-medium"
               >
                 Clear Range
               </button>
@@ -312,56 +313,51 @@ export default function GmpTableClient({
         )}
       </div>
 
-      {/* Search & Counter Bar with Live Indicator */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="relative w-full sm:w-96">
+      {/* Search & Counter Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="relative w-full sm:w-80">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4 text-gray-400 dark:text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
           <input
             type="text"
-            placeholder="Search IPOs..."
+            placeholder="Search IPOs by name…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+            className="w-full pl-9 pr-3.5 py-2 bg-white dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#64748B] rounded-lg text-[13px] focus:outline-none focus:ring-1 focus:ring-[#3B82F6] transition-colors shadow-xs"
           />
         </div>
-        <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-            Live GMP • Auto-refreshed
+        <div className="flex items-center gap-2.5">
+          <span className="text-[11.5px] font-medium text-gray-500 dark:text-[#94A3B8]">
+            Showing <strong className="text-gray-900 dark:text-[#F1F5F9]">{filtered.length}</strong> IPOs
           </span>
-          <div className="text-sm font-medium text-gray-500">
-            Showing <span className="font-bold text-gray-900">{filtered.length}</span> IPOs
-          </div>
         </div>
       </div>
 
-
-      {/* Tabular Layout (Maintained across all screen sizes) */}
-      <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white border border-gray-200 rounded-xl shadow-sm">
+      {/* Tabular Layout */}
+      <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white dark:bg-[#11182D] border border-gray-200 dark:border-[#22304A] rounded-xl shadow-xs">
         <table className="min-w-max w-full text-left relative">
-          <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium sticky top-0 z-30 shadow-sm">
-            <tr className="divide-x divide-gray-100">
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-40 bg-gray-50 drop-shadow-[2px_0_4px_rgba(0,0,0,0.05)] border-r border-gray-200">IPO Name</th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider cursor-pointer hover:text-gray-700" onClick={() => toggleSort("gmp")}>
+          <thead className="bg-gray-50 dark:bg-[#0D1525] border-b border-gray-200 dark:border-[#22304A] text-gray-600 dark:text-[#94A3B8] font-medium sticky top-0 z-30 shadow-xs">
+            <tr className="divide-x divide-gray-200 dark:divide-[#22304A]">
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-40 bg-gray-50 dark:bg-[#0D1525] border-r border-gray-200 dark:border-[#22304A]">IPO Name</th>
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider cursor-pointer hover:text-gray-900 dark:hover:text-[#F1F5F9]" onClick={() => toggleSort("gmp")}>
                 GMP {sortKey === "gmp" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
               </th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider cursor-pointer hover:text-gray-700" onClick={() => toggleSort("sub")}>
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider cursor-pointer hover:text-gray-900 dark:hover:text-[#F1F5F9]" onClick={() => toggleSort("sub")}>
                 Sub {sortKey === "sub" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
               </th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider">Price Band</th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider">Size</th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider">Dates</th>
-              <th className="p-2 sm:p-3 md:p-4 uppercase text-xs tracking-wider">Listing</th>
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider">Price Band</th>
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider">Size</th>
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider">Dates</th>
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider">Listing</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 text-xs sm:text-sm">
+          <tbody className="divide-y divide-gray-200 dark:divide-[#22304A] text-xs sm:text-[13px]">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-gray-500">
+                <td colSpan={7} className="p-8 text-center text-gray-500 dark:text-[#94A3B8]">
                   No IPOs found matching your filters.
                 </td>
               </tr>
@@ -370,65 +366,58 @@ export default function GmpTableClient({
                 const latest = gmpMap?.[String(ipo.id)]?.latest;
                 const prev = gmpMap?.[String(ipo.id)]?.prev;
                 const trend = ipo.gmp_trend ?? (latest != null && prev != null ? latest - prev : 0);
-                const status = getLifecycleStatus(ipo);
                 
                 return (
-                  <tr key={ipo.id} className={`group transition-colors divide-x divide-gray-100 ${
-                    status === 'open' ? 'bg-emerald-50/40 hover:bg-emerald-50/70' :
-                    status === 'closed' ? 'bg-rose-50/40 hover:bg-rose-50/70' :
-                    'hover:bg-gray-50'
-                  }`}>
-                    <td className={`p-2 sm:p-3 md:p-4 w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-20 group-hover:bg-opacity-100 drop-shadow-[2px_0_4px_rgba(0,0,0,0.05)] border-r border-gray-100 ${
-                      status === 'open' ? 'bg-[#f4fbf7] group-hover:bg-[#ebf8f1]' :
-                      status === 'closed' ? 'bg-[#fff1f2] group-hover:bg-[#ffe4e6]' :
-                      'bg-white group-hover:bg-gray-50'
-                    }`}>
-                      <Link href={`/ipo/${ipo.slug}`} className="font-semibold text-gray-900 hover:text-blue-600 block whitespace-normal break-words">
+                  <tr key={ipo.id} className="group transition-colors divide-x divide-gray-200 dark:divide-[#22304A] bg-white dark:bg-[#11182D] hover:bg-gray-50 dark:hover:bg-[#162238]/60">
+                    <td className="p-2.5 sm:p-3 w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-20 bg-white dark:bg-[#11182D] group-hover:bg-gray-50 dark:group-hover:bg-[#162238] border-r border-gray-200 dark:border-[#22304A]">
+                      <Link href={`/ipo/${ipo.slug}`} className="font-semibold text-gray-900 dark:text-[#F1F5F9] hover:text-[#3B82F6] dark:hover:text-[#3B82F6] block whitespace-normal break-words">
                         {highlight(ipo.name)}
                       </Link>
                       {getUrgencyBadge(ipo)}
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4">
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-1 sm:gap-2">
-                          <span className="font-bold text-gray-900">
+                    <td className="p-2.5 sm:p-3">
+                      <div className="flex flex-col gap-0.5">
+                        <div className="flex items-center gap-1 sm:gap-1.5">
+                          <span className="font-bold text-gray-900 dark:text-[#F1F5F9]">
                             {ipo.gmp != null ? `₹${ipo.gmp}` : "-"}
                           </span>
                           {trend !== 0 && (
-                            <span className={`text-[9px] sm:text-xs font-semibold px-1 py-0.5 rounded ${trend > 0 ? "text-green-700 bg-green-100" : "text-red-700 bg-red-100"}`}>
+                            <span className={`text-[9px] sm:text-[10px] font-semibold px-1 py-0.5 rounded ${
+                              trend > 0 
+                                ? "text-emerald-700 bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300" 
+                                : "text-rose-700 bg-rose-100 dark:bg-rose-950/60 dark:text-rose-300"
+                            }`}>
                               {trend > 0 ? "↑" : "↓"}{Math.abs(trend)}
                             </span>
                           )}
                         </div>
                         {ipo.gmp != null && ipo.price_max && (
-                          <span className={`text-[10px] font-semibold ${ipo.gmp >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          <span className={`text-[10px] font-semibold ${ipo.gmp >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                             Est. {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 font-medium text-gray-800">
-                      {ipo.sub_total ? `${ipo.sub_total}x` : "-"}
+                    <td className="p-2.5 sm:p-3 text-[#334155] dark:text-[#CBD5E1] font-medium tabular-nums">
+                      {formatSubscriptionTimes(ipo.sub_total)}
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 whitespace-nowrap">
-                      {ipo.price_min && ipo.price_max ? `₹${ipo.price_min} - ${ipo.price_max}` : "-"}
+                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#94A3B8] whitespace-nowrap">
+                      {ipo.price_min && ipo.price_max ? `₹${ipo.price_min} – ₹${ipo.price_max}` : "—"}
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 whitespace-nowrap">
-                      {ipo.issue_size ?? "-"}
+                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#94A3B8] whitespace-nowrap">
+                      {ipo.issue_size ?? "—"}
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 text-gray-600">
+                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#94A3B8]">
                       {ipo.open_date ? (
-                        <div className="flex flex-col xl:flex-row xl:gap-1">
-                          <span className="whitespace-nowrap">{ipo.open_date.slice(0, 5)}</span>
-                          <span className="hidden xl:inline">to</span>
-                          <span className="whitespace-nowrap">{ipo.close_date?.slice(0, 5)}</span>
+                        <div className="flex flex-col xl:flex-row xl:gap-1 whitespace-nowrap">
+                          <span>{formatShortDate(ipo.open_date)}</span>
+                          <span className="hidden xl:inline">–</span>
+                          <span>{formatShortDate(ipo.close_date)}</span>
                         </div>
-                      ) : (
-                        "-"
-                      )}
+                      ) : "—"}
                     </td>
-                    <td className="p-2 sm:p-3 md:p-4 text-gray-600 whitespace-nowrap">
-                      {ipo.listing_date ?? "-"}
+                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#94A3B8] whitespace-nowrap">
+                      {ipo.listing_date ? formatDisplayDate(ipo.listing_date) : "—"}
                     </td>
                   </tr>
                 );
@@ -440,3 +429,4 @@ export default function GmpTableClient({
     </div>
   );
 }
+

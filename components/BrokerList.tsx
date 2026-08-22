@@ -65,8 +65,8 @@ export default async function BrokerList({ limit }: Props) {
   if (error) {
     console.error("Failed to fetch brokers:", error);
     return (
-      <div className="border border-rose-200 bg-rose-50 rounded-lg px-5 py-4">
-        <p className="text-[13px] text-rose-700">
+      <div className="border border-rose-200 dark:border-rose-950/60 bg-rose-50 dark:bg-rose-950/20 rounded-xl px-5 py-4">
+        <p className="text-[13px] text-rose-700 dark:text-rose-400">
           Unable to load broker information right now.
         </p>
       </div>
@@ -77,8 +77,8 @@ export default async function BrokerList({ limit }: Props) {
 
   if (brokers.length === 0) {
     return (
-      <div className="border border-[#e2e8f0] bg-white rounded-lg px-5 py-6 text-center">
-        <p className="text-[13px] text-[#64748b]">
+      <div className="border border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#111B2D] rounded-xl px-5 py-6 text-center shadow-xs">
+        <p className="text-[13px] text-[#64748b] dark:text-[#94A3B8]">
           No broker data available yet.
         </p>
       </div>

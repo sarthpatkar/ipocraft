@@ -4,6 +4,7 @@ import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
 import { useWatchlist } from "@/lib/hooks/useWatchlist";
 import GlossaryTooltip from "./GlossaryTooltip";
 import { calculateHypeScore, getHypeScoreColor } from "@/lib/hypeScore";
+import { formatDisplayDate, formatShortDate, formatSubscriptionTimes } from "@/lib/formatters";
 
 export type IPOListItem = {
   id: number;
@@ -36,10 +37,10 @@ export type IPOListItem = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200 status-open",
-  Upcoming: "bg-blue-50 text-blue-700 border border-blue-200",
-  Listed: "bg-violet-50 text-violet-700 border border-violet-200",
-  Closed: "bg-rose-50 text-rose-600 border border-rose-200",
+  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800/60 status-open",
+  Upcoming: "bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800/60",
+  Listed: "bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-950/60 dark:text-purple-300 dark:border-purple-800/60",
+  Closed: "bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800/60",
 };
 
 function calculateStatus(
@@ -69,32 +70,32 @@ function getUrgencyChip(ipo: IPOListItem): { text: string; className: string } |
 
   if (ipo.close_date === todayIST) {
     return {
-      text: "⚡ Closes Today",
-      className: "bg-red-50 text-red-600 border border-red-200 animate-pulse",
+      text: "Closes Today",
+      className: "bg-red-50 text-red-600 border border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/60",
     };
   }
   if (ipo.close_date === tomorrowIST) {
     return {
       text: "Closes Tomorrow",
-      className: "bg-orange-50 text-orange-600 border border-orange-200",
+      className: "bg-orange-50 text-orange-600 border border-orange-200 dark:bg-orange-950/60 dark:text-orange-300 dark:border-orange-800/60",
     };
   }
   if (ipo.open_date === todayIST) {
     return {
-      text: "🟢 Opens Today",
-      className: "bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse",
+      text: "Opens Today",
+      className: "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800/60",
     };
   }
   if (ipo.open_date === tomorrowIST) {
     return {
       text: "Opens Tomorrow",
-      className: "bg-blue-50 text-blue-700 border border-blue-200",
+      className: "bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800/60",
     };
   }
   if (ipo.open_date === in2Days) {
     return {
       text: "Opens in 2 Days",
-      className: "bg-indigo-50 text-indigo-600 border border-indigo-200",
+      className: "bg-indigo-50 text-indigo-600 border border-indigo-200 dark:bg-indigo-950/60 dark:text-indigo-300 dark:border-indigo-800/60",
     };
   }
   return null;
@@ -119,8 +120,8 @@ function getListingGainBadge(listingGain?: string | null) {
   return {
     text: `${isPositive ? "+" : ""}${num.toFixed(1)}% Listed`,
     className: isPositive
-      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-      : "bg-rose-50 text-rose-600 border border-rose-200",
+      ? "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800/60"
+      : "bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800/60",
   };
 }
 
@@ -160,7 +161,7 @@ function getAllotmentBadge(ipo: IPOListItem) {
     return {
       text: "Allotment Out",
       className:
-        "bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse",
+        "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800/60",
     };
   }
 
@@ -171,7 +172,7 @@ function getAllotmentBadge(ipo: IPOListItem) {
       return {
         text: "Allotment Awaited",
         className:
-          "bg-amber-50 text-amber-700 border border-amber-200",
+          "bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800/60",
       };
     }
   }
@@ -196,8 +197,8 @@ function getListedReturnBadge(
   return {
     text: `${positive ? "+" : ""}${returnPct.toFixed(1)}%`,
     className: positive
-      ? "bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse"
-      : "bg-rose-50 text-rose-600 border border-rose-200",
+      ? "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800/60"
+      : "bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800/60",
   };
 }
 
@@ -215,19 +216,17 @@ function valueOrDash(value: unknown) {
 }
 
 function formatOfferDates(openDate: string | null, closeDate: string | null) {
-  const open = valueOrDash(openDate);
-  const close = valueOrDash(closeDate);
-  if (open === "—" && close === "—") return "—";
-  return `${open} – ${close}`;
+  if (!openDate && !closeDate) return "—";
+  const open = formatShortDate(openDate);
+  const close = formatDisplayDate(closeDate);
+  if (open !== "—" && close !== "—") return `${open} – ${close}`;
+  if (open !== "—") return open;
+  if (close !== "—") return close;
+  return "—";
 }
 
 function formatSubscription(subTotal: string | number | null) {
-  if (subTotal == null) return "—";
-  if (typeof subTotal === "string") {
-    const trimmed = subTotal.trim();
-    return trimmed ? trimmed : "—";
-  }
-  return `${subTotal}x`;
+  return formatSubscriptionTimes(subTotal, "—");
 }
 
 export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
@@ -264,11 +263,11 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
   });
 
   return (
-    <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden card-hover gradient-border h-full flex flex-col">
-      <div className="px-5 pt-5 pb-4 border-b border-[#f8fafc] space-y-2.5">
+    <div className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] hover:border-gray-300 dark:hover:border-[#3B82F6]/60 rounded-xl overflow-hidden card-hover h-full flex flex-col transition-colors duration-150">
+      <div className="px-4.5 pt-4 pb-3 border-b border-[#f1f5f9] dark:border-[#22304A] space-y-2">
         {/* IPO Name & Star */}
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="text-[15px] font-semibold text-[#0f172a] leading-snug line-clamp-2">
+        <div className="flex items-start justify-between gap-2.5">
+          <h3 className="text-[14.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug line-clamp-2">
             {ipo.name}
           </h3>
           <button
@@ -277,35 +276,38 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
               e.stopPropagation();
               toggleWatchlist(ipo.slug);
             }}
-            className="text-gray-400 hover:text-yellow-500 transition-colors flex-shrink-0"
+            className="text-gray-400 hover:text-yellow-500 dark:text-[#64748B] dark:hover:text-yellow-400 transition-colors flex-shrink-0"
             title={isStarred ? "Remove from watchlist" : "Add to watchlist"}
           >
             {isStarred ? (
-              <StarSolid className="w-5 h-5 text-yellow-400" />
+              <StarSolid className="w-4.5 h-4.5 text-yellow-400" />
             ) : (
-              <StarOutline className="w-5 h-5" />
+              <StarOutline className="w-4.5 h-4.5" />
             )}
           </button>
         </div>
-        <p className="text-[11.5px] text-[#64748b] leading-tight">
+        <p className="text-[11px] text-[#64748b] dark:text-[#94A3B8] leading-tight">
           {ipo.exchange ?? "—"}
-          {ipo.sector ? ` · ${ipo.sector}` : ""}
         </p>
         {/* Badges */}
         <div className="flex flex-wrap items-center gap-1.5">
           {ipo.ipo_type && (
-            <span className="inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
-              {ipo.ipo_type}
+            <span className={`inline-flex items-center text-[10.5px] font-semibold tracking-wide px-2 py-0.5 rounded ${
+              ipo.ipo_type.toLowerCase() === "sme"
+                ? "bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800/40"
+                : "bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800/40"
+            }`}>
+              {ipo.ipo_type.toUpperCase()}
             </span>
           )}
           <span
-            className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${statusStyle}`}
+            className={`inline-flex items-center text-[10.5px] font-semibold tracking-wide px-2 py-0.5 rounded ${statusStyle}`}
           >
             {displayStatus}
           </span>
           {allotmentBadge && (
             <span
-              className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${allotmentBadge.className}`}
+              className={`inline-flex items-center text-[10.5px] font-semibold tracking-wide px-2 py-0.5 rounded ${allotmentBadge.className}`}
             >
               {allotmentBadge.text}
             </span>
@@ -313,15 +315,15 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           {/* Urgency chip — Closes Today / Opens Today etc */}
           {urgencyChip && displayStatus !== "Listed" && (
             <span
-              className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${urgencyChip.className}`}
+              className={`inline-flex items-center text-[10.5px] font-semibold tracking-wide px-2 py-0.5 rounded ${urgencyChip.className}`}
             >
               {urgencyChip.text}
             </span>
           )}
-          {/* Listing gain badge — replaces listedReturn for Listed IPOs */}
+          {/* Listing gain badge */}
           {listingGainBadge && (
             <span
-              className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${listingGainBadge.className}`}
+              className={`inline-flex items-center text-[10.5px] font-semibold tracking-wide px-2 py-0.5 rounded ${listingGainBadge.className}`}
             >
               {listingGainBadge.text}
             </span>
@@ -329,99 +331,85 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
         </div>
       </div>
 
-      <div className="px-5 py-5 grid grid-cols-2 gap-x-6 gap-y-5 flex-1">
+      <div className="px-4.5 py-3.5 grid grid-cols-2 gap-x-4 gap-y-3.5 flex-1">
         <div className="col-span-2">
-          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
+          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#64748b] dark:text-[#94A3B8] mb-1">
             Offer Dates
           </p>
-          <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
+          <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight">
             {formatOfferDates(ipo.open_date, ipo.close_date)}
           </p>
         </div>
         <div>
-          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
+          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#64748b] dark:text-[#94A3B8] mb-1">
             Price Band
           </p>
-          <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
+          <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight">
             {formatPriceBand(ipo.price_min, ipo.price_max)}
           </p>
         </div>
         <div>
-          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5 flex items-center gap-1.5">
+          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#64748b] dark:text-[#94A3B8] mb-1">
             Subscription
-            {displayStatus === "Open" && ipo.sub_total && (
-              <span className="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                LIVE
-              </span>
-            )}
           </p>
-          <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
+          <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight">
             {formatSubscription(ipo.sub_total)}
           </p>
         </div>
         <div>
-          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5">
+          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#64748b] dark:text-[#94A3B8] mb-1">
             Lot Size
           </p>
-          <p className="text-[13px] font-semibold text-[#0f172a] leading-tight">
+          <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight">
             {ipo.lot_size != null ? `${ipo.lot_size} shares` : "—"}
           </p>
         </div>
-          <div>
-            <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5 flex items-center gap-1.5">
-              <GlossaryTooltip term="GMP">GMP</GlossaryTooltip>
-              {ipo.gmp != null && (displayStatus === "Open" || displayStatus === "Upcoming") && (
-                <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded border border-blue-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                  LIVE
-                </span>
-              )}
-            </p>
-            <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${
-              ipo.gmp != null
-                ? ipo.gmp >= 0 ? "gmp-positive" : "gmp-negative"
-                : "text-[#0f172a]"
-            }`}>
-              {ipo.gmp != null ? `₹${ipo.gmp.toLocaleString("en-IN")}` : "—"}
-              {ipo.gmp != null && ipo.price_max && (
-                <span className={`text-[10px] px-1 py-0.5 rounded ml-1 ${
-                  ipo.gmp >= 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                }`}>
-                  {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
-                </span>
-              )}
-            </p>
-            {/* GMP freshness timestamp */}
-            {gmpAge && (displayStatus === "Open" || displayStatus === "Upcoming") && (
-              <p className="text-[9.5px] text-[#94a3b8] mt-0.5">Updated {gmpAge}</p>
-            )}
-          </div>
         <div>
-          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5 flex items-center gap-1 group/tooltip relative w-fit">
+          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#64748b] dark:text-[#94A3B8] mb-1">
+            <GlossaryTooltip term="GMP">GMP</GlossaryTooltip>
+          </p>
+          <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${
+            ipo.gmp != null
+              ? ipo.gmp >= 0 ? "text-emerald-600 dark:text-[#34D399]" : "text-rose-600 dark:text-[#F87171]"
+              : "text-[#0f172a] dark:text-[#F1F5F9]"
+          }`}>
+            {ipo.gmp != null ? `₹${ipo.gmp.toLocaleString("en-IN")}` : "—"}
+            {ipo.gmp != null && ipo.price_max && (
+              <span className={`text-[10px] px-1 py-0.2 rounded font-medium ${
+                ipo.gmp >= 0 
+                  ? 'bg-green-100 text-green-700 dark:bg-emerald-950/40 dark:text-emerald-300' 
+                  : 'bg-red-100 text-red-700 dark:bg-rose-950/40 dark:text-rose-300'
+              }`}>
+                {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
+              </span>
+            )}
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#64748b] dark:text-[#94A3B8] mb-1 flex items-center gap-1 group/tooltip relative w-fit">
             Hype Score
-            <span className="cursor-help flex items-center justify-center w-3.5 h-3.5 rounded-full border border-gray-300 text-gray-400 text-[9px] hover:text-[#0f172a] hover:border-[#0f172a] transition-colors">
+            <span className="cursor-help flex items-center justify-center w-3.5 h-3.5 rounded-full border border-gray-300 dark:border-[#22304A] text-gray-400 dark:text-[#64748B] text-[9px] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] transition-colors">
               i
             </span>
-            <span className="absolute left-0 bottom-full mb-2 hidden group-hover/tooltip:block w-48 p-2.5 bg-gray-900 text-white text-[11px] leading-relaxed rounded-md shadow-xl z-[100] pointer-events-none before:content-[''] before:absolute before:top-full before:left-2.5 before:border-[5px] before:border-transparent before:border-t-gray-900">
-              Algorithmically generated out of 100 based on live momentum. Not investment advice.
+            <span className="absolute left-0 bottom-full mb-2 hidden group-hover/tooltip:block w-48 p-2.5 bg-gray-900 dark:bg-[#162238] text-white text-[11px] leading-relaxed rounded-md shadow-xl z-[100] pointer-events-none border border-[#22304A]">
+              Algorithmically generated momentum metric (0-100). Informational only, not investment advice.
             </span>
           </p>
-          <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${hypeScore != null ? getHypeScoreColor(hypeScore) : 'text-[#0f172a]'}`}>
+          <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${hypeScore != null ? getHypeScoreColor(hypeScore) : 'text-[#0f172a] dark:text-[#F1F5F9]'}`}>
             {hypeScore != null ? `${hypeScore} / 100` : "—"}
           </p>
         </div>
       </div>
       {isAllotmentOut && ipo.allotment_link && (
-        <div className="px-5 pb-5 mt-auto">
+        <div className="px-4.5 pb-4 mt-auto">
           <button
             onClick={(e) => {
               e.stopPropagation();
               window.open(ipo.allotment_link!, "_blank");
             }}
-            className="block w-full text-center text-sm font-semibold rounded-lg py-2.5
-                       bg-emerald-600 text-white hover:bg-emerald-700
-                       transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
+            className="block w-full text-center text-[13px] font-semibold rounded-lg py-2
+                       bg-emerald-600 dark:bg-emerald-600 text-white hover:bg-emerald-700
+                       transition-colors shadow-xs"
           >
             Check Allotment
           </button>

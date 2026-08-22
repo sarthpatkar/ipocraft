@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default function WhatIsIpoGmpPage() {
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a]`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
@@ -41,13 +41,13 @@ export default function WhatIsIpoGmpPage() {
         </p>
 
         <h1
-          className="text-2xl sm:text-3xl lg:text-[2.5rem] font-semibold leading-tight"
+          className="text-2xl sm:text-3xl lg:text-[2.5rem] font-semibold leading-tight text-[#0f172a] dark:text-white"
           style={{ fontFamily: "var(--font-outfit)" }}
         >
-          What is IPO GMP? Grey Market Premium Meaning, Calculation & Risks (2026 Guide)
+          What is IPO GMP? Grey Market Premium Meaning, Calculation &amp; Risks (2026 Guide)
         </h1>
 
-        <p className="mt-6 text-[15px] text-[#475569] leading-relaxed">
+        <p className="mt-6 text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed">
           IPO GMP stands for <strong>Grey Market Premium</strong>. It refers to the
           premium at which IPO shares are traded unofficially before listing on the
           stock exchange. Investors track IPO GMP to estimate potential listing
@@ -55,9 +55,9 @@ export default function WhatIsIpoGmpPage() {
           regulated and operates outside official exchanges.
         </p>
 
-        <p className="mt-4 text-[15px] text-[#475569] leading-relaxed">
+        <p className="mt-4 text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed">
           On IPOCraft, investors can monitor{" "}
-          <Link href="/gmp" className="text-[#2563eb] underline">
+          <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">
             IPO GMP Today
           </Link>{" "}
           along with subscription data and IPO calendar timelines. However, GMP
@@ -66,17 +66,17 @@ export default function WhatIsIpoGmpPage() {
         </p>
 
         {/* Jump Navigation */}
-        <div className="mt-8 sticky top-24 z-30 bg-white/95 backdrop-blur border border-[#e2e8f0] rounded-xl p-5 shadow-sm">
-          <p className="text-xs font-semibold text-[#0f172a] mb-3 uppercase tracking-wide">
+        <div className="mt-8 sticky top-24 z-30 bg-white dark:bg-[#111827]/95 backdrop-blur border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 shadow-sm">
+          <p className="text-xs font-semibold text-[#0f172a] dark:text-slate-100 mb-3 uppercase tracking-wide">
             On this page
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
-            <a href="#what-is-gmp" className="text-[#2563eb] hover:underline">What is IPO GMP</a>
-            <a href="#calculation" className="text-[#2563eb] hover:underline">How GMP is Calculated</a>
-            <a href="#reliability" className="text-[#2563eb] hover:underline">Is GMP Reliable?</a>
-            <a href="#mainboard-vs-sme" className="text-[#2563eb] hover:underline">Mainboard vs SME</a>
-            <a href="#strategies" className="text-[#2563eb] hover:underline">Advanced Strategies</a>
-            <a href="#faqs" className="text-[#2563eb] hover:underline">FAQs</a>
+            <a href="#what-is-gmp" className="text-[#2563eb] dark:text-blue-400 hover:underline">What is IPO GMP</a>
+            <a href="#calculation" className="text-[#2563eb] dark:text-blue-400 hover:underline">How GMP is Calculated</a>
+            <a href="#reliability" className="text-[#2563eb] dark:text-blue-400 hover:underline">Is GMP Reliable?</a>
+            <a href="#mainboard-vs-sme" className="text-[#2563eb] dark:text-blue-400 hover:underline">Mainboard vs SME</a>
+            <a href="#strategies" className="text-[#2563eb] dark:text-blue-400 hover:underline">Advanced Strategies</a>
+            <a href="#faqs" className="text-[#2563eb] dark:text-blue-400 hover:underline">FAQs</a>
           </div>
         </div>
 
@@ -101,7 +101,7 @@ export default function WhatIsIpoGmpPage() {
               The estimated listing price is calculated using a simple formula:
             </p>
 
-            <div className="bg-white border border-[#e2e8f0] rounded-lg p-4 text-sm font-medium text-[#0f172a]">
+            <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4 text-sm font-medium text-[#0f172a] dark:text-slate-100">
               Estimated Listing Price = Issue Price + GMP
             </div>
 
@@ -141,7 +141,7 @@ export default function WhatIsIpoGmpPage() {
             <p>
               Investors often compare GMP with official subscription data before
               applying. You can track upcoming IPO timelines using the{" "}
-              <Link href="/ipo-calendar" className="text-[#2563eb] underline">
+              <Link href="/ipo-calendar" className="text-[#2563eb] dark:text-blue-400 underline">
                 IPO Calendar
               </Link>{" "}
               and analyze IPO details through individual IPO pages.
@@ -255,8 +255,8 @@ export default function WhatIsIpoGmpPage() {
           <Section title="Current IPOs Where GMP Is Being Tracked">
             <p>
               Grey Market Premium becomes meaningful only when observed alongside live IPO data. You can review
-              currently active public issues on the <Link href="/ipo" className="text-[#2563eb] underline">IPO listings page</Link>
-              and monitor real-time sentiment through the <Link href="/gmp" className="text-[#2563eb] underline">IPO GMP tracker</Link>.
+              currently active public issues on the <Link href="/ipo" className="text-[#2563eb] dark:text-blue-400 underline">IPO listings page</Link>
+              and monitor real-time sentiment through the <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">IPO GMP tracker</Link>.
             </p>
             <p>
               Comparing live subscription demand, price band, and grey market movement together
@@ -266,26 +266,26 @@ export default function WhatIsIpoGmpPage() {
 
           <Section id="faqs" title="Frequently Asked Questions (FAQs)">
             <h3 className="font-semibold mt-4">What does positive GMP indicate?</h3>
-            <p className="text-[#475569] mt-1">
+            <p className="text-[#475569] dark:text-slate-400 mt-1">
               A positive GMP suggests that investors expect the IPO to list above
               the issue price.
             </p>
 
             <h3 className="font-semibold mt-4">Can IPO GMP be negative?</h3>
-            <p className="text-[#475569] mt-1">
+            <p className="text-[#475569] dark:text-slate-400 mt-1">
               Yes. Negative GMP indicates expected listing below the issue price.
             </p>
 
             <h3 className="font-semibold mt-4">Is IPO GMP legal?</h3>
-            <p className="text-[#475569] mt-1">
+            <p className="text-[#475569] dark:text-slate-400 mt-1">
               Grey market activity exists informally. It is not part of official
               exchange mechanisms.
             </p>
 
             <h3 className="font-semibold mt-4">Where can I track live GMP updates?</h3>
-            <p className="text-[#475569] mt-1">
+            <p className="text-[#475569] dark:text-slate-400 mt-1">
               You can track updated values on the{" "}
-              <Link href="/gmp" className="text-[#2563eb] underline">
+              <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">
                 IPO GMP Tracker
               </Link>.
             </p>
@@ -293,7 +293,7 @@ export default function WhatIsIpoGmpPage() {
 
         </div>
 
-        <div className="mt-12 text-xs text-[#64748b] bg-[#f1f5f9] border border-[#e2e8f0] rounded-lg p-4">
+        <div className="mt-12 text-xs text-[#64748b] dark:text-slate-400 bg-[#f1f5f9] dark:bg-[#1e293b] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4">
           IPOCraft provides informational content only and is not registered
           with SEBI. IPO GMP is unofficial market information and should not be
           considered investment advice. Investors must verify details from
@@ -370,14 +370,15 @@ function Section({ id, title, children }: any) {
   return (
     <div id={id} className="scroll-mt-40 sm:scroll-mt-44">
       <h2
-        className="text-xl sm:text-2xl font-semibold mb-4"
-        style={{ fontFamily: "var(--font-playfair)" }}
+        className="text-xl sm:text-2xl font-semibold mb-4 text-[#0f172a] dark:text-white"
+        style={{ fontFamily: "var(--font-outfit)" }}
       >
         {title}
       </h2>
-      <div className="text-[15px] text-[#475569] leading-relaxed space-y-3">
+      <div className="text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed space-y-3">
         {children}
       </div>
     </div>
   );
 }
+

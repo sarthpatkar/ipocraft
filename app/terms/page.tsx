@@ -56,30 +56,24 @@ const inter = Inter({
 export default function TermsPage() {
   return (
     <main
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] text-[#0f172a]`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-[#e2e8f0] bg-gradient-to-br from-white via-[#f8fafc] to-[#eef2ff]">
-        {/* Animated background */}
-        <div className="absolute inset-0 opacity-[0.4] pointer-events-none">
-          <div className="absolute -top-24 -left-24 w-72 h-72 bg-blue-200 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-indigo-200 rounded-full blur-3xl animate-pulse" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
-          <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] mb-3">
-            Legal & Platform Terms
+      <section className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12 lg:py-14">
+          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] dark:text-[#3B82F6] mb-2">
+            Legal &amp; Platform Terms
           </p>
 
           <h1
-            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight text-[#0f172a] dark:text-white"
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
-            Terms & Conditions — IPOCraft
+            Terms &amp; Conditions — IPOCraft
           </h1>
 
-          <p className="mt-4 max-w-2xl text-sm sm:text-[15px] text-[#475569] leading-relaxed">
+          <p className="mt-4 max-w-2xl text-sm sm:text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed">
             These terms govern the use of IPOCraft, an informational platform
             providing IPO‑related data including Grey Market Premium (GMP)
             trends, subscription statistics, IPO timelines, and public issue
@@ -88,13 +82,13 @@ export default function TermsPage() {
 
           {/* Trust badges */}
           <div className="flex flex-wrap gap-3 mt-6 text-xs">
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
               Public Data Sources
             </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
               Transparency First
             </span>
-            <span className="bg-white border border-[#e2e8f0] px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
               Informational Platform
             </span>
           </div>
@@ -103,7 +97,7 @@ export default function TermsPage() {
 
       {/* CONTENT */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-14 space-y-8">
-        <p className="text-[#475569] leading-relaxed text-sm sm:text-base">
+        <p className="text-[#475569] dark:text-slate-400 leading-relaxed text-sm sm:text-base">
           By accessing and using IPOCraft ("we", "our", "platform"), you agree
           to comply with and be bound by the following terms and conditions. If
           you do not agree with any part of these terms, you should discontinue
@@ -132,7 +126,7 @@ export default function TermsPage() {
           >
             Grey Market Premium Disclaimer
           </h2>
-          <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
+          <p className="text-[#475569] dark:text-slate-400 text-sm sm:text-base leading-relaxed">
             Grey Market Premium (GMP) data displayed on IPOCraft represents
             informal market sentiment gathered from publicly discussed sources
             and should not be interpreted as an indicator of listing performance
@@ -173,7 +167,7 @@ export default function TermsPage() {
           >
             Compliance & Data Transparency
           </h2>
-          <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
+          <p className="text-[#475569] dark:text-slate-400 text-sm sm:text-base leading-relaxed">
             IPOCraft aims to follow applicable data protection principles
             including transparency, minimal data collection, and responsible use
             of publicly available financial information. We do not sell personal
@@ -182,7 +176,7 @@ export default function TermsPage() {
         </div>
 
         {/* Disclaimer box */}
-        <div className="bg-[#f1f5f9] border border-[#e2e8f0] rounded-lg p-4 text-xs text-[#64748b] leading-relaxed">
+        <div className="bg-[#f1f5f9] dark:bg-[#1e293b] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4 text-xs text-[#64748b] dark:text-slate-400 leading-relaxed">
           IPOCraft is an informational platform and is not registered with SEBI
           or any financial regulatory authority. This content does not
           constitute investment advice, recommendations, or solicitation. Users
@@ -198,13 +192,13 @@ export default function TermsPage() {
           >
             Contact
           </h2>
-          <p className="text-[#475569] text-sm sm:text-base">
+          <p className="text-[#475569] dark:text-slate-400 text-sm sm:text-base">
             For legal or policy related questions regarding these terms:
           </p>
           <p className="font-medium">contact@ipocraft.com</p>
         </div>
 
-        <p className="text-xs sm:text-sm text-[#64748b] pt-6 border-t">
+        <p className="text-xs sm:text-sm text-[#64748b] dark:text-slate-400 pt-6 border-t">
           Last updated:{" "}
           {new Date().toLocaleDateString("en-GB", {
             day: "numeric",
@@ -226,7 +220,7 @@ function Section({ title, text }: { title: string; text: string }) {
       >
         {title}
       </h2>
-      <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
+      <p className="text-[#475569] dark:text-slate-400 text-sm sm:text-base leading-relaxed">
         {text}
       </p>
     </section>

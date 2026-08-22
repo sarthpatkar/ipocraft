@@ -38,9 +38,9 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
   const date = item?.payload?.fullDate ?? "Unknown";
 
   return (
-    <div className="rounded-md border border-[#dbe4f0] bg-white px-3 py-2 shadow-sm">
-      <p className="text-[11px] font-medium text-[#0f172a]">{date}</p>
-      <p className="text-[11px] text-[#1e3a8a] font-semibold mt-0.5">
+    <div className="rounded-md border border-[#dbe4f0] dark:border-[#1e293b] bg-white dark:bg-[#111827] px-3 py-2 shadow-sm">
+      <p className="text-[11px] font-medium text-[#0f172a] dark:text-slate-100">{date}</p>
+      <p className="text-[11px] text-[#1e3a8a] dark:text-blue-300 font-semibold mt-0.5">
         GMP: ₹{typeof value === "number" ? value.toLocaleString("en-IN") : "—"}
       </p>
     </div>
@@ -51,7 +51,7 @@ export default function GMPChart({ data }: Props) {
   if (!data || data.length === 0) {
     return (
       <div className="h-[210px] w-full min-w-0 flex items-center justify-center">
-        <p className="text-[12px] text-[#94a3b8] text-center">
+        <p className="text-[12px] text-[#94a3b8] dark:text-slate-500 text-center">
           No GMP data yet. Updates will appear once available.
         </p>
       </div>
