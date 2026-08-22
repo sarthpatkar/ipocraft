@@ -12,6 +12,7 @@ import TimelineTracker from "@/components/IpoDetail/TimelineTracker";
 import ProfitCalculator from "@/components/IpoDetail/ProfitCalculator";
 import AllotmentCalculator from "@/components/IpoDetail/AllotmentCalculator";
 import GlossaryTooltip from "@/components/GlossaryTooltip";
+import DataFreshnessBar from "@/components/DataFreshnessBar";
 import { cache } from "react";
 
 const getCachedIpoBySlug = cache(async (slug: string) => {
@@ -1067,7 +1068,10 @@ export default async function IPODetail({
                 </h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
-                {importantLinks.map((link) => (
+                {[
+                  ...importantLinks,
+                  ...(ipo.nse_info_url ? [{ label: "NSE Info Page", href: ipo.nse_info_url }] : []),
+                ].map((link) => (
                   <div key={link.label} className="space-y-1.5">
                     <DataLabel>{link.label}</DataLabel>
                     {link.href ? (
@@ -1092,6 +1096,49 @@ export default async function IPODetail({
                 ))}
               </div>
             </section>
+
+            {/* In the News — from IPOAlerts media_links enrichment */}
+            {(() => {
+              let mediaLinks: string[] = [];
+              try {
+                if (ipo.media_links) mediaLinks = JSON.parse(ipo.media_links);
+              } catch {}
+              if (mediaLinks.length === 0) return null;
+              return (
+                <section className="bg-white border border-[#e2e8f0] rounded-lg p-6 md:p-8 space-y-4 mb-10 sm:mb-12">
+                  <div className="pb-4 border-b border-[#f1f5f9]">
+                    <Eyebrow>Media Coverage</Eyebrow>
+                    <h2
+                      className="text-[1.35rem] sm:text-[1.5rem] font-semibold text-[#0f172a] leading-snug"
+                      style={{ fontFamily: "var(--font-outfit)" }}
+                    >
+                      In the News
+                    </h2>
+                  </div>
+                  <ul className="space-y-2">
+                    {mediaLinks.map((href, i) => {
+                      let domain = "";
+                      try { domain = new URL(href).hostname.replace(/^www\./, ""); } catch {}
+                      return (
+                        <li key={i} className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
+                          <a
+                            href={href}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="text-[13.5px] font-medium text-[#2563eb] hover:text-[#1e3a8a] transition-colors truncate"
+                            style={{ fontFamily: "var(--font-inter)" }}
+                          >
+                            {domain || `Coverage ${i + 1}`} ↗
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
+              );
+            })()}
+
 
             {/* Listing Performance */}
             {ipo.status === "Listed" && (
@@ -1307,13 +1354,14 @@ export default async function IPODetail({
               </div>
               <div className="px-5 py-2 divide-y divide-[#f8fafc]">
                 {[
-                  { label: "Issue Size", value: valueOrDash(ipo.issue_size) },
-                  { label: "IPO Type", value: valueOrDash(ipo.ipo_type) },
-                  { label: "Face Value", value: ipo.face_value ? `₹${ipo.face_value}` : "—" },
-                  { label: "Lead Managers", value: valueOrDash(ipo.lead_managers) },
-                  { label: "Registrar", value: valueOrDash(ipo.registrar) },
-                  { label: "Exchange", value: valueOrDash(ipo.exchange || ipo.listing_exchange || "NSE, BSE") },
-                  { label: "Min. Investment", value: minInvestment },
+                  { label: "Issue Size", value: valueOrDash(ipo.issue_size), isLink: false },
+                  { label: "IPO Type", value: valueOrDash(ipo.ipo_type), isLink: false },
+                  { label: "Face Value", value: ipo.face_value ? `₹${ipo.face_value}` : "—", isLink: false },
+                  { label: "Lead Managers", value: valueOrDash(ipo.lead_managers), isLink: false },
+                  { label: "Registrar", value: valueOrDash(ipo.registrar), isLink: false },
+                  { label: "Exchange", value: valueOrDash(ipo.exchange || ipo.listing_exchange || "NSE, BSE"), isLink: false },
+                  { label: "Min. Investment", value: minInvestment, isLink: false },
+                  ...(ipo.nse_info_url ? [{ label: "NSE Info", value: ipo.nse_info_url, isLink: true }] : []),
                 ].map((row) => (
                   <div key={row.label} className="flex items-start justify-between gap-3 py-3">
                     <p
@@ -1322,12 +1370,24 @@ export default async function IPODetail({
                     >
                       {row.label}
                     </p>
-                    <p
-                      className="text-[12px] font-medium text-[#0f172a] text-right"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      {row.value}
-                    </p>
+                    {row.isLink ? (
+                      <a
+                        href={row.value}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="text-[12px] font-medium text-[#2563eb] hover:underline text-right"
+                        style={{ fontFamily: "var(--font-inter)" }}
+                      >
+                        View on NSE ↗
+                      </a>
+                    ) : (
+                      <p
+                        className="text-[12px] font-medium text-[#0f172a] text-right"
+                        style={{ fontFamily: "var(--font-inter)" }}
+                      >
+                        {row.value}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>

@@ -12,7 +12,7 @@ export type IPOListItem = {
   exchange: string | null;
   sector: string | null;
   status: string | null;
-  ipo_type?: string | null; // Mainboard or SME
+  ipo_type?: string | null;
   price_min: number | null;
   price_max: number | null;
   gmp: number | null;
@@ -21,15 +21,16 @@ export type IPOListItem = {
   close_date: string | null;
   allotment_date?: string | null;
   listing_date?: string | null;
-  allotment_status?: string | null; // "out" | null
-  allotment_out?: boolean | null; // true when admin marks allotment out
+  allotment_status?: string | null;
+  allotment_out?: boolean | null;
   sub_total: string | number | null;
   sub_qib?: string | number | null;
   sub_rii?: string | number | null;
   issue_size?: string | number | null;
   allotment_link?: string | null;
-  issue_price?: number | null; // usually same as price_max
-  listing_price?: number | null; // exact listing price on exchange
+  issue_price?: number | null;
+  listing_price?: number | null;
+  listing_gain?: string | null;       // From IPOAlerts enrichment
   subscription_updated_at?: string | null;
   updated_at?: string | null;
 };
@@ -46,16 +47,81 @@ function calculateStatus(
   closeDate: string | null
 ): string {
   if (!openDate || !closeDate) return "Upcoming";
-
   const today = new Date();
   const open = new Date(openDate);
   const close = new Date(closeDate);
-
   if (today < open) return "Upcoming";
   if (today >= open && today <= close) return "Open";
   if (today > close) return "Closed";
-
   return "Upcoming";
+}
+
+function getLocalDateStr(date = new Date()): string {
+  // IST = UTC+5:30
+  const ist = new Date(date.getTime() + 5.5 * 60 * 60 * 1000);
+  return ist.toISOString().slice(0, 10);
+}
+
+function getUrgencyChip(ipo: IPOListItem): { text: string; className: string } | null {
+  const todayIST = getLocalDateStr();
+  const tomorrowIST = getLocalDateStr(new Date(Date.now() + 24 * 60 * 60 * 1000));
+  const in2Days = getLocalDateStr(new Date(Date.now() + 2 * 24 * 60 * 60 * 1000));
+
+  if (ipo.close_date === todayIST) {
+    return {
+      text: "⚡ Closes Today",
+      className: "bg-red-50 text-red-600 border border-red-200 animate-pulse",
+    };
+  }
+  if (ipo.close_date === tomorrowIST) {
+    return {
+      text: "Closes Tomorrow",
+      className: "bg-orange-50 text-orange-600 border border-orange-200",
+    };
+  }
+  if (ipo.open_date === todayIST) {
+    return {
+      text: "🟢 Opens Today",
+      className: "bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse",
+    };
+  }
+  if (ipo.open_date === tomorrowIST) {
+    return {
+      text: "Opens Tomorrow",
+      className: "bg-blue-50 text-blue-700 border border-blue-200",
+    };
+  }
+  if (ipo.open_date === in2Days) {
+    return {
+      text: "Opens in 2 Days",
+      className: "bg-indigo-50 text-indigo-600 border border-indigo-200",
+    };
+  }
+  return null;
+}
+
+function gmpAgeText(updatedAt?: string | null): string | null {
+  if (!updatedAt) return null;
+  const diffMs = Date.now() - new Date(updatedAt).getTime();
+  if (diffMs < 0) return null;
+  const mins = Math.floor(diffMs / 60_000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  return `${hrs}h ago`;
+}
+
+function getListingGainBadge(listingGain?: string | null) {
+  if (!listingGain) return null;
+  const num = parseFloat(listingGain);
+  if (isNaN(num)) return null;
+  const isPositive = num >= 0;
+  return {
+    text: `${isPositive ? "+" : ""}${num.toFixed(1)}% Listed`,
+    className: isPositive
+      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+      : "bg-rose-50 text-rose-600 border border-rose-200",
+  };
 }
 
 function isListed4pmIST(listingDate: string | null | undefined): boolean {
@@ -168,17 +234,21 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
   const isStarred = isInWatchlist(ipo.slug);
   const displayStatus = getFinalStatus(ipo);
-
-  const statusStyle =
-    STATUS_STYLES[displayStatus] ?? STATUS_STYLES.Listed;
-
+  const statusStyle = STATUS_STYLES[displayStatus] ?? STATUS_STYLES.Listed;
   const allotmentBadge = getAllotmentBadge(ipo);
+  const urgencyChip = getUrgencyChip(ipo);
+  const gmpAge = gmpAgeText(ipo.updated_at);
 
   const listedReturnBadge = getListedReturnBadge(
     ipo.listing_date,
     ipo.listing_price,
     ipo.issue_price ?? ipo.price_max ?? null
   );
+
+  // If we have enriched listing_gain from IPOAlerts, prefer that over computed
+  const listingGainBadge = displayStatus === "Listed"
+    ? (getListingGainBadge(ipo.listing_gain) ?? listedReturnBadge)
+    : listedReturnBadge;
 
   const isAllotmentOut =
     Boolean(ipo.allotment_out) ||
@@ -221,7 +291,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           {ipo.exchange ?? "—"}
           {ipo.sector ? ` · ${ipo.sector}` : ""}
         </p>
-        {/* Badges — wrap naturally below the name */}
+        {/* Badges */}
         <div className="flex flex-wrap items-center gap-1.5">
           {ipo.ipo_type && (
             <span className="inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
@@ -240,11 +310,20 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
               {allotmentBadge.text}
             </span>
           )}
-          {listedReturnBadge && (
+          {/* Urgency chip — Closes Today / Opens Today etc */}
+          {urgencyChip && displayStatus !== "Listed" && (
             <span
-              className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${listedReturnBadge.className}`}
+              className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${urgencyChip.className}`}
             >
-              Listed: {listedReturnBadge.text}
+              {urgencyChip.text}
+            </span>
+          )}
+          {/* Listing gain badge — replaces listedReturn for Listed IPOs */}
+          {listingGainBadge && (
+            <span
+              className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded ${listingGainBadge.className}`}
+            >
+              {listingGainBadge.text}
             </span>
           )}
         </div>
@@ -289,30 +368,35 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
             {ipo.lot_size != null ? `${ipo.lot_size} shares` : "—"}
           </p>
         </div>
-        <div>
-          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5 flex items-center gap-1.5">
-            <GlossaryTooltip term="GMP">GMP</GlossaryTooltip>
-            {ipo.gmp != null && (displayStatus === "Open" || displayStatus === "Upcoming") && (
-              <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded border border-blue-200">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                LIVE
-              </span>
-            )}
-          </p>
-          <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${ipo.gmp != null
-              ? ipo.gmp >= 0
-                ? "gmp-positive"
-                : "gmp-negative"
-              : "text-[#0f172a]"
+          <div>
+            <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5 flex items-center gap-1.5">
+              <GlossaryTooltip term="GMP">GMP</GlossaryTooltip>
+              {ipo.gmp != null && (displayStatus === "Open" || displayStatus === "Upcoming") && (
+                <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded border border-blue-200">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                  LIVE
+                </span>
+              )}
+            </p>
+            <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1 ${
+              ipo.gmp != null
+                ? ipo.gmp >= 0 ? "gmp-positive" : "gmp-negative"
+                : "text-[#0f172a]"
             }`}>
-            {ipo.gmp != null ? `₹${ipo.gmp.toLocaleString("en-IN")}` : "—"}
-            {ipo.gmp != null && ipo.price_max && (
-              <span className={`text-[10px] px-1 py-0.5 rounded ml-1 ${ipo.gmp >= 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
-              </span>
+              {ipo.gmp != null ? `₹${ipo.gmp.toLocaleString("en-IN")}` : "—"}
+              {ipo.gmp != null && ipo.price_max && (
+                <span className={`text-[10px] px-1 py-0.5 rounded ml-1 ${
+                  ipo.gmp >= 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                }`}>
+                  {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
+                </span>
+              )}
+            </p>
+            {/* GMP freshness timestamp */}
+            {gmpAge && (displayStatus === "Open" || displayStatus === "Upcoming") && (
+              <p className="text-[9.5px] text-[#94a3b8] mt-0.5">Updated {gmpAge}</p>
             )}
-          </p>
-        </div>
+          </div>
         <div>
           <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#64748b] mb-1.5 flex items-center gap-1 group/tooltip relative w-fit">
             Hype Score

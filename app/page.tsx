@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Outfit, Inter } from "next/font/google";
 import WatchlistFilterWrapper from "@/components/WatchlistFilterWrapper";
 import BrokerList from "@/components/BrokerList";
+import DataFreshnessBar from "@/components/DataFreshnessBar";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { canonicalUrl } from "@/lib/site-url";
@@ -83,6 +84,17 @@ export default async function Home({
     type: params?.type,
     q: params?.search,
   });
+
+  // Fetch the most recent IPO updated_at for the freshness bar
+  const { data: freshRecord } = await supabase
+    .from("ipos")
+    .select("updated_at")
+    .not("updated_at", "is", null)
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const lastUpdatedAt = freshRecord?.updated_at ?? null;
+
   const showMoreHref = buildHomeShowMoreHref({
     status: params?.status,
     type: params?.type,
@@ -162,6 +174,9 @@ export default async function Home({
           </div>
         </div>
       </section>
+
+      {/* ── Data Freshness Bar ── */}
+      <DataFreshnessBar lastUpdatedAt={lastUpdatedAt} syncIntervalMinutes={30} />
 
       <section className="bg-[#f8fafc] border-b border-[#e2e8f0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-10 sm:pt-12 pb-12 sm:pb-14">

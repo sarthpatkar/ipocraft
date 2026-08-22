@@ -121,7 +121,8 @@ export async function syncFinApiIpos(
           if (item.sub_qib !== null) updatePayload.sub_qib = item.sub_qib;
           if (item.sub_nii !== null) updatePayload.sub_nii = item.sub_nii;
           if (item.sub_rii !== null) updatePayload.sub_rii = item.sub_rii;
-          if (item.sub_total !== null || item.sub_rii !== null) {
+          const hasSubData = item.sub_total !== null || item.sub_rii !== null;
+          if (hasSubData) {
             updatePayload.subscription_updated_at = nowIso;
           }
 
@@ -172,6 +173,25 @@ export async function syncFinApiIpos(
           } else {
             updatedCount++;
 
+            // ── Subscription History Snapshot ──────────────────────────────
+            // Write a day-wise snapshot row so the detail page table is populated.
+            // Uses upsert on (ipo_id, day) — safe to run multiple times per day.
+            if (hasSubData) {
+              const today = nowIso.slice(0, 10); // YYYY-MM-DD
+              await supabase.from("subscription_history").upsert(
+                {
+                  ipo_id: matched.id,
+                  day: today,
+                  qib: item.sub_qib,
+                  nii: item.sub_nii,
+                  rii: item.sub_rii,
+                  total: item.sub_total,
+                },
+                { onConflict: "ipo_id,day" }
+              );
+            }
+
+            // ── GMP History ────────────────────────────────────────────────
             // Sync GMP Trends into gmp_history
             if (item.gmpTrends && item.gmpTrends.length > 0) {
               const pointsToInsert = item.gmpTrends.map((t) => ({
@@ -203,14 +223,25 @@ export async function syncFinApiIpos(
                   gmpPointsCount += newPoints.length;
                 }
               }
-            } else if (item.gmp !== null && item.gmp !== matched.gmp) {
-              // Add single GMP point if value changed and no trends provided
-              await supabase.from("gmp_history").insert({
-                ipo_id: matched.id,
-                gmp: item.gmp,
-                created_at: nowIso,
-              });
-              gmpPointsCount++;
+            } else if (item.gmp !== null) {
+              // Always record current GMP value in history for rich chart data
+              // Deduplication: only insert if no record exists for this exact hour
+              const currentHour = nowIso.slice(0, 13); // YYYY-MM-DDTHH
+              const { data: recentGmp } = await supabase
+                .from("gmp_history")
+                .select("created_at")
+                .eq("ipo_id", matched.id)
+                .gte("created_at", `${currentHour}:00:00Z`)
+                .limit(1);
+
+              if (!recentGmp || recentGmp.length === 0) {
+                await supabase.from("gmp_history").insert({
+                  ipo_id: matched.id,
+                  gmp: item.gmp,
+                  created_at: nowIso,
+                });
+                gmpPointsCount++;
+              }
             }
           }
         } else {
