@@ -275,13 +275,13 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[650px]">
             <thead>
-              <tr className="bg-gray-50/75 dark:bg-[#171B20]/75 border-b border-gray-200 dark:border-[#252A31]">
-                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#64748B] dark:text-[#9AA1AA] uppercase tracking-wider">Company</th>
-                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#64748B] dark:text-[#9AA1AA] uppercase tracking-wider">Listing Date</th>
-                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#64748B] dark:text-[#9AA1AA] uppercase tracking-wider text-right">Issue Price</th>
-                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#64748B] dark:text-[#9AA1AA] uppercase tracking-wider text-right">Listing Price</th>
-                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#64748B] dark:text-[#9AA1AA] uppercase tracking-wider text-right">Listing Gain</th>
-                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#64748B] dark:text-[#9AA1AA] uppercase tracking-wider text-right">Details</th>
+              <tr className="bg-[#f8fafc] dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31]">
+                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">Company</th>
+                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">Listing Date</th>
+                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider text-right">Issue Price</th>
+                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider text-right">Listing Price</th>
+                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider text-right">Listing Gain</th>
+                <th className="py-2.5 px-4 text-[11.5px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider text-right">Details</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-[#252A31]">

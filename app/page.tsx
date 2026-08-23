@@ -500,7 +500,7 @@ export default async function Home({
                     <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
                       {topSubItem.name}
                     </p>
-                    <p className="text-[22px] font-bold text-[#1e3a8a] dark:text-[#F1F3F5] tabular-nums mt-1">
+                    <p className="text-[22px] font-bold text-[#1C317A] dark:text-[#F1F3F5] tabular-nums mt-1">
                       {parseFloat(String(topSubItem.sub_total)).toFixed(1)}×
                     </p>
                     <p className="text-[11px] text-[#64748B] dark:text-[#9AA1AA]">Total subscription</p>

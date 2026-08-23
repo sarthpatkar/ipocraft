@@ -88,7 +88,7 @@ export default function SubscriptionChart({ history }: { history: SubHistory[] }
             <YAxis tick={{ fontSize: 11, fill: "#9AA1AA" }} axisLine={false} tickLine={false} unit="x" width={32} />
             <Tooltip content={<CustomTooltip />} />
             <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: "#9AA1AA" }} />
-            <Bar dataKey="QIB" fill="#3B82F6" radius={[3, 3, 0, 0]} />
+            <Bar dataKey="QIB" fill="#1C317A" radius={[3, 3, 0, 0]} />
             <Bar dataKey="NII" fill="#8B5CF6" radius={[3, 3, 0, 0]} />
             <Bar dataKey="Retail" fill="#10B981" radius={[3, 3, 0, 0]} />
           </BarChart>

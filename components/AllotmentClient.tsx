@@ -243,12 +243,12 @@ export default function AllotmentClient({ ipos }: { ipos: AllotmentIpo[] }) {
                     )}
 
                     {isDeclared ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-[10.5px] font-semibold border border-emerald-200 dark:border-emerald-800/50 shrink-0">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 text-[10.5px] font-semibold border border-emerald-200 dark:border-emerald-800/60 shrink-0">
                         <CheckBadgeIcon className="w-3.5 h-3.5" />
                         Allotment Out
                       </span>
                     ) : (
-                      <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[#171B20] text-slate-600 dark:text-[#9AA1AA] text-[10.5px] font-medium border border-slate-200 dark:border-[#252A31] shrink-0">
+                      <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[#171B20] text-slate-700 dark:text-[#9AA1AA] text-[10.5px] font-medium border border-slate-200 dark:border-[#252A31] shrink-0">
                         Awaiting
                       </span>
                     )}

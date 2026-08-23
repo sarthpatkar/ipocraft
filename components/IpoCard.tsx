@@ -37,10 +37,10 @@ export type IPOListItem = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/50",
-  Upcoming: "bg-gray-100 text-gray-700 border border-gray-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
-  Listed: "bg-gray-100 text-gray-700 border border-gray-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
-  Closed: "bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/50",
+  Open: "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60",
+  Upcoming: "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
+  Listed: "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
+  Closed: "bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/60",
 };
 
 function calculateStatus(

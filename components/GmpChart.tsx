@@ -40,8 +40,8 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
   return (
     <div className="rounded-md border border-[#dbe4f0] dark:border-[#1e293b] bg-white dark:bg-[#111827] px-3 py-2 shadow-sm">
       <p className="text-[11px] font-medium text-[#0f172a] dark:text-slate-100">{date}</p>
-      <p className="text-[11px] text-[#1e3a8a] dark:text-blue-300 font-semibold mt-0.5">
-        GMP: ₹{typeof value === "number" ? value.toLocaleString("en-IN") : "—"}
+      <p className="text-[11px] text-[#1C317A] dark:text-blue-300 font-semibold mt-0.5">
+        GMP: ₹{typeof value === "number" ? value.toLocaleString("en-IN") : "-"}
       </p>
     </div>
   );

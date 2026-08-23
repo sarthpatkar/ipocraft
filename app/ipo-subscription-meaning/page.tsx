@@ -51,7 +51,7 @@ export default function IpoSubscriptionMeaning() {
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <p className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#2563eb] dark:text-blue-400">
+        <p className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#1C317A] dark:text-blue-400">
           IPO Learning Guide
         </p>
 
@@ -89,25 +89,25 @@ export default function IpoSubscriptionMeaning() {
         >
           <p className="text-sm font-semibold mb-3">Jump to Section</p>
           <div className="grid sm:grid-cols-2 gap-2 text-sm">
-            <a href="#meaning" className="text-[#2563eb] dark:text-blue-400 hover:underline">
+            <a href="#meaning" className="text-[#1C317A] dark:text-blue-400 hover:underline">
               What IPO Subscription Means
             </a>
-            <a href="#oversub" className="text-[#2563eb] dark:text-blue-400 hover:underline">
+            <a href="#oversub" className="text-[#1C317A] dark:text-blue-400 hover:underline">
               Oversubscription
             </a>
-            <a href="#undersub" className="text-[#2563eb] dark:text-blue-400 hover:underline">
+            <a href="#undersub" className="text-[#1C317A] dark:text-blue-400 hover:underline">
               Undersubscription
             </a>
-            <a href="#categories" className="text-[#2563eb] dark:text-blue-400 hover:underline">
+            <a href="#categories" className="text-[#1C317A] dark:text-blue-400 hover:underline">
               Category-wise Subscription
             </a>
-            <a href="#impact" className="text-[#2563eb] dark:text-blue-400 hover:underline">
+            <a href="#impact" className="text-[#1C317A] dark:text-blue-400 hover:underline">
               Impact on Allotment
             </a>
-            <a href="#listing" className="text-[#2563eb] dark:text-blue-400 hover:underline">
+            <a href="#listing" className="text-[#1C317A] dark:text-blue-400 hover:underline">
               Impact on Listing
             </a>
-            <a href="#faq" className="text-[#2563eb] dark:text-blue-400 hover:underline">
+            <a href="#faq" className="text-[#1C317A] dark:text-blue-400 hover:underline">
               FAQs
             </a>
           </div>
@@ -224,7 +224,7 @@ export default function IpoSubscriptionMeaning() {
             </p>
             <p>
               For an in-depth understanding, see our guide on{" "}
-              <Link href="/how-ipo-allotment-works" className="text-[#2563eb] dark:text-blue-400 underline">
+              <Link href="/how-ipo-allotment-works" className="text-[#1C317A] dark:text-blue-400 underline">
                 how IPO allotment works
               </Link>.
             </p>
@@ -255,31 +255,31 @@ export default function IpoSubscriptionMeaning() {
           <Section id="faq" title="Frequently Asked Questions (FAQs)">
             <dl className="space-y-6">
               <div>
-                <dt className="font-semibold text-[#2563eb] dark:text-blue-400">What does 10x IPO subscription mean?</dt>
+                <dt className="font-semibold text-[#1C317A] dark:text-blue-400">What does 10x IPO subscription mean?</dt>
                 <dd className="mt-1 text-[#475569] dark:text-slate-400">
                   It means investors have applied for 10 times more shares than available in the IPO.
                 </dd>
               </div>
               <div>
-                <dt className="font-semibold text-[#2563eb] dark:text-blue-400">Does high IPO subscription guarantee listing gains?</dt>
+                <dt className="font-semibold text-[#1C317A] dark:text-blue-400">Does high IPO subscription guarantee listing gains?</dt>
                 <dd className="mt-1 text-[#475569] dark:text-slate-400">
                   No. High subscription reflects demand but listing depends on market conditions and institutional interest.
                 </dd>
               </div>
               <div>
-                <dt className="font-semibold text-[#2563eb] dark:text-blue-400">Can IPO subscription vary by category?</dt>
+                <dt className="font-semibold text-[#1C317A] dark:text-blue-400">Can IPO subscription vary by category?</dt>
                 <dd className="mt-1 text-[#475569] dark:text-slate-400">
                   Yes, subscription ratios often differ across retail, HNI, and QIB categories due to different investor bases and quotas.
                 </dd>
               </div>
               <div>
-                <dt className="font-semibold text-[#2563eb] dark:text-blue-400">How is IPO allotment decided in oversubscribed IPOs?</dt>
+                <dt className="font-semibold text-[#1C317A] dark:text-blue-400">How is IPO allotment decided in oversubscribed IPOs?</dt>
                 <dd className="mt-1 text-[#475569] dark:text-slate-400">
                   Retail allotment is usually done by lottery, while HNI and QIB allotments are proportional to bids.
                 </dd>
               </div>
               <div>
-                <dt className="font-semibold text-[#2563eb] dark:text-blue-400">Where can I check IPO subscription status?</dt>
+                <dt className="font-semibold text-[#1C317A] dark:text-blue-400">Where can I check IPO subscription status?</dt>
                 <dd className="mt-1 text-[#475569] dark:text-slate-400">
                   IPO subscription status is published daily on stock exchanges' websites and financial portals during the IPO period.
                 </dd>

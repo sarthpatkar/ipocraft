@@ -163,13 +163,13 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
       {/* ── Table ── */}
       <div className="w-full overflow-x-auto overscroll-x-contain rounded-lg border border-gray-200 dark:border-[#252A31]">
         <table className="min-w-[860px] w-full text-[13px]">
-          <thead className="bg-gray-50 dark:bg-[#171B20] sticky top-0">
+          <thead className="bg-[#f8fafc] dark:bg-[#171B20] sticky top-0">
             <tr className="text-left">
               {["IPO", "GMP", "Subscription", "Price Band", "Size", "Open", "Close", "Allotment", "Listing"].map(
                 (col) => (
                   <th
                     key={col}
-                    className="px-4 py-3 text-[10.5px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA] border-b border-gray-200 dark:border-[#252A31] whitespace-nowrap"
+                    className="px-4 py-3 text-[10.5px] font-semibold uppercase tracking-wider text-[#475569] dark:text-[#9AA1AA] border-b border-gray-200 dark:border-[#252A31] whitespace-nowrap"
                   >
                     {col}
                   </th>

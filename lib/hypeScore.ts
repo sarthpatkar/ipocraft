@@ -85,11 +85,11 @@ export function calculateHypeScore({
  * Returns a color class based on the hype score.
  */
 export function getHypeScoreColor(score: number): string {
-  if (score >= 80) return "text-emerald-500"; // Exceptional
-  if (score >= 60) return "text-green-500";   // Good
-  if (score >= 40) return "text-yellow-500";  // Average
-  if (score >= 20) return "text-orange-500";  // Poor
-  return "text-red-500";                      // Avoid
+  if (score >= 80) return "text-emerald-700 dark:text-emerald-400"; // Exceptional
+  if (score >= 60) return "text-teal-700 dark:text-teal-400";       // Good
+  if (score >= 40) return "text-amber-700 dark:text-amber-400";     // Average
+  if (score >= 20) return "text-orange-700 dark:text-orange-400";   // Poor
+  return "text-rose-700 dark:text-rose-400";                         // Avoid
 }
 
 /**

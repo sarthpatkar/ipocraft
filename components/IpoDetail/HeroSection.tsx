@@ -7,7 +7,7 @@ import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
     <p
-      className={`text-[10.5px] font-semibold tracking-[0.22em] uppercase mb-4 ${light ? "text-[#93c5fd]" : "text-[#2563eb] dark:text-blue-400"}`}
+      className={`text-[10.5px] font-semibold tracking-[0.22em] uppercase mb-4 ${light ? "text-[#93c5fd]" : "text-[#1C317A] dark:text-blue-400"}`}
       style={{ fontFamily: "var(--font-inter)" }}
     >
       {children}

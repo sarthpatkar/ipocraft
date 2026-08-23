@@ -175,6 +175,14 @@ export default function RootLayout({
                     <li><Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
                     <li><Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Use</Link></li>
                     <li><Link href="/sitemap.xml" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Sitemap</Link></li>
+                    <li>
+                      <Link href="/feedback" className="inline-flex items-center gap-1.5 text-[#1C317A] dark:text-[#93B4FF] font-medium hover:opacity-80 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h6m-6 4h10M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                        </svg>
+                        Share Feedback
+                      </Link>
+                    </li>
                   </ul>
                 </div>
 

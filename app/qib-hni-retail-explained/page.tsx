@@ -50,7 +50,7 @@ export default function InvestorCategoriesGuide() {
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <p className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#2563eb] dark:text-blue-400">
+        <p className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#1C317A] dark:text-blue-400">
           IPO Learning Guide
         </p>
 
@@ -119,12 +119,12 @@ export default function InvestorCategoriesGuide() {
         <div className="mt-8 sticky top-24 z-30 bg-white dark:bg-[#111827]/95 backdrop-blur border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 shadow-sm">
           <p className="text-sm font-semibold mb-3">Jump to Section</p>
           <div className="grid sm:grid-cols-2 gap-2 text-sm">
-            <a href="#overview" className="text-[#2563eb] dark:text-blue-400 hover:underline">Category Overview</a>
-            <a href="#retail" className="text-[#2563eb] dark:text-blue-400 hover:underline">Retail Investors</a>
-            <a href="#hni" className="text-[#2563eb] dark:text-blue-400 hover:underline">HNI / NII</a>
-            <a href="#qib" className="text-[#2563eb] dark:text-blue-400 hover:underline">QIB</a>
-            <a href="#allocation" className="text-[#2563eb] dark:text-blue-400 hover:underline">Allocation Rules</a>
-            <a href="#impact" className="text-[#2563eb] dark:text-blue-400 hover:underline">Impact on Listing</a>
+            <a href="#overview" className="text-[#1C317A] dark:text-blue-400 hover:underline">Category Overview</a>
+            <a href="#retail" className="text-[#1C317A] dark:text-blue-400 hover:underline">Retail Investors</a>
+            <a href="#hni" className="text-[#1C317A] dark:text-blue-400 hover:underline">HNI / NII</a>
+            <a href="#qib" className="text-[#1C317A] dark:text-blue-400 hover:underline">QIB</a>
+            <a href="#allocation" className="text-[#1C317A] dark:text-blue-400 hover:underline">Allocation Rules</a>
+            <a href="#impact" className="text-[#1C317A] dark:text-blue-400 hover:underline">Impact on Listing</a>
           </div>
         </div>
 
@@ -238,22 +238,22 @@ export default function InvestorCategoriesGuide() {
               <svg viewBox="0 0 800 200" className="min-w-[600px] w-full h-auto">
                 <defs>
                   <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto">
-                    <path d="M0,0 L0,6 L9,3 z" fill="#2563eb" />
+                    <path d="M0,0 L0,6 L9,3 z" fill="#1C317A" />
                   </marker>
                 </defs>
 
-                <rect x="20" y="70" width="180" height="50" rx="8" fill="#eef2ff" stroke="#2563eb" />
+                <rect x="20" y="70" width="180" height="50" rx="8" fill="#eef2ff" stroke="#1C317A" />
                 <text x="110" y="100" textAnchor="middle" fontSize="14" fill="#0f172a">Investor Bids</text>
 
-                <line x1="200" y1="95" x2="320" y2="95" stroke="#2563eb" strokeWidth="2" markerEnd="url(#arrow)" />
+                <line x1="200" y1="95" x2="320" y2="95" stroke="#1C317A" strokeWidth="2" markerEnd="url(#arrow)" />
 
-                <rect x="320" y="70" width="180" height="50" rx="8" fill="#f1f5f9" stroke="#2563eb" />
+                <rect x="320" y="70" width="180" height="50" rx="8" fill="#f1f5f9" stroke="#1C317A" />
                 <text x="410" y="90" textAnchor="middle" fontSize="13" fill="#0f172a">Category-wise</text>
                 <text x="410" y="108" textAnchor="middle" fontSize="13" fill="#0f172a">Tally (QIB / HNI / Retail)</text>
 
-                <line x1="500" y1="95" x2="620" y2="95" stroke="#2563eb" strokeWidth="2" markerEnd="url(#arrow)" />
+                <line x1="500" y1="95" x2="620" y2="95" stroke="#1C317A" strokeWidth="2" markerEnd="url(#arrow)" />
 
-                <rect x="620" y="70" width="160" height="50" rx="8" fill="#eef2ff" stroke="#2563eb" />
+                <rect x="620" y="70" width="160" height="50" rx="8" fill="#eef2ff" stroke="#1C317A" />
                 <text x="700" y="100" textAnchor="middle" fontSize="14" fill="#0f172a">Allotment Logic</text>
               </svg>
             </div>
@@ -268,7 +268,7 @@ export default function InvestorCategoriesGuide() {
               <li>Strong QIB demand late in bidding window is a positive signal.</li>
               <li>Retail-only oversubscription without QIB strength may indicate speculative interest.</li>
               <li>SME IPOs behave differently due to lower liquidity and market maker structure.</li>
-              <li>Compare subscription with Grey Market Premium trends on our <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">IPO GMP tracker</Link>.</li>
+              <li>Compare subscription with Grey Market Premium trends on our <Link href="/gmp" className="text-[#1C317A] dark:text-blue-400 underline">IPO GMP tracker</Link>.</li>
             </ul>
           </Section>
 
@@ -417,17 +417,17 @@ export default function InvestorCategoriesGuide() {
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>
-                <Link href="/ipo-subscription-meaning" className="text-[#2563eb] dark:text-blue-400 underline">
+                <Link href="/ipo-subscription-meaning" className="text-[#1C317A] dark:text-blue-400 underline">
                   IPO Subscription Meaning Guide
                 </Link>
               </li>
               <li>
-                <Link href="/how-ipo-allotment-works" className="text-[#2563eb] dark:text-blue-400 underline">
+                <Link href="/how-ipo-allotment-works" className="text-[#1C317A] dark:text-blue-400 underline">
                   How IPO Allotment Works
                 </Link>
               </li>
               <li>
-                <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">
+                <Link href="/gmp" className="text-[#1C317A] dark:text-blue-400 underline">
                   IPO GMP Tracker
                 </Link>
               </li>

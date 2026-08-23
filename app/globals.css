@@ -16,9 +16,9 @@
   /* Brand palette */
   --brand-50: #eef2ff;
   --brand-100: #e0e7ff;
-  --brand-500: #6366f1;
-  --brand-600: #4f46e5;
-  --brand-700: #4338ca;
+  --brand-500: #1C317A;
+  --brand-600: #1C317A;
+  --brand-700: #15255d;
 
   /* Accent for GMP positive/negative */
   --gmp-positive: #059669;
@@ -48,10 +48,10 @@
   /* Navbar */
   --nav-bg: rgba(255, 255, 255, 0.85);
   --nav-border: #e2e8f0;
-  --nav-active-bg: #1e3a8a;
+  --nav-active-bg: #1C317A;
   --nav-active-text: #ffffff;
   --nav-text: #374151;
-  --nav-text-hover: #1d4ed8;
+  --nav-text-hover: #1C317A;
 
   /* Table */
   --table-header-bg: #f8fafc;
@@ -145,6 +145,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
+  --color-blue-500: #1C317A;
+  --color-blue-600: #1C317A;
+  --color-blue-700: #15255d;
 }
 
 /* ─── Base Reset ──────────────────────────────────────────────────────────── */

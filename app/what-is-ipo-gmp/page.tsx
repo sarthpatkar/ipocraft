@@ -57,7 +57,7 @@ export default function WhatIsIpoGmpPage() {
 
         <p className="mt-4 text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed">
           On IPOCraft, investors can monitor{" "}
-          <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">
+          <Link href="/gmp" className="text-[#1C317A] dark:text-blue-400 underline">
             IPO GMP Today
           </Link>{" "}
           along with subscription data and IPO calendar timelines. However, GMP
@@ -71,12 +71,12 @@ export default function WhatIsIpoGmpPage() {
             On this page
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
-            <a href="#what-is-gmp" className="text-[#2563eb] dark:text-blue-400 hover:underline">What is IPO GMP</a>
-            <a href="#calculation" className="text-[#2563eb] dark:text-blue-400 hover:underline">How GMP is Calculated</a>
-            <a href="#reliability" className="text-[#2563eb] dark:text-blue-400 hover:underline">Is GMP Reliable?</a>
-            <a href="#mainboard-vs-sme" className="text-[#2563eb] dark:text-blue-400 hover:underline">Mainboard vs SME</a>
-            <a href="#strategies" className="text-[#2563eb] dark:text-blue-400 hover:underline">Advanced Strategies</a>
-            <a href="#faqs" className="text-[#2563eb] dark:text-blue-400 hover:underline">FAQs</a>
+            <a href="#what-is-gmp" className="text-[#1C317A] dark:text-blue-400 hover:underline">What is IPO GMP</a>
+            <a href="#calculation" className="text-[#1C317A] dark:text-blue-400 hover:underline">How GMP is Calculated</a>
+            <a href="#reliability" className="text-[#1C317A] dark:text-blue-400 hover:underline">Is GMP Reliable?</a>
+            <a href="#mainboard-vs-sme" className="text-[#1C317A] dark:text-blue-400 hover:underline">Mainboard vs SME</a>
+            <a href="#strategies" className="text-[#1C317A] dark:text-blue-400 hover:underline">Advanced Strategies</a>
+            <a href="#faqs" className="text-[#1C317A] dark:text-blue-400 hover:underline">FAQs</a>
           </div>
         </div>
 
@@ -141,7 +141,7 @@ export default function WhatIsIpoGmpPage() {
             <p>
               Investors often compare GMP with official subscription data before
               applying. You can track upcoming IPO timelines using the{" "}
-              <Link href="/ipo-calendar" className="text-[#2563eb] dark:text-blue-400 underline">
+              <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
                 IPO Calendar
               </Link>{" "}
               and analyze IPO details through individual IPO pages.
@@ -255,8 +255,8 @@ export default function WhatIsIpoGmpPage() {
           <Section title="Current IPOs Where GMP Is Being Tracked">
             <p>
               Grey Market Premium becomes meaningful only when observed alongside live IPO data. You can review
-              currently active public issues on the <Link href="/ipo" className="text-[#2563eb] dark:text-blue-400 underline">IPO listings page</Link>
-              and monitor real-time sentiment through the <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">IPO GMP tracker</Link>.
+              currently active public issues on the <Link href="/ipo" className="text-[#1C317A] dark:text-blue-400 underline">IPO listings page</Link>
+              and monitor real-time sentiment through the <Link href="/gmp" className="text-[#1C317A] dark:text-blue-400 underline">IPO GMP tracker</Link>.
             </p>
             <p>
               Comparing live subscription demand, price band, and grey market movement together
@@ -285,7 +285,7 @@ export default function WhatIsIpoGmpPage() {
             <h3 className="font-semibold mt-4">Where can I track live GMP updates?</h3>
             <p className="text-[#475569] dark:text-slate-400 mt-1">
               You can track updated values on the{" "}
-              <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">
+              <Link href="/gmp" className="text-[#1C317A] dark:text-blue-400 underline">
                 IPO GMP Tracker
               </Link>.
             </p>

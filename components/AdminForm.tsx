@@ -630,7 +630,7 @@ function FieldLabel({
 
   let bgClass = "";
   let badge = null;
-  
+
   if (hasExtraction) {
     if (autoFilled.has(name)) {
       bgClass = "bg-emerald-50/50 border-l-2 border-emerald-400 pl-3 py-1.5 -ml-3 rounded-r";
@@ -719,7 +719,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
     }
 
     setForm((prev) => ({ ...prev, ...validFields }));
-    
+
     setAutoFilledFields((prev) => {
       const next = new Set(prev);
       filledFieldsSet.forEach(f => next.add(f));
@@ -749,7 +749,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
 
     const checkJobStatus = async () => {
       if (completed) return; // Guard: don't run after job is done
-      
+
       const { data } = await supabase
         .from("extraction_jobs")
         .select("status, result, partial_result, warnings, error")
@@ -1454,1427 +1454,1426 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         noValidate
         className="flex h-full min-h-0 flex-col"
       >
-      <div className="shrink-0 border-b border-slate-200 bg-white dark:bg-[#111827] px-5 py-3">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div className="relative w-full max-w-md">
-            <label htmlFor="field-jump" className={`${LABEL_CLASS} mb-1 block`}>
-              Field Jump
-            </label>
-            <input
-              id="field-jump"
-              ref={jumpInputRef}
-              value={jumpQuery}
-              onFocus={() => setJumpOpen(true)}
-              onBlur={() => {
-                window.setTimeout(() => setJumpOpen(false), 120);
-              }}
-              onChange={(e) => {
-                setJumpQuery(e.target.value);
-                setJumpOpen(true);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  jumpToField(jumpQuery);
-                }
-              }}
-              placeholder="Press / then type field name"
-              className={INPUT_CLASS}
-              autoComplete="off"
-            />
-            {jumpOpen && jumpOptions.length > 0 && (
-              <div className="absolute z-30 mt-1 max-h-56 w-full overflow-y-auto rounded-md border border-slate-200 bg-white dark:bg-[#111827] shadow-lg">
-                {jumpOptions.map((item) => (
-                  <button
-                    key={item.name}
-                    type="button"
-                    onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => {
-                      focusField(item.name);
-                      setJumpOpen(false);
-                      setJumpQuery("");
-                    }}
-                    className="flex w-full flex-col items-start px-3 py-2 text-left hover:bg-slate-50"
-                  >
-                    <span className="text-sm font-medium text-slate-800">{item.label}</span>
-                    <span className="text-xs text-slate-500">{item.placeholder}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+        <div className="shrink-0 border-b border-slate-200 bg-white dark:bg-[#111827] px-5 py-3">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="relative w-full max-w-md">
+              <label htmlFor="field-jump" className={`${LABEL_CLASS} mb-1 block`}>
+                Field Jump
+              </label>
+              <input
+                id="field-jump"
+                ref={jumpInputRef}
+                value={jumpQuery}
+                onFocus={() => setJumpOpen(true)}
+                onBlur={() => {
+                  window.setTimeout(() => setJumpOpen(false), 120);
+                }}
+                onChange={(e) => {
+                  setJumpQuery(e.target.value);
+                  setJumpOpen(true);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    jumpToField(jumpQuery);
+                  }
+                }}
+                placeholder="Press / then type field name"
+                className={INPUT_CLASS}
+                autoComplete="off"
+              />
+              {jumpOpen && jumpOptions.length > 0 && (
+                <div className="absolute z-30 mt-1 max-h-56 w-full overflow-y-auto rounded-md border border-slate-200 bg-white dark:bg-[#111827] shadow-lg">
+                  {jumpOptions.map((item) => (
+                    <button
+                      key={item.name}
+                      type="button"
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => {
+                        focusField(item.name);
+                        setJumpOpen(false);
+                        setJumpQuery("");
+                      }}
+                      className="flex w-full flex-col items-start px-3 py-2 text-left hover:bg-slate-50"
+                    >
+                      <span className="text-sm font-medium text-slate-800">{item.label}</span>
+                      <span className="text-xs text-slate-500">{item.placeholder}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
-          <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
-            Shortcuts: Ctrl/Cmd + Arrows to move fields, Ctrl/Cmd + S to save, Esc to close, / to jump.
+            <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+              Shortcuts: Ctrl/Cmd + Arrows to move fields, Ctrl/Cmd + S to save, Esc to close, / to jump.
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-slate-50 px-5 py-4">
-        {/* ── RHP Upload Section ──────────────────────────────────────── */}
-        <section className="rounded-xl border border-dashed border-indigo-300 bg-indigo-50/50 p-5">
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="12" y1="18" x2="12" y2="12"/>
-                <line x1="9" y1="15" x2="15" y2="15"/>
-              </svg>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-sm font-semibold text-slate-800">Extract from RHP</h3>
-              <p className="mt-0.5 text-xs text-slate-500">
-                Upload a Red Herring Prospectus PDF to auto-fill form fields using AI extraction.
-                All fields are editable — please verify before saving.
-              </p>
-              <div className="mt-3 flex items-center gap-3">
-                <label
-                  htmlFor="rhp-upload"
-                  className={`inline-flex cursor-pointer items-center gap-2 rounded-md border border-indigo-300 bg-white dark:bg-[#111827] px-3 py-1.5 text-sm font-medium text-indigo-700 shadow-sm transition hover:bg-indigo-50 ${
-                    rhpLoading ? "pointer-events-none opacity-60" : ""
-                  }`}
-                >
-                  {rhpLoading ? (
-                    <>
-                      <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-                        <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" className="opacity-75" />
-                      </svg>
-                      {rhpStatusText} <span className="ml-2 font-mono text-xs opacity-75">({formatTime(elapsedSecs)})</span>
-                    </>
-                  ) : (
-                    "Choose RHP PDF"
-                  )}
-                </label>
-                <input
-                  id="rhp-upload"
-                  ref={rhpInputRef}
-                  type="file"
-                  accept=".pdf,application/pdf"
-                  onChange={handleRhpUpload}
-                  className="hidden"
-                  disabled={rhpLoading}
-                />
+        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-slate-50 px-5 py-4">
+          {/* ── RHP Upload Section ──────────────────────────────────────── */}
+          <section className="rounded-xl border border-dashed border-indigo-300 bg-indigo-50/50 p-5">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="12" y1="18" x2="12" y2="12" />
+                  <line x1="9" y1="15" x2="15" y2="15" />
+                </svg>
               </div>
-
-              {rhpError && (
-                <div className="mt-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
-                  ⚠️ {rhpError}
-                </div>
-              )}
-
-              {rhpMeta && (
-                <div className="mt-3 space-y-2">
-                  <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700">
-                    ✅ Extracted {rhpMeta.extractedFieldCount}/{rhpMeta.totalFieldCount} fields
-                    using {rhpMeta.provider} / {rhpMeta.model}.
-                    <span className="font-medium"> Please review all auto-filled fields before saving.</span>
-                  </div>
-                  {rhpMeta.warnings.length > 0 && (
-                    <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
-                      <p className="font-medium">⚠️ Validation warnings:</p>
-                      <ul className="mt-1 list-disc pl-4">
-                        {rhpMeta.warnings.map((w, i) => (
-                          <li key={i}>{w}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        <SectionCard
-          section={SECTION_CONFIG[0]}
-          expanded={expandedSections.essentials}
-          onToggle={toggleSection}
-          onRetry={currentFilePath ? () => handleReExtract() : undefined}
-          isRetrying={rhpLoading}
-        >
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              <FieldLabel name="name" helper="Required. Used for slug generation on new IPOs.">
-                <input
-                  id="name"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  ref={registerFieldRef("name")}
-                  autoFocus
-                  placeholder={FIELD_CONFIG_BY_NAME.name.placeholder}
-                  className={INPUT_CLASS}
-                  required
-                />
-              </FieldLabel>
-
-              <FieldLabel name="sector">
-                <input
-                  id="sector"
-                  name="sector"
-                  value={form.sector}
-                  onChange={handleChange}
-                  ref={registerFieldRef("sector")}
-                  placeholder={FIELD_CONFIG_BY_NAME.sector.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              <FieldLabel name="exchange">
-                <input
-                  id="exchange"
-                  name="exchange"
-                  value={form.exchange}
-                  onChange={handleChange}
-                  ref={registerFieldRef("exchange")}
-                  placeholder={FIELD_CONFIG_BY_NAME.exchange.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="ipo_type">
-                <select
-                  id="ipo_type"
-                  name="ipo_type"
-                  value={form.ipo_type}
-                  onChange={handleChange}
-                  ref={registerFieldRef("ipo_type")}
-                  className={INPUT_CLASS}
-                >
-                  <option value="mainboard">Mainboard</option>
-                  <option value="sme">SME</option>
-                </select>
-              </FieldLabel>
-
-              <FieldLabel name="status">
-                <select
-                  id="status"
-                  name="status"
-                  value={form.status}
-                  onChange={handleChange}
-                  ref={registerFieldRef("status")}
-                  className={INPUT_CLASS}
-                >
-                  <option value="">Select status</option>
-                  <option value="Open">Open</option>
-                  <option value="Upcoming">Upcoming</option>
-                  <option value="Listed">Listed</option>
-                  <option value="Closed">Closed</option>
-                </select>
-              </FieldLabel>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              <FieldLabel name="open_date">
-                <input
-                  id="open_date"
-                  name="open_date"
-                  type="date"
-                  value={form.open_date}
-                  onChange={handleChange}
-                  ref={registerFieldRef("open_date")}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="close_date">
-                <input
-                  id="close_date"
-                  name="close_date"
-                  type="date"
-                  value={form.close_date}
-                  onChange={handleChange}
-                  ref={registerFieldRef("close_date")}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="listing_date">
-                <input
-                  id="listing_date"
-                  name="listing_date"
-                  type="date"
-                  value={form.listing_date}
-                  onChange={handleChange}
-                  ref={registerFieldRef("listing_date")}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              <FieldLabel name="price_min">
-                <input
-                  id="price_min"
-                  name="price_min"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.price_min}
-                  onChange={handleChange}
-                  ref={registerFieldRef("price_min")}
-                  placeholder={FIELD_CONFIG_BY_NAME.price_min.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="price_max">
-                <input
-                  id="price_max"
-                  name="price_max"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.price_max}
-                  onChange={handleChange}
-                  ref={registerFieldRef("price_max")}
-                  placeholder={FIELD_CONFIG_BY_NAME.price_max.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="lot_size" helper="Used in lot amount auto-calculation.">
-                <input
-                  id="lot_size"
-                  name="lot_size"
-                  type="number"
-                  step="1"
-                  inputMode="numeric"
-                  value={form.lot_size}
-                  onChange={handleChange}
-                  ref={registerFieldRef("lot_size")}
-                  placeholder={FIELD_CONFIG_BY_NAME.lot_size.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
-              <FieldLabel name="gmp">
-                <input
-                  id="gmp"
-                  name="gmp"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.gmp}
-                  onChange={handleChange}
-                  ref={registerFieldRef("gmp")}
-                  placeholder={FIELD_CONFIG_BY_NAME.gmp.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="sub_total">
-                <input
-                  id="sub_total"
-                  name="sub_total"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.sub_total}
-                  onChange={handleChange}
-                  ref={registerFieldRef("sub_total")}
-                  placeholder={FIELD_CONFIG_BY_NAME.sub_total.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="sub_qib">
-                <input
-                  id="sub_qib"
-                  name="sub_qib"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.sub_qib}
-                  onChange={handleChange}
-                  ref={registerFieldRef("sub_qib")}
-                  placeholder={FIELD_CONFIG_BY_NAME.sub_qib.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="sub_nii">
-                <input
-                  id="sub_nii"
-                  name="sub_nii"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.sub_nii}
-                  onChange={handleChange}
-                  ref={registerFieldRef("sub_nii")}
-                  placeholder={FIELD_CONFIG_BY_NAME.sub_nii.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
-              <FieldLabel name="sub_rii">
-                <input
-                  id="sub_rii"
-                  name="sub_rii"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.sub_rii}
-                  onChange={handleChange}
-                  ref={registerFieldRef("sub_rii")}
-                  placeholder={FIELD_CONFIG_BY_NAME.sub_rii.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="sub_bhni">
-                <input
-                  id="sub_bhni"
-                  name="sub_bhni"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.sub_bhni}
-                  onChange={handleChange}
-                  ref={registerFieldRef("sub_bhni")}
-                  placeholder={FIELD_CONFIG_BY_NAME.sub_bhni.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="sub_shni">
-                <input
-                  id="sub_shni"
-                  name="sub_shni"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.sub_shni}
-                  onChange={handleChange}
-                  ref={registerFieldRef("sub_shni")}
-                  placeholder={FIELD_CONFIG_BY_NAME.sub_shni.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel
-                name="subscription_updated_at"
-                helper="Use your preferred timestamp format."
-              >
-                <input
-                  id="subscription_updated_at"
-                  name="subscription_updated_at"
-                  value={form.subscription_updated_at}
-                  onChange={handleChange}
-                  ref={registerFieldRef("subscription_updated_at")}
-                  placeholder={FIELD_CONFIG_BY_NAME.subscription_updated_at.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-            </div>
-
-            {(logo || description) && (
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-600">
-                  Auto Fetch Preview
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-slate-800">Extract from RHP</h3>
+                <p className="mt-0.5 text-xs text-slate-500">
+                  Upload a Red Herring Prospectus PDF to auto-fill form fields using AI extraction.
+                  All fields are editable — please verify before saving.
                 </p>
-                <div className="flex items-start gap-3">
-                  {logo && (
-                    <img
-                      src={logo}
-                      alt="Company logo"
-                      className="h-12 w-12 rounded border border-slate-200 object-contain bg-white dark:bg-[#111827]"
-                    />
-                  )}
-                  {description && <p className="text-sm text-slate-700">{description}</p>}
-                </div>
-              </div>
-            )}
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          section={SECTION_CONFIG[1]}
-          expanded={expandedSections.company_narrative}
-          onToggle={toggleSection}
-        >
-          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-            <FieldLabel name="about_company">
-              <textarea
-                id="about_company"
-                name="about_company"
-                value={form.about_company}
-                onChange={handleChange}
-                ref={registerFieldRef("about_company")}
-                placeholder={FIELD_CONFIG_BY_NAME.about_company.placeholder}
-                className={`${INPUT_CLASS} min-h-28`}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="objectives">
-              <textarea
-                id="objectives"
-                name="objectives"
-                value={form.objectives}
-                onChange={handleChange}
-                ref={registerFieldRef("objectives")}
-                placeholder={FIELD_CONFIG_BY_NAME.objectives.placeholder}
-                className={`${INPUT_CLASS} min-h-28`}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="company_strengths">
-              <textarea
-                id="company_strengths"
-                name="company_strengths"
-                value={form.company_strengths}
-                onChange={handleChange}
-                ref={registerFieldRef("company_strengths")}
-                placeholder={FIELD_CONFIG_BY_NAME.company_strengths.placeholder}
-                className={`${INPUT_CLASS} min-h-24`}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="company_risks">
-              <textarea
-                id="company_risks"
-                name="company_risks"
-                value={form.company_risks}
-                onChange={handleChange}
-                ref={registerFieldRef("company_risks")}
-                placeholder={FIELD_CONFIG_BY_NAME.company_risks.placeholder}
-                className={`${INPUT_CLASS} min-h-24`}
-              />
-            </FieldLabel>
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          section={SECTION_CONFIG[2]}
-          expanded={expandedSections.ownership_reservation}
-          onToggle={toggleSection}
-        >
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-            <FieldLabel name="promoter_holding_pre">
-              <input
-                id="promoter_holding_pre"
-                name="promoter_holding_pre"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.promoter_holding_pre}
-                onChange={handleChange}
-                ref={registerFieldRef("promoter_holding_pre")}
-                placeholder={FIELD_CONFIG_BY_NAME.promoter_holding_pre.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="promoter_holding_post">
-              <input
-                id="promoter_holding_post"
-                name="promoter_holding_post"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.promoter_holding_post}
-                onChange={handleChange}
-                ref={registerFieldRef("promoter_holding_post")}
-                placeholder={FIELD_CONFIG_BY_NAME.promoter_holding_post.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="reservation_qib">
-              <input
-                id="reservation_qib"
-                name="reservation_qib"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.reservation_qib}
-                onChange={handleChange}
-                ref={registerFieldRef("reservation_qib")}
-                placeholder={FIELD_CONFIG_BY_NAME.reservation_qib.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="reservation_nii">
-              <input
-                id="reservation_nii"
-                name="reservation_nii"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.reservation_nii}
-                onChange={handleChange}
-                ref={registerFieldRef("reservation_nii")}
-                placeholder={FIELD_CONFIG_BY_NAME.reservation_nii.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="reservation_rii">
-              <input
-                id="reservation_rii"
-                name="reservation_rii"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.reservation_rii}
-                onChange={handleChange}
-                ref={registerFieldRef("reservation_rii")}
-                placeholder={FIELD_CONFIG_BY_NAME.reservation_rii.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="reservation_employee">
-              <input
-                id="reservation_employee"
-                name="reservation_employee"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.reservation_employee}
-                onChange={handleChange}
-                ref={registerFieldRef("reservation_employee")}
-                placeholder={FIELD_CONFIG_BY_NAME.reservation_employee.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          section={SECTION_CONFIG[3]}
-          expanded={expandedSections.issue_details}
-          onToggle={toggleSection}
-          onRetry={currentFilePath ? () => handleReExtract() : undefined}
-          isRetrying={rhpLoading}
-        >
-          <div className="space-y-3">
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              <FieldLabel name="face_value">
-                <input
-                  id="face_value"
-                  name="face_value"
-                  value={form.face_value}
-                  onChange={handleChange}
-                  ref={registerFieldRef("face_value")}
-                  placeholder={FIELD_CONFIG_BY_NAME.face_value.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="issue_size">
-                <input
-                  id="issue_size"
-                  name="issue_size"
-                  value={form.issue_size}
-                  onChange={handleChange}
-                  ref={registerFieldRef("issue_size")}
-                  placeholder={FIELD_CONFIG_BY_NAME.issue_size.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="fresh_issue">
-                <input
-                  id="fresh_issue"
-                  name="fresh_issue"
-                  value={form.fresh_issue}
-                  onChange={handleChange}
-                  ref={registerFieldRef("fresh_issue")}
-                  placeholder={FIELD_CONFIG_BY_NAME.fresh_issue.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-            </div>
-
-            <FieldLabel name="anchor_investors">
-              <textarea
-                id="anchor_investors"
-                name="anchor_investors"
-                value={form.anchor_investors}
-                onChange={handleChange}
-                ref={registerFieldRef("anchor_investors")}
-                placeholder={FIELD_CONFIG_BY_NAME.anchor_investors.placeholder}
-                className={`${INPUT_CLASS} min-h-24`}
-              />
-            </FieldLabel>
-
-            {form.ipo_type === "sme" && (
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                <FieldLabel
-                  name="market_maker_shares_offered"
-                  helper="Shown only for SME IPOs."
-                >
+                <div className="mt-3 flex items-center gap-3">
+                  <label
+                    htmlFor="rhp-upload"
+                    className={`inline-flex cursor-pointer items-center gap-2 rounded-md border border-indigo-300 bg-white dark:bg-[#111827] px-3 py-1.5 text-sm font-medium text-indigo-700 shadow-sm transition hover:bg-indigo-50 ${rhpLoading ? "pointer-events-none opacity-60" : ""
+                      }`}
+                  >
+                    {rhpLoading ? (
+                      <>
+                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
+                          <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" className="opacity-75" />
+                        </svg>
+                        {rhpStatusText} <span className="ml-2 font-mono text-xs opacity-75">({formatTime(elapsedSecs)})</span>
+                      </>
+                    ) : (
+                      "Choose RHP PDF"
+                    )}
+                  </label>
                   <input
-                    id="market_maker_shares_offered"
-                    name="market_maker_shares_offered"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.market_maker_shares_offered}
+                    id="rhp-upload"
+                    ref={rhpInputRef}
+                    type="file"
+                    accept=".pdf,application/pdf"
+                    onChange={handleRhpUpload}
+                    className="hidden"
+                    disabled={rhpLoading}
+                  />
+                </div>
+
+                {rhpError && (
+                  <div className="mt-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                    ⚠️ {rhpError}
+                  </div>
+                )}
+
+                {rhpMeta && (
+                  <div className="mt-3 space-y-2">
+                    <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700">
+                      ✅ Extracted {rhpMeta.extractedFieldCount}/{rhpMeta.totalFieldCount} fields
+                      using {rhpMeta.provider} / {rhpMeta.model}.
+                      <span className="font-medium"> Please review all auto-filled fields before saving.</span>
+                    </div>
+                    {rhpMeta.warnings.length > 0 && (
+                      <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+                        <p className="font-medium">⚠️ Validation warnings:</p>
+                        <ul className="mt-1 list-disc pl-4">
+                          {rhpMeta.warnings.map((w, i) => (
+                            <li key={i}>{w}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+
+          <SectionCard
+            section={SECTION_CONFIG[0]}
+            expanded={expandedSections.essentials}
+            onToggle={toggleSection}
+            onRetry={currentFilePath ? () => handleReExtract() : undefined}
+            isRetrying={rhpLoading}
+          >
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                <FieldLabel name="name" helper="Required. Used for slug generation on new IPOs.">
+                  <input
+                    id="name"
+                    name="name"
+                    value={form.name}
                     onChange={handleChange}
-                    ref={registerFieldRef("market_maker_shares_offered")}
-                    placeholder={FIELD_CONFIG_BY_NAME.market_maker_shares_offered.placeholder}
+                    ref={registerFieldRef("name")}
+                    autoFocus
+                    placeholder={FIELD_CONFIG_BY_NAME.name.placeholder}
+                    className={INPUT_CLASS}
+                    required
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="sector">
+                  <input
+                    id="sector"
+                    name="sector"
+                    value={form.sector}
+                    onChange={handleChange}
+                    ref={registerFieldRef("sector")}
+                    placeholder={FIELD_CONFIG_BY_NAME.sector.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                <FieldLabel name="exchange">
+                  <input
+                    id="exchange"
+                    name="exchange"
+                    value={form.exchange}
+                    onChange={handleChange}
+                    ref={registerFieldRef("exchange")}
+                    placeholder={FIELD_CONFIG_BY_NAME.exchange.placeholder}
                     className={INPUT_CLASS}
                   />
                 </FieldLabel>
 
-                <FieldLabel name="reserved_market_maker">
+                <FieldLabel name="ipo_type">
+                  <select
+                    id="ipo_type"
+                    name="ipo_type"
+                    value={form.ipo_type}
+                    onChange={handleChange}
+                    ref={registerFieldRef("ipo_type")}
+                    className={INPUT_CLASS}
+                  >
+                    <option value="mainboard">Mainboard</option>
+                    <option value="sme">SME</option>
+                  </select>
+                </FieldLabel>
+
+                <FieldLabel name="status">
+                  <select
+                    id="status"
+                    name="status"
+                    value={form.status}
+                    onChange={handleChange}
+                    ref={registerFieldRef("status")}
+                    className={INPUT_CLASS}
+                  >
+                    <option value="">Select status</option>
+                    <option value="Open">Open</option>
+                    <option value="Upcoming">Upcoming</option>
+                    <option value="Listed">Listed</option>
+                    <option value="Closed">Closed</option>
+                  </select>
+                </FieldLabel>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                <FieldLabel name="open_date">
                   <input
-                    id="reserved_market_maker"
-                    name="reserved_market_maker"
+                    id="open_date"
+                    name="open_date"
+                    type="date"
+                    value={form.open_date}
+                    onChange={handleChange}
+                    ref={registerFieldRef("open_date")}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="close_date">
+                  <input
+                    id="close_date"
+                    name="close_date"
+                    type="date"
+                    value={form.close_date}
+                    onChange={handleChange}
+                    ref={registerFieldRef("close_date")}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="listing_date">
+                  <input
+                    id="listing_date"
+                    name="listing_date"
+                    type="date"
+                    value={form.listing_date}
+                    onChange={handleChange}
+                    ref={registerFieldRef("listing_date")}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                <FieldLabel name="price_min">
+                  <input
+                    id="price_min"
+                    name="price_min"
                     type="number"
                     step="any"
                     inputMode="decimal"
-                    value={form.reserved_market_maker}
+                    value={form.price_min}
                     onChange={handleChange}
-                    ref={registerFieldRef("reserved_market_maker")}
-                    placeholder={FIELD_CONFIG_BY_NAME.reserved_market_maker.placeholder}
+                    ref={registerFieldRef("price_min")}
+                    placeholder={FIELD_CONFIG_BY_NAME.price_min.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="price_max">
+                  <input
+                    id="price_max"
+                    name="price_max"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.price_max}
+                    onChange={handleChange}
+                    ref={registerFieldRef("price_max")}
+                    placeholder={FIELD_CONFIG_BY_NAME.price_max.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="lot_size" helper="Used in lot amount auto-calculation.">
+                  <input
+                    id="lot_size"
+                    name="lot_size"
+                    type="number"
+                    step="1"
+                    inputMode="numeric"
+                    value={form.lot_size}
+                    onChange={handleChange}
+                    ref={registerFieldRef("lot_size")}
+                    placeholder={FIELD_CONFIG_BY_NAME.lot_size.placeholder}
                     className={INPUT_CLASS}
                   />
                 </FieldLabel>
               </div>
-            )}
-          </div>
-        </SectionCard>
 
-        <SectionCard
-          section={SECTION_CONFIG[4]}
-          expanded={expandedSections.lot_details}
-          onToggle={toggleSection}
-        >
-          <div className="space-y-4">
-            <p className={HINT_CLASS}>
-              Amount fields are computed automatically from lots, lot size, and price max.
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
+                <FieldLabel name="gmp">
+                  <input
+                    id="gmp"
+                    name="gmp"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.gmp}
+                    onChange={handleChange}
+                    ref={registerFieldRef("gmp")}
+                    placeholder={FIELD_CONFIG_BY_NAME.gmp.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="sub_total">
+                  <input
+                    id="sub_total"
+                    name="sub_total"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.sub_total}
+                    onChange={handleChange}
+                    ref={registerFieldRef("sub_total")}
+                    placeholder={FIELD_CONFIG_BY_NAME.sub_total.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="sub_qib">
+                  <input
+                    id="sub_qib"
+                    name="sub_qib"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.sub_qib}
+                    onChange={handleChange}
+                    ref={registerFieldRef("sub_qib")}
+                    placeholder={FIELD_CONFIG_BY_NAME.sub_qib.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="sub_nii">
+                  <input
+                    id="sub_nii"
+                    name="sub_nii"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.sub_nii}
+                    onChange={handleChange}
+                    ref={registerFieldRef("sub_nii")}
+                    placeholder={FIELD_CONFIG_BY_NAME.sub_nii.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+                <FieldLabel name="sub_rii">
+                  <input
+                    id="sub_rii"
+                    name="sub_rii"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.sub_rii}
+                    onChange={handleChange}
+                    ref={registerFieldRef("sub_rii")}
+                    placeholder={FIELD_CONFIG_BY_NAME.sub_rii.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="sub_bhni">
+                  <input
+                    id="sub_bhni"
+                    name="sub_bhni"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.sub_bhni}
+                    onChange={handleChange}
+                    ref={registerFieldRef("sub_bhni")}
+                    placeholder={FIELD_CONFIG_BY_NAME.sub_bhni.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="sub_shni">
+                  <input
+                    id="sub_shni"
+                    name="sub_shni"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.sub_shni}
+                    onChange={handleChange}
+                    ref={registerFieldRef("sub_shni")}
+                    placeholder={FIELD_CONFIG_BY_NAME.sub_shni.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel
+                  name="subscription_updated_at"
+                  helper="Use your preferred timestamp format."
+                >
+                  <input
+                    id="subscription_updated_at"
+                    name="subscription_updated_at"
+                    value={form.subscription_updated_at}
+                    onChange={handleChange}
+                    ref={registerFieldRef("subscription_updated_at")}
+                    placeholder={FIELD_CONFIG_BY_NAME.subscription_updated_at.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+              </div>
+
+              {(logo || description) && (
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                    Auto Fetch Preview
+                  </p>
+                  <div className="flex items-start gap-3">
+                    {logo && (
+                      <img
+                        src={logo}
+                        alt="Company logo"
+                        className="h-12 w-12 rounded border border-slate-200 object-contain bg-white dark:bg-[#111827]"
+                      />
+                    )}
+                    {description && <p className="text-sm text-slate-700">{description}</p>}
+                  </div>
+                </div>
+              )}
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            section={SECTION_CONFIG[1]}
+            expanded={expandedSections.company_narrative}
+            onToggle={toggleSection}
+          >
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+              <FieldLabel name="about_company">
+                <textarea
+                  id="about_company"
+                  name="about_company"
+                  value={form.about_company}
+                  onChange={handleChange}
+                  ref={registerFieldRef("about_company")}
+                  placeholder={FIELD_CONFIG_BY_NAME.about_company.placeholder}
+                  className={`${INPUT_CLASS} min-h-28`}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="objectives">
+                <textarea
+                  id="objectives"
+                  name="objectives"
+                  value={form.objectives}
+                  onChange={handleChange}
+                  ref={registerFieldRef("objectives")}
+                  placeholder={FIELD_CONFIG_BY_NAME.objectives.placeholder}
+                  className={`${INPUT_CLASS} min-h-28`}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="company_strengths">
+                <textarea
+                  id="company_strengths"
+                  name="company_strengths"
+                  value={form.company_strengths}
+                  onChange={handleChange}
+                  ref={registerFieldRef("company_strengths")}
+                  placeholder={FIELD_CONFIG_BY_NAME.company_strengths.placeholder}
+                  className={`${INPUT_CLASS} min-h-24`}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="company_risks">
+                <textarea
+                  id="company_risks"
+                  name="company_risks"
+                  value={form.company_risks}
+                  onChange={handleChange}
+                  ref={registerFieldRef("company_risks")}
+                  placeholder={FIELD_CONFIG_BY_NAME.company_risks.placeholder}
+                  className={`${INPUT_CLASS} min-h-24`}
+                />
+              </FieldLabel>
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            section={SECTION_CONFIG[2]}
+            expanded={expandedSections.ownership_reservation}
+            onToggle={toggleSection}
+          >
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+              <FieldLabel name="promoter_holding_pre">
+                <input
+                  id="promoter_holding_pre"
+                  name="promoter_holding_pre"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.promoter_holding_pre}
+                  onChange={handleChange}
+                  ref={registerFieldRef("promoter_holding_pre")}
+                  placeholder={FIELD_CONFIG_BY_NAME.promoter_holding_pre.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="promoter_holding_post">
+                <input
+                  id="promoter_holding_post"
+                  name="promoter_holding_post"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.promoter_holding_post}
+                  onChange={handleChange}
+                  ref={registerFieldRef("promoter_holding_post")}
+                  placeholder={FIELD_CONFIG_BY_NAME.promoter_holding_post.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="reservation_qib">
+                <input
+                  id="reservation_qib"
+                  name="reservation_qib"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.reservation_qib}
+                  onChange={handleChange}
+                  ref={registerFieldRef("reservation_qib")}
+                  placeholder={FIELD_CONFIG_BY_NAME.reservation_qib.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="reservation_nii">
+                <input
+                  id="reservation_nii"
+                  name="reservation_nii"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.reservation_nii}
+                  onChange={handleChange}
+                  ref={registerFieldRef("reservation_nii")}
+                  placeholder={FIELD_CONFIG_BY_NAME.reservation_nii.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="reservation_rii">
+                <input
+                  id="reservation_rii"
+                  name="reservation_rii"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.reservation_rii}
+                  onChange={handleChange}
+                  ref={registerFieldRef("reservation_rii")}
+                  placeholder={FIELD_CONFIG_BY_NAME.reservation_rii.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="reservation_employee">
+                <input
+                  id="reservation_employee"
+                  name="reservation_employee"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.reservation_employee}
+                  onChange={handleChange}
+                  ref={registerFieldRef("reservation_employee")}
+                  placeholder={FIELD_CONFIG_BY_NAME.reservation_employee.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            section={SECTION_CONFIG[3]}
+            expanded={expandedSections.issue_details}
+            onToggle={toggleSection}
+            onRetry={currentFilePath ? () => handleReExtract() : undefined}
+            isRetrying={rhpLoading}
+          >
+            <div className="space-y-3">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                <FieldLabel name="face_value">
+                  <input
+                    id="face_value"
+                    name="face_value"
+                    value={form.face_value}
+                    onChange={handleChange}
+                    ref={registerFieldRef("face_value")}
+                    placeholder={FIELD_CONFIG_BY_NAME.face_value.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="issue_size">
+                  <input
+                    id="issue_size"
+                    name="issue_size"
+                    value={form.issue_size}
+                    onChange={handleChange}
+                    ref={registerFieldRef("issue_size")}
+                    placeholder={FIELD_CONFIG_BY_NAME.issue_size.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="fresh_issue">
+                  <input
+                    id="fresh_issue"
+                    name="fresh_issue"
+                    value={form.fresh_issue}
+                    onChange={handleChange}
+                    ref={registerFieldRef("fresh_issue")}
+                    placeholder={FIELD_CONFIG_BY_NAME.fresh_issue.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+              </div>
+
+              <FieldLabel name="anchor_investors">
+                <textarea
+                  id="anchor_investors"
+                  name="anchor_investors"
+                  value={form.anchor_investors}
+                  onChange={handleChange}
+                  ref={registerFieldRef("anchor_investors")}
+                  placeholder={FIELD_CONFIG_BY_NAME.anchor_investors.placeholder}
+                  className={`${INPUT_CLASS} min-h-24`}
+                />
+              </FieldLabel>
+
+              {form.ipo_type === "sme" && (
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  <FieldLabel
+                    name="market_maker_shares_offered"
+                    helper="Shown only for SME IPOs."
+                  >
+                    <input
+                      id="market_maker_shares_offered"
+                      name="market_maker_shares_offered"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.market_maker_shares_offered}
+                      onChange={handleChange}
+                      ref={registerFieldRef("market_maker_shares_offered")}
+                      placeholder={FIELD_CONFIG_BY_NAME.market_maker_shares_offered.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="reserved_market_maker">
+                    <input
+                      id="reserved_market_maker"
+                      name="reserved_market_maker"
+                      type="number"
+                      step="any"
+                      inputMode="decimal"
+                      value={form.reserved_market_maker}
+                      onChange={handleChange}
+                      ref={registerFieldRef("reserved_market_maker")}
+                      placeholder={FIELD_CONFIG_BY_NAME.reserved_market_maker.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+                </div>
+              )}
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            section={SECTION_CONFIG[4]}
+            expanded={expandedSections.lot_details}
+            onToggle={toggleSection}
+          >
+            <div className="space-y-4">
+              <p className={HINT_CLASS}>
+                Amount fields are computed automatically from lots, lot size, and price max.
+              </p>
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-slate-800">Retail</h4>
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                  <FieldLabel name="retail_min_lots">
+                    <input
+                      id="retail_min_lots"
+                      name="retail_min_lots"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.retail_min_lots}
+                      onChange={handleChange}
+                      ref={registerFieldRef("retail_min_lots")}
+                      placeholder={FIELD_CONFIG_BY_NAME.retail_min_lots.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="retail_min_shares">
+                    <input
+                      id="retail_min_shares"
+                      name="retail_min_shares"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.retail_min_shares}
+                      onChange={handleChange}
+                      ref={registerFieldRef("retail_min_shares")}
+                      placeholder={FIELD_CONFIG_BY_NAME.retail_min_shares.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="retail_min_amount" helper={formatINR(form.retail_min_amount)}>
+                    <input
+                      id="retail_min_amount"
+                      name="retail_min_amount"
+                      value={form.retail_min_amount}
+                      readOnly
+                      tabIndex={-1}
+                      ref={registerFieldRef("retail_min_amount")}
+                      placeholder={FIELD_CONFIG_BY_NAME.retail_min_amount.placeholder}
+                      className={amountInputClass}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="retail_max_lots">
+                    <input
+                      id="retail_max_lots"
+                      name="retail_max_lots"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.retail_max_lots}
+                      onChange={handleChange}
+                      ref={registerFieldRef("retail_max_lots")}
+                      placeholder={FIELD_CONFIG_BY_NAME.retail_max_lots.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="retail_max_shares">
+                    <input
+                      id="retail_max_shares"
+                      name="retail_max_shares"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.retail_max_shares}
+                      onChange={handleChange}
+                      ref={registerFieldRef("retail_max_shares")}
+                      placeholder={FIELD_CONFIG_BY_NAME.retail_max_shares.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="retail_max_amount" helper={formatINR(form.retail_max_amount)}>
+                    <input
+                      id="retail_max_amount"
+                      name="retail_max_amount"
+                      value={form.retail_max_amount}
+                      readOnly
+                      tabIndex={-1}
+                      ref={registerFieldRef("retail_max_amount")}
+                      placeholder={FIELD_CONFIG_BY_NAME.retail_max_amount.placeholder}
+                      className={amountInputClass}
+                    />
+                  </FieldLabel>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-slate-800">SHNI</h4>
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                  <FieldLabel name="shni_min_lots">
+                    <input
+                      id="shni_min_lots"
+                      name="shni_min_lots"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.shni_min_lots}
+                      onChange={handleChange}
+                      ref={registerFieldRef("shni_min_lots")}
+                      placeholder={FIELD_CONFIG_BY_NAME.shni_min_lots.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="shni_min_shares">
+                    <input
+                      id="shni_min_shares"
+                      name="shni_min_shares"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.shni_min_shares}
+                      onChange={handleChange}
+                      ref={registerFieldRef("shni_min_shares")}
+                      placeholder={FIELD_CONFIG_BY_NAME.shni_min_shares.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="shni_min_amount" helper={formatINR(form.shni_min_amount)}>
+                    <input
+                      id="shni_min_amount"
+                      name="shni_min_amount"
+                      value={form.shni_min_amount}
+                      readOnly
+                      tabIndex={-1}
+                      ref={registerFieldRef("shni_min_amount")}
+                      placeholder={FIELD_CONFIG_BY_NAME.shni_min_amount.placeholder}
+                      className={amountInputClass}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="shni_max_lots">
+                    <input
+                      id="shni_max_lots"
+                      name="shni_max_lots"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.shni_max_lots}
+                      onChange={handleChange}
+                      ref={registerFieldRef("shni_max_lots")}
+                      placeholder={FIELD_CONFIG_BY_NAME.shni_max_lots.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="shni_max_shares">
+                    <input
+                      id="shni_max_shares"
+                      name="shni_max_shares"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.shni_max_shares}
+                      onChange={handleChange}
+                      ref={registerFieldRef("shni_max_shares")}
+                      placeholder={FIELD_CONFIG_BY_NAME.shni_max_shares.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="shni_max_amount" helper={formatINR(form.shni_max_amount)}>
+                    <input
+                      id="shni_max_amount"
+                      name="shni_max_amount"
+                      value={form.shni_max_amount}
+                      readOnly
+                      tabIndex={-1}
+                      ref={registerFieldRef("shni_max_amount")}
+                      placeholder={FIELD_CONFIG_BY_NAME.shni_max_amount.placeholder}
+                      className={amountInputClass}
+                    />
+                  </FieldLabel>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-slate-800">BHNI</h4>
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                  <FieldLabel name="bhni_min_lots">
+                    <input
+                      id="bhni_min_lots"
+                      name="bhni_min_lots"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.bhni_min_lots}
+                      onChange={handleChange}
+                      ref={registerFieldRef("bhni_min_lots")}
+                      placeholder={FIELD_CONFIG_BY_NAME.bhni_min_lots.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="bhni_min_shares">
+                    <input
+                      id="bhni_min_shares"
+                      name="bhni_min_shares"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.bhni_min_shares}
+                      onChange={handleChange}
+                      ref={registerFieldRef("bhni_min_shares")}
+                      placeholder={FIELD_CONFIG_BY_NAME.bhni_min_shares.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="bhni_min_amount" helper={formatINR(form.bhni_min_amount)}>
+                    <input
+                      id="bhni_min_amount"
+                      name="bhni_min_amount"
+                      value={form.bhni_min_amount}
+                      readOnly
+                      tabIndex={-1}
+                      ref={registerFieldRef("bhni_min_amount")}
+                      placeholder={FIELD_CONFIG_BY_NAME.bhni_min_amount.placeholder}
+                      className={amountInputClass}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="bhni_max_lots">
+                    <input
+                      id="bhni_max_lots"
+                      name="bhni_max_lots"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.bhni_max_lots}
+                      onChange={handleChange}
+                      ref={registerFieldRef("bhni_max_lots")}
+                      placeholder={FIELD_CONFIG_BY_NAME.bhni_max_lots.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="bhni_max_shares">
+                    <input
+                      id="bhni_max_shares"
+                      name="bhni_max_shares"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={form.bhni_max_shares}
+                      onChange={handleChange}
+                      ref={registerFieldRef("bhni_max_shares")}
+                      placeholder={FIELD_CONFIG_BY_NAME.bhni_max_shares.placeholder}
+                      className={INPUT_CLASS}
+                    />
+                  </FieldLabel>
+
+                  <FieldLabel name="bhni_max_amount" helper={formatINR(form.bhni_max_amount)}>
+                    <input
+                      id="bhni_max_amount"
+                      name="bhni_max_amount"
+                      value={form.bhni_max_amount}
+                      readOnly
+                      tabIndex={-1}
+                      ref={registerFieldRef("bhni_max_amount")}
+                      placeholder={FIELD_CONFIG_BY_NAME.bhni_max_amount.placeholder}
+                      className={amountInputClass}
+                    />
+                  </FieldLabel>
+                </div>
+              </div>
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            section={SECTION_CONFIG[5]}
+            expanded={expandedSections.listing_allotment}
+            onToggle={toggleSection}
+          >
+            <div className="space-y-3">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                <FieldLabel name="lead_managers">
+                  <input
+                    id="lead_managers"
+                    name="lead_managers"
+                    value={form.lead_managers}
+                    onChange={handleChange}
+                    ref={registerFieldRef("lead_managers")}
+                    placeholder={FIELD_CONFIG_BY_NAME.lead_managers.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="registrar">
+                  <input
+                    id="registrar"
+                    name="registrar"
+                    value={form.registrar}
+                    onChange={handleChange}
+                    ref={registerFieldRef("registrar")}
+                    placeholder={FIELD_CONFIG_BY_NAME.registrar.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                <FieldLabel name="drhp_link">
+                  <input
+                    id="drhp_link"
+                    name="drhp_link"
+                    type="text"
+                    value={form.drhp_link}
+                    onChange={handleChange}
+                    ref={registerFieldRef("drhp_link")}
+                    placeholder={FIELD_CONFIG_BY_NAME.drhp_link.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="rhp_link">
+                  <input
+                    id="rhp_link"
+                    name="rhp_link"
+                    type="text"
+                    value={form.rhp_link}
+                    onChange={handleChange}
+                    ref={registerFieldRef("rhp_link")}
+                    placeholder={FIELD_CONFIG_BY_NAME.rhp_link.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel
+                  name="allotment_link"
+                  helper='Used for "Check Allotment" button when status is Out.'
+                >
+                  <input
+                    id="allotment_link"
+                    name="allotment_link"
+                    type="text"
+                    value={form.allotment_link}
+                    onChange={handleChange}
+                    ref={registerFieldRef("allotment_link")}
+                    placeholder={FIELD_CONFIG_BY_NAME.allotment_link.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                <FieldLabel name="listing_exchange">
+                  <input
+                    id="listing_exchange"
+                    name="listing_exchange"
+                    value={form.listing_exchange}
+                    onChange={handleChange}
+                    ref={registerFieldRef("listing_exchange")}
+                    placeholder={FIELD_CONFIG_BY_NAME.listing_exchange.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="listing_price">
+                  <input
+                    id="listing_price"
+                    name="listing_price"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.listing_price}
+                    onChange={handleChange}
+                    ref={registerFieldRef("listing_price")}
+                    placeholder={FIELD_CONFIG_BY_NAME.listing_price.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="listing_gain_percent">
+                  <input
+                    id="listing_gain_percent"
+                    name="listing_gain_percent"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={form.listing_gain_percent}
+                    onChange={handleChange}
+                    ref={registerFieldRef("listing_gain_percent")}
+                    placeholder={FIELD_CONFIG_BY_NAME.listing_gain_percent.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                <FieldLabel name="allotment_date">
+                  <input
+                    id="allotment_date"
+                    name="allotment_date"
+                    type="date"
+                    value={form.allotment_date}
+                    onChange={handleChange}
+                    ref={registerFieldRef("allotment_date")}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="refund_date">
+                  <input
+                    id="refund_date"
+                    name="refund_date"
+                    type="date"
+                    value={form.refund_date}
+                    onChange={handleChange}
+                    ref={registerFieldRef("refund_date")}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel name="allotment_status" helper='Set "Out" once registrar publishes results.'>
+                  <select
+                    id="allotment_status"
+                    name="allotment_status"
+                    value={form.allotment_status || ""}
+                    onChange={handleChange}
+                    ref={registerFieldRef("allotment_status")}
+                    className={INPUT_CLASS}
+                  >
+                    <option value="">Select allotment status</option>
+                    <option value="pending">Allotment Awaited</option>
+                    <option value="out">Allotment Out</option>
+                  </select>
+                </FieldLabel>
+              </div>
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            section={SECTION_CONFIG[6]}
+            expanded={expandedSections.valuation}
+            onToggle={toggleSection}
+            onRetry={currentFilePath ? () => handleReExtract() : undefined}
+            isRetrying={rhpLoading}
+          >
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
+              <FieldLabel name="eps_pre">
+                <input
+                  id="eps_pre"
+                  name="eps_pre"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.eps_pre}
+                  onChange={handleChange}
+                  ref={registerFieldRef("eps_pre")}
+                  placeholder={FIELD_CONFIG_BY_NAME.eps_pre.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="eps_post">
+                <input
+                  id="eps_post"
+                  name="eps_post"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.eps_post}
+                  onChange={handleChange}
+                  ref={registerFieldRef("eps_post")}
+                  placeholder={FIELD_CONFIG_BY_NAME.eps_post.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="pe_pre">
+                <input
+                  id="pe_pre"
+                  name="pe_pre"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.pe_pre}
+                  onChange={handleChange}
+                  ref={registerFieldRef("pe_pre")}
+                  placeholder={FIELD_CONFIG_BY_NAME.pe_pre.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="pe_post">
+                <input
+                  id="pe_post"
+                  name="pe_post"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.pe_post}
+                  onChange={handleChange}
+                  ref={registerFieldRef("pe_post")}
+                  placeholder={FIELD_CONFIG_BY_NAME.pe_post.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="roce">
+                <input
+                  id="roce"
+                  name="roce"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.roce}
+                  onChange={handleChange}
+                  ref={registerFieldRef("roce")}
+                  placeholder={FIELD_CONFIG_BY_NAME.roce.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="debt_equity">
+                <input
+                  id="debt_equity"
+                  name="debt_equity"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.debt_equity}
+                  onChange={handleChange}
+                  ref={registerFieldRef("debt_equity")}
+                  placeholder={FIELD_CONFIG_BY_NAME.debt_equity.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="pat_margin">
+                <input
+                  id="pat_margin"
+                  name="pat_margin"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.pat_margin}
+                  onChange={handleChange}
+                  ref={registerFieldRef("pat_margin")}
+                  placeholder={FIELD_CONFIG_BY_NAME.pat_margin.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="market_cap">
+                <input
+                  id="market_cap"
+                  name="market_cap"
+                  type="number"
+                  step="any"
+                  inputMode="decimal"
+                  value={form.market_cap}
+                  onChange={handleChange}
+                  ref={registerFieldRef("market_cap")}
+                  placeholder={FIELD_CONFIG_BY_NAME.market_cap.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            section={SECTION_CONFIG[7]}
+            expanded={expandedSections.contacts}
+            onToggle={toggleSection}
+          >
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <FieldLabel name="company_address">
+                <input
+                  id="company_address"
+                  name="company_address"
+                  value={form.company_address}
+                  onChange={handleChange}
+                  ref={registerFieldRef("company_address")}
+                  placeholder={FIELD_CONFIG_BY_NAME.company_address.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="company_phone">
+                <input
+                  id="company_phone"
+                  name="company_phone"
+                  type="text"
+                  value={form.company_phone}
+                  onChange={handleChange}
+                  ref={registerFieldRef("company_phone")}
+                  placeholder={FIELD_CONFIG_BY_NAME.company_phone.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="company_email">
+                <input
+                  id="company_email"
+                  name="company_email"
+                  type="text"
+                  value={form.company_email}
+                  onChange={handleChange}
+                  ref={registerFieldRef("company_email")}
+                  placeholder={FIELD_CONFIG_BY_NAME.company_email.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="company_website">
+                <input
+                  id="company_website"
+                  name="company_website"
+                  type="text"
+                  value={form.company_website}
+                  onChange={handleChange}
+                  ref={registerFieldRef("company_website")}
+                  placeholder={FIELD_CONFIG_BY_NAME.company_website.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="registrar_phone">
+                <input
+                  id="registrar_phone"
+                  name="registrar_phone"
+                  type="text"
+                  value={form.registrar_phone}
+                  onChange={handleChange}
+                  ref={registerFieldRef("registrar_phone")}
+                  placeholder={FIELD_CONFIG_BY_NAME.registrar_phone.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="registrar_email">
+                <input
+                  id="registrar_email"
+                  name="registrar_email"
+                  type="text"
+                  value={form.registrar_email}
+                  onChange={handleChange}
+                  ref={registerFieldRef("registrar_email")}
+                  placeholder={FIELD_CONFIG_BY_NAME.registrar_email.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+
+              <FieldLabel name="registrar_website">
+                <input
+                  id="registrar_website"
+                  name="registrar_website"
+                  type="text"
+                  value={form.registrar_website}
+                  onChange={handleChange}
+                  ref={registerFieldRef("registrar_website")}
+                  placeholder={FIELD_CONFIG_BY_NAME.registrar_website.placeholder}
+                  className={INPUT_CLASS}
+                />
+              </FieldLabel>
+            </div>
+          </SectionCard>
+        </div>
+
+        <div className="shrink-0 border-t border-slate-200 bg-white dark:bg-[#111827] px-5 py-3">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <p className="text-xs text-slate-500">
+              Save with Ctrl/Cmd + S. Cancel closes this modal without persisting.
             </p>
 
-            <div className="space-y-3">
-              <h4 className="text-sm font-semibold text-slate-800">Retail</h4>
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                <FieldLabel name="retail_min_lots">
-                  <input
-                    id="retail_min_lots"
-                    name="retail_min_lots"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.retail_min_lots}
-                    onChange={handleChange}
-                    ref={registerFieldRef("retail_min_lots")}
-                    placeholder={FIELD_CONFIG_BY_NAME.retail_min_lots.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="retail_min_shares">
-                  <input
-                    id="retail_min_shares"
-                    name="retail_min_shares"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.retail_min_shares}
-                    onChange={handleChange}
-                    ref={registerFieldRef("retail_min_shares")}
-                    placeholder={FIELD_CONFIG_BY_NAME.retail_min_shares.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="retail_min_amount" helper={formatINR(form.retail_min_amount)}>
-                  <input
-                    id="retail_min_amount"
-                    name="retail_min_amount"
-                    value={form.retail_min_amount}
-                    readOnly
-                    tabIndex={-1}
-                    ref={registerFieldRef("retail_min_amount")}
-                    placeholder={FIELD_CONFIG_BY_NAME.retail_min_amount.placeholder}
-                    className={amountInputClass}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="retail_max_lots">
-                  <input
-                    id="retail_max_lots"
-                    name="retail_max_lots"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.retail_max_lots}
-                    onChange={handleChange}
-                    ref={registerFieldRef("retail_max_lots")}
-                    placeholder={FIELD_CONFIG_BY_NAME.retail_max_lots.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="retail_max_shares">
-                  <input
-                    id="retail_max_shares"
-                    name="retail_max_shares"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.retail_max_shares}
-                    onChange={handleChange}
-                    ref={registerFieldRef("retail_max_shares")}
-                    placeholder={FIELD_CONFIG_BY_NAME.retail_max_shares.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="retail_max_amount" helper={formatINR(form.retail_max_amount)}>
-                  <input
-                    id="retail_max_amount"
-                    name="retail_max_amount"
-                    value={form.retail_max_amount}
-                    readOnly
-                    tabIndex={-1}
-                    ref={registerFieldRef("retail_max_amount")}
-                    placeholder={FIELD_CONFIG_BY_NAME.retail_max_amount.placeholder}
-                    className={amountInputClass}
-                  />
-                </FieldLabel>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <h4 className="text-sm font-semibold text-slate-800">SHNI</h4>
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                <FieldLabel name="shni_min_lots">
-                  <input
-                    id="shni_min_lots"
-                    name="shni_min_lots"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.shni_min_lots}
-                    onChange={handleChange}
-                    ref={registerFieldRef("shni_min_lots")}
-                    placeholder={FIELD_CONFIG_BY_NAME.shni_min_lots.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="shni_min_shares">
-                  <input
-                    id="shni_min_shares"
-                    name="shni_min_shares"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.shni_min_shares}
-                    onChange={handleChange}
-                    ref={registerFieldRef("shni_min_shares")}
-                    placeholder={FIELD_CONFIG_BY_NAME.shni_min_shares.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="shni_min_amount" helper={formatINR(form.shni_min_amount)}>
-                  <input
-                    id="shni_min_amount"
-                    name="shni_min_amount"
-                    value={form.shni_min_amount}
-                    readOnly
-                    tabIndex={-1}
-                    ref={registerFieldRef("shni_min_amount")}
-                    placeholder={FIELD_CONFIG_BY_NAME.shni_min_amount.placeholder}
-                    className={amountInputClass}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="shni_max_lots">
-                  <input
-                    id="shni_max_lots"
-                    name="shni_max_lots"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.shni_max_lots}
-                    onChange={handleChange}
-                    ref={registerFieldRef("shni_max_lots")}
-                    placeholder={FIELD_CONFIG_BY_NAME.shni_max_lots.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="shni_max_shares">
-                  <input
-                    id="shni_max_shares"
-                    name="shni_max_shares"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.shni_max_shares}
-                    onChange={handleChange}
-                    ref={registerFieldRef("shni_max_shares")}
-                    placeholder={FIELD_CONFIG_BY_NAME.shni_max_shares.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="shni_max_amount" helper={formatINR(form.shni_max_amount)}>
-                  <input
-                    id="shni_max_amount"
-                    name="shni_max_amount"
-                    value={form.shni_max_amount}
-                    readOnly
-                    tabIndex={-1}
-                    ref={registerFieldRef("shni_max_amount")}
-                    placeholder={FIELD_CONFIG_BY_NAME.shni_max_amount.placeholder}
-                    className={amountInputClass}
-                  />
-                </FieldLabel>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <h4 className="text-sm font-semibold text-slate-800">BHNI</h4>
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                <FieldLabel name="bhni_min_lots">
-                  <input
-                    id="bhni_min_lots"
-                    name="bhni_min_lots"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.bhni_min_lots}
-                    onChange={handleChange}
-                    ref={registerFieldRef("bhni_min_lots")}
-                    placeholder={FIELD_CONFIG_BY_NAME.bhni_min_lots.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="bhni_min_shares">
-                  <input
-                    id="bhni_min_shares"
-                    name="bhni_min_shares"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.bhni_min_shares}
-                    onChange={handleChange}
-                    ref={registerFieldRef("bhni_min_shares")}
-                    placeholder={FIELD_CONFIG_BY_NAME.bhni_min_shares.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="bhni_min_amount" helper={formatINR(form.bhni_min_amount)}>
-                  <input
-                    id="bhni_min_amount"
-                    name="bhni_min_amount"
-                    value={form.bhni_min_amount}
-                    readOnly
-                    tabIndex={-1}
-                    ref={registerFieldRef("bhni_min_amount")}
-                    placeholder={FIELD_CONFIG_BY_NAME.bhni_min_amount.placeholder}
-                    className={amountInputClass}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="bhni_max_lots">
-                  <input
-                    id="bhni_max_lots"
-                    name="bhni_max_lots"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.bhni_max_lots}
-                    onChange={handleChange}
-                    ref={registerFieldRef("bhni_max_lots")}
-                    placeholder={FIELD_CONFIG_BY_NAME.bhni_max_lots.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="bhni_max_shares">
-                  <input
-                    id="bhni_max_shares"
-                    name="bhni_max_shares"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={form.bhni_max_shares}
-                    onChange={handleChange}
-                    ref={registerFieldRef("bhni_max_shares")}
-                    placeholder={FIELD_CONFIG_BY_NAME.bhni_max_shares.placeholder}
-                    className={INPUT_CLASS}
-                  />
-                </FieldLabel>
-
-                <FieldLabel name="bhni_max_amount" helper={formatINR(form.bhni_max_amount)}>
-                  <input
-                    id="bhni_max_amount"
-                    name="bhni_max_amount"
-                    value={form.bhni_max_amount}
-                    readOnly
-                    tabIndex={-1}
-                    ref={registerFieldRef("bhni_max_amount")}
-                    placeholder={FIELD_CONFIG_BY_NAME.bhni_max_amount.placeholder}
-                    className={amountInputClass}
-                  />
-                </FieldLabel>
-              </div>
-            </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          section={SECTION_CONFIG[5]}
-          expanded={expandedSections.listing_allotment}
-          onToggle={toggleSection}
-        >
-          <div className="space-y-3">
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              <FieldLabel name="lead_managers">
-                <input
-                  id="lead_managers"
-                  name="lead_managers"
-                  value={form.lead_managers}
-                  onChange={handleChange}
-                  ref={registerFieldRef("lead_managers")}
-                  placeholder={FIELD_CONFIG_BY_NAME.lead_managers.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="registrar">
-                <input
-                  id="registrar"
-                  name="registrar"
-                  value={form.registrar}
-                  onChange={handleChange}
-                  ref={registerFieldRef("registrar")}
-                  placeholder={FIELD_CONFIG_BY_NAME.registrar.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              <FieldLabel name="drhp_link">
-                <input
-                  id="drhp_link"
-                  name="drhp_link"
-                  type="text"
-                  value={form.drhp_link}
-                  onChange={handleChange}
-                  ref={registerFieldRef("drhp_link")}
-                  placeholder={FIELD_CONFIG_BY_NAME.drhp_link.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="rhp_link">
-                <input
-                  id="rhp_link"
-                  name="rhp_link"
-                  type="text"
-                  value={form.rhp_link}
-                  onChange={handleChange}
-                  ref={registerFieldRef("rhp_link")}
-                  placeholder={FIELD_CONFIG_BY_NAME.rhp_link.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel
-                name="allotment_link"
-                helper='Used for "Check Allotment" button when status is Out.'
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={fetchDetails}
+                disabled={autoLoading}
+                className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60"
               >
-                <input
-                  id="allotment_link"
-                  name="allotment_link"
-                  type="text"
-                  value={form.allotment_link}
-                  onChange={handleChange}
-                  ref={registerFieldRef("allotment_link")}
-                  placeholder={FIELD_CONFIG_BY_NAME.allotment_link.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
+                {autoLoading ? "Fetching..." : "Auto Fetch"}
+              </button>
+
+              <button
+                type="button"
+                onClick={fetchGMP}
+                disabled={autoLoading}
+                className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60"
+              >
+                {autoLoading ? "Fetching..." : "Fetch GMP"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onClose?.()}
+                className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-70"
+              >
+                {loading
+                  ? ipo?.id
+                    ? "Updating..."
+                    : "Adding..."
+                  : ipo?.id
+                    ? "Update IPO"
+                    : "Add IPO"}
+              </button>
             </div>
-
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              <FieldLabel name="listing_exchange">
-                <input
-                  id="listing_exchange"
-                  name="listing_exchange"
-                  value={form.listing_exchange}
-                  onChange={handleChange}
-                  ref={registerFieldRef("listing_exchange")}
-                  placeholder={FIELD_CONFIG_BY_NAME.listing_exchange.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="listing_price">
-                <input
-                  id="listing_price"
-                  name="listing_price"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.listing_price}
-                  onChange={handleChange}
-                  ref={registerFieldRef("listing_price")}
-                  placeholder={FIELD_CONFIG_BY_NAME.listing_price.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="listing_gain_percent">
-                <input
-                  id="listing_gain_percent"
-                  name="listing_gain_percent"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  value={form.listing_gain_percent}
-                  onChange={handleChange}
-                  ref={registerFieldRef("listing_gain_percent")}
-                  placeholder={FIELD_CONFIG_BY_NAME.listing_gain_percent.placeholder}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              <FieldLabel name="allotment_date">
-                <input
-                  id="allotment_date"
-                  name="allotment_date"
-                  type="date"
-                  value={form.allotment_date}
-                  onChange={handleChange}
-                  ref={registerFieldRef("allotment_date")}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="refund_date">
-                <input
-                  id="refund_date"
-                  name="refund_date"
-                  type="date"
-                  value={form.refund_date}
-                  onChange={handleChange}
-                  ref={registerFieldRef("refund_date")}
-                  className={INPUT_CLASS}
-                />
-              </FieldLabel>
-
-              <FieldLabel name="allotment_status" helper='Set "Out" once registrar publishes results.'>
-                <select
-                  id="allotment_status"
-                  name="allotment_status"
-                  value={form.allotment_status || ""}
-                  onChange={handleChange}
-                  ref={registerFieldRef("allotment_status")}
-                  className={INPUT_CLASS}
-                >
-                  <option value="">Select allotment status</option>
-                  <option value="pending">Allotment Awaited</option>
-                  <option value="out">Allotment Out</option>
-                </select>
-              </FieldLabel>
-            </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          section={SECTION_CONFIG[6]}
-          expanded={expandedSections.valuation}
-          onToggle={toggleSection}
-          onRetry={currentFilePath ? () => handleReExtract() : undefined}
-          isRetrying={rhpLoading}
-        >
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
-            <FieldLabel name="eps_pre">
-              <input
-                id="eps_pre"
-                name="eps_pre"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.eps_pre}
-                onChange={handleChange}
-                ref={registerFieldRef("eps_pre")}
-                placeholder={FIELD_CONFIG_BY_NAME.eps_pre.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="eps_post">
-              <input
-                id="eps_post"
-                name="eps_post"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.eps_post}
-                onChange={handleChange}
-                ref={registerFieldRef("eps_post")}
-                placeholder={FIELD_CONFIG_BY_NAME.eps_post.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="pe_pre">
-              <input
-                id="pe_pre"
-                name="pe_pre"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.pe_pre}
-                onChange={handleChange}
-                ref={registerFieldRef("pe_pre")}
-                placeholder={FIELD_CONFIG_BY_NAME.pe_pre.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="pe_post">
-              <input
-                id="pe_post"
-                name="pe_post"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.pe_post}
-                onChange={handleChange}
-                ref={registerFieldRef("pe_post")}
-                placeholder={FIELD_CONFIG_BY_NAME.pe_post.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="roce">
-              <input
-                id="roce"
-                name="roce"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.roce}
-                onChange={handleChange}
-                ref={registerFieldRef("roce")}
-                placeholder={FIELD_CONFIG_BY_NAME.roce.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="debt_equity">
-              <input
-                id="debt_equity"
-                name="debt_equity"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.debt_equity}
-                onChange={handleChange}
-                ref={registerFieldRef("debt_equity")}
-                placeholder={FIELD_CONFIG_BY_NAME.debt_equity.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="pat_margin">
-              <input
-                id="pat_margin"
-                name="pat_margin"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.pat_margin}
-                onChange={handleChange}
-                ref={registerFieldRef("pat_margin")}
-                placeholder={FIELD_CONFIG_BY_NAME.pat_margin.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="market_cap">
-              <input
-                id="market_cap"
-                name="market_cap"
-                type="number"
-                step="any"
-                inputMode="decimal"
-                value={form.market_cap}
-                onChange={handleChange}
-                ref={registerFieldRef("market_cap")}
-                placeholder={FIELD_CONFIG_BY_NAME.market_cap.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          section={SECTION_CONFIG[7]}
-          expanded={expandedSections.contacts}
-          onToggle={toggleSection}
-        >
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <FieldLabel name="company_address">
-              <input
-                id="company_address"
-                name="company_address"
-                value={form.company_address}
-                onChange={handleChange}
-                ref={registerFieldRef("company_address")}
-                placeholder={FIELD_CONFIG_BY_NAME.company_address.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="company_phone">
-              <input
-                id="company_phone"
-                name="company_phone"
-                type="text"
-                value={form.company_phone}
-                onChange={handleChange}
-                ref={registerFieldRef("company_phone")}
-                placeholder={FIELD_CONFIG_BY_NAME.company_phone.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="company_email">
-              <input
-                id="company_email"
-                name="company_email"
-                type="text"
-                value={form.company_email}
-                onChange={handleChange}
-                ref={registerFieldRef("company_email")}
-                placeholder={FIELD_CONFIG_BY_NAME.company_email.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="company_website">
-              <input
-                id="company_website"
-                name="company_website"
-                type="text"
-                value={form.company_website}
-                onChange={handleChange}
-                ref={registerFieldRef("company_website")}
-                placeholder={FIELD_CONFIG_BY_NAME.company_website.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="registrar_phone">
-              <input
-                id="registrar_phone"
-                name="registrar_phone"
-                type="text"
-                value={form.registrar_phone}
-                onChange={handleChange}
-                ref={registerFieldRef("registrar_phone")}
-                placeholder={FIELD_CONFIG_BY_NAME.registrar_phone.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="registrar_email">
-              <input
-                id="registrar_email"
-                name="registrar_email"
-                type="text"
-                value={form.registrar_email}
-                onChange={handleChange}
-                ref={registerFieldRef("registrar_email")}
-                placeholder={FIELD_CONFIG_BY_NAME.registrar_email.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-
-            <FieldLabel name="registrar_website">
-              <input
-                id="registrar_website"
-                name="registrar_website"
-                type="text"
-                value={form.registrar_website}
-                onChange={handleChange}
-                ref={registerFieldRef("registrar_website")}
-                placeholder={FIELD_CONFIG_BY_NAME.registrar_website.placeholder}
-                className={INPUT_CLASS}
-              />
-            </FieldLabel>
-          </div>
-        </SectionCard>
-      </div>
-
-      <div className="shrink-0 border-t border-slate-200 bg-white dark:bg-[#111827] px-5 py-3">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p className="text-xs text-slate-500">
-            Save with Ctrl/Cmd + S. Cancel closes this modal without persisting.
-          </p>
-
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={fetchDetails}
-              disabled={autoLoading}
-              className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60"
-            >
-              {autoLoading ? "Fetching..." : "Auto Fetch"}
-            </button>
-
-            <button
-              type="button"
-              onClick={fetchGMP}
-              disabled={autoLoading}
-              className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60"
-            >
-              {autoLoading ? "Fetching..." : "Fetch GMP"}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => onClose?.()}
-              className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-70"
-            >
-              {loading
-                ? ipo?.id
-                  ? "Updating..."
-                  : "Adding..."
-                : ipo?.id
-                ? "Update IPO"
-                : "Add IPO"}
-            </button>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
     </ExtractionContext.Provider>
   );
 }

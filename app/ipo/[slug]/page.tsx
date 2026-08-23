@@ -97,16 +97,16 @@ export async function generateMetadata({
 type StatusType = "Open" | "Upcoming" | "Listed" | "Closed";
 
 const STATUS_STYLES: Record<StatusType, string> = {
-  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200 status-open",
-  Upcoming: "bg-blue-50 text-blue-700 border border-blue-200",
-  Listed: "bg-violet-50 text-violet-700 border border-violet-200",
-  Closed: "bg-rose-50 text-rose-600 border border-rose-200",
+  Open: "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60 status-open",
+  Upcoming: "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
+  Listed: "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
+  Closed: "bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/60",
 };
 
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
     <p
-      className={`text-[10.5px] font-semibold tracking-[0.22em] uppercase mb-4 ${light ? "text-[#93c5fd]" : "text-[#2563eb] dark:text-blue-400"}`}
+      className={`text-[10.5px] font-semibold tracking-[0.22em] uppercase mb-4 ${light ? "text-[#93c5fd]" : "text-[#1C317A] dark:text-blue-400"}`}
       style={{ fontFamily: "var(--font-inter)" }}
     >
       {children}
@@ -344,7 +344,7 @@ export default async function IPODetail({
       <ol className="space-y-2 list-none">
         {points.map((point, i) => (
           <li key={i} className="flex gap-2 items-start">
-            <span className="text-[#2563eb] dark:text-blue-400 font-bold shrink-0 mt-0.5">{i + 1}.</span>
+            <span className="text-[#1C317A] dark:text-blue-400 font-bold shrink-0 mt-0.5">{i + 1}.</span>
             <span>{point}</span>
           </li>
         ))}
@@ -468,7 +468,7 @@ export default async function IPODetail({
                 <DataLabel>{card.label}</DataLabel>
                 <div
                   className={`text-[14.5px] font-semibold leading-tight ${
-                    card.highlight ? "text-[#1e3a8a] dark:text-blue-400" : "text-[#0f172a] dark:text-[#F1F5F9]"
+                    card.highlight ? "text-[#1C317A] dark:text-blue-400" : "text-[#0f172a] dark:text-[#F1F5F9]"
                   }`}
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
@@ -496,13 +496,13 @@ export default async function IPODetail({
       <div className="sticky top-[56px] z-40 bg-white/95 dark:bg-[#111418]/95 backdrop-blur-md border-b border-[#e2e8f0] dark:border-[#252A31] shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <nav className="flex gap-5 text-[13px] font-medium text-[#64748b] dark:text-[#9AA1AA]" style={{ fontFamily: "var(--font-inter)" }}>
-            <a href="#overview" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-blue-500 transition-colors">Overview</a>
-            <a href="#issue-details" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-blue-500 transition-colors">Issue Details</a>
-            <a href="#subscription" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-blue-500 transition-colors">Subscription</a>
-            <a href="#gmp" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-blue-500 transition-colors">GMP Tracker</a>
-            <a href="#profit-calculator" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-blue-500 transition-colors">Profit Calculator</a>
-            <a href="#financials" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-blue-500 transition-colors">Financials</a>
-            <a href="#performance" className="px-1 py-3 hover:text-[#1e3a8a] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1e3a8a] dark:hover:border-blue-500 transition-colors">Listing Performance</a>
+            <a href="#overview" className="px-1 py-3 hover:text-[#1C317A] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors">Overview</a>
+            <a href="#issue-details" className="px-1 py-3 hover:text-[#1C317A] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors">Issue Details</a>
+            <a href="#subscription" className="px-1 py-3 hover:text-[#1C317A] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors">Subscription</a>
+            <a href="#gmp" className="px-1 py-3 hover:text-[#1C317A] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors">GMP Tracker</a>
+            <a href="#profit-calculator" className="px-1 py-3 hover:text-[#1C317A] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors">Profit Calculator</a>
+            <a href="#financials" className="px-1 py-3 hover:text-[#1C317A] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors">Financials</a>
+            <a href="#performance" className="px-1 py-3 hover:text-[#1C317A] dark:hover:text-[#F1F5F9] border-b-2 border-transparent hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors">Listing Performance</a>
           </nav>
         </div>
       </div>

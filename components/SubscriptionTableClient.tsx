@@ -168,27 +168,27 @@ export default function SubscriptionTableClient({
       {/* ── Desktop Table ── */}
       <div className="hidden lg:block overflow-x-auto">
         <table className="w-full text-left border-collapse min-w-[900px]">
-          <thead className="bg-gray-50 dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31]">
+          <thead className="bg-[#f8fafc] dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31]">
             <tr>
-              <th className="py-2.5 px-4 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider sticky left-0 bg-gray-50 dark:bg-[#171B20] z-10 w-[220px]">
+              <th className="py-2.5 px-4 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider sticky left-0 bg-[#f8fafc] dark:bg-[#171B20] z-10 w-[220px]">
                 IPO Name
               </th>
-              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
                 Status
               </th>
-              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
                 <GlossaryTooltip term="QIB">QIB</GlossaryTooltip>
               </th>
-              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
                 <GlossaryTooltip term="NII">NII</GlossaryTooltip>
               </th>
-              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
                 <GlossaryTooltip term="sNII">sNII</GlossaryTooltip>
               </th>
-              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
                 <GlossaryTooltip term="bNII">bNII</GlossaryTooltip>
               </th>
-              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+              <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
                 <GlossaryTooltip term="Retail">Retail</GlossaryTooltip>
               </th>
               <th className="py-2.5 px-3.5 text-[11px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] uppercase tracking-wider">

@@ -89,7 +89,7 @@ export default function DisclaimerPage() {
               href="https://www.sebi.gov.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2563eb] dark:text-blue-400 hover:underline"
+              className="text-[#1C317A] dark:text-blue-400 hover:underline"
             >
               SEBI
             </a>
@@ -98,7 +98,7 @@ export default function DisclaimerPage() {
               href="https://www.nseindia.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2563eb] dark:text-blue-400 hover:underline"
+              className="text-[#1C317A] dark:text-blue-400 hover:underline"
             >
               NSE
             </a>
@@ -107,7 +107,7 @@ export default function DisclaimerPage() {
               href="https://www.bseindia.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2563eb] dark:text-blue-400 hover:underline"
+              className="text-[#1C317A] dark:text-blue-400 hover:underline"
             >
               BSE
             </a>{" "}
@@ -177,7 +177,7 @@ export default function DisclaimerPage() {
           </p>
           <p className="mt-2">
             For detailed information, please see our{" "}
-            <Link href="/privacy" className="text-[#2563eb] dark:text-blue-400 hover:underline">
+            <Link href="/privacy" className="text-[#1C317A] dark:text-blue-400 hover:underline">
               Privacy Policy
             </Link>
             .
@@ -212,7 +212,7 @@ export default function DisclaimerPage() {
 
         <p className="text-sm text-[#94a3b8] dark:text-slate-500">
           If you have any questions about this disclaimer, please{" "}
-          <Link href="/contact" className="text-[#2563eb] dark:text-blue-400 hover:underline">
+          <Link href="/contact" className="text-[#1C317A] dark:text-blue-400 hover:underline">
             contact us
           </Link>
           .

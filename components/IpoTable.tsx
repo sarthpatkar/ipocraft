@@ -10,10 +10,10 @@ type Props = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  Open: "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/50",
-  Upcoming: "bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/50",
+  Open: "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60",
+  Upcoming: "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
   Listed: "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
-  Closed: "bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/50",
+  Closed: "bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/60",
 };
 
 function formatPriceBand(min: number | null, max: number | null) {
@@ -47,30 +47,30 @@ export default function IpoTable({ items, emptyMessage = "No IPO listings found.
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418]">
       <table className="min-w-[880px] w-full text-[13px] text-left border-collapse">
-        <thead className="bg-gray-50 dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31]">
+        <thead className="bg-[#f8fafc] dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31]">
           <tr>
-            <th className="py-2.5 px-4 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider sticky left-0 bg-gray-50 dark:bg-[#171B20] z-10 w-[240px]">
+            <th className="py-2.5 px-4 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider sticky left-0 bg-[#f8fafc] dark:bg-[#171B20] z-10 w-[240px]">
               Company &amp; Segment
             </th>
-            <th className="py-2.5 px-3 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+            <th className="py-2.5 px-3 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
               Status
             </th>
-            <th className="py-2.5 px-3 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+            <th className="py-2.5 px-3 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
               Offer Dates
             </th>
-            <th className="py-2.5 px-3 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+            <th className="py-2.5 px-3 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
               Price Band
             </th>
-            <th className="py-2.5 px-3 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+            <th className="py-2.5 px-3 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
               Lot Size
             </th>
-            <th className="py-2.5 px-3 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+            <th className="py-2.5 px-3 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
               GMP (Est. Gain)
             </th>
-            <th className="py-2.5 px-3 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider">
+            <th className="py-2.5 px-3 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider">
               Sub Total
             </th>
-            <th className="py-2.5 px-4 text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider text-right">
+            <th className="py-2.5 px-4 text-[11px] font-semibold text-[#475569] dark:text-[#9AA1AA] uppercase tracking-wider text-right">
               Action
             </th>
           </tr>

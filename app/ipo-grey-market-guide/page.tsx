@@ -254,7 +254,7 @@ export default function IpoGreyMarketGuide() {
             <svg viewBox="0 0 400 180" className="w-full max-w-md mx-auto">
               <polyline
                 fill="none"
-                stroke="#2563eb"
+                stroke="#1C317A"
                 strokeWidth="3"
                 points="10,150 80,120 150,90 220,70 300,40 380,30"
               />
@@ -302,9 +302,9 @@ export default function IpoGreyMarketGuide() {
 
         <Section title="Explore More">
           <ul className="list-disc pl-6 space-y-2 text-sm">
-            <li><Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 hover:underline">IPO GMP Tracker</Link></li>
-            <li><Link href="/ipo-calendar" className="text-[#2563eb] dark:text-blue-400 hover:underline">IPO Calendar</Link></li>
-            <li><Link href="/how-ipo-allotment-works" className="text-[#2563eb] dark:text-blue-400 hover:underline">IPO Allotment Guide</Link></li>
+            <li><Link href="/gmp" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO GMP Tracker</Link></li>
+            <li><Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Calendar</Link></li>
+            <li><Link href="/how-ipo-allotment-works" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Allotment Guide</Link></li>
           </ul>
         </Section>
       </section>

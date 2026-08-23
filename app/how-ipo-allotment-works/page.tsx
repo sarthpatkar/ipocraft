@@ -49,7 +49,7 @@ export default function IpoAllotmentGuide() {
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <p className="text-[11px] tracking-[0.22em] uppercase text-[#2563eb] dark:text-blue-400 font-semibold mb-4">
+        <p className="text-[11px] tracking-[0.22em] uppercase text-[#1C317A] dark:text-blue-400 font-semibold mb-4">
           IPO Learning Guide
         </p>
 
@@ -75,7 +75,7 @@ export default function IpoAllotmentGuide() {
 
         <p className="mt-4 text-[15px] text-[#475569] dark:text-slate-400 leading-relaxed">
           Investors tracking IPO demand through subscription ratios and{" "}
-          <Link href="/gmp" className="text-[#2563eb] dark:text-blue-400 underline">
+          <Link href="/gmp" className="text-[#1C317A] dark:text-blue-400 underline">
             IPO GMP
           </Link>{" "}
           often want to understand how shares are actually allocated. This guide
@@ -87,12 +87,12 @@ export default function IpoAllotmentGuide() {
         <div className="mt-8 sticky top-24 z-30 bg-white dark:bg-[#111827]/95 backdrop-blur border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 shadow-sm">
           <p className="text-sm font-semibold mb-3">Jump to Section</p>
           <div className="grid sm:grid-cols-2 gap-2 text-sm">
-            <a href="#timeline" className="text-[#2563eb] dark:text-blue-400 hover:underline">IPO Timeline</a>
-            <a href="#retail" className="text-[#2563eb] dark:text-blue-400 hover:underline">Retail Allotment</a>
-            <a href="#hni" className="text-[#2563eb] dark:text-blue-400 hover:underline">HNI Allotment</a>
-            <a href="#qib" className="text-[#2563eb] dark:text-blue-400 hover:underline">QIB Allotment</a>
-            <a href="#probability" className="text-[#2563eb] dark:text-blue-400 hover:underline">Probability Example</a>
-            <a href="#comparison" className="text-[#2563eb] dark:text-blue-400 hover:underline">Allotment vs GMP vs Listing</a>
+            <a href="#timeline" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Timeline</a>
+            <a href="#retail" className="text-[#1C317A] dark:text-blue-400 hover:underline">Retail Allotment</a>
+            <a href="#hni" className="text-[#1C317A] dark:text-blue-400 hover:underline">HNI Allotment</a>
+            <a href="#qib" className="text-[#1C317A] dark:text-blue-400 hover:underline">QIB Allotment</a>
+            <a href="#probability" className="text-[#1C317A] dark:text-blue-400 hover:underline">Probability Example</a>
+            <a href="#comparison" className="text-[#1C317A] dark:text-blue-400 hover:underline">Allotment vs GMP vs Listing</a>
           </div>
         </div>
 
@@ -109,7 +109,7 @@ export default function IpoAllotmentGuide() {
             </ul>
             <p>
               You can track upcoming IPO timelines via the{" "}
-              <Link href="/ipo-calendar" className="text-[#2563eb] dark:text-blue-400 underline">
+              <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
                 IPO Calendar
               </Link>.
             </p>
@@ -313,7 +313,7 @@ export default function IpoAllotmentGuide() {
             </ul>
             <p>
               You can also monitor IPO timelines via the{" "}
-              <Link href="/ipo-calendar" className="text-[#2563eb] dark:text-blue-400 underline">
+              <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
                 IPO Calendar
               </Link>.
             </p>

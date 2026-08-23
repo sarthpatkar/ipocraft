@@ -64,25 +64,25 @@ function getUrgencyBadge(ipo: Pick<IpoRow, "open_date" | "close_date">) {
   const tomorrowStr = getLocalYYYYMMDD(tomorrow);
 
   if (ipo.close_date && ipo.close_date === todayStr) {
-    return <span className="text-[10px] font-bold text-red-600 uppercase tracking-wider block mt-1">Closing Today</span>;
+    return <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block mt-1">Closing Today</span>;
   }
 
   if (ipo.open_date) {
     if (ipo.open_date === todayStr) {
-      return <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1">Opens Today</span>;
+      return <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mt-1">Opens Today</span>;
     }
     if (ipo.open_date === tomorrowStr) {
-      return <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider block mt-1">Opens Tomorrow</span>;
+      return <span className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider block mt-1">Opens Tomorrow</span>;
     }
   }
   const status = getLifecycleStatus(ipo);
   if (status === "open") {
-    return <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1">Open</span>;
+    return <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mt-1">Open</span>;
   }
   if (status === "closed") {
-    return <span className="text-[10px] font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider block mt-1">Closed</span>;
+    return <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block mt-1">Closed</span>;
   }
-  return <span className="text-[10px] font-bold text-blue-500 uppercase tracking-wider block mt-1">Upcoming</span>;
+  return <span className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider block mt-1">Upcoming</span>;
 }
 
 function compareByClosingSoon(a: IpoRow, b: IpoRow) {
@@ -360,9 +360,9 @@ export default function GmpTableClient({
       {/* Tabular Layout */}
       <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg shadow-xs">
         <table className="min-w-max w-full text-left relative">
-          <thead className="bg-gray-50 dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31] text-gray-600 dark:text-[#9AA1AA] font-medium sticky top-0 z-30 shadow-xs">
+          <thead className="bg-[#f8fafc] dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31] text-[#475569] dark:text-[#9AA1AA] font-medium sticky top-0 z-30 shadow-xs">
             <tr className="divide-x divide-gray-200 dark:divide-[#252A31]">
-              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-40 bg-gray-50 dark:bg-[#171B20] border-r border-gray-200 dark:border-[#252A31]">IPO Name</th>
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-40 bg-[#f8fafc] dark:bg-[#171B20] border-r border-gray-200 dark:border-[#252A31]">IPO Name</th>
               <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider cursor-pointer hover:text-gray-900 dark:hover:text-[#F1F3F5]" onClick={() => toggleSort("gmp")}>
                 GMP {sortKey === "gmp" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
               </th>
