@@ -265,4 +265,16 @@ a {
 [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
   background: #475569;
 }
+/* ─── Horizontal Open IPO Ticker (Left-to-Right) ─────────────────────────── */
+@keyframes ticker-ltr {
+  0% {
+    transform: translateX(-33.333%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
 
+.animate-ticker-ltr {
+  animation: ticker-ltr 28s linear infinite;
+}

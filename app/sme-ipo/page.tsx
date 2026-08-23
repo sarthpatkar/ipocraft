@@ -119,7 +119,7 @@ export default async function SMEIPOPage({
       <section className="border-b border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#0D1525]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
           <p
-            className="text-[10.5px] font-semibold tracking-[0.2em] uppercase text-purple-700 dark:text-purple-400 mb-2"
+            className="text-[10.5px] font-semibold tracking-[0.2em] uppercase text-amber-700 dark:text-amber-400 mb-2"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             SME IPO Segment
@@ -143,14 +143,14 @@ export default async function SMEIPOPage({
           <div className="mt-5 flex flex-wrap gap-2.5">
             <Link
               href="/sme-ipo?status=open"
-              className="inline-flex items-center justify-center px-4 py-2 text-[13px] font-semibold text-white bg-[#8B5CF6] hover:bg-[#7C3AED] rounded-lg shadow-xs transition-colors"
+              className="inline-flex items-center justify-center px-4 py-2 text-[13px] font-semibold text-white bg-[#1e3a8a] hover:bg-[#1a327a] dark:bg-[#3B82F6] dark:hover:bg-[#2563EB] rounded-lg shadow-xs transition-colors"
             >
               View Open SME IPOs
             </Link>
 
             <Link
               href="/gmp?type=sme"
-              className="inline-flex items-center justify-center px-4 py-2 text-[13px] font-semibold text-purple-700 dark:text-purple-300 bg-white dark:bg-[#162238] border border-purple-200 dark:border-[#22304A] rounded-lg hover:bg-purple-50 dark:hover:bg-[#1c2b47] transition-colors"
+              className="inline-flex items-center justify-center px-4 py-2 text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] bg-white dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] rounded-lg hover:bg-gray-50 dark:hover:bg-[#1c2b47] transition-colors"
             >
               SME GMP Tracker
             </Link>
@@ -187,7 +187,7 @@ export default async function SMEIPOPage({
                 href={buildHref("All", searchQuery)}
                 className={`flex-1 sm:flex-none text-center px-3 py-1.5 text-[12.5px] font-semibold rounded-md transition-colors ${
                   selectedStatus === "All"
-                    ? "bg-white dark:bg-[#162238] text-purple-700 dark:text-purple-300 shadow-xs"
+                    ? "bg-white dark:bg-[#162238] text-[#0f172a] dark:text-[#F1F5F9] shadow-xs"
                     : "text-[#64748b] dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9]"
                 }`}
                 style={{ fontFamily: "var(--font-inter)" }}
@@ -201,7 +201,7 @@ export default async function SMEIPOPage({
                   href={buildHref(s, searchQuery)}
                   className={`flex-1 sm:flex-none text-center px-3 py-1.5 text-[12.5px] font-semibold rounded-md transition-colors ${
                     selectedStatus === s
-                      ? "bg-white dark:bg-[#162238] text-purple-700 dark:text-purple-300 shadow-xs"
+                      ? "bg-white dark:bg-[#162238] text-[#0f172a] dark:text-[#F1F5F9] shadow-xs"
                       : "text-[#64748b] dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9]"
                   }`}
                   style={{ fontFamily: "var(--font-inter)" }}

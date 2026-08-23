@@ -7,7 +7,6 @@ import {
   useEffect,
   useState,
   useRef,
-  useLayoutEffect,
 } from "react";
 import { 
   HomeIcon, 
@@ -21,6 +20,9 @@ import {
   BriefcaseIcon,
   DocumentTextIcon,
   XMarkIcon,
+  CheckBadgeIcon,
+  ChevronDownIcon,
+  ArrowTrendingUpIcon,
 } from "@heroicons/react/24/outline";
 import { 
   HomeIcon as HomeIconSolid, 
@@ -30,12 +32,13 @@ import {
 } from "@heroicons/react/24/solid";
 import ThemeToggle from "@/components/ThemeToggle";
 import SearchCommand from "@/components/SearchCommand";
+import OpenIpoTicker from "@/components/OpenIpoTicker";
 
 type LinkItem = { 
   href: string; 
   label: string; 
   Icon: React.ElementType; 
-  ActiveIcon: React.ElementType 
+  ActiveIcon: React.ElementType;
 };
 
 const MAIN_NAV_LINKS: LinkItem[] = [
@@ -45,22 +48,20 @@ const MAIN_NAV_LINKS: LinkItem[] = [
   { href: "/subscriptions", label: "Subs", Icon: UsersIcon, ActiveIcon: UsersIconSolid },
 ];
 
-const ALL_LINKS = [
+const DESKTOP_PRIMARY_LINKS = [
   { href: "/", label: "Home" },
   { href: "/ipo", label: "IPO" },
   { href: "/sme-ipo", label: "SME IPO" },
   { href: "/gmp", label: "GMP" },
   { href: "/subscriptions", label: "Subscriptions" },
-  { href: "/ipo-calendar", label: "Calendar" },
-  { href: "/brokers", label: "Brokers" },
-  { href: "/blog", label: "Blog" },
 ];
 
-const MORE_LINKS = [
-  { href: "/sme-ipo", label: "SME IPO", Icon: BuildingStorefrontIcon },
-  { href: "/ipo-calendar", label: "Calendar", Icon: CalendarDaysIcon },
-  { href: "/brokers", label: "Brokers", Icon: BriefcaseIcon },
-  { href: "/blog", label: "Blog", Icon: DocumentTextIcon },
+const TOOLS_LINKS = [
+  { href: "/allotment-status", label: "Allotment Status", badge: "Beta", Icon: CheckBadgeIcon, desc: "Live registrar & exchange verification" },
+  { href: "/performance", label: "Track Record", badge: "Beta", Icon: ArrowTrendingUpIcon, desc: "Historical listing day gains & returns" },
+  { href: "/ipo-calendar", label: "IPO Calendar", Icon: CalendarDaysIcon, desc: "Timeline of open and upcoming issues" },
+  { href: "/brokers", label: "Brokers", Icon: BriefcaseIcon, desc: "Compare brokerage platforms" },
+  { href: "/blog", label: "Research Blog", Icon: DocumentTextIcon, desc: "Guides, FAQs, and educational articles" },
 ];
 
 export default function Navbar() {
@@ -70,18 +71,19 @@ export default function Navbar() {
     return pathname === href || pathname.startsWith(href + "/");
   };
 
+  const isToolsActive = () => {
+    return TOOLS_LINKS.some((l) => isActive(l.href));
+  };
+
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
+  const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  const navRef = useRef<HTMLDivElement | null>(null);
-  const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
-  const [indicator, setIndicator] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
       const scrollTop = window.scrollY;
@@ -93,6 +95,24 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setToolsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close dropdown and drawer on navigation
+  useEffect(() => {
+    setToolsDropdownOpen(false);
+    setMoreDrawerOpen(false);
+  }, [pathname]);
+
+  // Keyboard shortcut for search
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -104,118 +124,161 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  useLayoutEffect(() => {
-    const onResize = () => {
-      const activeLink = ALL_LINKS.find((l) => isActive(l.href));
-      const activeEl = activeLink ? linkRefs.current[activeLink.href] : null;
-      const navEl = navRef.current;
-      if (activeEl && navEl) {
-        const navRect = navEl.getBoundingClientRect();
-        const rect = activeEl.getBoundingClientRect();
-        setIndicator({ left: rect.left - navRect.left, width: rect.width });
-      }
-    };
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [pathname]);
-
   const showScrollProgress = pathname.startsWith("/blog/");
 
   return (
     <>
       <SearchCommand open={searchOpen} onClose={() => setSearchOpen(false)} />
 
-      {/* Top Navbar */}
-      <header
-        className={`fixed top-0 w-full z-50 transition-all duration-200 border-b ${
-          scrolled ? "border-[#e2e8f0] dark:border-[#22304A] shadow-xs" : "border-transparent"
-        } bg-white/90 dark:bg-[#080D18]/95 backdrop-blur-md`}
-        style={{
-          paddingTop: "env(safe-area-inset-top)",
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-15 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group outline-none shrink-0">
-            <Image
-              src="/logo-light.png"
-              alt="IPOCraft Logo"
-              width={116}
-              height={28}
-              priority
-              className="h-7 w-auto object-contain dark:hidden"
-            />
-            <Image
-              src="/logo-dark.png"
-              alt="IPOCraft Logo"
-              width={116}
-              height={28}
-              priority
-              className="h-7 w-auto object-contain hidden dark:block"
-            />
-          </Link>
+      {/* Top Fixed Header Wrapper */}
+      <div className="fixed top-0 w-full z-50">
+        <header
+          className={`relative z-50 w-full transition-all duration-200 border-b ${
+            scrolled ? "border-[#e2e8f0] dark:border-[#22304A] shadow-xs" : "border-transparent"
+          } bg-white/95 dark:bg-[#080D18]/95 backdrop-blur-md`}
+          style={{
+            paddingTop: "env(safe-area-inset-top)",
+          }}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-15 flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group outline-none shrink-0">
+              <Image
+                src="/logo-light.png"
+                alt="IPOCraft Logo"
+                width={116}
+                height={28}
+                priority
+                className="h-7 w-auto object-contain dark:hidden"
+              />
+              <Image
+                src="/logo-dark.png"
+                alt="IPOCraft Logo"
+                width={116}
+                height={28}
+                priority
+                className="h-7 w-auto object-contain hidden dark:block"
+              />
+            </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1.5">
-            <nav className="flex items-center gap-1">
-              {ALL_LINKS.map((l) => {
-                const active = isActive(l.href);
-                return (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    className={`px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-colors duration-150 ${
-                      active
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex items-center gap-1.5">
+              <nav className="flex items-center gap-1">
+                {DESKTOP_PRIMARY_LINKS.map((l) => {
+                  const active = isActive(l.href);
+                  return (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      className={`px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-colors duration-150 ${
+                        active
+                          ? "bg-[#1e3a8a] text-white dark:bg-[#3B82F6] dark:text-white font-semibold shadow-xs"
+                          : "text-gray-600 dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] hover:bg-gray-100/80 dark:hover:bg-[#162238]"
+                      }`}
+                    >
+                      {l.label}
+                    </Link>
+                  );
+                })}
+
+                {/* "Tools & Trackers" Dropdown Menu */}
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    onClick={() => setToolsDropdownOpen((prev) => !prev)}
+                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-colors duration-150 ${
+                      isToolsActive()
                         ? "bg-[#1e3a8a] text-white dark:bg-[#3B82F6] dark:text-white font-semibold shadow-xs"
+                        : toolsDropdownOpen
+                        ? "bg-gray-100 dark:bg-[#162238] text-[#0f172a] dark:text-[#F1F5F9]"
                         : "text-gray-600 dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] hover:bg-gray-100/80 dark:hover:bg-[#162238]"
                     }`}
                   >
-                    {l.label}
-                  </Link>
-                );
-              })}
-            </nav>
+                    <span>Tools</span>
+                    <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform duration-150 ${toolsDropdownOpen ? "rotate-180" : ""}`} />
+                  </button>
 
-            <div className="flex items-center gap-1.5 ml-2">
+                  {/* Dropdown Popover */}
+                  {toolsDropdownOpen && (
+                    <div className="absolute top-full right-0 mt-2 w-64 rounded-xl border border-gray-200 dark:border-[#22304A] bg-white dark:bg-[#0D1525] shadow-xl py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100">
+                      {TOOLS_LINKS.map((tool) => {
+                        const active = isActive(tool.href);
+                        const Icon = tool.Icon;
+                        return (
+                          <Link
+                            key={tool.href}
+                            href={tool.href}
+                            className={`flex items-start gap-2.5 px-3.5 py-2.5 hover:bg-gray-50 dark:hover:bg-[#162238] transition-colors ${
+                              active ? "bg-blue-50/50 dark:bg-[#162238]/60 text-blue-600 dark:text-[#3B82F6]" : "text-[#0f172a] dark:text-[#F1F5F9]"
+                            }`}
+                          >
+                            <Icon className="w-4 h-4 mt-0.5 shrink-0 text-blue-600 dark:text-[#3B82F6]" />
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[13px] font-semibold leading-tight">{tool.label}</span>
+                                {tool.badge && (
+                                  <span className="px-1.5 py-0.2 rounded bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 text-[9px] font-bold uppercase tracking-wider">
+                                    {tool.badge}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-[11.5px] text-[#64748B] dark:text-[#94A3B8] leading-snug mt-0.5 truncate">
+                                {tool.desc}
+                              </div>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </nav>
+
+              {/* Search & Theme Actions */}
+              <div className="flex items-center gap-1.5 ml-2">
+                <button
+                  onClick={() => setSearchOpen(true)}
+                  aria-label="Search IPOs"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[12.5px] rounded-lg border transition-colors duration-150 bg-white dark:bg-[#162238] border-gray-200 dark:border-[#22304A] text-gray-500 dark:text-[#94A3B8] hover:border-gray-300 dark:hover:border-[#3B82F6]/50"
+                >
+                  <MagnifyingGlassIcon className="w-3.5 h-3.5" />
+                  <span>Search IPOs</span>
+                  <kbd className="hidden lg:inline text-[10px] px-1.5 py-0.5 rounded border border-gray-200 dark:border-[#22304A] bg-gray-50 dark:bg-[#111B2D] text-gray-400 dark:text-[#64748B]">⌘K</kbd>
+                </button>
+                <ThemeToggle />
+              </div>
+            </div>
+
+            {/* Mobile Header Actions */}
+            <div className="flex md:hidden items-center gap-1">
               <button
                 onClick={() => setSearchOpen(true)}
-                aria-label="Search IPOs"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[12.5px] rounded-lg border transition-colors duration-150 bg-white dark:bg-[#162238] border-gray-200 dark:border-[#22304A] text-gray-500 dark:text-[#94A3B8] hover:border-gray-300 dark:hover:border-[#3B82F6]/50"
+                aria-label="Search"
+                className="p-2 rounded-lg text-gray-600 dark:text-[#94A3B8] hover:bg-gray-100 dark:hover:bg-[#162238]"
               >
-                <MagnifyingGlassIcon className="w-3.5 h-3.5" />
-                <span>Search IPOs</span>
-                <kbd className="hidden lg:inline text-[10px] px-1.5 py-0.5 rounded border border-gray-200 dark:border-[#22304A] bg-gray-50 dark:bg-[#111B2D] text-gray-400 dark:text-[#64748B]">⌘K</kbd>
+                <MagnifyingGlassIcon className="w-5 h-5" />
               </button>
               <ThemeToggle />
             </div>
           </div>
 
-          {/* Mobile Header */}
-          <div className="flex md:hidden items-center gap-1">
-            <button
-              onClick={() => setSearchOpen(true)}
-              aria-label="Search"
-              className="p-2 rounded-lg text-gray-600 dark:text-[#94A3B8] hover:bg-gray-100 dark:hover:bg-[#162238]"
-            >
-              <MagnifyingGlassIcon className="w-5 h-5" />
-            </button>
-            <ThemeToggle />
-          </div>
-        </div>
+          {/* Reading Scroll Progress */}
+          {showScrollProgress && (
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
+              <div
+                className="h-full transition-all duration-150 bg-[#3B82F6]"
+                style={{ width: `${scrollProgress}%` }}
+              />
+            </div>
+          )}
+        </header>
 
-        {/* Scroll Progress */}
-        {showScrollProgress && (
-          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
-            <div
-              className="h-full transition-all duration-150 bg-[#3B82F6]"
-              style={{ width: `${scrollProgress}%` }}
-            />
-          </div>
-        )}
-      </header>
+        {/* Horizontally Moving Open IPO Ticker (Left to Right) */}
+        <OpenIpoTicker />
+      </div>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 border-t z-50 bg-white/95 dark:bg-[#080D18]/95 border-gray-200 dark:border-[#22304A] backdrop-blur-md"
+      <nav
+        className="md:hidden fixed bottom-0 inset-x-0 border-t z-50 bg-white/95 dark:bg-[#080D18]/95 border-gray-200 dark:border-[#22304A] backdrop-blur-md"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         <div className="flex items-center justify-around h-14 px-1">
@@ -228,7 +291,7 @@ export default function Navbar() {
                 href={href}
                 className="flex flex-col items-center justify-center w-full h-full gap-0.5 min-w-0"
               >
-                <div className={`transition-transform duration-150 ${active ? "scale-105" : ""}`}
+                <div
                   style={{ color: active ? "#3B82F6" : undefined }}
                 >
                   <CurrentIcon className={`w-5 h-5 ${active ? "text-blue-600 dark:text-[#3B82F6]" : "text-gray-500 dark:text-[#64748B]"}`} />
@@ -249,36 +312,107 @@ export default function Navbar() {
         </div>
       </nav>
 
-
-      {/* More Drawer */}
+      {/* Mobile "More" Drawer */}
       {moreDrawerOpen && (
         <>
           <div
-            className="md:hidden fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+            className="md:hidden fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm animate-in fade-in"
             onClick={() => setMoreDrawerOpen(false)}
           />
-          <div className="md:hidden fixed bottom-0 inset-x-0 z-[70] rounded-t-2xl shadow-xl pb-[env(safe-area-inset-bottom)] bg-white dark:bg-[#0D1525] border border-gray-200 dark:border-[#22304A]">
-            <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-gray-100 dark:border-[#22304A]">
-              <span className="text-[13px] font-semibold text-gray-900 dark:text-[#F1F5F9]">More Pages</span>
-              <button onClick={() => setMoreDrawerOpen(false)} className="text-gray-500 dark:text-[#94A3B8]">
+          <div className="md:hidden fixed bottom-0 inset-x-0 z-[70] rounded-t-2xl shadow-2xl pb-[env(safe-area-inset-bottom)] bg-white dark:bg-[#0D1525] border border-gray-200 dark:border-[#22304A] max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-gray-100 dark:border-[#22304A] sticky top-0 bg-white/95 dark:bg-[#0D1525]/95 backdrop-blur-sm z-10">
+              <span className="text-[14px] font-bold text-gray-900 dark:text-[#F1F5F9]">All Tools &amp; Pages</span>
+              <button onClick={() => setMoreDrawerOpen(false)} className="text-gray-500 dark:text-[#94A3B8] p-1">
                 <XMarkIcon className="w-5 h-5" />
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-2.5 p-4">
-              {MORE_LINKS.map(({ href, label, Icon }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setMoreDrawerOpen(false)}
-                  className="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 dark:border-[#22304A] bg-gray-50 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
-                >
-                  <Icon className="w-4 h-4 shrink-0 text-blue-600 dark:text-[#3B82F6]" />
-                  <span className="text-[13px] font-medium">{label}</span>
-                </Link>
-              ))}
+
+            <div className="p-4 space-y-4">
+              {/* Category 1: Live Trackers */}
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] mb-2 px-1">
+                  Trackers &amp; Tools
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  <Link
+                    href="/allotment-status"
+                    onClick={() => setMoreDrawerOpen(false)}
+                    className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <CheckBadgeIcon className="w-4.5 h-4.5 text-blue-600 dark:text-[#3B82F6]" />
+                      <span className="text-[13.5px] font-semibold">Allotment Status</span>
+                    </div>
+                    <span className="px-1.5 py-0.2 rounded bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 text-[10px] font-bold uppercase">
+                      Beta
+                    </span>
+                  </Link>
+
+                  <Link
+                    href="/performance"
+                    onClick={() => setMoreDrawerOpen(false)}
+                    className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <ArrowTrendingUpIcon className="w-4.5 h-4.5 text-emerald-600 dark:text-emerald-400" />
+                      <span className="text-[13.5px] font-semibold">Performance &amp; Track Record</span>
+                    </div>
+                    <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 text-[10px] font-bold uppercase">
+                      Beta
+                    </span>
+                  </Link>
+
+                  <Link
+                    href="/sme-ipo"
+                    onClick={() => setMoreDrawerOpen(false)}
+                    className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <BuildingStorefrontIcon className="w-4.5 h-4.5 text-amber-600 dark:text-amber-400" />
+                      <span className="text-[13.5px] font-semibold">SME IPO Hub</span>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/ipo-calendar"
+                    onClick={() => setMoreDrawerOpen(false)}
+                    className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <CalendarDaysIcon className="w-4.5 h-4.5 text-blue-600 dark:text-[#3B82F6]" />
+                      <span className="text-[13.5px] font-semibold">IPO Calendar</span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Category 2: Guides & Resources */}
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] mb-2 px-1">
+                  Resources &amp; Comparison
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    href="/brokers"
+                    onClick={() => setMoreDrawerOpen(false)}
+                    className="flex items-center gap-2 p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                  >
+                    <BriefcaseIcon className="w-4 h-4 text-blue-600 dark:text-[#3B82F6] shrink-0" />
+                    <span className="text-[13px] font-medium">Brokers</span>
+                  </Link>
+
+                  <Link
+                    href="/blog"
+                    onClick={() => setMoreDrawerOpen(false)}
+                    className="flex items-center gap-2 p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                  >
+                    <DocumentTextIcon className="w-4 h-4 text-blue-600 dark:text-[#3B82F6] shrink-0" />
+                    <span className="text-[13px] font-medium">Blog</span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
-
         </>
       )}
     </>

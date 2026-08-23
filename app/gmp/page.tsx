@@ -258,7 +258,7 @@ export default async function GMPPage({
             </Link>
             <Link
               href="/gmp?type=sme"
-              className="px-3 py-1.5 text-xs bg-purple-600 text-white rounded"
+              className="px-3 py-1.5 text-xs bg-amber-600 dark:bg-amber-700 text-white rounded"
             >
               SME
             </Link>

@@ -74,7 +74,7 @@ function buildHomeShowMoreHref(params: {
 }
 
 // ── Stat pill helper (server-rendered) ──────────────────────────────────────
-type PillColor = "emerald" | "blue" | "violet" | "amber";
+type PillColor = "emerald" | "blue" | "slate" | "amber";
 function StatPill({
   color,
   label,
@@ -92,8 +92,8 @@ function StatPill({
     emerald:
       "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60",
     blue: "bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/60",
-    violet:
-      "bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800/60",
+    slate:
+      "bg-slate-50 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800/60",
     amber:
       "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
   };
@@ -164,23 +164,32 @@ export default async function Home({
       .from("ipos")
       .select("id", { count: "exact", head: true })
       .gt("open_date", new Date().toISOString().slice(0, 10)),
-    // Highest GMP active IPO
+    // Active IPOs with GMP to determine highest GMP %
     supabase
       .from("ipos")
-      .select("name, slug, gmp, price_max")
+      .select("name, slug, gmp, price_max, price_min")
       .not("gmp", "is", null)
       .gt("gmp", 0)
       .gte("close_date", new Date().toISOString().slice(0, 10))
-      .order("gmp", { ascending: false })
-      .limit(1)
-      .maybeSingle(),
+      .limit(20),
   ]);
 
   const ipoFeed = ipoFeedResult;
   const lastUpdatedAt = freshRecordResult.data?.updated_at ?? null;
   const openCount = openCountResult.count ?? 0;
   const upcomingCount = upcomingCountResult.count ?? 0;
-  const topGmpIpo = topGmpResult.data;
+  const activeGmpIpos = (topGmpResult.data ?? []).filter((ipo) => {
+    const price = ipo.price_max ?? ipo.price_min;
+    return ipo.gmp != null && price != null && Number(price) > 0;
+  });
+
+  const topGmpIpo = activeGmpIpos.sort((a, b) => {
+    const priceA = Number(a.price_max ?? a.price_min);
+    const priceB = Number(b.price_max ?? b.price_min);
+    const pctA = (Number(a.gmp) / priceA) * 100;
+    const pctB = (Number(b.gmp) / priceB) * 100;
+    return pctB - pctA;
+  })[0] ?? null;
 
   const showMoreHref = buildHomeShowMoreHref({
     status: params?.status,
@@ -250,7 +259,7 @@ export default async function Home({
             className="text-2xl sm:text-3xl lg:text-[2.25rem] font-semibold leading-tight tracking-tight text-[#0f172a] dark:text-[#F1F5F9]"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
-            IPOCraft — IPO GMP, Subscription &amp; Timeline Tracker
+            IPOCraft: IPO GMP, Subscription &amp; Timeline Tracker
           </h1>
 
           <p className="mt-2 text-sm sm:text-[14.5px] text-[#475569] dark:text-[#94A3B8] max-w-2xl leading-relaxed">
@@ -261,10 +270,10 @@ export default async function Home({
           <div className="flex flex-wrap gap-2 mt-4">
             <StatPill color="emerald" label={`${openCount} Open`} href="/?status=open" animated count={openCount} />
             <StatPill color="blue" label={`${upcomingCount} Upcoming`} href="/?status=upcoming" animated count={upcomingCount} />
-            {topGmpIpo?.gmp != null && topGmpIpo.price_max != null && (
+            {topGmpIpo?.gmp != null && (topGmpIpo.price_max != null || topGmpIpo.price_min != null) && (
               <StatPill
-                color="violet"
-                label={`Top GMP: ${topGmpIpo.name} ₹${topGmpIpo.gmp} (+${((topGmpIpo.gmp / topGmpIpo.price_max) * 100).toFixed(1)}%)`}
+                color="blue"
+                label={`Top GMP: ${topGmpIpo.name} ₹${topGmpIpo.gmp} (+${((Number(topGmpIpo.gmp) / Number(topGmpIpo.price_max ?? topGmpIpo.price_min)) * 100).toFixed(1)}%)`}
                 href={`/ipo/${topGmpIpo.slug}`}
               />
             )}
