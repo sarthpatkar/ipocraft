@@ -73,56 +73,6 @@ function buildHomeShowMoreHref(params: {
   return queryString ? `/ipo?${queryString}` : "/ipo";
 }
 
-// ── Stat pill helper (server-rendered) ──────────────────────────────────────
-type PillColor = "emerald" | "blue" | "slate" | "amber";
-function StatPill({
-  color,
-  label,
-  href,
-  animated,
-  count,
-}: {
-  color: PillColor;
-  label: string;
-  href?: string;
-  animated?: boolean;
-  count?: number;
-}) {
-  const colorMap: Record<PillColor, string> = {
-    emerald:
-      "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60",
-    blue: "bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/60",
-    slate:
-      "bg-slate-50 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800/60",
-    amber:
-      "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
-  };
-  const cls = `inline-flex items-center gap-1.5 text-[11.5px] font-semibold px-2.5 py-1 rounded-lg border transition-colors ${
-    colorMap[color]
-  } shrink-0`;
-  const dot = (
-    <span className="w-1.5 h-1.5 rounded-full bg-current opacity-70 shrink-0" />
-  );
-
-  // Extract suffix (text after the number) for animated pills
-  const suffix = animated && count != null ? label.replace(String(count), "") : null;
-  const content = animated && count != null
-    ? <>{dot}<AnimatedCount value={count} />{suffix}</>
-    : <>{dot}{label}</>;
-
-  if (href)
-    return (
-      <Link href={href} className={`${cls} hover:opacity-80`}>
-        {content}
-      </Link>
-    );
-  return (
-    <span className={cls}>
-      {content}
-    </span>
-  );
-}
-
 export default async function Home({
   searchParams,
 }: {
@@ -249,8 +199,8 @@ export default async function Home({
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
-        {/* Compact Hero */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-5 pb-4 border-b border-gray-200 dark:border-[#252A31]">
+        {/* Compact Hero Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-4 pb-4 border-b border-gray-200 dark:border-[#252A31]">
           <div>
             <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-1 tracking-wider">
               IPO Research &amp; Analytics
@@ -264,19 +214,6 @@ export default async function Home({
             <p className="mt-1 text-[13.5px] text-gray-500 dark:text-[#9AA1AA]">
               Track Grey Market Premiums, live bidding multiples, and allotment dates for Mainboard &amp; SME issues.
             </p>
-
-            {/* LIVE STATS ROW */}
-            <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
-              <StatPill color="emerald" label={`${openCount} Open`} href="/?status=open" animated count={openCount} />
-              <StatPill color="blue" label={`${upcomingCount} Upcoming`} href="/?status=upcoming" animated count={upcomingCount} />
-              {topGmpIpo?.gmp != null && (topGmpIpo.price_max != null || topGmpIpo.price_min != null) && (
-                <StatPill
-                  color="blue"
-                  label={`Top GMP: ${topGmpIpo.name} ₹${topGmpIpo.gmp} (+${((Number(topGmpIpo.gmp) / Number(topGmpIpo.price_max ?? topGmpIpo.price_min)) * 100).toFixed(1)}%)`}
-                  href={`/ipo/${topGmpIpo.slug}`}
-                />
-              )}
-            </div>
           </div>
 
           <div className="flex items-center gap-3 shrink-0 text-[12.5px]">
@@ -294,6 +231,100 @@ export default async function Home({
               GMP Tracker
             </Link>
           </div>
+        </div>
+
+        {/* ── Market Snapshot KPI Metric Grid (Clean Institutional UX) ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+          {/* Tile 1: Live Open Issues */}
+          <Link
+            href="/?status=open"
+            className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 hover:border-gray-300 dark:hover:border-[#374151] transition-colors shadow-xs flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA]">
+                Live Issues
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Open Now
+              </span>
+            </div>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-xl sm:text-2xl font-bold text-[#0f172a] dark:text-[#F1F5F9] tabular-nums">
+                <AnimatedCount value={openCount} />
+              </span>
+              <span className="text-[12.5px] text-gray-500 dark:text-[#9AA1AA]">
+                {openCount === 1 ? "issue accepting bids" : "issues accepting bids"}
+              </span>
+            </div>
+          </Link>
+
+          {/* Tile 2: Upcoming Pipeline */}
+          <Link
+            href="/?status=upcoming"
+            className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 hover:border-gray-300 dark:hover:border-[#374151] transition-colors shadow-xs flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA]">
+                Pipeline
+              </span>
+              <span className="text-[11px] font-medium text-gray-500 dark:text-[#9AA1AA]">
+                Next 14 Days
+              </span>
+            </div>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-xl sm:text-2xl font-bold text-[#0f172a] dark:text-[#F1F5F9] tabular-nums">
+                <AnimatedCount value={upcomingCount} />
+              </span>
+              <span className="text-[12.5px] text-gray-500 dark:text-[#9AA1AA]">
+                {upcomingCount === 1 ? "upcoming issue" : "upcoming issues"}
+              </span>
+            </div>
+          </Link>
+
+          {/* Tile 3: Top Expected GMP */}
+          {topGmpIpo?.gmp != null && (topGmpIpo.price_max != null || topGmpIpo.price_min != null) ? (
+            <Link
+              href={`/ipo/${topGmpIpo.slug}`}
+              className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 hover:border-gray-300 dark:hover:border-[#374151] transition-colors shadow-xs flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA]">
+                  Top Expected GMP
+                </span>
+                <span className="text-[11.5px] font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                  +{((Number(topGmpIpo.gmp) / Number(topGmpIpo.price_max ?? topGmpIpo.price_min)) * 100).toFixed(1)}% Est.
+                </span>
+              </div>
+              <div className="mt-2 flex items-baseline justify-between gap-2 min-w-0">
+                <span className="text-sm font-semibold text-[#0f172a] dark:text-[#F1F5F9] truncate">
+                  {topGmpIpo.name}
+                </span>
+                <span className="text-[12px] font-medium text-gray-500 dark:text-[#9AA1AA] shrink-0 tabular-nums">
+                  GMP ₹{topGmpIpo.gmp}
+                </span>
+              </div>
+            </Link>
+          ) : (
+            <Link
+              href="/gmp"
+              className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 hover:border-gray-300 dark:hover:border-[#374151] transition-colors shadow-xs flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA]">
+                  GMP Tracker
+                </span>
+                <span className="text-[11px] font-medium text-gray-500 dark:text-[#9AA1AA]">
+                  Live Rates
+                </span>
+              </div>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-sm font-semibold text-[#0f172a] dark:text-[#F1F5F9]">
+                  View all active premiums
+                </span>
+              </div>
+            </Link>
+          )}
         </div>
 
         {/* -- Data Freshness Bar -- */}
