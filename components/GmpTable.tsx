@@ -68,10 +68,10 @@ function FilterPill({ active, onClick, children }: FilterPillProps) {
   return (
     <button
       onClick={onClick}
-      className={`px-3 py-1.5 text-[12px] font-medium rounded-lg border transition-colors shrink-0 ${
+      className={`px-3 py-1.5 text-[12px] font-medium rounded-md border transition-colors shrink-0 ${
         active
-          ? "bg-[#1e3a8a] dark:bg-[#3B82F6] text-white border-transparent font-semibold"
-          : "bg-white dark:bg-[#162238] text-gray-700 dark:text-[#94A3B8] border-gray-200 dark:border-[#22304A] hover:border-[#3B82F6]/50"
+          ? "bg-[#1e3a8a] text-white dark:bg-[#111418] dark:text-[#F1F3F5] border-transparent dark:border-[#252A31] font-semibold"
+          : "bg-white dark:bg-[#171B20] text-gray-700 dark:text-[#9AA1AA] border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-500"
       }`}
     >
       {children}
@@ -123,7 +123,7 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
         <div className="relative w-full max-w-xs">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg
-              className="w-3.5 h-3.5 text-gray-400 dark:text-[#64748B]"
+              className="w-3.5 h-3.5 text-gray-400 dark:text-[#6B7280]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -141,7 +141,7 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
             placeholder="Search IPO…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full border border-gray-200 dark:border-[#22304A] bg-white dark:bg-[#162238] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#64748B] rounded-lg pl-8 pr-3 py-2 text-[13px] focus:outline-none focus:ring-1 focus:ring-[#3B82F6] transition-colors"
+            className="w-full border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#171B20] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md pl-8 pr-3 py-2 text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors"
           />
         </div>
 
@@ -161,15 +161,15 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
       </div>
 
       {/* ── Table ── */}
-      <div className="w-full overflow-x-auto overscroll-x-contain rounded-xl border border-[#e2e8f0] dark:border-[#22304A]">
+      <div className="w-full overflow-x-auto overscroll-x-contain rounded-lg border border-gray-200 dark:border-[#252A31]">
         <table className="min-w-[860px] w-full text-[13px]">
-          <thead className="bg-[#f8fafc] dark:bg-[#0D1525] sticky top-0">
+          <thead className="bg-gray-50 dark:bg-[#171B20] sticky top-0">
             <tr className="text-left">
               {["IPO", "GMP", "Subscription", "Price Band", "Size", "Open", "Close", "Allotment", "Listing"].map(
                 (col) => (
                   <th
                     key={col}
-                    className="px-4 py-3 text-[10.5px] font-semibold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] border-b border-[#e2e8f0] dark:border-[#22304A] whitespace-nowrap"
+                    className="px-4 py-3 text-[10.5px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA] border-b border-gray-200 dark:border-[#252A31] whitespace-nowrap"
                   >
                     {col}
                   </th>
@@ -178,12 +178,12 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-[#f1f5f9] dark:divide-[#22304A]">
+          <tbody className="divide-y divide-gray-100 dark:divide-[#252A31]">
             {filtered.length === 0 && (
               <tr>
                 <td
                   colSpan={9}
-                  className="text-center py-12 text-[#64748B] dark:text-[#94A3B8] text-[13px]"
+                  className="text-center py-12 text-gray-500 dark:text-[#9AA1AA] text-[13px]"
                 >
                   No IPOs found for the selected filters.
                 </td>
@@ -198,19 +198,19 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
               return (
                 <tr
                   key={ipo.id}
-                  className="hover:bg-[#f8fafc] dark:hover:bg-[#162238] transition-colors bg-white dark:bg-[#111B2D]"
+                  className="hover:bg-gray-50 dark:hover:bg-[#171B20]/60 transition-colors bg-white dark:bg-[#111418]"
                 >
                   {/* IPO Name */}
                   <td className="px-4 py-3">
                     <Link
                       href={`/ipo/${ipo.slug}`}
-                      className="font-semibold text-[#0f172a] dark:text-[#F1F5F9] hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors"
+                      className="font-semibold text-[#0f172a] dark:text-[#F1F5F9] hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
                       {highlight(ipo.name, debounced)}
                     </Link>
                     {ipo.ipo_type && (
                       <span
-                        className={`ml-2 text-[10px] font-semibold px-1.5 py-0.5 rounded ${
+                        className={`ml-2 text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${
                           ipo.ipo_type.toLowerCase() === "sme"
                             ? "bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300"
                             : "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300"
@@ -227,9 +227,9 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
                       <span
                         className={
                           isPositive
-                            ? "text-emerald-600 dark:text-[#34D399]"
+                            ? "text-emerald-600 dark:text-emerald-400"
                             : isNegative
-                            ? "text-rose-600 dark:text-[#F87171]"
+                            ? "text-rose-600 dark:text-rose-400"
                             : "text-[#0f172a] dark:text-[#F1F5F9]"
                         }
                       >
@@ -241,32 +241,32 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
                         )}
                       </span>
                     ) : (
-                      <span className="text-[#94A3B8]">—</span>
+                      <span className="text-gray-400 dark:text-[#6B7280]">-</span>
                     )}
                   </td>
 
                   {/* Subscription */}
                   <td className="px-4 py-3 font-semibold tabular-nums text-[#0f172a] dark:text-[#F1F5F9]">
-                    {ipo.sub_total ? `${ipo.sub_total}×` : <span className="text-[#94A3B8]">—</span>}
+                    {ipo.sub_total ? `${ipo.sub_total}x` : <span className="text-gray-400 dark:text-[#6B7280]">-</span>}
                   </td>
 
                   {/* Price Band */}
-                  <td className="px-4 py-3 text-[#475569] dark:text-[#94A3B8] whitespace-nowrap">
+                  <td className="px-4 py-3 text-[#475569] dark:text-[#9AA1AA] whitespace-nowrap">
                     {ipo.price_min && ipo.price_max
-                      ? `₹${ipo.price_min} – ₹${ipo.price_max}`
-                      : "—"}
+                      ? `₹${ipo.price_min} - ₹${ipo.price_max}`
+                      : "-"}
                   </td>
 
                   {/* Issue Size */}
-                  <td className="px-4 py-3 text-[#475569] dark:text-[#94A3B8]">
-                    {ipo.issue_size ?? "—"}
+                  <td className="px-4 py-3 text-[#475569] dark:text-[#9AA1AA]">
+                    {ipo.issue_size ?? "-"}
                   </td>
 
                   {/* Dates */}
-                  <td className="px-4 py-3 text-[#475569] dark:text-[#94A3B8] whitespace-nowrap">{formatDate(ipo.open_date)}</td>
-                  <td className="px-4 py-3 text-[#475569] dark:text-[#94A3B8] whitespace-nowrap">{formatDate(ipo.close_date)}</td>
-                  <td className="px-4 py-3 text-[#475569] dark:text-[#94A3B8] whitespace-nowrap">{formatDate(ipo.allotment_date)}</td>
-                  <td className="px-4 py-3 text-[#475569] dark:text-[#94A3B8] whitespace-nowrap">{formatDate(ipo.listing_date)}</td>
+                  <td className="px-4 py-3 text-[#475569] dark:text-[#9AA1AA] whitespace-nowrap">{formatDate(ipo.open_date)}</td>
+                  <td className="px-4 py-3 text-[#475569] dark:text-[#9AA1AA] whitespace-nowrap">{formatDate(ipo.close_date)}</td>
+                  <td className="px-4 py-3 text-[#475569] dark:text-[#9AA1AA] whitespace-nowrap">{formatDate(ipo.allotment_date)}</td>
+                  <td className="px-4 py-3 text-[#475569] dark:text-[#9AA1AA] whitespace-nowrap">{formatDate(ipo.listing_date)}</td>
                 </tr>
               );
             })}

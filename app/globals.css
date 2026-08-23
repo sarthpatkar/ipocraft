@@ -72,73 +72,73 @@
   --footer-text: #475569;
 }
 
-/* ─── Dark Mode Variables ─────────────────────────────────────────────────── */
+/* ─── Dark Mode Variables: Neutral Financial Research Palette ────────────── */
 [data-theme="dark"] {
   color-scheme: dark;
 
-  /* Backgrounds: Refined Financial Research Palette */
-  --background: #080D18;
-  --foreground: #F1F5F9;
-  --section-bg: #0D1525;
-  --section-alt: #0D1525;
+  /* Backgrounds: Neutral Charcoal & Slate Hierarchy */
+  --background: #090B0F;
+  --foreground: #F1F3F5;
+  --section-bg: #111418;
+  --section-alt: #111418;
 
-  /* Brand palette */
-  --brand-50: #0D1525;
-  --brand-100: #162238;
-  --brand-500: #3B82F6;
-  --brand-600: #3B82F6;
-  --brand-700: #2563EB;
+  /* Brand palette — blue ONLY for interaction & active selection */
+  --brand-50: #171B20;
+  --brand-100: #252A31;
+  --brand-500: #2563EB;
+  --brand-600: #2563EB;
+  --brand-700: #1D4ED8;
 
-  /* Accent for GMP positive/negative (restrained semantic) */
-  --gmp-positive: #10B981;
-  --gmp-negative: #EF4444;
+  /* Accent for GMP positive/negative (restrained financial semantic) */
+  --gmp-positive: #16A34A;
+  --gmp-negative: #DC2626;
 
-  /* Card system */
-  --card-bg: #111B2D;
-  --card-border: #22304A;
-  --card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-  --card-shadow-hover: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
+  /* Card system: Level 1 neutral surface */
+  --card-bg: #111418;
+  --card-border: #252A31;
+  --card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --card-shadow-hover: 0 4px 12px 0 rgba(0, 0, 0, 0.4);
 
-  /* Glassmorphism */
-  --glass-bg: rgba(13, 21, 37, 0.95);
-  --glass-border: #22304A;
+  /* Glassmorphism / Backdrop */
+  --glass-bg: rgba(9, 11, 15, 0.92);
+  --glass-border: #252A31;
   --glass-blur: 12px;
 
   /* Text hierarchy */
-  --text-primary: #F1F5F9;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --text-faint: #475569;
+  --text-primary: #F1F3F5;
+  --text-secondary: #9AA1AA;
+  --text-muted: #6B7280;
+  --text-faint: #4B5563;
 
   /* Borders */
-  --border: #22304A;
-  --border-subtle: #162238;
+  --border: #252A31;
+  --border-subtle: #1F242B;
 
   /* Navbar */
-  --nav-bg: rgba(8, 13, 24, 0.95);
-  --nav-border: #22304A;
-  --nav-active-bg: #3B82F6;
-  --nav-active-text: #ffffff;
-  --nav-text: #94A3B8;
-  --nav-text-hover: #F1F5F9;
+  --nav-bg: rgba(9, 11, 15, 0.95);
+  --nav-border: #252A31;
+  --nav-active-bg: #171B20;
+  --nav-active-text: #F1F3F5;
+  --nav-text: #9AA1AA;
+  --nav-text-hover: #F1F3F5;
 
   /* Table */
-  --table-header-bg: #0D1525;
-  --table-row-hover: #162238;
+  --table-header-bg: #111418;
+  --table-row-hover: #171B20;
 
   /* Skeleton */
-  --skeleton-base: #111B2D;
-  --skeleton-highlight: #162238;
+  --skeleton-base: #111418;
+  --skeleton-highlight: #171B20;
 
   /* Input */
-  --input-bg: #162238;
-  --input-border: #22304A;
-  --input-focus-border: #3B82F6;
-  --input-placeholder: #64748B;
+  --input-bg: #171B20;
+  --input-border: #252A31;
+  --input-focus-border: #2563EB;
+  --input-placeholder: #6B7280;
 
   /* Footer */
-  --footer-bg: #080D18;
-  --footer-text: #94A3B8;
+  --footer-bg: #090B0F;
+  --footer-text: #9AA1AA;
 }
 
 @theme inline {

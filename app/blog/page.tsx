@@ -52,12 +52,12 @@ export default async function BlogIndexPage() {
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#080D18] text-[#0f172a] dark:text-[#F1F5F9] antialiased pb-16`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9] antialiased pb-16`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
-      <div className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+      <div className="bg-white dark:bg-[#111418] border-b border-gray-200 dark:border-[#252A31]">
         <div className="max-w-[1000px] mx-auto px-4 sm:px-6 py-8 sm:py-10 text-center">
-          <p className="text-[10.5px] font-semibold uppercase text-blue-600 dark:text-[#3B82F6] mb-2 tracking-wide">
+          <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-2 tracking-wider">
             IPO Education &amp; Insights
           </p>
           <h1
@@ -66,7 +66,7 @@ export default async function BlogIndexPage() {
           >
             IPO Insights &amp; Market Research
           </h1>
-          <p className="text-[#64748b] dark:text-[#94A3B8] text-sm sm:text-[15px] max-w-xl mx-auto leading-relaxed">
+          <p className="text-gray-600 dark:text-[#9AA1AA] text-sm sm:text-[15px] max-w-xl mx-auto leading-relaxed">
             Market analysis, grey market premium dynamics, allotment processes, and subscription breakdowns.
           </p>
         </div>
@@ -78,34 +78,34 @@ export default async function BlogIndexPage() {
             <Link
               key={article.slug}
               href={`/blog/${article.slug}`}
-              className="group bg-white dark:bg-[#11182D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl overflow-hidden hover:border-[#3B82F6]/50 transition-colors flex flex-col shadow-xs"
+              className="group bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg overflow-hidden hover:border-gray-400 dark:hover:border-gray-500 transition-colors flex flex-col shadow-xs"
             >
               <div className="p-5 sm:p-6 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10.5px] font-semibold tracking-wider uppercase bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-[#22304A] px-2.5 py-0.5 rounded-md">
+                  <span className="text-[10.5px] font-semibold tracking-wider uppercase bg-blue-50 dark:bg-[#171B20] text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-[#252A31] px-2.5 py-0.5 rounded-md">
                     {article.category}
                   </span>
-                  <div className="flex items-center text-[#94a3b8] dark:text-[#64748B] text-[11.5px]">
+                  <div className="flex items-center text-gray-400 dark:text-[#6B7280] text-[11.5px]">
                     <ClockIcon className="w-3.5 h-3.5 mr-1" />
                     {article.readTime}
                   </div>
                 </div>
                 
                 <h2
-                  className="text-lg sm:text-xl font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2 group-hover:text-[#3B82F6] transition-colors leading-snug"
+                  className="text-lg sm:text-xl font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug"
                   style={{ fontFamily: "var(--font-outfit)" }}
                 >
                   {article.title}
                 </h2>
                 
-                <p className="text-[#475569] dark:text-[#94A3B8] text-[13px] leading-relaxed mb-5 flex-1">
+                <p className="text-[#475569] dark:text-[#9AA1AA] text-[13px] leading-relaxed mb-5 flex-1">
                   {article.excerpt}
                 </p>
 
-                <div className="pt-3 border-t border-[#f1f5f9] dark:border-[#22304A] flex items-center justify-between mt-auto">
-                  <span className="text-[12px] text-[#64748b] dark:text-[#94A3B8] font-medium">{formatDisplayDate(article.date)}</span>
-                  <span className="text-blue-600 dark:text-[#3B82F6] text-[12.5px] font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center">
-                    Read Article &rarr;
+                <div className="pt-3 border-t border-gray-100 dark:border-[#252A31] flex items-center justify-between mt-auto">
+                  <span className="text-[12px] text-gray-500 dark:text-[#9AA1AA] font-medium">{formatDisplayDate(article.date)}</span>
+                  <span className="text-blue-600 dark:text-blue-400 text-[12.5px] font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center">
+                    Read Article →
                   </span>
                 </div>
               </div>

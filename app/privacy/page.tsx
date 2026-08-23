@@ -56,42 +56,42 @@ const inter = Inter({
 export default function PrivacyPage() {
   return (
     <main
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100 overflow-x-hidden`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9] overflow-x-hidden`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* HERO */}
-      <section className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+      <section className="bg-white dark:bg-[#111418] border-b border-gray-200 dark:border-[#252A31]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12 lg:py-14">
-          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] dark:text-[#3B82F6] mb-2">
+          <p className="text-[11px] font-semibold tracking-wider uppercase text-blue-600 dark:text-blue-400 mb-2">
             Privacy &amp; Data Transparency
           </p>
 
           <h1
-            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight text-[#0f172a] dark:text-white"
+            className="text-2xl sm:text-3xl lg:text-[2.4rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F5F9]"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
-            Privacy Policy — IPOCraft
+            Privacy Policy - IPOCraft
           </h1>
 
-          <p className="mt-4 text-sm sm:text-[15px] text-[#475569] dark:text-slate-300 max-w-2xl leading-relaxed">
+          <p className="mt-4 text-sm sm:text-[15px] text-gray-600 dark:text-[#9AA1AA] max-w-2xl leading-relaxed">
             This Privacy Policy explains how IPOCraft collects, uses, and protects
             limited information when you use our platform. We prioritize transparency,
             minimal data collection, and user privacy.
           </p>
 
-          <p className="mt-2 text-xs sm:text-sm text-[#64748b] dark:text-slate-400">
+          <p className="mt-2 text-xs sm:text-sm text-gray-400 dark:text-[#6B7280]">
             Last updated: August 2026
           </p>
 
           {/* Trust badges */}
           <div className="flex flex-wrap gap-3 mt-6 text-xs">
-            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-700 dark:text-[#9AA1AA] px-3 py-1.5 rounded-md shadow-xs">
               Minimal Data Collection
             </span>
-            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-700 dark:text-[#9AA1AA] px-3 py-1.5 rounded-md shadow-xs">
               No Third-Party Sale
             </span>
-            <span className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] text-gray-700 dark:text-slate-300 px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-white dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-700 dark:text-[#9AA1AA] px-3 py-1.5 rounded-md shadow-xs">
               Transparent Operations
             </span>
           </div>

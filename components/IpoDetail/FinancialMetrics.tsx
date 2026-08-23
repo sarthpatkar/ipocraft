@@ -13,7 +13,7 @@ function percentOrDash(value: unknown) {
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
     <p
-      className={`text-[10.5px] font-semibold tracking-[0.22em] uppercase mb-4 ${light ? "text-[#93c5fd]" : "text-[#2563eb] dark:text-blue-400"}`}
+      className={`text-[11px] font-semibold tracking-wider uppercase mb-2 ${light ? "text-[#93c5fd]" : "text-blue-600 dark:text-blue-400"}`}
       style={{ fontFamily: "var(--font-inter)" }}
     >
       {children}
@@ -24,7 +24,7 @@ function Eyebrow({ children, light = false }: { children: React.ReactNode; light
 function DataLabel({ children }: { children: React.ReactNode }) {
   return (
     <p
-      className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#94a3b8] dark:text-slate-500 mb-1.5"
+      className="text-[11px] font-medium text-gray-500 dark:text-[#9AA1AA] mb-0.5"
       style={{ fontFamily: "var(--font-inter)" }}
     >
       {children}
@@ -49,8 +49,8 @@ export default function FinancialMetrics({ ipo }: { ipo: any }) {
   if (!hasAnyMetric) return null;
 
   return (
-    <section id="financials" className="scroll-mt-[120px] bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-3 mb-6">
-      <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A]">
+    <section id="financials" className="scroll-mt-[120px] bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-5 sm:p-6 space-y-3 mb-6">
+      <div className="pb-3 border-b border-gray-100 dark:border-[#252A31]">
         <Eyebrow>Financials</Eyebrow>
         <h2
           className="text-[1.25rem] sm:text-[1.35rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug"
@@ -75,15 +75,15 @@ export default function FinancialMetrics({ ipo }: { ipo: any }) {
           ))}
         </div>
       ) : (
-        <div className="bg-[#f8fafc] dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-lg p-4 text-center">
-          <p className="text-[12.5px] text-[#64748b] dark:text-[#94A3B8]" style={{ fontFamily: "var(--font-inter)" }}>
+        <div className="bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] rounded-md p-4 text-center">
+          <p className="text-[12.5px] text-gray-600 dark:text-[#9AA1AA]" style={{ fontFamily: "var(--font-inter)" }}>
             Detailed financial ratios (EPS, P/E, ROCE, Debt/Equity) will appear here once the final offer document (RHP) is filed.
           </p>
         </div>
       )}
 
       <p
-        className="text-[11.5px] text-[#94a3b8] dark:text-[#64748B] leading-relaxed pt-2 border-t border-[#f1f5f9] dark:border-[#22304A]"
+        className="text-[11.5px] text-gray-400 dark:text-[#6B7280] leading-relaxed pt-2 border-t border-gray-100 dark:border-[#252A31]"
         style={{ fontFamily: "var(--font-inter)" }}
       >
         Financial figures sourced from official offer documents. Verify with statutory RHP filings.

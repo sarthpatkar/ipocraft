@@ -35,7 +35,7 @@ type TooltipProps = {
 function CustomTooltip({ active, payload, label }: TooltipProps) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-lg border shadow-lg p-3 text-[12px] bg-white dark:bg-[#111B2D] border-gray-200 dark:border-[#22304A] text-[#0f172a] dark:text-[#F1F5F9]">
+    <div className="rounded-md border shadow-lg p-3 text-[12px] bg-white dark:bg-[#111418] border-gray-200 dark:border-[#252A31] text-[#0f172a] dark:text-[#F1F3F5]">
       <p className="font-semibold mb-1.5">{label}</p>
       {payload.map((p) => (
         <div key={p.name} className="flex items-center justify-between gap-4">
@@ -74,9 +74,9 @@ export default function SubscriptionChart({ history }: { history: SubHistory[] }
   if (!hasData) return null;
 
   return (
-    <div className="mt-5 pt-4 border-t border-gray-100 dark:border-[#22304A]">
+    <div className="mt-5 pt-4 border-t border-gray-100 dark:border-[#252A31]">
       <p
-        className="text-[11px] font-semibold tracking-wider uppercase text-gray-500 dark:text-[#94A3B8] mb-3"
+        className="text-[11px] font-semibold tracking-wider uppercase text-gray-500 dark:text-[#9AA1AA] mb-3"
         style={{ fontFamily: "var(--font-inter)" }}
       >
         Day-wise Subscription Chart
@@ -84,10 +84,10 @@ export default function SubscriptionChart({ history }: { history: SubHistory[] }
       <div className="w-full h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} barGap={4} barSize={18}>
-            <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#94A3B8" }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: "#94A3B8" }} axisLine={false} tickLine={false} unit="x" width={32} />
+            <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#9AA1AA" }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fill: "#9AA1AA" }} axisLine={false} tickLine={false} unit="x" width={32} />
             <Tooltip content={<CustomTooltip />} />
-            <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: "#94A3B8" }} />
+            <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: "#9AA1AA" }} />
             <Bar dataKey="QIB" fill="#3B82F6" radius={[3, 3, 0, 0]} />
             <Bar dataKey="NII" fill="#8B5CF6" radius={[3, 3, 0, 0]} />
             <Bar dataKey="Retail" fill="#10B981" radius={[3, 3, 0, 0]} />

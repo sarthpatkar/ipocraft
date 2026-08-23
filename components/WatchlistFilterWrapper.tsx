@@ -21,10 +21,10 @@ export default function WatchlistFilterWrapper({ initialIpos }: { initialIpos: I
         {isLoaded && (
           <button
             onClick={() => setShowWatchlist(!showWatchlist)}
-            className={`px-3.5 py-1.5 text-[12px] font-semibold rounded-lg transition-colors border ${
+            className={`px-3 py-1.5 text-[12px] font-semibold rounded-md transition-colors border ${
               showWatchlist
-                ? "bg-[#1e3a8a] dark:bg-[#3B82F6] text-white border-transparent"
-                : "bg-white dark:bg-[#111B2D] text-[#475569] dark:text-[#94A3B8] border-[#e2e8f0] dark:border-[#22304A] hover:border-[#3B82F6]/50"
+                ? "bg-[#1e3a8a] dark:bg-[#171B20] text-white dark:text-[#F1F3F5] border-transparent dark:border-[#252A31]"
+                : "bg-white dark:bg-[#111418] text-gray-700 dark:text-[#9AA1AA] border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-500"
             }`}
           >
             {showWatchlist ? "Viewing Watchlist" : "My Watchlist"}
@@ -33,7 +33,7 @@ export default function WatchlistFilterWrapper({ initialIpos }: { initialIpos: I
       </div>
 
       {showWatchlist && displayedIpos.length === 0 ? (
-        <div className="bg-white dark:bg-[#111827] border border-gray-200 dark:border-slate-700 rounded-xl p-8 text-center text-gray-500 dark:text-slate-400">
+        <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-8 text-center text-gray-500 dark:text-[#9AA1AA]">
           <p>Your watchlist is empty.</p>
           <p className="text-sm mt-2">Click the star icon on any IPO to save it here.</p>
         </div>

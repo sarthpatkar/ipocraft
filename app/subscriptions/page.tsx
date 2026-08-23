@@ -82,21 +82,21 @@ export default async function SubscriptionsPage({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#080D18] text-[#0f172a] dark:text-[#F1F5F9] antialiased`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* ── Breadcrumb ── */}
-      <div className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+      <div className="bg-white dark:bg-[#111418] border-b border-[#e2e8f0] dark:border-[#252A31]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center gap-2">
           <Link
             href="/"
-            className="text-[11.5px] text-[#94a3b8] dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] transition-colors"
+            className="text-[11.5px] text-[#94a3b8] dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] transition-colors"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Home
           </Link>
           <svg
-            className="w-3 h-3 text-[#cbd5e1] dark:text-[#64748B]"
+            className="w-3 h-3 text-[#cbd5e1] dark:text-[#6B7280]"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -105,7 +105,7 @@ export default async function SubscriptionsPage({
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
           </svg>
           <span
-            className="text-[11.5px] text-[#0f172a] dark:text-[#F1F5F9] font-medium"
+            className="text-[11.5px] text-[#0f172a] dark:text-[#F1F3F5] font-medium"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Live Subscriptions
@@ -114,18 +114,18 @@ export default async function SubscriptionsPage({
       </div>
 
       {/* ── Header ── */}
-      <section className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 text-center">
-          <p className="text-[10.5px] font-semibold uppercase text-blue-600 dark:text-[#3B82F6] mb-2 tracking-wide">
+      <section className="bg-white dark:bg-[#111418] border-b border-[#e2e8f0] dark:border-[#252A31]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9 text-center">
+          <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-1.5 tracking-wider">
             Subscription Analytics
           </p>
           <h1
-            className="text-2xl sm:text-3xl md:text-[2.25rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight mb-2"
+            className="text-2xl sm:text-3xl md:text-[2.2rem] font-semibold text-[#0f172a] dark:text-[#F1F3F5] tracking-tight mb-2"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
             Live IPO Subscription Tracker
           </h1>
-          <p className="text-sm sm:text-[14.5px] text-[#475569] dark:text-[#94A3B8] max-w-xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-[14.5px] text-[#475569] dark:text-[#9AA1AA] max-w-xl mx-auto leading-relaxed">
             Monitor verified exchange bidding across institutional (QIB), non-institutional (NII), and retail investor categories.
           </p>
         </div>
@@ -140,7 +140,7 @@ export default async function SubscriptionsPage({
         />
 
         {/* SEO Content */}
-        <article className="mt-8 bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 shadow-xs">
+        <article className="mt-8 bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-5 sm:p-6 shadow-xs">
           <h2
             className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-3"
             style={{ fontFamily: "var(--font-outfit)" }}
@@ -151,18 +151,18 @@ export default async function SubscriptionsPage({
             className="prose prose-sm prose-slate dark:prose-invert max-w-none text-[13px]"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            <p className="mb-3 text-[#475569] dark:text-[#94A3B8]">
+            <p className="mb-3 text-[#475569] dark:text-[#9AA1AA]">
               Subscription data reflects official demand submitted on stock exchange order books (BSE/NSE).
             </p>
-            <ul className="list-disc pl-4 space-y-1.5 text-[#475569] dark:text-[#94A3B8]">
+            <ul className="list-disc pl-4 space-y-1.5 text-[#475569] dark:text-[#9AA1AA]">
               <li>
                 <strong>QIB (Qualified Institutional Buyers):</strong> Mutual funds, banks, and FPIs. Heavy QIB subscription (&gt;30x) typically reflects institutional conviction.
               </li>
               <li>
-                <strong>NII / HNI:</strong> High Net-Worth Individuals subdivided into sNII (&lt; ₹10L) and bNII (&gt; ₹10L).
+                <strong>NII / HNI (Non-Institutional Investors):</strong> High net-worth individuals and corporate investors bidding above ₹2 Lakhs.
               </li>
               <li>
-                <strong>Retail:</strong> Individual applications up to ₹2 Lakhs per applicant.
+                <strong>RII (Retail Individual Investors):</strong> Bids below ₹2 Lakhs. High retail demand indicates retail market enthusiasm.
               </li>
             </ul>
           </div>

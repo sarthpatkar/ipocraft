@@ -77,8 +77,8 @@ export default async function BrokerList({ limit }: Props) {
 
   if (brokers.length === 0) {
     return (
-      <div className="border border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#111B2D] rounded-xl px-5 py-6 text-center shadow-xs">
-        <p className="text-[13px] text-[#64748b] dark:text-[#94A3B8]">
+      <div className="border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] rounded-lg px-5 py-6 text-center shadow-xs">
+        <p className="text-[13px] text-gray-500 dark:text-[#9AA1AA]">
           No broker data available yet.
         </p>
       </div>

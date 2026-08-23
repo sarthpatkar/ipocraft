@@ -126,37 +126,37 @@ export default function IpoGreyMarketGuide() {
       />
 
       {/* HERO */}
-      <section className="bg-white dark:bg-[#0D1525] border-b border-[#e2e8f0] dark:border-[#22304A]">
+      <section className="bg-white dark:bg-[#111418] border-b border-gray-200 dark:border-[#252A31]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14">
-          <p className="text-[10.5px] font-semibold tracking-[0.22em] uppercase text-[#2563eb] dark:text-[#3B82F6] mb-2">
+          <p className="text-[11px] font-semibold tracking-wider uppercase text-blue-600 dark:text-blue-400 mb-2">
             Educational Research Guide
           </p>
           <h1
             className="text-2xl sm:text-3xl lg:text-[2.25rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F5F9]"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
-            IPO Grey Market Guide – Complete Authority Breakdown
+            IPO Grey Market Guide - Complete Authority Breakdown
           </h1>
 
-          <p className="mt-4 text-sm sm:text-[14.5px] text-[#475569] dark:text-[#94A3B8] leading-relaxed">
+          <p className="mt-4 text-sm sm:text-[14.5px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
             The IPO grey market plays a powerful psychological role in shaping investor expectations before listing. This guide explains how Grey Market Premium (GMP) forms, how it correlates with listing performance, historical behaviour patterns, SME differences, and how to interpret probability instead of certainty.
           </p>
 
-          <p className="mt-3 text-xs text-[#64748b] dark:text-[#64748B]">Last updated: {lastUpdatedReadable}</p>
+          <p className="mt-3 text-xs text-gray-500 dark:text-[#6B7280]">Last updated: {lastUpdatedReadable}</p>
         </div>
       </section>
 
       {/* STICKY NAV */}
-      <div className="sticky top-24 z-30 bg-white dark:bg-[#111827]/95 backdrop-blur border-b border-[#e2e8f0] dark:border-[#1e293b]">
+      <div className="sticky top-24 z-30 bg-white dark:bg-[#111418]/95 backdrop-blur border-b border-gray-200 dark:border-[#252A31]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-xs sm:text-sm flex flex-wrap gap-4">
-          <a href="#how-it-works" className="text-[#2563eb] dark:text-blue-400 hover:underline">How It Works</a>
-          <a href="#case-study" className="text-[#2563eb] dark:text-blue-400 hover:underline">Case Study</a>
-          <a href="#historical" className="text-[#2563eb] dark:text-blue-400 hover:underline">Historical Patterns</a>
-          <a href="#correlation" className="text-[#2563eb] dark:text-blue-400 hover:underline">Correlation Table</a>
-          <a href="#probability" className="text-[#2563eb] dark:text-blue-400 hover:underline">Probability Logic</a>
-          <a href="#sme" className="text-[#2563eb] dark:text-blue-400 hover:underline">SME vs Mainboard</a>
-          <a href="#gmp-trend" className="text-[#2563eb] dark:text-blue-400 hover:underline">GMP Trend Example</a>
-          <a href="#faq" className="text-[#2563eb] dark:text-blue-400 hover:underline">FAQs</a>
+          <a href="#how-it-works" className="text-blue-600 dark:text-blue-400 hover:underline">How It Works</a>
+          <a href="#case-study" className="text-blue-600 dark:text-blue-400 hover:underline">Case Study</a>
+          <a href="#historical" className="text-blue-600 dark:text-blue-400 hover:underline">Historical Patterns</a>
+          <a href="#correlation" className="text-blue-600 dark:text-blue-400 hover:underline">Correlation Table</a>
+          <a href="#probability" className="text-blue-600 dark:text-blue-400 hover:underline">Probability Logic</a>
+          <a href="#sme" className="text-blue-600 dark:text-blue-400 hover:underline">SME vs Mainboard</a>
+          <a href="#gmp-trend" className="text-blue-600 dark:text-blue-400 hover:underline">GMP Trend Example</a>
+          <a href="#faq" className="text-blue-600 dark:text-blue-400 hover:underline">FAQs</a>
         </div>
       </div>
 

@@ -8,7 +8,7 @@ type Category = "Retail" | "sNII" | "bNII";
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
     <p
-      className={`text-[10.5px] font-semibold tracking-[0.22em] uppercase mb-4 ${light ? "text-[#93c5fd]" : "text-[#2563eb] dark:text-[#3B82F6]"}`}
+      className={`text-[11px] font-semibold tracking-wider uppercase mb-2 ${light ? "text-[#93c5fd]" : "text-blue-600 dark:text-blue-400"}`}
       style={{ fontFamily: "var(--font-inter)" }}
     >
       {children}
@@ -65,11 +65,11 @@ export default function AllotmentCalculator({
   }
 
   // Format prob
-  const probFormatted = multiple === 0 ? "—" : `${Math.min(100, Math.max(0, probability)).toFixed(1)}%`;
+  const probFormatted = multiple === 0 ? "-" : `${Math.min(100, Math.max(0, probability)).toFixed(1)}%`;
 
   return (
-    <section className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 sm:p-6 space-y-4 mb-6 shadow-xs">
-      <div className="pb-3 border-b border-[#f1f5f9] dark:border-[#22304A] flex items-center justify-between">
+    <section className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-5 sm:p-6 space-y-4 mb-6 shadow-xs">
+      <div className="pb-3 border-b border-gray-100 dark:border-[#252A31] flex items-center justify-between">
         <div>
           <Eyebrow>Probability Model</Eyebrow>
           <h2
@@ -79,7 +79,7 @@ export default function AllotmentCalculator({
             Allotment Probability Calculator
           </h2>
         </div>
-        <div className="p-2 bg-gray-100 dark:bg-[#162238] text-gray-700 dark:text-[#94A3B8] rounded-lg">
+        <div className="p-2 bg-gray-100 dark:bg-[#171B20] text-gray-700 dark:text-[#9AA1AA] rounded-md">
           <CalculatorIcon className="w-4 h-4" />
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function AllotmentCalculator({
         {/* Controls */}
         <div className="space-y-4">
           <div>
-            <label className="block text-[11px] font-semibold text-[#64748B] dark:text-[#94A3B8] mb-2 uppercase tracking-wider" style={{ fontFamily: "var(--font-inter)" }}>
+            <label className="block text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] mb-2 uppercase tracking-wider" style={{ fontFamily: "var(--font-inter)" }}>
               Investor Category
             </label>
             <div className="flex gap-2">
@@ -97,10 +97,10 @@ export default function AllotmentCalculator({
                   key={cat}
                   type="button"
                   onClick={() => setCategory(cat)}
-                  className={`flex-1 py-1.5 text-[12.5px] font-semibold rounded-lg border transition-colors ${
+                  className={`flex-1 py-1.5 text-[12.5px] font-semibold rounded-md border transition-colors ${
                     category === cat
-                      ? "bg-blue-50 border-blue-500 text-blue-700 dark:bg-[#162238] dark:border-[#3B82F6] dark:text-[#3B82F6]"
-                      : "bg-white dark:bg-[#0D1525] border-gray-200 dark:border-[#22304A] text-gray-700 dark:text-[#CBD5E1] hover:border-gray-300 dark:hover:border-gray-600"
+                      ? "bg-[#1e3a8a] text-white dark:bg-[#171B20] dark:text-[#F1F3F5] border-transparent dark:border-[#252A31]"
+                      : "bg-white dark:bg-[#171B20] border-gray-200 dark:border-[#252A31] text-gray-700 dark:text-[#9AA1AA] hover:border-gray-300 dark:hover:border-gray-500"
                   }`}
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
@@ -110,10 +110,10 @@ export default function AllotmentCalculator({
             </div>
           </div>
 
-          <div className="bg-[#f8fafc] dark:bg-[#0D1525] p-3.5 rounded-xl border border-gray-200 dark:border-[#22304A] space-y-2">
+          <div className="bg-gray-50 dark:bg-[#171B20] p-3.5 rounded-lg border border-gray-200 dark:border-[#252A31] space-y-2">
             <div className="flex justify-between items-center text-[12.5px]">
               <span className="font-semibold text-gray-800 dark:text-[#F1F5F9]">Lots Applied</span>
-              <span className="font-bold text-gray-900 dark:text-[#3B82F6]">{lots} Lot{lots > 1 ? "s" : ""}</span>
+              <span className="font-bold text-gray-900 dark:text-blue-400">{lots} Lot{lots > 1 ? "s" : ""}</span>
             </div>
             <input
               type="range"
@@ -121,9 +121,9 @@ export default function AllotmentCalculator({
               max={category === "Retail" ? 13 : category === "sNII" ? 68 : 100}
               value={lots}
               onChange={(e) => setLots(parseInt(e.target.value))}
-              className="w-full h-1.5 bg-gray-200 dark:bg-[#162238] rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
+              className="w-full h-1.5 bg-gray-200 dark:bg-[#111418] rounded-md appearance-none cursor-pointer accent-blue-600"
             />
-            <div className="flex justify-between text-[10.5px] text-gray-400 dark:text-[#64748B] font-medium">
+            <div className="flex justify-between text-[10.5px] text-gray-400 dark:text-[#6B7280] font-medium">
               <span>1 Lot</span>
               <span>Max {category === "Retail" ? "13 (₹2L)" : category === "sNII" ? "68 (₹10L)" : "Unlimited"}</span>
             </div>
@@ -131,21 +131,21 @@ export default function AllotmentCalculator({
         </div>
 
         {/* Results */}
-        <div className="bg-[#f8fafc] dark:bg-[#0D1525] rounded-xl p-4 sm:p-5 border border-gray-200 dark:border-[#22304A] flex flex-col justify-center">
+        <div className="bg-gray-50 dark:bg-[#171B20] rounded-lg p-4 sm:p-5 border border-gray-200 dark:border-[#252A31] flex flex-col justify-center">
           <div className="text-center mb-3">
-            <p className="text-[11px] font-semibold text-[#64748B] dark:text-[#94A3B8] uppercase tracking-wider mb-1" style={{ fontFamily: "var(--font-inter)" }}>
+            <p className="text-[11px] font-semibold text-gray-500 dark:text-[#9AA1AA] uppercase tracking-wider mb-1" style={{ fontFamily: "var(--font-inter)" }}>
               Estimated Chance of Allotment
             </p>
             <p className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-[#F1F5F9] tabular-nums tracking-tight" style={{ fontFamily: "var(--font-outfit)" }}>
               {probFormatted}
             </p>
-            <p className="text-[11.5px] text-[#64748B] dark:text-[#94A3B8] mt-1 font-medium">
-              Current Category Demand: <strong className="text-gray-900 dark:text-[#F1F5F9]">{multiple > 0 ? `${multiple.toFixed(2)}x` : "—"}</strong>
+            <p className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA] mt-1 font-medium">
+              Current Category Demand: <strong className="text-gray-900 dark:text-[#F1F5F9]">{multiple > 0 ? `${multiple.toFixed(2)}x` : "-"}</strong>
             </p>
           </div>
 
-          <div className="bg-white dark:bg-[#111B2D] rounded-lg p-3 border border-gray-200 dark:border-[#22304A]">
-            <p className="text-[11.5px] text-[#475569] dark:text-[#94A3B8] leading-relaxed text-center" style={{ fontFamily: "var(--font-inter)" }}>
+          <div className="bg-white dark:bg-[#111418] rounded-md p-3 border border-gray-200 dark:border-[#252A31]">
+            <p className="text-[11.5px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed text-center" style={{ fontFamily: "var(--font-inter)" }}>
               {explanation}
             </p>
           </div>

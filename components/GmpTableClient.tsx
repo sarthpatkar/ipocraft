@@ -245,10 +245,10 @@ export default function GmpTableClient({
   return (
     <div className="w-full flex flex-col gap-3.5">
       {/* Date Range Filter Bar */}
-      <div className="flex flex-col gap-2.5 p-3 sm:p-4 bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl shadow-xs">
+      <div className="flex flex-col gap-2.5 p-3 sm:p-4 bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 dark:text-[#94A3B8]">
-            <svg className="w-4 h-4 text-blue-600 dark:text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 dark:text-[#9AA1AA]">
+            <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             Date Range:
@@ -267,10 +267,10 @@ export default function GmpTableClient({
                 key={btn.id}
                 type="button"
                 onClick={() => setTimeRange(btn.id as any)}
-                className={`px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-colors border ${
+                className={`px-2.5 py-1.5 rounded-md text-[12px] font-medium transition-colors border ${
                   timeRange === btn.id
-                    ? "bg-[#3B82F6] text-white border-[#3B82F6] shadow-xs font-semibold"
-                    : "bg-gray-100 dark:bg-[#162238] text-gray-700 dark:text-[#94A3B8] border-transparent dark:border-[#22304A] hover:border-[#3B82F6]/50"
+                    ? "bg-[#1e3a8a] text-white dark:bg-[#171B20] dark:text-[#F1F3F5] border-transparent dark:border-[#252A31] shadow-xs font-semibold"
+                    : "bg-gray-100 dark:bg-[#171B20] text-gray-700 dark:text-[#9AA1AA] border-transparent dark:border-[#252A31] hover:border-gray-300 dark:hover:border-gray-500"
                 }`}
               >
                 {btn.label}
@@ -281,23 +281,23 @@ export default function GmpTableClient({
 
         {/* Custom Date Pickers */}
         {timeRange === "custom" && (
-          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-gray-100 dark:border-[#22304A] text-xs">
+          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-gray-100 dark:border-[#252A31] text-xs">
             <div className="flex items-center gap-2">
-              <label className="text-gray-500 dark:text-[#94A3B8] font-medium">From:</label>
+              <label className="text-gray-500 dark:text-[#9AA1AA] font-medium">From:</label>
               <input
                 type="date"
                 value={customStart}
                 onChange={(e) => setCustomStart(e.target.value)}
-                className="px-2.5 py-1 bg-gray-50 dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] text-gray-900 dark:text-[#F1F5F9] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+                className="px-2.5 py-1 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-900 dark:text-[#F1F3F5] rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
             <div className="flex items-center gap-2">
-              <label className="text-gray-500 dark:text-[#94A3B8] font-medium">To:</label>
+              <label className="text-gray-500 dark:text-[#9AA1AA] font-medium">To:</label>
               <input
                 type="date"
                 value={customEnd}
                 onChange={(e) => setCustomEnd(e.target.value)}
-                className="px-2.5 py-1 bg-gray-50 dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] text-gray-900 dark:text-[#F1F5F9] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+                className="px-2.5 py-1 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-900 dark:text-[#F1F3F5] rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
             {(customStart || customEnd) && (
@@ -317,7 +317,7 @@ export default function GmpTableClient({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="relative w-full sm:w-80">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg className="h-4 w-4 text-gray-400 dark:text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4 text-gray-400 dark:text-[#6B7280]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
@@ -326,23 +326,23 @@ export default function GmpTableClient({
             placeholder="Search IPOs by name…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-2 bg-white dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#64748B] rounded-lg text-[13px] focus:outline-none focus:ring-1 focus:ring-[#3B82F6] transition-colors shadow-xs"
+            className="w-full pl-9 pr-3.5 py-1.5 bg-white dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-900 dark:text-[#F1F3F5] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors shadow-xs"
           />
         </div>
         <div className="flex items-center gap-2.5">
-          <span className="text-[11.5px] font-medium text-gray-500 dark:text-[#94A3B8]">
-            Showing <strong className="text-gray-900 dark:text-[#F1F5F9]">{filtered.length}</strong> IPOs
+          <span className="text-[11.5px] font-medium text-gray-500 dark:text-[#9AA1AA]">
+            Showing <strong className="text-gray-900 dark:text-[#F1F3F5]">{filtered.length}</strong> IPOs
           </span>
         </div>
       </div>
 
       {/* Tabular Layout */}
-      <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white dark:bg-[#11182D] border border-gray-200 dark:border-[#22304A] rounded-xl shadow-xs">
+      <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg shadow-xs">
         <table className="min-w-max w-full text-left relative">
-          <thead className="bg-gray-50 dark:bg-[#0D1525] border-b border-gray-200 dark:border-[#22304A] text-gray-600 dark:text-[#94A3B8] font-medium sticky top-0 z-30 shadow-xs">
-            <tr className="divide-x divide-gray-200 dark:divide-[#22304A]">
-              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-40 bg-gray-50 dark:bg-[#0D1525] border-r border-gray-200 dark:border-[#22304A]">IPO Name</th>
-              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider cursor-pointer hover:text-gray-900 dark:hover:text-[#F1F5F9]" onClick={() => toggleSort("gmp")}>
+          <thead className="bg-gray-50 dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31] text-gray-600 dark:text-[#9AA1AA] font-medium sticky top-0 z-30 shadow-xs">
+            <tr className="divide-x divide-gray-200 dark:divide-[#252A31]">
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-40 bg-gray-50 dark:bg-[#171B20] border-r border-gray-200 dark:border-[#252A31]">IPO Name</th>
+              <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider cursor-pointer hover:text-gray-900 dark:hover:text-[#F1F3F5]" onClick={() => toggleSort("gmp")}>
                 GMP {sortKey === "gmp" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
               </th>
               <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider cursor-pointer hover:text-gray-900 dark:hover:text-[#F1F5F9]" onClick={() => toggleSort("sub")}>
@@ -354,10 +354,10 @@ export default function GmpTableClient({
               <th className="p-2.5 sm:p-3 uppercase text-[11px] tracking-wider">Listing</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-[#22304A] text-xs sm:text-[13px]">
+          <tbody className="divide-y divide-gray-200 dark:divide-[#252A31] text-xs sm:text-[13px]">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-gray-500 dark:text-[#94A3B8]">
+                <td colSpan={7} className="p-8 text-center text-gray-500 dark:text-[#9AA1AA]">
                   No IPOs found matching your filters.
                 </td>
               </tr>
@@ -368,9 +368,9 @@ export default function GmpTableClient({
                 const trend = ipo.gmp_trend ?? (latest != null && prev != null ? latest - prev : 0);
                 
                 return (
-                  <tr key={ipo.id} className="group transition-colors divide-x divide-gray-200 dark:divide-[#22304A] bg-white dark:bg-[#11182D] hover:bg-gray-50 dark:hover:bg-[#162238]/60">
-                    <td className="p-2.5 sm:p-3 w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-20 bg-white dark:bg-[#11182D] group-hover:bg-gray-50 dark:group-hover:bg-[#162238] border-r border-gray-200 dark:border-[#22304A]">
-                      <Link href={`/ipo/${ipo.slug}`} className="font-semibold text-gray-900 dark:text-[#F1F5F9] hover:text-[#3B82F6] dark:hover:text-[#3B82F6] block whitespace-normal break-words">
+                  <tr key={ipo.id} className="group transition-colors divide-x divide-gray-200 dark:divide-[#252A31] bg-white dark:bg-[#111418] hover:bg-gray-50 dark:hover:bg-[#171B20]/60">
+                    <td className="p-2.5 sm:p-3 w-[140px] sm:w-[160px] md:w-[220px] sticky left-0 z-20 bg-white dark:bg-[#111418] group-hover:bg-gray-50 dark:group-hover:bg-[#171B20] border-r border-gray-200 dark:border-[#252A31]">
+                      <Link href={`/ipo/${ipo.slug}`} className="font-semibold text-gray-900 dark:text-[#F1F5F9] hover:text-blue-600 dark:hover:text-blue-400 block whitespace-normal break-words">
                         {highlight(ipo.name)}
                       </Link>
                       {getUrgencyBadge(ipo)}
@@ -384,8 +384,8 @@ export default function GmpTableClient({
                           {trend !== 0 && (
                             <span className={`text-[9px] sm:text-[10px] font-semibold px-1 py-0.5 rounded ${
                               trend > 0 
-                                ? "text-emerald-700 bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300" 
-                                : "text-rose-700 bg-rose-100 dark:bg-rose-950/60 dark:text-rose-300"
+                                ? "text-emerald-700 bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-300" 
+                                : "text-rose-700 bg-rose-100 dark:bg-rose-950/40 dark:text-rose-300"
                             }`}>
                               {trend > 0 ? "↑" : "↓"}{Math.abs(trend)}
                             </span>
@@ -398,26 +398,26 @@ export default function GmpTableClient({
                         )}
                       </div>
                     </td>
-                    <td className="p-2.5 sm:p-3 text-[#334155] dark:text-[#CBD5E1] font-medium tabular-nums">
+                    <td className="p-2.5 sm:p-3 text-[#334155] dark:text-[#9AA1AA] font-medium tabular-nums">
                       {formatSubscriptionTimes(ipo.sub_total)}
                     </td>
-                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#94A3B8] whitespace-nowrap">
-                      {ipo.price_min && ipo.price_max ? `₹${ipo.price_min} – ₹${ipo.price_max}` : "—"}
+                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#9AA1AA] whitespace-nowrap">
+                      {ipo.price_min && ipo.price_max ? `₹${ipo.price_min} - ₹${ipo.price_max}` : "-"}
                     </td>
-                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#94A3B8] whitespace-nowrap">
-                      {ipo.issue_size ?? "—"}
+                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#9AA1AA] whitespace-nowrap">
+                      {ipo.issue_size ?? "-"}
                     </td>
-                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#94A3B8]">
+                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#9AA1AA]">
                       {ipo.open_date ? (
                         <div className="flex flex-col xl:flex-row xl:gap-1 whitespace-nowrap">
                           <span>{formatShortDate(ipo.open_date)}</span>
-                          <span className="hidden xl:inline">–</span>
+                          <span className="hidden xl:inline">-</span>
                           <span>{formatShortDate(ipo.close_date)}</span>
                         </div>
-                      ) : "—"}
+                      ) : "-"}
                     </td>
-                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#94A3B8] whitespace-nowrap">
-                      {ipo.listing_date ? formatDisplayDate(ipo.listing_date) : "—"}
+                    <td className="p-2.5 sm:p-3 text-gray-600 dark:text-[#9AA1AA] whitespace-nowrap">
+                      {ipo.listing_date ? formatDisplayDate(ipo.listing_date) : "-"}
                     </td>
                   </tr>
                 );

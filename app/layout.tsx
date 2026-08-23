@@ -67,7 +67,7 @@ export default function RootLayout({
       <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
       </head>
       <body
-        className="bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100 antialiased"
+        className="bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased"
         style={{ fontFamily: "var(--font-inter), sans-serif" }}
       >
         {/* Google Analytics */}
@@ -122,18 +122,18 @@ export default function RootLayout({
           {children}
         </main>
 
-        <footer className="mt-14 pb-20 md:pb-0 border-t border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#080D18]">
+        <footer className="mt-14 pb-20 md:pb-0 border-t border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#090B0F]">
           {/* Telegram CTA Banner */}
           <a
             href="https://t.me/ipocraft"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2.5 py-2.5 px-4 text-[12.5px] font-medium transition-opacity hover:opacity-95 bg-[#0088cc] text-white"
+            className="flex items-center justify-center gap-2 py-2 px-4 text-[12px] font-medium transition-opacity hover:opacity-95 bg-[#0088cc] text-white"
           >
             <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
               <path d="M9.04 15.35 8.9 19.5c.33 0 .47-.14.64-.31l3.07-2.92 6.36 4.65c1.17.64 2 .31 2.29-1.08l4.15-19.46.01-.01c.36-1.67-.6-2.32-1.74-1.9L1.4 8.74C-.2 9.38-.18 10.3 1.13 10.7l5.5 1.72L19.9 4.3c.63-.38 1.2-.17.73.21" />
             </svg>
-            Get live IPO alerts &amp; updates — Join <strong className="font-semibold">@ipocraft</strong> on Telegram
+            Live IPO alerts and exchange disclosures | Join <strong className="font-semibold ml-1">@ipocraft</strong> on Telegram
           </a>
           <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 py-8">
 
@@ -157,36 +157,36 @@ export default function RootLayout({
                     className="h-8 w-auto hidden dark:block object-contain"
                   />
                 </div>
-                <p className="mt-2 text-xs sm:text-[13px] text-[#64748b] dark:text-[#94A3B8] max-w-sm leading-relaxed">
+                <p className="mt-2 text-xs sm:text-[13px] text-[#64748b] dark:text-[#9AA1AA] max-w-sm leading-relaxed">
                   Structured Indian IPO intelligence, subscription tracker, and grey market trend analytics.
                 </p>
               </div>
 
               {/* Footer Navigation */}
-              <div className="grid grid-cols-2 gap-8 text-[13px] text-[#475569] dark:text-[#94A3B8]">
+              <div className="grid grid-cols-2 gap-8 text-[13px] text-[#475569] dark:text-[#9AA1AA]">
 
                 {/* Quick Links */}
                 <div>
-                  <h4 className="font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2.5 text-[12px] uppercase tracking-wider">Quick Links</h4>
+                  <h4 className="font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2.5 text-[12px] uppercase tracking-wider">Quick Links</h4>
                   <ul className="space-y-1.5">
-                    <li><Link href="/about" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">About</Link></li>
-                    <li><Link href="/contact" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">Contact</Link></li>
-                    <li><Link href="/disclaimer" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">Disclaimer</Link></li>
-                    <li><Link href="/privacy" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">Privacy Policy</Link></li>
-                    <li><Link href="/terms" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">Terms of Use</Link></li>
-                    <li><Link href="/sitemap.xml" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">Sitemap</Link></li>
+                    <li><Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</Link></li>
+                    <li><Link href="/contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</Link></li>
+                    <li><Link href="/disclaimer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Disclaimer</Link></li>
+                    <li><Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
+                    <li><Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Use</Link></li>
+                    <li><Link href="/sitemap.xml" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Sitemap</Link></li>
                   </ul>
                 </div>
 
                 {/* Learning Guides */}
                 <div>
-                  <h4 className="font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2.5 text-[12px] uppercase tracking-wider">Research Guides</h4>
+                  <h4 className="font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2.5 text-[12px] uppercase tracking-wider">Research Guides</h4>
                   <ul className="space-y-1.5">
-                    <li><Link href="/what-is-ipo-gmp" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">What is IPO GMP?</Link></li>
-                    <li><Link href="/how-ipo-allotment-works" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">How IPO Allotment Works</Link></li>
-                    <li><Link href="/qib-hni-retail-explained" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">QIB vs HNI vs Retail</Link></li>
-                    <li><Link href="/ipo-grey-market-guide" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">Grey Market Guide</Link></li>
-                    <li><Link href="/ipo-subscription-meaning" className="hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">IPO Subscription Meaning</Link></li>
+                    <li><Link href="/what-is-ipo-gmp" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">What is IPO GMP?</Link></li>
+                    <li><Link href="/how-ipo-allotment-works" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">How IPO Allotment Works</Link></li>
+                    <li><Link href="/qib-hni-retail-explained" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">QIB vs HNI vs Retail</Link></li>
+                    <li><Link href="/ipo-grey-market-guide" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Grey Market Guide</Link></li>
+                    <li><Link href="/ipo-subscription-meaning" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">IPO Subscription Meaning</Link></li>
                   </ul>
                 </div>
 
@@ -200,7 +200,7 @@ export default function RootLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#11182D] text-blue-600 dark:text-[#94A3B8] hover:text-blue-600 dark:hover:text-white transition-colors"
+                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418] text-blue-600 dark:text-[#9AA1AA] hover:text-blue-600 dark:hover:text-white transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
@@ -212,7 +212,7 @@ export default function RootLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#11182D] text-pink-600 dark:text-[#94A3B8] hover:text-pink-600 dark:hover:text-white transition-colors"
+                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418] text-pink-600 dark:text-[#9AA1AA] hover:text-pink-600 dark:hover:text-white transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.25-2.25a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0z" />
@@ -225,7 +225,7 @@ export default function RootLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Telegram"
-                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#11182D] text-sky-500 dark:text-[#94A3B8] hover:text-sky-500 dark:hover:text-white transition-colors"
+                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418] text-sky-500 dark:text-[#9AA1AA] hover:text-sky-500 dark:hover:text-white transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M9.04 15.35 8.9 19.5c.33 0 .47-.14.64-.31l3.07-2.92 6.36 4.65c1.17.64 2 .31 2.29-1.08l4.15-19.46.01-.01c.36-1.67-.6-2.32-1.74-1.9L1.4 8.74C-.2 9.38-.18 10.3 1.13 10.7l5.5 1.72L19.9 4.3c.63-.38 1.2-.17.73.21" />
@@ -238,7 +238,7 @@ export default function RootLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#11182D] text-[#0A66C2] dark:text-[#94A3B8] hover:text-[#0A66C2] dark:hover:text-white transition-colors"
+                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418] text-[#0A66C2] dark:text-[#9AA1AA] hover:text-[#0A66C2] dark:hover:text-white transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7 0h3.83v2.05h.05c.53-1 1.84-2.05 3.79-2.05C19.36 8 21 10.1 21 13.36V23h-4v-8.4c0-2-.04-4.57-2.78-4.57-2.78 0-3.2 2.17-3.2 4.43V23h-4V8z"/>
@@ -251,7 +251,7 @@ export default function RootLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="X"
-                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#22304A] bg-white dark:bg-[#11182D] text-black dark:text-[#94A3B8] hover:text-gray-700 dark:hover:text-white transition-colors"
+                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418] text-black dark:text-[#9AA1AA] hover:text-gray-700 dark:hover:text-white transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18.244 2H21l-6.5 7.43L22 22h-6.828l-5.35-6.993L3.5 22H1l6.95-7.95L2 2h6.914l4.86 6.34L18.244 2zm-2.394 18h1.89L8.01 4H6.06l9.79 16z"/>

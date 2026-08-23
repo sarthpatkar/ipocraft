@@ -62,20 +62,20 @@ export default function ShareButton({ title, url, text }: ShareButtonProps) {
 
       {open && (
         <div
-          className="absolute right-0 top-full mt-1.5 w-44 rounded-xl shadow-lg border border-gray-200 dark:border-[#22304A] bg-white dark:bg-[#111B2D] z-50 py-1 overflow-hidden"
+          className="absolute right-0 top-full mt-1.5 w-44 rounded-md shadow-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] z-50 py-1 overflow-hidden"
         >
           <button
             onClick={copyLink}
-            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-[12.5px] text-gray-700 dark:text-[#CBD5E1] transition-colors hover:bg-gray-50 dark:hover:bg-[#162238]"
+            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-[12.5px] text-gray-700 dark:text-[#F1F3F5] transition-colors hover:bg-gray-50 dark:hover:bg-[#171B20]"
           >
-            {copied ? <CheckIcon className="w-4 h-4 text-emerald-500" /> : <ClipboardIcon className="w-4 h-4 text-gray-400 dark:text-[#64748B]" />}
+            {copied ? <CheckIcon className="w-4 h-4 text-emerald-500" /> : <ClipboardIcon className="w-4 h-4 text-gray-400 dark:text-[#6B7280]" />}
             {copied ? "Copied!" : "Copy Link"}
           </button>
           <a
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-[12.5px] text-gray-700 dark:text-[#CBD5E1] transition-colors hover:bg-gray-50 dark:hover:bg-[#162238]"
+            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-[12.5px] text-gray-700 dark:text-[#F1F3F5] transition-colors hover:bg-gray-50 dark:hover:bg-[#171B20]"
             onClick={() => setOpen(false)}
           >
             <svg className="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="currentColor">
@@ -87,10 +87,12 @@ export default function ShareButton({ title, url, text }: ShareButtonProps) {
             href={xUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-[12.5px] text-gray-700 dark:text-[#CBD5E1] transition-colors hover:bg-gray-50 dark:hover:bg-[#162238]"
+            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-[12.5px] text-gray-700 dark:text-[#F1F3F5] transition-colors hover:bg-gray-50 dark:hover:bg-[#171B20]"
             onClick={() => setOpen(false)}
           >
-            <span className="w-4 h-4 flex items-center justify-center font-bold text-xs text-gray-900 dark:text-white">𝕏</span>
+            <svg className="w-4 h-4 text-[#0f172a] dark:text-[#F1F5F9]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
             X (Twitter)
           </a>
         </div>

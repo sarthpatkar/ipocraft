@@ -38,7 +38,7 @@ type LinkItem = {
   href: string; 
   label: string; 
   Icon: React.ElementType; 
-  ActiveIcon: React.ElementType;
+  ActiveIcon: React.ElementType; 
 };
 
 const MAIN_NAV_LINKS: LinkItem[] = [
@@ -57,11 +57,11 @@ const DESKTOP_PRIMARY_LINKS = [
 ];
 
 const TOOLS_LINKS = [
-  { href: "/allotment-status", label: "Allotment Status", badge: "Beta", Icon: CheckBadgeIcon, desc: "Live registrar & exchange verification" },
-  { href: "/performance", label: "Track Record", badge: "Beta", Icon: ArrowTrendingUpIcon, desc: "Historical listing day gains & returns" },
-  { href: "/ipo-calendar", label: "IPO Calendar", Icon: CalendarDaysIcon, desc: "Timeline of open and upcoming issues" },
+  { href: "/allotment-status", label: "Allotment Status", Icon: CheckBadgeIcon, desc: "Registrar & exchange verification" },
+  { href: "/performance", label: "Track Record", Icon: ArrowTrendingUpIcon, desc: "Historical listing day gains" },
+  { href: "/ipo-calendar", label: "IPO Calendar", Icon: CalendarDaysIcon, desc: "Timeline of open & upcoming issues" },
   { href: "/brokers", label: "Brokers", Icon: BriefcaseIcon, desc: "Compare brokerage platforms" },
-  { href: "/blog", label: "Research Blog", Icon: DocumentTextIcon, desc: "Guides, FAQs, and educational articles" },
+  { href: "/blog", label: "Research Blog", Icon: DocumentTextIcon, desc: "Guides and educational articles" },
 ];
 
 export default function Navbar() {
@@ -133,9 +133,9 @@ export default function Navbar() {
       {/* Top Fixed Header Wrapper */}
       <div className="fixed top-0 w-full z-50">
         <header
-          className={`relative z-50 w-full transition-all duration-200 border-b ${
-            scrolled ? "border-[#e2e8f0] dark:border-[#22304A] shadow-xs" : "border-transparent"
-          } bg-white/95 dark:bg-[#080D18]/95 backdrop-blur-md`}
+          className={`relative z-50 w-full transition-colors duration-150 border-b ${
+            scrolled ? "border-gray-200 dark:border-[#252A31]" : "border-transparent"
+          } bg-white/95 dark:bg-[#090B0F]/95 backdrop-blur-md`}
           style={{
             paddingTop: "env(safe-area-inset-top)",
           }}
@@ -170,10 +170,10 @@ export default function Navbar() {
                     <Link
                       key={l.href}
                       href={l.href}
-                      className={`px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-colors duration-150 ${
+                      className={`px-3 py-1.5 rounded-md text-[13.5px] font-medium transition-colors duration-150 ${
                         active
-                          ? "bg-[#1e3a8a] text-white dark:bg-[#3B82F6] dark:text-white font-semibold shadow-xs"
-                          : "text-gray-600 dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] hover:bg-gray-100/80 dark:hover:bg-[#162238]"
+                          ? "bg-gray-100 text-[#0f172a] dark:bg-[#171B20] dark:text-[#F1F3F5] font-semibold"
+                          : "text-gray-600 dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F3F5] hover:bg-gray-50 dark:hover:bg-[#171B20]/60"
                       }`}
                     >
                       {l.label}
@@ -181,16 +181,16 @@ export default function Navbar() {
                   );
                 })}
 
-                {/* "Tools & Trackers" Dropdown Menu */}
+                {/* "Tools" Dropdown Menu */}
                 <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setToolsDropdownOpen((prev) => !prev)}
-                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-colors duration-150 ${
+                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-[13.5px] font-medium transition-colors duration-150 ${
                       isToolsActive()
-                        ? "bg-[#1e3a8a] text-white dark:bg-[#3B82F6] dark:text-white font-semibold shadow-xs"
+                        ? "bg-gray-100 text-[#0f172a] dark:bg-[#171B20] dark:text-[#F1F3F5] font-semibold"
                         : toolsDropdownOpen
-                        ? "bg-gray-100 dark:bg-[#162238] text-[#0f172a] dark:text-[#F1F5F9]"
-                        : "text-gray-600 dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] hover:bg-gray-100/80 dark:hover:bg-[#162238]"
+                        ? "bg-gray-100 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F3F5]"
+                        : "text-gray-600 dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] hover:bg-gray-50 dark:hover:bg-[#171B20]/60"
                     }`}
                   >
                     <span>Tools</span>
@@ -199,7 +199,7 @@ export default function Navbar() {
 
                   {/* Dropdown Popover */}
                   {toolsDropdownOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-64 rounded-xl border border-gray-200 dark:border-[#22304A] bg-white dark:bg-[#0D1525] shadow-xl py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100">
+                    <div className="absolute top-full right-0 mt-2 w-64 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] shadow-xl py-1.5 z-[100] animate-in fade-in duration-100">
                       {TOOLS_LINKS.map((tool) => {
                         const active = isActive(tool.href);
                         const Icon = tool.Icon;
@@ -207,21 +207,14 @@ export default function Navbar() {
                           <Link
                             key={tool.href}
                             href={tool.href}
-                            className={`flex items-start gap-2.5 px-3.5 py-2.5 hover:bg-gray-50 dark:hover:bg-[#162238] transition-colors ${
-                              active ? "bg-blue-50/50 dark:bg-[#162238]/60 text-blue-600 dark:text-[#3B82F6]" : "text-[#0f172a] dark:text-[#F1F5F9]"
+                            className={`flex items-start gap-2.5 px-3.5 py-2.5 hover:bg-gray-50 dark:hover:bg-[#171B20] transition-colors ${
+                              active ? "bg-gray-50 dark:bg-[#171B20] text-blue-600 dark:text-blue-400" : "text-[#0f172a] dark:text-[#F1F3F5]"
                             }`}
                           >
-                            <Icon className="w-4 h-4 mt-0.5 shrink-0 text-blue-600 dark:text-[#3B82F6]" />
+                            <Icon className="w-4 h-4 mt-0.5 shrink-0 text-gray-500 dark:text-[#9AA1AA]" />
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-[13px] font-semibold leading-tight">{tool.label}</span>
-                                {tool.badge && (
-                                  <span className="px-1.5 py-0.2 rounded bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 text-[9px] font-bold uppercase tracking-wider">
-                                    {tool.badge}
-                                  </span>
-                                )}
-                              </div>
-                              <div className="text-[11.5px] text-[#64748B] dark:text-[#94A3B8] leading-snug mt-0.5 truncate">
+                              <div className="text-[13px] font-medium leading-tight">{tool.label}</div>
+                              <div className="text-[11.5px] text-[#64748B] dark:text-[#9AA1AA] leading-snug mt-0.5 truncate">
                                 {tool.desc}
                               </div>
                             </div>
@@ -238,11 +231,11 @@ export default function Navbar() {
                 <button
                   onClick={() => setSearchOpen(true)}
                   aria-label="Search IPOs"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[12.5px] rounded-lg border transition-colors duration-150 bg-white dark:bg-[#162238] border-gray-200 dark:border-[#22304A] text-gray-500 dark:text-[#94A3B8] hover:border-gray-300 dark:hover:border-[#3B82F6]/50"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[12.5px] rounded-md border transition-colors duration-150 bg-white dark:bg-[#171B20] border-gray-200 dark:border-[#252A31] text-gray-500 dark:text-[#9AA1AA] hover:border-gray-300 dark:hover:border-[#374151]"
                 >
                   <MagnifyingGlassIcon className="w-3.5 h-3.5" />
-                  <span>Search IPOs</span>
-                  <kbd className="hidden lg:inline text-[10px] px-1.5 py-0.5 rounded border border-gray-200 dark:border-[#22304A] bg-gray-50 dark:bg-[#111B2D] text-gray-400 dark:text-[#64748B]">⌘K</kbd>
+                  <span>Search</span>
+                  <kbd className="hidden lg:inline text-[10px] px-1.5 py-0.5 rounded border border-gray-200 dark:border-[#252A31] bg-gray-50 dark:bg-[#111418] text-gray-400 dark:text-[#6B7280]">⌘K</kbd>
                 </button>
                 <ThemeToggle />
               </div>
@@ -253,7 +246,7 @@ export default function Navbar() {
               <button
                 onClick={() => setSearchOpen(true)}
                 aria-label="Search"
-                className="p-2 rounded-lg text-gray-600 dark:text-[#94A3B8] hover:bg-gray-100 dark:hover:bg-[#162238]"
+                className="p-2 rounded-md text-gray-600 dark:text-[#9AA1AA] hover:bg-gray-100 dark:hover:bg-[#171B20]"
               >
                 <MagnifyingGlassIcon className="w-5 h-5" />
               </button>
@@ -265,7 +258,7 @@ export default function Navbar() {
           {showScrollProgress && (
             <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
               <div
-                className="h-full transition-all duration-150 bg-[#3B82F6]"
+                className="h-full transition-all duration-150 bg-blue-600"
                 style={{ width: `${scrollProgress}%` }}
               />
             </div>
@@ -278,7 +271,7 @@ export default function Navbar() {
 
       {/* Mobile Bottom Navigation */}
       <nav
-        className="md:hidden fixed bottom-0 inset-x-0 border-t z-50 bg-white/95 dark:bg-[#080D18]/95 border-gray-200 dark:border-[#22304A] backdrop-blur-md"
+        className="md:hidden fixed bottom-0 inset-x-0 border-t z-50 bg-white/95 dark:bg-[#090B0F]/95 border-gray-200 dark:border-[#252A31] backdrop-blur-md"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         <div className="flex items-center justify-around h-14 px-1">
@@ -291,12 +284,10 @@ export default function Navbar() {
                 href={href}
                 className="flex flex-col items-center justify-center w-full h-full gap-0.5 min-w-0"
               >
-                <div
-                  style={{ color: active ? "#3B82F6" : undefined }}
-                >
-                  <CurrentIcon className={`w-5 h-5 ${active ? "text-blue-600 dark:text-[#3B82F6]" : "text-gray-500 dark:text-[#64748B]"}`} />
+                <div>
+                  <CurrentIcon className={`w-5 h-5 ${active ? "text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-[#6B7280]"}`} />
                 </div>
-                <span className={`text-[10px] truncate ${active ? "font-semibold text-blue-600 dark:text-[#3B82F6]" : "text-gray-500 dark:text-[#64748B]"}`}>
+                <span className={`text-[10px] truncate ${active ? "font-semibold text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-[#6B7280]"}`}>
                   {label}
                 </span>
               </Link>
@@ -306,8 +297,8 @@ export default function Navbar() {
             onClick={() => setMoreDrawerOpen(true)}
             className="flex flex-col items-center justify-center w-full h-full gap-0.5"
           >
-            <EllipsisHorizontalIcon className="w-5 h-5 text-gray-500 dark:text-[#64748B]" strokeWidth={1.5} />
-            <span className="text-[10px] font-medium text-gray-500 dark:text-[#64748B]">More</span>
+            <EllipsisHorizontalIcon className="w-5 h-5 text-gray-500 dark:text-[#6B7280]" strokeWidth={1.5} />
+            <span className="text-[10px] font-medium text-gray-500 dark:text-[#6B7280]">More</span>
           </button>
         </div>
       </nav>
@@ -316,97 +307,83 @@ export default function Navbar() {
       {moreDrawerOpen && (
         <>
           <div
-            className="md:hidden fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm animate-in fade-in"
+            className="md:hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm animate-in fade-in"
             onClick={() => setMoreDrawerOpen(false)}
           />
-          <div className="md:hidden fixed bottom-0 inset-x-0 z-[70] rounded-t-2xl shadow-2xl pb-[env(safe-area-inset-bottom)] bg-white dark:bg-[#0D1525] border border-gray-200 dark:border-[#22304A] max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-gray-100 dark:border-[#22304A] sticky top-0 bg-white/95 dark:bg-[#0D1525]/95 backdrop-blur-sm z-10">
-              <span className="text-[14px] font-bold text-gray-900 dark:text-[#F1F5F9]">All Tools &amp; Pages</span>
-              <button onClick={() => setMoreDrawerOpen(false)} className="text-gray-500 dark:text-[#94A3B8] p-1">
+          <div className="md:hidden fixed bottom-0 inset-x-0 z-[70] rounded-t-xl shadow-2xl pb-[env(safe-area-inset-bottom)] bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-gray-100 dark:border-[#252A31] sticky top-0 bg-white/95 dark:bg-[#111418]/95 backdrop-blur-sm z-10">
+              <span className="text-[14px] font-bold text-gray-900 dark:text-[#F1F3F5]">Tools &amp; Pages</span>
+              <button onClick={() => setMoreDrawerOpen(false)} className="text-gray-500 dark:text-[#9AA1AA] p-1">
                 <XMarkIcon className="w-5 h-5" />
               </button>
             </div>
 
             <div className="p-4 space-y-4">
-              {/* Category 1: Live Trackers */}
+              {/* Category 1: Trackers */}
               <div>
-                <div className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] mb-2 px-1">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] dark:text-[#9AA1AA] mb-2 px-1">
                   Trackers &amp; Tools
                 </div>
                 <div className="grid grid-cols-1 gap-2">
                   <Link
                     href="/allotment-status"
                     onClick={() => setMoreDrawerOpen(false)}
-                    className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                    className="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 dark:border-[#252A31] bg-gray-50/60 dark:bg-[#171B20] text-gray-800 dark:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1F242B] transition-colors"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <CheckBadgeIcon className="w-4.5 h-4.5 text-blue-600 dark:text-[#3B82F6]" />
-                      <span className="text-[13.5px] font-semibold">Allotment Status</span>
-                    </div>
-                    <span className="px-1.5 py-0.2 rounded bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 text-[10px] font-bold uppercase">
-                      Beta
-                    </span>
+                    <CheckBadgeIcon className="w-4.5 h-4.5 text-blue-600 dark:text-blue-400" />
+                    <span className="text-[13.5px] font-medium">Allotment Status</span>
                   </Link>
 
                   <Link
                     href="/performance"
                     onClick={() => setMoreDrawerOpen(false)}
-                    className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                    className="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 dark:border-[#252A31] bg-gray-50/60 dark:bg-[#171B20] text-gray-800 dark:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1F242B] transition-colors"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <ArrowTrendingUpIcon className="w-4.5 h-4.5 text-emerald-600 dark:text-emerald-400" />
-                      <span className="text-[13.5px] font-semibold">Performance &amp; Track Record</span>
-                    </div>
-                    <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 text-[10px] font-bold uppercase">
-                      Beta
-                    </span>
+                    <ArrowTrendingUpIcon className="w-4.5 h-4.5 text-emerald-600 dark:text-emerald-400" />
+                    <span className="text-[13.5px] font-medium">Performance &amp; Track Record</span>
                   </Link>
 
                   <Link
                     href="/sme-ipo"
                     onClick={() => setMoreDrawerOpen(false)}
-                    className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                    className="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 dark:border-[#252A31] bg-gray-50/60 dark:bg-[#171B20] text-gray-800 dark:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1F242B] transition-colors"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <BuildingStorefrontIcon className="w-4.5 h-4.5 text-amber-600 dark:text-amber-400" />
-                      <span className="text-[13.5px] font-semibold">SME IPO Hub</span>
-                    </div>
+                    <BuildingStorefrontIcon className="w-4.5 h-4.5 text-amber-600 dark:text-amber-400" />
+                    <span className="text-[13.5px] font-medium">SME IPO Hub</span>
                   </Link>
 
                   <Link
                     href="/ipo-calendar"
                     onClick={() => setMoreDrawerOpen(false)}
-                    className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                    className="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 dark:border-[#252A31] bg-gray-50/60 dark:bg-[#171B20] text-gray-800 dark:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1F242B] transition-colors"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <CalendarDaysIcon className="w-4.5 h-4.5 text-blue-600 dark:text-[#3B82F6]" />
-                      <span className="text-[13.5px] font-semibold">IPO Calendar</span>
-                    </div>
+                    <CalendarDaysIcon className="w-4.5 h-4.5 text-blue-600 dark:text-blue-400" />
+                    <span className="text-[13.5px] font-medium">IPO Calendar</span>
                   </Link>
                 </div>
               </div>
 
               {/* Category 2: Guides & Resources */}
               <div>
-                <div className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] mb-2 px-1">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] dark:text-[#9AA1AA] mb-2 px-1">
                   Resources &amp; Comparison
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <Link
                     href="/brokers"
                     onClick={() => setMoreDrawerOpen(false)}
-                    className="flex items-center gap-2 p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                    className="flex items-center gap-2 p-3 rounded-lg border border-gray-200 dark:border-[#252A31] bg-gray-50/60 dark:bg-[#171B20] text-gray-800 dark:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1F242B] transition-colors"
                   >
-                    <BriefcaseIcon className="w-4 h-4 text-blue-600 dark:text-[#3B82F6] shrink-0" />
+                    <BriefcaseIcon className="w-4 h-4 text-gray-500 dark:text-[#9AA1AA] shrink-0" />
                     <span className="text-[13px] font-medium">Brokers</span>
                   </Link>
 
                   <Link
                     href="/blog"
                     onClick={() => setMoreDrawerOpen(false)}
-                    className="flex items-center gap-2 p-3 rounded-xl border border-gray-200 dark:border-[#22304A] bg-gray-50/60 dark:bg-[#111B2D] text-gray-800 dark:text-[#F1F5F9] hover:bg-gray-100 dark:hover:bg-[#162238] transition-colors"
+                    className="flex items-center gap-2 p-3 rounded-lg border border-gray-200 dark:border-[#252A31] bg-gray-50/60 dark:bg-[#171B20] text-gray-800 dark:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1F242B] transition-colors"
                   >
-                    <DocumentTextIcon className="w-4 h-4 text-blue-600 dark:text-[#3B82F6] shrink-0" />
+                    <DocumentTextIcon className="w-4 h-4 text-gray-500 dark:text-[#9AA1AA] shrink-0" />
                     <span className="text-[13px] font-medium">Blog</span>
                   </Link>
                 </div>

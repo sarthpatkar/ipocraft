@@ -33,20 +33,20 @@ export default function HypeLeaderboard({ ipos }: { ipos: IPOListItem[] }) {
   if (ranked.length === 0) return null;
 
   return (
-    <div className="mb-5 bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-4 sm:p-5">
+    <div className="mb-5 bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 sm:p-5">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="text-[10.5px] font-semibold uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA]">
             Hype Score Leaderboard
           </p>
-          <p className="text-[11.5px] text-[#94A3B8] dark:text-[#64748B] mt-0.5">
+          <p className="text-[11.5px] text-gray-400 dark:text-[#6B7280] mt-0.5">
             Top picks by momentum signal
           </p>
         </div>
         <Link
           href="/ipo"
-          className="text-[11.5px] text-[#2563eb] dark:text-[#3B82F6] hover:underline font-semibold shrink-0"
+          className="text-[11.5px] text-blue-600 dark:text-blue-400 hover:underline font-semibold shrink-0"
         >
           View All →
         </Link>
@@ -63,19 +63,19 @@ export default function HypeLeaderboard({ ipos }: { ipos: IPOListItem[] }) {
             <Link
               key={ipo.slug}
               href={`/ipo/${ipo.slug}`}
-              className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-[#f8fafc] dark:hover:bg-[#111B2D] transition-colors -mx-1 px-2"
+              className="flex items-center gap-3 p-2.5 rounded-md hover:bg-gray-50 dark:hover:bg-[#171B20] transition-colors -mx-1 px-2"
             >
               {/* Rank */}
-              <span className="text-[11px] font-bold tabular-nums text-[#94A3B8] dark:text-[#64748B] shrink-0 w-6 text-center">
+              <span className="text-[11px] font-bold tabular-nums text-gray-400 dark:text-[#6B7280] shrink-0 w-6 text-center">
                 {RANKS[i]}
               </span>
 
               {/* Name + label */}
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] truncate leading-snug hover:text-blue-600 dark:hover:text-[#3B82F6] transition-colors">
+                <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] truncate leading-snug hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   {ipo.name}
                 </p>
-                <p className="text-[10.5px] text-[#94A3B8] dark:text-[#64748B] mt-0.5 truncate">
+                <p className="text-[10.5px] text-gray-400 dark:text-[#6B7280] mt-0.5 truncate">
                   {label}
                   {ipo.ipo_type && (
                     <span className="ml-1.5 opacity-70">· {ipo.ipo_type.toUpperCase()}</span>
@@ -85,7 +85,7 @@ export default function HypeLeaderboard({ ipos }: { ipos: IPOListItem[] }) {
 
               {/* Score bar + number */}
               <div className="flex items-center gap-2 shrink-0">
-                <div className="w-16 h-1.5 bg-gray-100 dark:bg-[#22304A] rounded-full overflow-hidden">
+                <div className="w-16 h-1.5 bg-gray-100 dark:bg-[#171B20] rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full ${barBg} transition-all duration-500`}
                     style={{ width: `${score}%` }}
@@ -101,8 +101,8 @@ export default function HypeLeaderboard({ ipos }: { ipos: IPOListItem[] }) {
       </div>
 
       {/* Footer disclaimer */}
-      <p className="mt-3 text-[10px] text-[#94A3B8] dark:text-[#64748B] border-t border-[#f1f5f9] dark:border-[#22304A] pt-2.5">
-        Hype Score is an algorithmic momentum signal (0–100). Not investment advice.
+      <p className="mt-3 text-[10px] text-gray-400 dark:text-[#6B7280] border-t border-gray-100 dark:border-[#252A31] pt-2.5">
+        Hype Score is an algorithmic momentum signal (0-100). Not investment advice.
       </p>
     </div>
   );

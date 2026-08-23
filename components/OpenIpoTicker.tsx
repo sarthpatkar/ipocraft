@@ -62,11 +62,11 @@ export default function OpenIpoTicker() {
   const displayItems = [...openIpos, ...openIpos, ...openIpos];
 
   return (
-    <div className="w-full bg-[#f1f5f9]/90 dark:bg-[#0b1322]/90 border-b border-[#e2e8f0] dark:border-[#22304A] backdrop-blur-md overflow-hidden select-none h-8.5 flex items-center text-[12px] relative z-20">
+    <div className="w-full bg-[#f8fafc]/95 dark:bg-[#0D1015]/95 border-b border-gray-200 dark:border-[#252A31] backdrop-blur-md overflow-hidden select-none h-8 flex items-center text-[12px] relative z-20">
       {/* Static Label Badge */}
-      <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-semibold text-[11px] uppercase tracking-wider shrink-0 border-r border-[#e2e8f0] dark:border-[#22304A] z-10 h-full">
+      <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-slate-100 dark:bg-[#171B20] text-slate-700 dark:text-[#F1F3F5] font-semibold text-[11px] uppercase tracking-wider shrink-0 border-r border-gray-200 dark:border-[#252A31] z-10 h-full">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-        <span>Open IPOs</span>
+        <span>Open Issues</span>
       </div>
 
       {/* Marquee Container (Moving Left-to-Right) */}
@@ -84,15 +84,15 @@ export default function OpenIpoTicker() {
               <Link
                 key={`${ipo.id}-${idx}`}
                 href={`/ipo/${ipo.slug}`}
-                className="inline-flex items-center gap-2 text-[#334155] dark:text-[#CBD5E1] hover:text-[#2563eb] dark:hover:text-[#3B82F6] transition-colors py-1 cursor-pointer shrink-0"
+                className="inline-flex items-center gap-2 text-[#334155] dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F3F5] transition-colors py-0.5 cursor-pointer shrink-0"
               >
-                <span className="font-semibold text-[#0f172a] dark:text-[#F1F5F9]">
+                <span className="font-semibold text-[#0f172a] dark:text-[#F1F3F5]">
                   {ipo.name}
                 </span>
 
                 {ipo.ipo_type === "SME" && (
-                  <span className="px-1 py-0.2 rounded bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 text-[9px] font-bold uppercase tracking-wider">
-                    SME
+                  <span className="text-[10px] text-amber-700 dark:text-amber-400 font-medium">
+                    (SME)
                   </span>
                 )}
 
@@ -101,12 +101,12 @@ export default function OpenIpoTicker() {
                     GMP: ₹{gmp} {gmpPct && `(+${gmpPct}%)`}
                   </span>
                 ) : (
-                  <span className="text-gray-400 dark:text-slate-500 font-normal">
+                  <span className="text-gray-400 dark:text-[#6B7280]">
                     GMP: -
                   </span>
                 )}
 
-                <span className="text-gray-300 dark:text-slate-700 select-none">•</span>
+                <span className="text-gray-300 dark:text-[#252A31] select-none">•</span>
               </Link>
             );
           })}

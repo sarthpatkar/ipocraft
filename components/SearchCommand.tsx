@@ -105,13 +105,13 @@ export default function SearchCommand({
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-xl rounded-xl shadow-2xl overflow-hidden bg-white dark:bg-[#111B2D] border border-gray-200 dark:border-[#22304A]"
+        className="relative w-full max-w-xl rounded-lg shadow-2xl overflow-hidden bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31]"
       >
         {/* Input row */}
         <div
-          className="flex items-center gap-3 px-4 py-3.5 border-b border-gray-200 dark:border-[#22304A] bg-white dark:bg-[#162238]"
+          className="flex items-center gap-3 px-4 py-3.5 border-b border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#171B20]"
         >
-          <MagnifyingGlassIcon className="w-5 h-5 shrink-0 text-gray-400 dark:text-[#94A3B8]" />
+          <MagnifyingGlassIcon className="w-5 h-5 shrink-0 text-gray-400 dark:text-[#9AA1AA]" />
           <input
             ref={inputRef}
             type="text"
@@ -119,24 +119,24 @@ export default function SearchCommand({
             onChange={handleInput}
             onKeyDown={handleKeyDown}
             placeholder="Search IPOs by name or symbol…"
-            className="flex-1 bg-transparent text-[14.5px] outline-none text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#64748B]"
+            className="flex-1 bg-transparent text-[14.5px] outline-none text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#6B7280]"
           />
           {loading && (
             <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin shrink-0" />
           )}
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:text-[#94A3B8] dark:hover:text-[#F1F5F9]">
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:text-[#9AA1AA] dark:hover:text-[#F1F5F9]">
             <XMarkIcon className="w-5 h-5" />
           </button>
         </div>
 
         {/* Results */}
         {results.length > 0 && (
-          <ul className="max-h-[360px] overflow-y-auto py-2 divide-y divide-gray-100 dark:divide-[#22304A]/60">
+          <ul className="max-h-[360px] overflow-y-auto py-2 divide-y divide-gray-100 dark:divide-[#252A31]">
             {results.map((ipo, i) => {
               const isActive = i === activeIndex;
               const gmpColor = ipo.gmp != null
                 ? (ipo.gmp >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400")
-                : "text-gray-400 dark:text-[#64748B]";
+                : "text-gray-400 dark:text-[#6B7280]";
 
               return (
                 <li key={ipo.id}>
@@ -145,8 +145,8 @@ export default function SearchCommand({
                     onClick={onClose}
                     className={`flex items-center gap-3 px-4 py-3 transition-colors ${
                       isActive 
-                        ? "bg-blue-50/60 dark:bg-[#162238]" 
-                        : "hover:bg-gray-50 dark:hover:bg-[#162238]/50"
+                        ? "bg-gray-100 dark:bg-[#171B20]" 
+                        : "hover:bg-gray-50 dark:hover:bg-[#171B20]/60"
                     }`}
                     onMouseEnter={() => setActiveIndex(i)}
                   >
@@ -155,7 +155,7 @@ export default function SearchCommand({
                       <p className="text-[14px] font-medium text-gray-900 dark:text-[#F1F5F9] truncate">{ipo.name}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         {ipo.ipo_type && (
-                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
+                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${
                             ipo.ipo_type.toLowerCase() === "sme" 
                               ? "bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300" 
                               : "bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300"
@@ -164,13 +164,12 @@ export default function SearchCommand({
                           </span>
                         )}
                         {ipo.status && (
-                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${STATUS_COLORS[ipo.status] ?? "bg-gray-100 text-gray-600 dark:bg-[#162238] dark:text-[#94A3B8]"}`}>
+                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${STATUS_COLORS[ipo.status] ?? "bg-gray-100 text-gray-600 dark:bg-[#171B20] dark:text-[#9AA1AA]"}`}>
                             {ipo.status}
                           </span>
                         )}
                       </div>
                     </div>
-
 
                     {/* GMP + arrow */}
                     <div className="flex items-center gap-2 shrink-0">
@@ -179,7 +178,7 @@ export default function SearchCommand({
                           GMP ₹{ipo.gmp}
                         </span>
                       )}
-                      <ArrowRightIcon className="w-3.5 h-3.5 text-gray-400 dark:text-slate-500" />
+                      <ArrowRightIcon className="w-3.5 h-3.5 text-gray-400 dark:text-[#6B7280]" />
                     </div>
                   </Link>
                 </li>
@@ -191,8 +190,8 @@ export default function SearchCommand({
         {/* Empty state */}
         {query.length > 1 && !loading && results.length === 0 && (
           <div className="px-4 py-8 text-center">
-            <p className="text-[13px] text-gray-500 dark:text-slate-400">
-              No IPOs found for &ldquo;<strong className="text-gray-800 dark:text-slate-200">{query}</strong>&rdquo;
+            <p className="text-[13px] text-gray-500 dark:text-[#9AA1AA]">
+              No IPOs found for &ldquo;<strong className="text-gray-800 dark:text-[#F1F5F9]">{query}</strong>&rdquo;
             </p>
           </div>
         )}
@@ -200,19 +199,19 @@ export default function SearchCommand({
         {/* Hint when empty */}
         {query.length === 0 && (
           <div className="px-4 py-6 text-center">
-            <p className="text-[12px] text-gray-500 dark:text-slate-400">
-              Type to search across all IPOs — Mainboard &amp; SME
+            <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA]">
+              Type to search across all IPOs · Mainboard &amp; SME
             </p>
           </div>
         )}
 
         {/* Footer */}
         <div
-          className="flex items-center gap-3 px-4 py-2 border-t border-gray-200 dark:border-slate-800 bg-gray-50/70 dark:bg-[#0f172a] text-[11px] text-gray-500 dark:text-slate-400"
+          className="flex items-center gap-3 px-4 py-2 border-t border-gray-200 dark:border-[#252A31] bg-gray-50/70 dark:bg-[#171B20] text-[11px] text-gray-500 dark:text-[#9AA1AA]"
         >
-          <span><kbd className="px-1.5 py-0.5 rounded border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-[10px]">↑↓</kbd> navigate</span>
-          <span><kbd className="px-1.5 py-0.5 rounded border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-[10px]">↵</kbd> open</span>
-          <span><kbd className="px-1.5 py-0.5 rounded border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-[10px]">Esc</kbd> close</span>
+          <span><kbd className="px-1.5 py-0.5 rounded-md border border-gray-300 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[10px]">↑↓</kbd> navigate</span>
+          <span><kbd className="px-1.5 py-0.5 rounded-md border border-gray-300 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[10px]">↵</kbd> open</span>
+          <span><kbd className="px-1.5 py-0.5 rounded-md border border-gray-300 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[10px]">Esc</kbd> close</span>
         </div>
       </div>
     </div>

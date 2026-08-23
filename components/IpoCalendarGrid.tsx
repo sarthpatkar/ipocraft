@@ -89,18 +89,18 @@ export default function IpoCalendarGrid({ ipos }: Props) {
     <div>
       {/* View toggle */}
       <div className="flex items-center justify-between mb-4">
-        <p className="text-[12.5px] text-[#64748B] dark:text-[#94A3B8]">
+        <p className="text-[12.5px] text-gray-500 dark:text-[#9AA1AA]">
           Quarterly IPO event timeline
         </p>
-        <div className="flex items-center gap-1 rounded-lg border border-[#e2e8f0] dark:border-[#22304A] bg-[#f8fafc] dark:bg-[#0D1525] p-1">
+        <div className="flex items-center gap-1 rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50 dark:bg-[#171B20] p-1">
           {(["grid", "list"] as const).map((v) => (
             <button
               key={v}
               onClick={() => setView(v)}
               className={`px-3 py-1 rounded-md text-[12px] font-medium capitalize transition-colors ${
                 view === v
-                  ? "bg-white dark:bg-[#162238] text-[#0f172a] dark:text-[#F1F5F9] shadow-xs"
-                  : "text-[#64748B] dark:text-[#94A3B8] hover:text-[#0f172a] dark:hover:text-[#F1F5F9]"
+                  ? "bg-white dark:bg-[#111418] text-[#0f172a] dark:text-[#F1F3F5] shadow-xs"
+                  : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-[#F1F5F9]"
               }`}
             >
               {v}
@@ -112,7 +112,7 @@ export default function IpoCalendarGrid({ ipos }: Props) {
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-2 mb-5 text-[11px]">
         {Object.entries(EVENT_LABELS).map(([type, label]) => (
-          <span key={type} className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded border ${EVENT_STYLES[type]}`}>
+          <span key={type} className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border ${EVENT_STYLES[type]}`}>
             <span className="w-1.5 h-1.5 rounded-full bg-current" />
             {label}
           </span>
@@ -141,30 +141,30 @@ export default function IpoCalendarGrid({ ipos }: Props) {
                   {MONTH_NAMES[month]} {year}
                 </h3>
                 {/* Day headers */}
-                <div className="grid grid-cols-7 mb-1 bg-gray-50 dark:bg-[#0D1525] rounded-lg border border-gray-100 dark:border-[#22304A]">
+                <div className="grid grid-cols-7 mb-1 bg-gray-50 dark:bg-[#171B20] rounded-md border border-gray-100 dark:border-[#252A31]">
                   {DAY_NAMES.map((d) => (
-                    <div key={d} className="text-center text-[10.5px] font-semibold uppercase py-1 text-gray-500 dark:text-[#94A3B8]">
+                    <div key={d} className="text-center text-[10.5px] font-semibold uppercase py-1 text-gray-500 dark:text-[#9AA1AA]">
                       {d}
                     </div>
                   ))}
                 </div>
                 {/* Calendar grid */}
-                <div className="grid grid-cols-7 border border-[#e2e8f0] dark:border-[#22304A] rounded-xl overflow-hidden">
+                <div className="grid grid-cols-7 border border-gray-200 dark:border-[#252A31] rounded-lg overflow-hidden">
                   {cells.map((cell, idx) => (
                     <div
                       key={idx}
-                      className={`min-h-[76px] p-1.5 border-b border-r border-[#e2e8f0] dark:border-[#22304A] text-[11px] ${
+                      className={`min-h-[76px] p-1.5 border-b border-r border-gray-100 dark:border-[#252A31] text-[11px] ${
                         cell?.isToday
-                          ? "bg-blue-50/50 dark:bg-[#162238]"
+                          ? "bg-blue-50/50 dark:bg-[#171B20]"
                           : cell
-                          ? "bg-white dark:bg-[#111B2D]"
-                          : "bg-gray-50/40 dark:bg-[#080D18]"
+                          ? "bg-white dark:bg-[#111418]"
+                          : "bg-gray-50/40 dark:bg-[#090B0F]"
                       }`}
                     >
                       {cell && (
                         <>
                           <div className={`text-[10.5px] font-semibold w-4.5 h-4.5 flex items-center justify-center rounded-full mb-0.5 ${
-                            cell.isToday ? "bg-[#3B82F6] text-white" : "text-gray-600 dark:text-[#94A3B8]"
+                            cell.isToday ? "bg-blue-600 text-white" : "text-gray-600 dark:text-[#9AA1AA]"
                           }`}>
                             {cell.day}
                           </div>
@@ -173,14 +173,14 @@ export default function IpoCalendarGrid({ ipos }: Props) {
                               <Link
                                 key={i}
                                 href={`/ipo/${ev.slug}`}
-                                className={`block truncate px-1.5 py-0.5 rounded text-[9.5px] font-medium border ${EVENT_STYLES[ev.type]} leading-tight`}
+                                className={`block truncate px-1.5 py-0.5 rounded-md text-[9.5px] font-medium border ${EVENT_STYLES[ev.type]} leading-tight`}
                                 title={`${ev.name} — ${EVENT_LABELS[ev.type]}`}
                               >
                                 {ev.name}
                               </Link>
                             ))}
                             {cell.events.length > 2 && (
-                              <div className="text-[9px] text-center text-gray-400 dark:text-[#64748B]">
+                              <div className="text-[9px] text-center text-gray-400 dark:text-[#6B7280]">
                                 +{cell.events.length - 2} more
                               </div>
                             )}
@@ -200,8 +200,8 @@ export default function IpoCalendarGrid({ ipos }: Props) {
           {Object.entries(eventMap)
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([dateStr, events]) => (
-              <div key={dateStr} className="flex items-start gap-4 py-2 border-b border-[#e2e8f0] dark:border-[#22304A]">
-                <div className="w-20 shrink-0 text-[12px] font-medium tabular-nums text-gray-600 dark:text-[#94A3B8]">
+              <div key={dateStr} className="flex items-start gap-4 py-2 border-b border-gray-100 dark:border-[#252A31]">
+                <div className="w-20 shrink-0 text-[12px] font-medium tabular-nums text-gray-600 dark:text-[#9AA1AA]">
                   {new Date(dateStr + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -209,7 +209,7 @@ export default function IpoCalendarGrid({ ipos }: Props) {
                     <Link
                       key={i}
                       href={`/ipo/${ev.slug}`}
-                      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded border text-[11px] font-medium ${EVENT_STYLES[ev.type]}`}
+                      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border text-[11px] font-medium ${EVENT_STYLES[ev.type]}`}
                     >
                       <span className="font-semibold">{ev.name}</span>
                       <span className="opacity-70">· {EVENT_LABELS[ev.type]}</span>
