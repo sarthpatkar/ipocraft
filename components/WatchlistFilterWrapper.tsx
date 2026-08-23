@@ -21,13 +21,13 @@ export default function WatchlistFilterWrapper({ initialIpos }: { initialIpos: I
         {isLoaded && (
           <button
             onClick={() => setShowWatchlist(!showWatchlist)}
-            className={`px-4 py-1.5 text-xs font-semibold rounded-full shadow-sm transition-all duration-200 border ${
+            className={`px-3.5 py-1.5 text-[12px] font-semibold rounded-lg transition-colors border ${
               showWatchlist
-                ? "bg-yellow-500 text-white border-yellow-500 hover:bg-yellow-600"
-                : "bg-white dark:bg-[#111827] text-gray-700 dark:text-slate-300 border-gray-300 hover:bg-gray-50 dark:bg-[#0f172a]"
+                ? "bg-[#1e3a8a] dark:bg-[#3B82F6] text-white border-transparent"
+                : "bg-white dark:bg-[#111B2D] text-[#475569] dark:text-[#94A3B8] border-[#e2e8f0] dark:border-[#22304A] hover:border-[#3B82F6]/50"
             }`}
           >
-            {showWatchlist ? "★ Viewing Watchlist" : "☆ My Watchlist"}
+            {showWatchlist ? "Viewing Watchlist" : "My Watchlist"}
           </button>
         )}
       </div>

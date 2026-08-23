@@ -4,9 +4,12 @@ import { Outfit, Inter } from "next/font/google";
 import WatchlistFilterWrapper from "@/components/WatchlistFilterWrapper";
 import BrokerList from "@/components/BrokerList";
 import DataFreshnessBar from "@/components/DataFreshnessBar";
+import HypeLeaderboard from "@/components/HypeLeaderboard";
+import AnimatedCount from "@/components/AnimatedCount";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { canonicalUrl } from "@/lib/site-url";
+import { calculateHypeScore } from "@/lib/hypeScore";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -70,6 +73,56 @@ function buildHomeShowMoreHref(params: {
   return queryString ? `/ipo?${queryString}` : "/ipo";
 }
 
+// ── Stat pill helper (server-rendered) ──────────────────────────────────────
+type PillColor = "emerald" | "blue" | "violet" | "amber";
+function StatPill({
+  color,
+  label,
+  href,
+  animated,
+  count,
+}: {
+  color: PillColor;
+  label: string;
+  href?: string;
+  animated?: boolean;
+  count?: number;
+}) {
+  const colorMap: Record<PillColor, string> = {
+    emerald:
+      "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60",
+    blue: "bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/60",
+    violet:
+      "bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800/60",
+    amber:
+      "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
+  };
+  const cls = `inline-flex items-center gap-1.5 text-[11.5px] font-semibold px-2.5 py-1 rounded-lg border transition-colors ${
+    colorMap[color]
+  } shrink-0`;
+  const dot = (
+    <span className="w-1.5 h-1.5 rounded-full bg-current opacity-70 shrink-0" />
+  );
+
+  // Extract suffix (text after the number) for animated pills
+  const suffix = animated && count != null ? label.replace(String(count), "") : null;
+  const content = animated && count != null
+    ? <>{dot}<AnimatedCount value={count} />{suffix}</>
+    : <>{dot}{label}</>;
+
+  if (href)
+    return (
+      <Link href={href} className={`${cls} hover:opacity-80`}>
+        {content}
+      </Link>
+    );
+  return (
+    <span className={cls}>
+      {content}
+    </span>
+  );
+}
+
 export default async function Home({
   searchParams,
 }: {
@@ -77,29 +130,94 @@ export default async function Home({
 }) {
   const params = await searchParams;
   const supabase = await createSupabaseServerClient();
-  const ipoFeed = await getIpoFeedPage({
-    supabase,
-    limit: 6,
-    status: params?.status,
-    type: params?.type,
-    q: params?.search,
-  });
 
-  // Fetch the most recent IPO updated_at for the freshness bar
-  const { data: freshRecord } = await supabase
-    .from("ipos")
-    .select("updated_at")
-    .not("updated_at", "is", null)
-    .order("updated_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  const lastUpdatedAt = freshRecord?.updated_at ?? null;
+  // All data fetches run in parallel
+  const [
+    ipoFeedResult,
+    freshRecordResult,
+    openCountResult,
+    upcomingCountResult,
+    topGmpResult,
+  ] = await Promise.all([
+    getIpoFeedPage({
+      supabase,
+      limit: 6,
+      status: params?.status,
+      type: params?.type,
+      q: params?.search,
+    }),
+    supabase
+      .from("ipos")
+      .select("updated_at")
+      .not("updated_at", "is", null)
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+    // Count open IPOs
+    supabase
+      .from("ipos")
+      .select("id", { count: "exact", head: true })
+      .lte("open_date", new Date().toISOString().slice(0, 10))
+      .gte("close_date", new Date().toISOString().slice(0, 10)),
+    // Count upcoming IPOs
+    supabase
+      .from("ipos")
+      .select("id", { count: "exact", head: true })
+      .gt("open_date", new Date().toISOString().slice(0, 10)),
+    // Highest GMP active IPO
+    supabase
+      .from("ipos")
+      .select("name, slug, gmp, price_max")
+      .not("gmp", "is", null)
+      .gt("gmp", 0)
+      .gte("close_date", new Date().toISOString().slice(0, 10))
+      .order("gmp", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+  ]);
+
+  const ipoFeed = ipoFeedResult;
+  const lastUpdatedAt = freshRecordResult.data?.updated_at ?? null;
+  const openCount = openCountResult.count ?? 0;
+  const upcomingCount = upcomingCountResult.count ?? 0;
+  const topGmpIpo = topGmpResult.data;
 
   const showMoreHref = buildHomeShowMoreHref({
     status: params?.status,
     type: params?.type,
     search: params?.search,
   });
+
+  // ── Right rail live widgets (computed from feed — no extra query) ─────────
+  const feedItems = ipoFeed.items;
+
+  const topHypeItem = [...feedItems]
+    .map((ipo) => ({
+      ipo,
+      score: calculateHypeScore({
+        gmp: ipo.gmp != null ? Number(ipo.gmp) : null,
+        issuePrice: ipo.price_max != null ? Number(ipo.price_max) : null,
+        qibSub: ipo.sub_qib != null ? Number(ipo.sub_qib) : null,
+        retailSub: ipo.sub_rii != null ? Number(ipo.sub_rii) : null,
+        issueSize: ipo.issue_size != null ? Number(ipo.issue_size) : null,
+      }),
+    }))
+    .filter((x) => x.score != null)
+    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0] ?? null;
+
+  const topSubItem = [...feedItems]
+    .filter((ipo) => ipo.sub_total != null)
+    .sort(
+      (a, b) =>
+        parseFloat(String(b.sub_total) || "0") -
+        parseFloat(String(a.sub_total) || "0")
+    )[0] ?? null;
+
+  const closingSoonItem = [...feedItems]
+    .filter((ipo) => ipo.close_date != null)
+    .sort((a, b) =>
+      (a.close_date ?? "").localeCompare(b.close_date ?? "")
+    )[0] ?? null;
 
   return (
     <div
@@ -139,17 +257,18 @@ export default async function Home({
             Track <Link href="/what-is-ipo-gmp" className="text-[#2563eb] dark:text-[#3B82F6] hover:underline font-medium">Grey Market Premium (GMP)</Link>, subscription demand multiples, and allotment dates for Mainboard &amp; SME IPOs.
           </p>
 
-          {/* TRUST BADGES */}
-          <div className="flex gap-2 mt-4 text-[11px] overflow-x-auto whitespace-nowrap pb-1">
-            <span className="bg-[#f1f5f9] dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] text-[#475569] dark:text-[#94A3B8] px-2.5 py-1 rounded-md shrink-0">
-              Exchange Filings Referenced
-            </span>
-            <span className="bg-[#f1f5f9] dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] text-[#475569] dark:text-[#94A3B8] px-2.5 py-1 rounded-md shrink-0">
-              Normalized IPO Data
-            </span>
-            <span className="bg-[#f1f5f9] dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] text-[#475569] dark:text-[#94A3B8] px-2.5 py-1 rounded-md shrink-0">
-              Research Platform
-            </span>
+          {/* LIVE STATS ROW */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            <StatPill color="emerald" label={`${openCount} Open`} href="/?status=open" animated count={openCount} />
+            <StatPill color="blue" label={`${upcomingCount} Upcoming`} href="/?status=upcoming" animated count={upcomingCount} />
+            {topGmpIpo?.gmp != null && topGmpIpo.price_max != null && (
+              <StatPill
+                color="violet"
+                label={`Top GMP: ${topGmpIpo.name} ₹${topGmpIpo.gmp} (+${((topGmpIpo.gmp / topGmpIpo.price_max) * 100).toFixed(1)}%)`}
+                href={`/ipo/${topGmpIpo.slug}`}
+              />
+            )}
+            <StatPill color="amber" label="Exchange Filings Referenced" />
           </div>
 
           {/* CTA */}
@@ -296,6 +415,8 @@ export default async function Home({
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Main Content Area */}
             <div className="lg:col-span-3">
+              {/* Hype Score Leaderboard — IPOCraft's key differentiator */}
+              <HypeLeaderboard ipos={ipoFeed.items} />
               <WatchlistFilterWrapper initialIpos={ipoFeed.items} />
               
               {ipoFeed.hasMore && (
@@ -310,22 +431,88 @@ export default async function Home({
               )}
             </div>
 
-            {/* Right Rail */}
-            <aside className="hidden lg:block space-y-4">
-              <div className="bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 min-h-[220px] flex flex-col items-center justify-center text-center">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] mb-1.5">Market Education</p>
-                <p className="text-[13px] text-[#0f172a] dark:text-[#F1F5F9] font-medium mb-3">Understanding Grey Market Trends &amp; Valuations</p>
-                <Link href="/what-is-ipo-gmp" className="text-[12px] text-[#2563eb] dark:text-[#3B82F6] hover:underline font-semibold">
-                  Read GMP Guide →
-                </Link>
+            {/* Right Rail — Live Widgets */}
+            <aside className="hidden lg:block space-y-3">
+
+              {/* Widget: Highest Hype Score */}
+              {topHypeItem && (
+                <div className="bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8] mb-2.5">Highest Hype Score</p>
+                  <Link href={`/ipo/${topHypeItem.ipo.slug}`} className="group block">
+                    <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-[#3B82F6] transition-colors leading-snug mb-2">
+                      {topHypeItem.ipo.name}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 h-1.5 bg-gray-100 dark:bg-[#22304A] rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-emerald-500"
+                          style={{ width: `${topHypeItem.score}%` }}
+                        />
+                      </div>
+                      <span className="text-[12px] font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                        {topHypeItem.score}/100
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              )}
+
+              {/* Widget: Most Subscribed */}
+              {topSubItem && (
+                <div className="bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8] mb-2.5">Most Subscribed</p>
+                  <Link href={`/ipo/${topSubItem.slug}`} className="group block">
+                    <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-[#3B82F6] transition-colors leading-snug">
+                      {topSubItem.name}
+                    </p>
+                    <p className="text-[22px] font-bold text-[#1e3a8a] dark:text-[#3B82F6] tabular-nums mt-1">
+                      {parseFloat(String(topSubItem.sub_total)).toFixed(1)}×
+                    </p>
+                    <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">Total subscription</p>
+                  </Link>
+                </div>
+              )}
+
+              {/* Widget: Closes Soon */}
+              {closingSoonItem && (
+                <div className="bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8] mb-2.5">Closes Soonest</p>
+                  <Link href={`/ipo/${closingSoonItem.slug}`} className="group block">
+                    <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-[#3B82F6] transition-colors leading-snug">
+                      {closingSoonItem.name}
+                    </p>
+                    <p className="text-[12px] text-[#475569] dark:text-[#94A3B8] mt-1">
+                      Closes{" "}
+                      <span className="font-semibold text-rose-600 dark:text-rose-400">
+                        {closingSoonItem.close_date}
+                      </span>
+                    </p>
+                  </Link>
+                </div>
+              )}
+
+              {/* Static: Education links */}
+              <div className="bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-4">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8] mb-3">Research Guides</p>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/what-is-ipo-gmp" className="text-[12.5px] text-[#2563eb] dark:text-[#3B82F6] hover:underline font-medium">
+                      What is IPO GMP
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/how-ipo-allotment-works" className="text-[12.5px] text-[#2563eb] dark:text-[#3B82F6] hover:underline font-medium">
+                      How Allotment Works
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/qib-hni-retail-explained" className="text-[12.5px] text-[#2563eb] dark:text-[#3B82F6] hover:underline font-medium">
+                      QIB vs HNI vs Retail
+                    </Link>
+                  </li>
+                </ul>
               </div>
-              <div className="bg-white dark:bg-[#0D1525] border border-[#e2e8f0] dark:border-[#22304A] rounded-xl p-5 min-h-[220px] flex flex-col items-center justify-center text-center">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] mb-1.5">Allotment Insights</p>
-                <p className="text-[13px] text-[#0f172a] dark:text-[#F1F5F9] font-medium mb-3">How Allotment Odds &amp; Registrar Timelines Work</p>
-                <Link href="/how-ipo-allotment-works" className="text-[12px] text-[#2563eb] dark:text-[#3B82F6] hover:underline font-semibold">
-                  View Allotment Guide →
-                </Link>
-              </div>
+
             </aside>
           </div>
 

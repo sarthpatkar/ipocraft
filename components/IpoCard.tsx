@@ -229,6 +229,18 @@ function formatSubscription(subTotal: string | number | null) {
   return formatSubscriptionTimes(subTotal, "—");
 }
 
+function CompanyAvatar({ name }: { name: string }) {
+  const letter = name.trim().charAt(0).toUpperCase();
+  return (
+    <span
+      className="w-9 h-9 rounded-lg flex items-center justify-center text-[14px] font-bold shrink-0 select-none bg-[#f1f5f9] text-[#475569] dark:bg-[#162238] dark:text-[#94A3B8]"
+      aria-hidden="true"
+    >
+      {letter}
+    </span>
+  );
+}
+
 export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
   const isStarred = isInWatchlist(ipo.slug);
@@ -265,30 +277,35 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
   return (
     <div className="bg-white dark:bg-[#111B2D] border border-[#e2e8f0] dark:border-[#22304A] hover:border-gray-300 dark:hover:border-[#3B82F6]/60 rounded-xl overflow-hidden card-hover h-full flex flex-col transition-colors duration-150">
       <div className="px-4.5 pt-4 pb-3 border-b border-[#f1f5f9] dark:border-[#22304A] space-y-2">
-        {/* IPO Name & Star */}
-        <div className="flex items-start justify-between gap-2.5">
-          <h3 className="text-[14.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug line-clamp-2">
-            {ipo.name}
-          </h3>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggleWatchlist(ipo.slug);
-            }}
-            className="text-gray-400 hover:text-yellow-500 dark:text-[#64748B] dark:hover:text-yellow-400 transition-colors flex-shrink-0"
-            title={isStarred ? "Remove from watchlist" : "Add to watchlist"}
-          >
-            {isStarred ? (
-              <StarSolid className="w-4.5 h-4.5 text-yellow-400" />
-            ) : (
-              <StarOutline className="w-4.5 h-4.5" />
-            )}
-          </button>
+        {/* IPO Name, Avatar & Star */}
+        <div className="flex items-start gap-2.5">
+          <CompanyAvatar name={ipo.name} />
+          <div className="flex-1 min-w-0 flex items-start justify-between gap-2">
+            <div className="min-w-0">
+              <h3 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-snug line-clamp-2">
+                {ipo.name}
+              </h3>
+              <p className="text-[11px] text-[#64748b] dark:text-[#94A3B8] leading-tight mt-0.5">
+                {ipo.exchange ?? "—"}
+              </p>
+            </div>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleWatchlist(ipo.slug);
+              }}
+              className="text-gray-400 hover:text-yellow-500 dark:text-[#64748B] dark:hover:text-yellow-400 transition-colors flex-shrink-0 mt-0.5"
+              title={isStarred ? "Remove from watchlist" : "Add to watchlist"}
+            >
+              {isStarred ? (
+                <StarSolid className="w-4.5 h-4.5 text-yellow-400" />
+              ) : (
+                <StarOutline className="w-4.5 h-4.5" />
+              )}
+            </button>
+          </div>
         </div>
-        <p className="text-[11px] text-[#64748b] dark:text-[#94A3B8] leading-tight">
-          {ipo.exchange ?? "—"}
-        </p>
         {/* Badges */}
         <div className="flex flex-wrap items-center gap-1.5">
           {ipo.ipo_type && (

@@ -164,23 +164,9 @@ html {
   scroll-padding-top: 120px;
 }
 
-/* ─── Card Hover Lift ─────────────────────────────────────────────────────── */
+/* ─── Card Hover (border-only, no lift) ──────────────────────────────────── */
 .card-hover {
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--card-shadow-hover);
-}
-
-/* ─── Glassmorphism ───────────────────────────────────────────────────────── */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
+  transition: border-color 0.15s ease;
 }
 
 /* ─── Smooth Fade In ──────────────────────────────────────────────────────── */

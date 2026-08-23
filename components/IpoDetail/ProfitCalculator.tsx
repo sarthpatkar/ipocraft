@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
@@ -15,6 +16,10 @@ function Eyebrow({ children, light = false }: { children: React.ReactNode; light
 }
 
 export default function ProfitCalculator({ ipo }: { ipo: any }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
   // Extract key pricing parameters
   const issuePrice = Number(ipo.price_max ?? ipo.price_min ?? ipo.issue_price) || 100;
   const lotSize = Number(ipo.lot_size) || 1;
@@ -24,10 +29,60 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
   const retailMaxLots = Math.max(1, Math.floor(200000 / (lotSize * issuePrice)));
   const sniiMinLots = retailMaxLots + 1;
 
-  // State
-  const [lots, setLots] = useState<number>(1);
-  const [useCustomGmp, setUseCustomGmp] = useState<boolean>(false);
-  const [customGmp, setCustomGmp] = useState<number>(defaultGmp);
+  // URL-synced state
+  const [lots, setLotsState] = useState<number>(() => {
+    const urlLots = searchParams.get("lots");
+    return urlLots ? Math.max(1, Math.min(100, parseInt(urlLots, 10))) : 1;
+  });
+  const [useCustomGmp, setUseCustomGmpState] = useState<boolean>(() => {
+    return searchParams.get("gmpMode") === "custom";
+  });
+  const [customGmp, setCustomGmpState] = useState<number>(() => {
+    const urlGmp = searchParams.get("customGmp");
+    return urlGmp ? Number(urlGmp) : defaultGmp;
+  });
+  const [copied, setCopied] = useState(false);
+
+  // Update URL helper
+  const updateUrl = useCallback(
+    (newLots: number, newMode: boolean, newCustomGmp: number) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (newLots !== 1) params.set("lots", String(newLots));
+      else params.delete("lots");
+      if (newMode) {
+        params.set("gmpMode", "custom");
+        params.set("customGmp", String(newCustomGmp));
+      } else {
+        params.delete("gmpMode");
+        params.delete("customGmp");
+      }
+      const qs = params.toString();
+      router.replace(`${pathname}${qs ? `?${qs}` : ""}#profit-calculator`, {
+        scroll: false,
+      });
+    },
+    [searchParams, router, pathname]
+  );
+
+  const setLots = (val: number) => {
+    setLotsState(val);
+    updateUrl(val, useCustomGmp, customGmp);
+  };
+  const setUseCustomGmp = (val: boolean) => {
+    setUseCustomGmpState(val);
+    updateUrl(lots, val, customGmp);
+  };
+  const setCustomGmp = (val: number) => {
+    setCustomGmpState(val);
+    updateUrl(lots, useCustomGmp, val);
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   const activeGmp = useCustomGmp ? customGmp : defaultGmp;
   const totalShares = lots * lotSize;
@@ -52,9 +107,22 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
             Listing Profit Calculator
           </h2>
         </div>
-        <span className="text-[11px] font-medium text-[#64748B] dark:text-[#94A3B8]">
-          Based on 1 allotment lot
-        </span>
+        <div className="flex items-center gap-3">
+          {/* Share calculation button */}
+          <button
+            onClick={handleCopyLink}
+            className="inline-flex items-center gap-1.5 text-[11.5px] font-medium text-[#2563eb] dark:text-[#3B82F6] hover:underline transition-colors"
+            title="Copy shareable link to this calculation"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            </svg>
+            {copied ? "✓ Copied!" : "Share"}
+          </button>
+          <span className="text-[11px] font-medium text-[#64748B] dark:text-[#94A3B8]">
+            Based on 1 allotment lot
+          </span>
+        </div>
       </div>
 
       <div className="space-y-4 pt-1">
@@ -97,7 +165,7 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setLots((prev) => Math.max(1, prev - 1))}
+                onClick={() => setLots(Math.max(1, lots - 1))}
                 className="w-7 h-7 flex items-center justify-center bg-white dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] rounded-md text-gray-800 dark:text-[#F1F5F9] font-bold text-sm hover:border-[#3B82F6] transition-colors"
                 aria-label="Decrease lots"
               >
@@ -113,7 +181,7 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
               />
               <button
                 type="button"
-                onClick={() => setLots((prev) => Math.min(100, prev + 1))}
+                onClick={() => setLots(Math.min(100, lots + 1))}
                 className="w-7 h-7 flex items-center justify-center bg-white dark:bg-[#162238] border border-gray-200 dark:border-[#22304A] rounded-md text-gray-800 dark:text-[#F1F5F9] font-bold text-sm hover:border-[#3B82F6] transition-colors"
                 aria-label="Increase lots"
               >

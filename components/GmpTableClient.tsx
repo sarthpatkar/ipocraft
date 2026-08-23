@@ -64,12 +64,12 @@ function getUrgencyBadge(ipo: Pick<IpoRow, "open_date" | "close_date">) {
   const tomorrowStr = getLocalYYYYMMDD(tomorrow);
 
   if (ipo.close_date && ipo.close_date === todayStr) {
-    return <span className="text-[10px] font-bold text-red-600 uppercase tracking-wider block mt-1 animate-pulse">Closing Today</span>;
+    return <span className="text-[10px] font-bold text-red-600 uppercase tracking-wider block mt-1">Closing Today</span>;
   }
 
   if (ipo.open_date) {
     if (ipo.open_date === todayStr) {
-      return <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1 animate-pulse">Opens Today</span>;
+      return <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1">Opens Today</span>;
     }
     if (ipo.open_date === tomorrowStr) {
       return <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider block mt-1">Opens Tomorrow</span>;
