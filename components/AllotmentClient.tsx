@@ -98,38 +98,43 @@ export default function AllotmentClient({ ipos }: { ipos: AllotmentIpo[] }) {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1
-          className="text-[1.75rem] sm:text-[2.2rem] font-bold text-[#0f172a] dark:text-[#F1F3F5] leading-tight"
-          style={{ fontFamily: "var(--font-outfit)" }}
-        >
-          IPO Allotment Tracker
-        </h1>
-        <p className="text-[14px] sm:text-[14.5px] text-[#475569] dark:text-[#9AA1AA] max-w-3xl leading-relaxed mt-1">
-          Check allotment status live for recent Mainboard and SME IPOs. Find official registrar links, exchange verification options, and allotment timelines.
-        </p>
+    <div className="space-y-4">
+      {/* Compact Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b border-gray-200 dark:border-[#252A31]">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
+            Allotment Status
+          </p>
+          <h1
+            className="text-xl sm:text-2xl font-semibold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight"
+            style={{ fontFamily: "var(--font-outfit)" }}
+          >
+            IPO Allotment Tracker
+          </h1>
+          <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA]">
+            Direct registrar links and BSE/NSE application verification for recent Mainboard and SME IPOs.
+          </p>
+        </div>
       </div>
 
       {/* Exchange Quick Verification Banners */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <a
           href="https://www.bseindia.com/investors/appli_check.aspx"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-4 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] hover:border-gray-300 dark:hover:border-gray-500 transition-colors shadow-xs group flex items-center justify-between"
+          className="p-3 sm:p-3.5 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] hover:border-gray-300 dark:hover:border-gray-500 transition-colors shadow-xs group flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-md bg-gray-100 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 font-bold text-[12.5px]">
+            <div className="w-8 h-8 rounded-md bg-gray-100 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 font-bold text-xs">
               BSE
             </div>
             <div>
-              <div className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F3F5] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                BSE Direct Allotment Check
+              <div className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                BSE Direct Application Verification
               </div>
-              <div className="text-[11.5px] text-[#64748B] dark:text-[#9AA1AA]">
-                Verify issue status directly via BSE India portal
+              <div className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA]">
+                Verify allocation status via BSE India portal
               </div>
             </div>
           </div>
@@ -140,17 +145,17 @@ export default function AllotmentClient({ ipos }: { ipos: AllotmentIpo[] }) {
           href="https://www.nseindia.com/products/content/equities/ipos/ipo_status.htm"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-4 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] hover:border-gray-300 dark:hover:border-gray-500 transition-colors shadow-xs group flex items-center justify-between"
+          className="p-3 sm:p-3.5 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] hover:border-gray-300 dark:hover:border-gray-500 transition-colors shadow-xs group flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-md bg-gray-100 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 font-bold text-[12.5px]">
+            <div className="w-8 h-8 rounded-md bg-gray-100 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 font-bold text-xs">
               NSE
             </div>
             <div>
-              <div className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F3F5] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+              <div className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                 NSE Direct Bid Verification
               </div>
-              <div className="text-[11.5px] text-[#64748B] dark:text-[#9AA1AA]">
+              <div className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA]">
                 Check application status with PAN on NSE India
               </div>
             </div>
@@ -160,30 +165,30 @@ export default function AllotmentClient({ ipos }: { ipos: AllotmentIpo[] }) {
       </div>
 
       {/* Interactive Controls & Filters */}
-      <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 shadow-xs space-y-3">
+      <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 shadow-xs space-y-3">
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search */}
           <div className="relative flex-1">
-            <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 dark:text-[#6B7280] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by IPO name or Registrar..."
-              className="w-full pl-9 pr-3.5 py-1.5 text-[13px] rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50/50 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F3F5] focus:outline-hidden focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-500 placeholder-gray-400 dark:placeholder-[#6B7280]"
+              placeholder="Search by IPO name or Registrar…"
+              className="w-full pl-9 pr-3.5 py-1.5 text-[13px] rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F5F9] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white placeholder-gray-400 dark:placeholder-[#6B7280]"
             />
           </div>
 
           {/* Segment Filter */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto">
             {(["ALL", "MAINBOARD", "SME"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setTypeFilter(tab)}
-                className={`px-3 py-1.5 text-[12px] font-semibold rounded-md transition-colors whitespace-nowrap ${
+                className={`px-2.5 py-1 text-[11.5px] font-medium rounded-md transition-colors whitespace-nowrap ${
                   typeFilter === tab
-                    ? "bg-[#1e3a8a] text-white dark:bg-[#171B20] dark:text-[#F1F3F5] border border-transparent dark:border-[#252A31]"
-                    : "bg-gray-100 dark:bg-[#171B20] text-[#475569] dark:text-[#9AA1AA] hover:bg-gray-200 dark:hover:bg-[#1F242B]"
+                    ? "bg-gray-100 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F5F9] font-semibold border border-gray-200 dark:border-[#252A31]"
+                    : "text-gray-500 dark:text-[#9AA1AA] hover:bg-gray-50 dark:hover:bg-[#171B20]"
                 }`}
               >
                 {tab === "ALL" ? "All Segments" : tab === "MAINBOARD" ? "Mainboard" : "SME IPOs"}
@@ -193,24 +198,20 @@ export default function AllotmentClient({ ipos }: { ipos: AllotmentIpo[] }) {
         </div>
 
         {/* Status Filter */}
-        <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-[#252A31] text-[12px]">
-          <span className="text-[#64748B] dark:text-[#9AA1AA] font-medium mr-1">Status:</span>
-          {(["ALL", "OUT", "AWAITING"] as const).map((st) => (
+        <div className="flex items-center gap-1.5 overflow-x-auto pt-1 border-t border-gray-100 dark:border-[#252A31]">
+          {(["ALL", "OUT", "AWAITING"] as const).map((tab) => (
             <button
-              key={st}
-              onClick={() => setStatusFilter(st)}
-              className={`px-2.5 py-1 rounded-md text-[11.5px] font-medium transition-colors ${
-                statusFilter === st
-                  ? "bg-gray-100 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F3F5] font-semibold border border-gray-200 dark:border-[#252A31]"
-                  : "text-[#64748B] dark:text-[#9AA1AA] hover:bg-gray-50 dark:hover:bg-[#171B20]"
+              key={tab}
+              onClick={() => setStatusFilter(tab)}
+              className={`px-2.5 py-1 text-[11.5px] font-medium rounded-md transition-colors whitespace-nowrap ${
+                statusFilter === tab
+                  ? "bg-gray-900 text-white dark:bg-white dark:text-black border border-gray-900 dark:border-white shadow-xs font-semibold"
+                  : "text-gray-600 dark:text-[#9AA1AA] hover:bg-gray-100 dark:hover:bg-[#171B20]"
               }`}
             >
-              {st === "ALL" ? "All" : st === "OUT" ? "Declared / Out" : "Awaiting Allotment"}
+              {tab === "ALL" ? "All" : tab === "OUT" ? "Declared / Out" : "Awaiting Allotment"}
             </button>
           ))}
-          <span className="ml-auto text-[11.5px] text-[#9AA1AA] dark:text-[#6B7280]">
-            Showing {filteredIpos.length} IPOs
-          </span>
         </div>
       </div>
 
@@ -283,7 +284,7 @@ export default function AllotmentClient({ ipos }: { ipos: AllotmentIpo[] }) {
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-1.5 w-full sm:w-auto px-3.5 py-1.5 bg-[#1e3a8a] hover:bg-[#1a327a] dark:bg-blue-600 dark:hover:bg-blue-500 text-white text-[12.5px] font-semibold rounded-md transition-colors shadow-xs"
+                      className="inline-flex items-center justify-center gap-1.5 w-full sm:w-auto px-3.5 py-1.5 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black border border-gray-900 dark:border-white text-[12px] font-semibold rounded-md transition-colors shadow-xs"
                     >
                       <span>Check on {ipo.registrar ? ipo.registrar.split(" ")[0] : "Registrar"}</span>
                       <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />

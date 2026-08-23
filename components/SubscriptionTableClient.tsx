@@ -134,9 +134,9 @@ export default function SubscriptionTableClient({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-3 py-1.5 text-[12.5px] font-semibold rounded-md transition-colors ${
+                className={`px-3 py-1.5 text-[12px] font-semibold rounded-md transition-colors ${
                   isActive
-                    ? "bg-[#1e3a8a] text-white dark:bg-[#111418] dark:text-[#F1F3F5] shadow-xs border border-transparent dark:border-[#252A31]"
+                    ? "bg-gray-900 text-white dark:bg-white dark:text-black shadow-xs border border-gray-900 dark:border-white"
                     : "text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-[#F1F5F9] border border-transparent"
                 }`}
                 style={{ fontFamily: "var(--font-inter)" }}
@@ -155,7 +155,7 @@ export default function SubscriptionTableClient({
           <select
             value={activeType}
             onChange={(e) => setActiveType(e.target.value)}
-            className="text-[12.5px] font-medium border border-gray-200 dark:border-[#252A31] rounded-md px-2.5 py-1.5 bg-white dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F5F9] focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="text-[12.5px] font-medium border border-gray-200 dark:border-[#252A31] rounded-md px-2.5 py-1.5 bg-white dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F5F9] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             <option value="all">All IPOs</option>
@@ -219,11 +219,7 @@ export default function SubscriptionTableClient({
                       </Link>
                       <div className="flex gap-1.5 items-center mt-0.5">
                         {row.ipo_type && (
-                          <span className={`text-[9.5px] font-semibold px-1.5 py-0.2 rounded-md ${
-                            row.ipo_type.toLowerCase() === 'sme' 
-                              ? 'bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300' 
-                              : 'bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300'
-                          }`}>
+                          <span className="text-[10.5px] text-gray-500 dark:text-[#9AA1AA] font-medium">
                             {row.ipo_type}
                           </span>
                         )}
@@ -232,7 +228,7 @@ export default function SubscriptionTableClient({
                     <td className="py-3 px-3.5 align-middle">
                       <span className={`text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-md ${
                         status === 'open' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300' :
-                        status === 'upcoming' ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300' : 
+                        status === 'upcoming' ? 'bg-gray-100 text-gray-700 dark:bg-[#171B20] dark:text-[#9AA1AA]' : 
                         'bg-gray-100 text-gray-700 dark:bg-[#171B20] dark:text-[#9AA1AA]'
                       }`}>
                         {status}

@@ -199,7 +199,7 @@ export default function Navbar() {
 
                   {/* Dropdown Popover */}
                   {toolsDropdownOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-64 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] shadow-xl py-1.5 z-[100] animate-in fade-in duration-100">
+                    <div className="absolute top-full right-0 mt-2 w-64 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] shadow-md py-1.5 z-[100] animate-in fade-in duration-100">
                       {TOOLS_LINKS.map((tool) => {
                         const active = isActive(tool.href);
                         const Icon = tool.Icon;
@@ -310,7 +310,7 @@ export default function Navbar() {
             className="md:hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm animate-in fade-in"
             onClick={() => setMoreDrawerOpen(false)}
           />
-          <div className="md:hidden fixed bottom-0 inset-x-0 z-[70] rounded-t-xl shadow-2xl pb-[env(safe-area-inset-bottom)] bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] max-h-[85vh] overflow-y-auto">
+          <div className="md:hidden fixed bottom-0 inset-x-0 z-[70] rounded-t-lg shadow-lg pb-[env(safe-area-inset-bottom)] bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-gray-100 dark:border-[#252A31] sticky top-0 bg-white/95 dark:bg-[#111418]/95 backdrop-blur-sm z-10">
               <span className="text-[14px] font-bold text-gray-900 dark:text-[#F1F3F5]">Tools &amp; Pages</span>
               <button onClick={() => setMoreDrawerOpen(false)} className="text-gray-500 dark:text-[#9AA1AA] p-1">

@@ -38,8 +38,8 @@ export type IPOListItem = {
 
 const STATUS_STYLES: Record<string, string> = {
   Open: "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/50",
-  Upcoming: "bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/50",
-  Listed: "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
+  Upcoming: "bg-gray-100 text-gray-700 border border-gray-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
+  Listed: "bg-gray-100 text-gray-700 border border-gray-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
   Closed: "bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/50",
 };
 
@@ -273,7 +273,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
             }}
             className="block w-full text-center text-[12.5px] font-semibold rounded-md py-1.5 bg-emerald-600 dark:bg-emerald-600 text-white hover:bg-emerald-700 transition-colors"
           >
-            Check Allotment Status ↗
+            Check Allotment Status
           </button>
         </div>
       )}

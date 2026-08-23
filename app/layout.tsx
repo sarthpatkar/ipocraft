@@ -26,7 +26,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "IPOCraft — IPO GMP & SME IPO Updates",
+  title: "IPOCraft - IPO GMP & SME IPO Updates",
   description:
     "Latest IPO GMP, SME IPO insights, subscription data, and upcoming IPO alerts.",
   metadataBase: new URL(siteUrl),
@@ -275,13 +275,13 @@ export default function RootLayout({
             </div>
 
             {/* Divider */}
-            <div className="border-t border-[#e2e8f0] dark:border-[#22304A] my-5" />
+            <div className="border-t border-[#e2e8f0] dark:border-[#252A31] my-5" />
 
             {/* Legal Disclaimer */}
             <p className="text-[11.5px] text-[#64748b] dark:text-[#94A3B8] leading-relaxed">
               <strong>Disclaimer:</strong> IPOCraft is an informational research platform and is not registered with SEBI as an investment advisor or research analyst. All data including IPO timelines, GMP indications, subscription demand, and financial summaries are referenced from official regulatory filings (DRHP/RHP) and exchange disclosures. Information is provided solely for education and research.{" "}
-              <Link href="/disclaimer" className="text-[#2563eb] dark:text-[#3B82F6] hover:underline">
-                Read full disclaimer →
+              <Link href="/disclaimer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                Read full disclaimer
               </Link>
             </p>
 

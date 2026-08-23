@@ -2,7 +2,16 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
-import { MagnifyingGlassIcon, XMarkIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import { 
+  MagnifyingGlassIcon, 
+  XMarkIcon, 
+  ArrowRightIcon,
+  BanknotesIcon,
+  ChartBarIcon,
+  UsersIcon,
+  CheckBadgeIcon,
+  BuildingStorefrontIcon
+} from "@heroicons/react/24/outline";
 
 type SearchResult = {
   id: number;
@@ -10,16 +19,19 @@ type SearchResult = {
   name: string;
   gmp: number | null;
   price_max: number | null;
+  price_min: number | null;
   status: string | null;
   ipo_type: string | null;
+  exchange?: string | null;
 };
 
-const STATUS_COLORS: Record<string, string> = {
-  Open: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border dark:border-emerald-800/40",
-  Upcoming: "bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 dark:border dark:border-blue-800/40",
-  Closed: "bg-rose-100 text-rose-600 dark:bg-rose-950/40 dark:text-rose-300 dark:border dark:border-rose-800/40",
-  Listed: "bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 dark:border dark:border-purple-800/40",
-};
+const QUICK_LINKS = [
+  { href: "/ipo", label: "IPO Directory", desc: "Open, upcoming & listed issues", Icon: BanknotesIcon },
+  { href: "/gmp", label: "GMP Tracker", desc: "Live Grey Market Premiums & momentum", Icon: ChartBarIcon },
+  { href: "/sme-ipo", label: "SME IPO Hub", desc: "BSE SME & NSE Emerge listings", Icon: BuildingStorefrontIcon },
+  { href: "/subscriptions", label: "Live Subscriptions", desc: "QIB, NII, and Retail bidding demand", Icon: UsersIcon },
+  { href: "/allotment-status", label: "Allotment Status", desc: "Registrar & exchange verification", Icon: CheckBadgeIcon },
+];
 
 export default function SearchCommand({
   open,
@@ -77,7 +89,7 @@ export default function SearchCommand({
     const val = e.target.value;
     setQuery(val);
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => search(val), 250);
+    debounceRef.current = setTimeout(() => search(val), 200);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -96,16 +108,16 @@ export default function SearchCommand({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[15vh] px-4">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[12vh] px-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-xs"
         onClick={onClose}
       />
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-xl rounded-lg shadow-2xl overflow-hidden bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31]"
+        className="relative w-full max-w-xl rounded-lg shadow-md overflow-hidden bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] focus-within:border-black dark:focus-within:border-white focus-within:ring-1 focus-within:ring-black dark:focus-within:ring-white transition-colors"
       >
         {/* Input row */}
         <div
@@ -118,8 +130,8 @@ export default function SearchCommand({
             value={query}
             onChange={handleInput}
             onKeyDown={handleKeyDown}
-            placeholder="Search IPOs by name or symbol…"
-            className="flex-1 bg-transparent text-[14.5px] outline-none text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#6B7280]"
+            placeholder="Search IPOs by company name or symbol…"
+            className="flex-1 bg-transparent text-[14px] outline-none text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#6B7280]"
           />
           {loading && (
             <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin shrink-0" />
@@ -131,52 +143,56 @@ export default function SearchCommand({
 
         {/* Results */}
         {results.length > 0 && (
-          <ul className="max-h-[360px] overflow-y-auto py-2 divide-y divide-gray-100 dark:divide-[#252A31]">
+          <ul className="max-h-[380px] overflow-y-auto py-1 divide-y divide-gray-100 dark:divide-[#252A31]">
             {results.map((ipo, i) => {
               const isActive = i === activeIndex;
-              const gmpColor = ipo.gmp != null
-                ? (ipo.gmp >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400")
-                : "text-gray-400 dark:text-[#6B7280]";
+              const price = Number(ipo.price_max ?? ipo.price_min ?? 0);
+              const gmp = ipo.gmp != null ? Number(ipo.gmp) : null;
+              const gmpPct = gmp != null && price > 0 ? ((gmp / price) * 100).toFixed(1) : null;
+              const isPositive = gmp != null && gmp >= 0;
+
+              const segment = ipo.ipo_type?.toLowerCase() === "sme"
+                ? (ipo.exchange ? `${ipo.exchange} SME` : "SME")
+                : "Mainboard";
 
               return (
                 <li key={ipo.id}>
                   <Link
                     href={`/ipo/${ipo.slug}`}
                     onClick={onClose}
-                    className={`flex items-center gap-3 px-4 py-3 transition-colors ${
+                    className={`flex items-center justify-between gap-3 px-4 py-2.5 transition-colors ${
                       isActive 
-                        ? "bg-gray-100 dark:bg-[#171B20]" 
+                        ? "bg-gray-50 dark:bg-[#171B20]" 
                         : "hover:bg-gray-50 dark:hover:bg-[#171B20]/60"
                     }`}
                     onMouseEnter={() => setActiveIndex(i)}
                   >
-                    {/* Name + type */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-[14px] font-medium text-gray-900 dark:text-[#F1F5F9] truncate">{ipo.name}</p>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        {ipo.ipo_type && (
-                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${
-                            ipo.ipo_type.toLowerCase() === "sme" 
-                              ? "bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300" 
-                              : "bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300"
-                          }`}>
-                            {ipo.ipo_type.toUpperCase()}
-                          </span>
-                        )}
-                        {ipo.status && (
-                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${STATUS_COLORS[ipo.status] ?? "bg-gray-100 text-gray-600 dark:bg-[#171B20] dark:text-[#9AA1AA]"}`}>
-                            {ipo.status}
-                          </span>
-                        )}
-                      </div>
+                      <p className="text-[13.5px] font-semibold text-gray-900 dark:text-[#F1F5F9] truncate">
+                        {ipo.name}
+                      </p>
+                      <p className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA] mt-0.5">
+                        {segment} · {ipo.status ?? "Upcoming"}
+                      </p>
                     </div>
 
-                    {/* GMP + arrow */}
-                    <div className="flex items-center gap-2 shrink-0">
-                      {ipo.gmp != null && (
-                        <span className={`text-[13px] font-semibold tabular-nums ${gmpColor}`}>
-                          GMP ₹{ipo.gmp}
-                        </span>
+                    {/* GMP */}
+                    <div className="flex items-center gap-3 shrink-0">
+                      {gmp != null ? (
+                        <div className="text-right">
+                          <span className={`text-[12.5px] font-semibold tabular-nums ${
+                            isPositive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
+                          }`}>
+                            {isPositive ? "+" : ""}₹{gmp}
+                          </span>
+                          {gmpPct && (
+                            <span className="text-[10.5px] text-gray-500 dark:text-[#9AA1AA] block tabular-nums">
+                              ({isPositive ? "+" : ""}{gmpPct}%)
+                            </span>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-xs text-gray-400 dark:text-[#6B7280]">-</span>
                       )}
                       <ArrowRightIcon className="w-3.5 h-3.5 text-gray-400 dark:text-[#6B7280]" />
                     </div>
@@ -187,7 +203,7 @@ export default function SearchCommand({
           </ul>
         )}
 
-        {/* Empty state */}
+        {/* Empty state when searching with no results */}
         {query.length > 1 && !loading && results.length === 0 && (
           <div className="px-4 py-8 text-center">
             <p className="text-[13px] text-gray-500 dark:text-[#9AA1AA]">
@@ -196,22 +212,47 @@ export default function SearchCommand({
           </div>
         )}
 
-        {/* Hint when empty */}
+        {/* Quick Links Section when input is empty */}
         {query.length === 0 && (
-          <div className="px-4 py-6 text-center">
-            <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA]">
-              Type to search across all IPOs · Mainboard &amp; SME
+          <div className="p-3 sm:p-4">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-[#6B7280] mb-2 px-1">
+              Quick Links
             </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+              {QUICK_LINKS.map((item) => {
+                const Icon = item.Icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onClose}
+                    className="flex items-center gap-2.5 p-2 rounded-md hover:bg-gray-50 dark:hover:bg-[#171B20] text-left transition-colors group"
+                  >
+                    <div className="w-7 h-7 rounded bg-gray-100 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] flex items-center justify-center text-gray-600 dark:text-[#9AA1AA] group-hover:text-blue-600 dark:group-hover:text-blue-400 shrink-0">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[12.5px] font-medium text-gray-800 dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-blue-400 truncate">
+                        {item.label}
+                      </p>
+                      <p className="text-[10.5px] text-gray-500 dark:text-[#9AA1AA] truncate">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         )}
 
-        {/* Footer */}
+        {/* Footer Keyboard hints */}
         <div
-          className="flex items-center gap-3 px-4 py-2 border-t border-gray-200 dark:border-[#252A31] bg-gray-50/70 dark:bg-[#171B20] text-[11px] text-gray-500 dark:text-[#9AA1AA]"
+          className="flex items-center gap-3 px-4 py-2 border-t border-gray-200 dark:border-[#252A31] bg-gray-50 dark:bg-[#171B20] text-[11px] text-gray-500 dark:text-[#9AA1AA]"
         >
-          <span><kbd className="px-1.5 py-0.5 rounded-md border border-gray-300 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[10px]">↑↓</kbd> navigate</span>
-          <span><kbd className="px-1.5 py-0.5 rounded-md border border-gray-300 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[10px]">↵</kbd> open</span>
-          <span><kbd className="px-1.5 py-0.5 rounded-md border border-gray-300 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[10px]">Esc</kbd> close</span>
+          <span><kbd className="px-1.5 py-0.5 rounded border border-gray-300 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[10px]">↑↓</kbd> navigate</span>
+          <span><kbd className="px-1.5 py-0.5 rounded border border-gray-300 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[10px]">↵</kbd> select</span>
+          <span><kbd className="px-1.5 py-0.5 rounded border border-gray-300 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[10px]">Esc</kbd> close</span>
         </div>
       </div>
     </div>

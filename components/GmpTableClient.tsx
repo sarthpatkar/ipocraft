@@ -243,95 +243,116 @@ export default function GmpTableClient({
   }
 
   return (
-    <div className="w-full flex flex-col gap-3.5">
-      {/* Date Range Filter Bar */}
-      <div className="flex flex-col gap-2.5 p-3 sm:p-4 bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 dark:text-[#9AA1AA]">
-            <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            Date Range:
-          </div>
-
-          <div className="flex flex-wrap gap-1.5 text-xs">
+    <div className="w-full flex flex-col gap-3">
+      {/* 2-Level Filter Ribbon */}
+      <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 shadow-xs flex flex-col gap-3">
+        {/* Level 1: Primary Status Tabs & Search */}
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+          {/* Status Tabs */}
+          <div className="flex bg-gray-50 dark:bg-[#171B20] p-0.5 rounded-md border border-gray-200 dark:border-[#252A31]">
             {[
-              { id: "60days", label: "Last 60 Days" },
-              { id: "30days", label: "Last 30 Days" },
-              { id: "6months", label: "Last 6 Months" },
-              { id: "1year", label: "1 Year" },
-              { id: "all", label: "All Time" },
-              { id: "custom", label: "Custom Range" },
-            ].map((btn) => (
-              <button
-                key={btn.id}
-                type="button"
-                onClick={() => setTimeRange(btn.id as any)}
-                className={`px-2.5 py-1.5 rounded-md text-[12px] font-medium transition-colors border ${
-                  timeRange === btn.id
-                    ? "bg-[#1e3a8a] text-white dark:bg-[#171B20] dark:text-[#F1F3F5] border-transparent dark:border-[#252A31] shadow-xs font-semibold"
-                    : "bg-gray-100 dark:bg-[#171B20] text-gray-700 dark:text-[#9AA1AA] border-transparent dark:border-[#252A31] hover:border-gray-300 dark:hover:border-gray-500"
-                }`}
-              >
-                {btn.label}
-              </button>
-            ))}
+              { id: "all", label: "All" },
+              { id: "open", label: "Open" },
+              { id: "upcoming", label: "Upcoming" },
+              { id: "closed", label: "Closed" },
+            ].map((tab) => {
+              const currentStatus = (filterStatus ?? "all").toLowerCase();
+              const isMatch = currentStatus === tab.id;
+              const href = tab.id === "all" ? "/gmp" : `/gmp?status=${tab.id}`;
+              return (
+                <Link
+                  key={tab.id}
+                  href={href}
+                  className={`px-3 py-1 text-[11.5px] font-semibold rounded transition-colors ${
+                    isMatch
+                      ? "bg-white dark:bg-white text-[#0f172a] dark:text-black shadow-xs font-semibold"
+                      : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-[#F1F5F9]"
+                  }`}
+                  scroll={false}
+                >
+                  {tab.label}
+                </Link>
+              );
+            })}
           </div>
-        </div>
 
-        {/* Custom Date Pickers */}
-        {timeRange === "custom" && (
-          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-gray-100 dark:border-[#252A31] text-xs">
-            <div className="flex items-center gap-2">
-              <label className="text-gray-500 dark:text-[#9AA1AA] font-medium">From:</label>
-              <input
-                type="date"
-                value={customStart}
-                onChange={(e) => setCustomStart(e.target.value)}
-                className="px-2.5 py-1 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-900 dark:text-[#F1F3F5] rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <label className="text-gray-500 dark:text-[#9AA1AA] font-medium">To:</label>
-              <input
-                type="date"
-                value={customEnd}
-                onChange={(e) => setCustomEnd(e.target.value)}
-                className="px-2.5 py-1 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-900 dark:text-[#F1F3F5] rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-            {(customStart || customEnd) && (
-              <button
-                type="button"
-                onClick={() => { setCustomStart(""); setCustomEnd(""); }}
-                className="text-xs text-red-600 dark:text-rose-400 hover:underline font-medium"
-              >
-                Clear Range
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Search & Counter Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div className="relative w-full sm:w-80">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg className="h-4 w-4 text-gray-400 dark:text-[#6B7280]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          {/* Search Box */}
+          <div className="relative flex-1 max-w-md">
+            <svg className="h-4 w-4 text-gray-400 dark:text-[#6B7280] absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
+            <input
+              type="search"
+              placeholder="Search IPO by company name…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full pl-9 pr-3.5 py-1.5 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md text-[13px] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white transition-colors"
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Search IPOs by name…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-1.5 bg-white dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-900 dark:text-[#F1F3F5] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors shadow-xs"
-          />
         </div>
-        <div className="flex items-center gap-2.5">
-          <span className="text-[11.5px] font-medium text-gray-500 dark:text-[#9AA1AA]">
-            Showing <strong className="text-gray-900 dark:text-[#F1F3F5]">{filtered.length}</strong> IPOs
+
+        {/* Level 2: Secondary Dropdowns Ribbon */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-gray-100 dark:border-[#252A31] text-xs">
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Sort Dropdown */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-gray-500 dark:text-[#9AA1AA] font-medium">Sort:</span>
+              <select
+                value={sortKey ?? (sort ?? "default")}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === "gmp") { setSortKey("gmp"); setSortDir("desc"); }
+                  else if (val === "sub") { setSortKey("sub"); setSortDir("desc"); }
+                  else { setSortKey(null); }
+                }}
+                className="px-2 py-1 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-800 dark:text-[#F1F5F9] rounded-md text-xs font-medium focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white"
+              >
+                <option value="default">Default (Newest)</option>
+                <option value="gmp">Highest GMP</option>
+                <option value="sub">Most Subscribed</option>
+              </select>
+            </div>
+
+            {/* Period Dropdown */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-gray-500 dark:text-[#9AA1AA] font-medium">Period:</span>
+              <select
+                value={timeRange}
+                onChange={(e) => setTimeRange(e.target.value as any)}
+                className="px-2 py-1 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-800 dark:text-[#F1F5F9] rounded-md text-xs font-medium focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white"
+              >
+                <option value="60days">Last 60 Days</option>
+                <option value="30days">Last 30 Days</option>
+                <option value="6months">Last 6 Months</option>
+                <option value="1year">Last 1 Year</option>
+                <option value="all">All Time</option>
+              </select>
+            </div>
+
+            {/* Segment Dropdown */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-gray-500 dark:text-[#9AA1AA] font-medium">Segment:</span>
+              <select
+                value={typeFilter ?? "all"}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  const url = new URL(window.location.href);
+                  if (val === "all") url.searchParams.delete("type");
+                  else url.searchParams.set("type", val);
+                  window.history.pushState({}, "", url.toString());
+                  window.location.reload();
+                }}
+                className="px-2 py-1 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-800 dark:text-[#F1F5F9] rounded-md text-xs font-medium focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white"
+              >
+                <option value="all">All Segments</option>
+                <option value="mainboard">Mainboard Only</option>
+                <option value="sme">SME Only</option>
+              </select>
+            </div>
+          </div>
+
+          <span className="text-[12px] font-medium text-gray-500 dark:text-[#9AA1AA]">
+            Showing <strong className="text-gray-900 dark:text-[#F1F5F9]">{filtered.length}</strong> IPOs
           </span>
         </div>
       </div>

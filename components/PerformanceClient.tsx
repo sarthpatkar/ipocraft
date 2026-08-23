@@ -110,112 +110,117 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1
-          className="text-[1.75rem] sm:text-[2.2rem] font-bold text-[#0f172a] dark:text-[#F1F5F9] leading-tight"
-          style={{ fontFamily: "var(--font-outfit)" }}
-        >
-          IPO Performance &amp; Track Record
-        </h1>
-        <p className="text-[14px] sm:text-[14.5px] text-[#475569] dark:text-[#9AA1AA] max-w-3xl leading-relaxed mt-1">
-          Historical listing day gains and performance track record for Indian Mainboard and SME IPOs. Compare issue price vs listing price returns.
-        </p>
+    <div className="space-y-4">
+      {/* Compact Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b border-gray-200 dark:border-[#252A31]">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
+            Track Record
+          </p>
+          <h1
+            className="text-xl sm:text-2xl font-semibold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight"
+            style={{ fontFamily: "var(--font-outfit)" }}
+          >
+            IPO Performance &amp; Track Record
+          </h1>
+          <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA]">
+            Historical listing day gains and returns for Indian Mainboard and SME IPOs.
+          </p>
+        </div>
       </div>
 
-      {/* KPI Analytics Metric Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* Avg Listing Gain */}
-        <div className="p-4 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] shadow-xs">
-          <div className="text-[11px] uppercase tracking-wider font-semibold text-[#64748B] dark:text-[#9AA1AA] mb-1">
-            Avg Listing Gain
-          </div>
-          <div className="flex items-baseline gap-1.5">
-            <span className={`text-[1.4rem] sm:text-[1.6rem] font-bold ${stats.avgGain >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+      {/* Single Compact Metrics Strip */}
+      <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-4 shadow-xs">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 divide-y md:divide-y-0 md:divide-x divide-gray-100 dark:divide-[#252A31]">
+          {/* Avg Gain */}
+          <div className="flex flex-col justify-center px-2">
+            <span className="text-[11px] uppercase tracking-wider font-semibold text-gray-500 dark:text-[#9AA1AA]">
+              Avg Listing Gain
+            </span>
+            <span className={`text-lg sm:text-xl font-bold mt-0.5 ${stats.avgGain >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
               {stats.avgGain >= 0 ? "+" : ""}{stats.avgGain.toFixed(1)}%
             </span>
-          </div>
-          <div className="text-[11px] text-[#9AA1AA] dark:text-[#6B7280] mt-0.5">
-            Across {stats.total} listings
-          </div>
-        </div>
-
-        {/* Win Rate */}
-        <div className="p-4 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] shadow-xs">
-          <div className="text-[11px] uppercase tracking-wider font-semibold text-[#64748B] dark:text-[#9AA1AA] mb-1">
-            Positive Listings
-          </div>
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-[1.4rem] sm:text-[1.6rem] font-bold text-[#0f172a] dark:text-[#F1F3F5]">
-              {stats.winRate.toFixed(0)}%
-            </span>
-            <span className="text-[12px] text-[#64748B] dark:text-[#9AA1AA]">
-              ({stats.positiveCount}/{stats.total})
+            <span className="text-[11px] text-gray-400 dark:text-[#6B7280]">
+              Across {stats.total} issues
             </span>
           </div>
-          <div className="text-[11px] text-[#9AA1AA] dark:text-[#6B7280] mt-0.5">
-            Listed at premium
-          </div>
-        </div>
 
-        {/* Top Performer */}
-        <div className="p-4 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] shadow-xs">
-          <div className="text-[11px] uppercase tracking-wider font-semibold text-[#64748B] dark:text-[#9AA1AA] mb-1">
-            Top Gainer
-          </div>
-          {stats.topGainer ? (
-            <div>
-              <div className="text-[14px] font-bold text-[#0f172a] dark:text-[#F1F5F9] truncate">
-                {stats.topGainer.name}
-              </div>
-              <div className="text-[12.5px] font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">
-                +{stats.topGainer.calculatedGain?.toFixed(1)}% on listing
-              </div>
+          {/* Win Rate */}
+          <div className="flex flex-col justify-center px-2 pt-3 md:pt-0">
+            <span className="text-[11px] uppercase tracking-wider font-semibold text-gray-500 dark:text-[#9AA1AA]">
+              Positive Listings
+            </span>
+            <div className="flex items-baseline gap-1.5 mt-0.5">
+              <span className="text-lg sm:text-xl font-bold text-[#0f172a] dark:text-[#F1F5F9]">
+                {stats.winRate.toFixed(0)}%
+              </span>
+              <span className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA]">
+                ({stats.positiveCount}/{stats.total})
+              </span>
             </div>
-          ) : (
-            <div className="text-gray-400 text-[13px]">-</div>
-          )}
-        </div>
+            <span className="text-[11px] text-gray-400 dark:text-[#6B7280]">
+              Listed above issue
+            </span>
+          </div>
 
-        {/* Total Tracked */}
-        <div className="p-4 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] shadow-xs">
-          <div className="text-[11px] uppercase tracking-wider font-semibold text-[#64748B] dark:text-[#9AA1AA] mb-1">
-            Tracked Listings
+          {/* Top Gainer */}
+          <div className="flex flex-col justify-center px-2 pt-3 md:pt-0">
+            <span className="text-[11px] uppercase tracking-wider font-semibold text-gray-500 dark:text-[#9AA1AA]">
+              Top Gainer
+            </span>
+            {stats.topGainer ? (
+              <div className="mt-0.5 min-w-0">
+                <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] truncate">
+                  {stats.topGainer.name}
+                </p>
+                <p className="text-[11.5px] font-medium text-emerald-600 dark:text-emerald-400">
+                  +{stats.topGainer.calculatedGain?.toFixed(1)}% gain
+                </p>
+              </div>
+            ) : (
+              <span className="text-gray-400 text-sm mt-0.5">-</span>
+            )}
           </div>
-          <div className="text-[1.4rem] sm:text-[1.6rem] font-bold text-[#0f172a] dark:text-[#F1F3F5]">
-            {stats.total}
-          </div>
-          <div className="text-[11px] text-[#9AA1AA] dark:text-[#6B7280] mt-0.5">
-            Historical records
+
+          {/* Tracked Count */}
+          <div className="flex flex-col justify-center px-2 pt-3 md:pt-0">
+            <span className="text-[11px] uppercase tracking-wider font-semibold text-gray-500 dark:text-[#9AA1AA]">
+              Tracked Listings
+            </span>
+            <span className="text-lg sm:text-xl font-bold text-[#0f172a] dark:text-[#F1F5F9] mt-0.5">
+              {stats.total}
+            </span>
+            <span className="text-[11px] text-gray-400 dark:text-[#6B7280]">
+              Historical records
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Filter & Sort Bar */}
-      <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 shadow-xs space-y-3">
+      {/* Filter & Search Bar */}
+      <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 shadow-xs space-y-3">
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search */}
           <div className="relative flex-1">
-            <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 dark:text-[#6B7280] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search company name..."
-              className="w-full pl-9 pr-3.5 py-1.5 text-[13px] rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50/50 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F3F5] focus:outline-hidden focus:ring-1 focus:ring-blue-500 placeholder-gray-400 dark:placeholder-[#6B7280]"
+              placeholder="Search company name…"
+              className="w-full pl-9 pr-3.5 py-1.5 text-[13px] rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F5F9] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white placeholder-gray-400 dark:placeholder-[#6B7280]"
             />
           </div>
 
           {/* Sort Dropdown */}
           <div className="flex items-center gap-2">
-            <span className="text-[12px] text-[#64748B] dark:text-[#9AA1AA] whitespace-nowrap font-medium hidden sm:inline">
-              Sort by:
+            <span className="text-[12px] text-gray-500 dark:text-[#9AA1AA] whitespace-nowrap font-medium hidden sm:inline">
+              Sort:
             </span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="px-2.5 py-1.5 text-[12px] rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50/50 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F3F5] focus:outline-hidden"
+              className="px-2.5 py-1.5 text-[12px] font-medium rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F5F9] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white"
             >
               <option value="date-desc">Newest Date</option>
               <option value="gain-desc">Highest Gain %</option>
@@ -226,18 +231,18 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
         </div>
 
         {/* Filter Controls */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100 dark:border-[#252A31] text-[12px]">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-gray-100 dark:border-[#252A31] text-[12px]">
           {/* Segment Pills */}
           <div className="flex items-center gap-1.5 overflow-x-auto">
-            <span className="text-[#64748B] dark:text-[#9AA1AA] font-medium mr-1">Segment:</span>
+            <span className="text-gray-500 dark:text-[#9AA1AA] font-medium mr-1 text-[11.5px]">Segment:</span>
             {(["ALL", "MAINBOARD", "SME"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setSegmentFilter(tab)}
                 className={`px-2.5 py-1 rounded-md text-[11.5px] font-medium transition-colors ${
                   segmentFilter === tab
-                    ? "bg-gray-100 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F3F5] font-semibold border border-gray-200 dark:border-[#252A31]"
-                    : "text-[#64748B] dark:text-[#9AA1AA] hover:bg-gray-50 dark:hover:bg-[#171B20]"
+                    ? "bg-gray-900 text-white dark:bg-white dark:text-black border border-gray-900 dark:border-white shadow-xs font-semibold"
+                    : "text-gray-500 dark:text-[#9AA1AA] hover:bg-gray-50 dark:hover:bg-[#171B20]"
                 }`}
               >
                 {tab === "ALL" ? "All" : tab === "MAINBOARD" ? "Mainboard" : "SME"}
@@ -247,18 +252,18 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
 
           {/* Outcome Filter */}
           <div className="flex items-center gap-1.5 overflow-x-auto">
-            <span className="text-[#64748B] dark:text-[#9AA1AA] font-medium mr-1">Outcome:</span>
+            <span className="text-gray-500 dark:text-[#9AA1AA] font-medium mr-1 text-[11.5px]">Outcome:</span>
             {(["ALL", "GAINERS", "DISCOUNT", "MULTIBAGGER"] as const).map((out) => (
               <button
                 key={out}
                 onClick={() => setOutcomeFilter(out)}
                 className={`px-2.5 py-1 rounded-md text-[11.5px] font-medium transition-colors ${
                   outcomeFilter === out
-                    ? "bg-gray-100 dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F3F5] font-semibold border border-gray-200 dark:border-[#252A31]"
-                    : "text-[#64748B] dark:text-[#9AA1AA] hover:bg-gray-50 dark:hover:bg-[#171B20]"
+                    ? "bg-gray-900 text-white dark:bg-white dark:text-black border border-gray-900 dark:border-white shadow-xs font-semibold"
+                    : "text-gray-500 dark:text-[#9AA1AA] hover:bg-gray-50 dark:hover:bg-[#171B20]"
                 }`}
               >
-                {out === "ALL" ? "All" : out === "GAINERS" ? "Gainers (>0%)" : out === "DISCOUNT" ? "Discounts (<0%)" : "Multibaggers (>100%)"}
+                {out === "ALL" ? "All" : out === "GAINERS" ? "Gains > 0%" : out === "DISCOUNT" ? "Discount < 0%" : "2x+ Multibaggers"}
               </button>
             ))}
           </div>
@@ -326,7 +331,7 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
                         href={`/ipo/${ipo.slug}`}
                         className="text-[12px] text-blue-600 dark:text-blue-400 hover:underline font-medium"
                       >
-                        View Analysis →
+                        View
                       </Link>
                     </td>
                   </tr>

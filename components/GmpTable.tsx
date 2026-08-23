@@ -70,7 +70,7 @@ function FilterPill({ active, onClick, children }: FilterPillProps) {
       onClick={onClick}
       className={`px-3 py-1.5 text-[12px] font-medium rounded-md border transition-colors shrink-0 ${
         active
-          ? "bg-[#1e3a8a] text-white dark:bg-[#111418] dark:text-[#F1F3F5] border-transparent dark:border-[#252A31] font-semibold"
+          ? "bg-gray-900 text-white dark:bg-white dark:text-black border-gray-900 dark:border-white font-semibold shadow-xs"
           : "bg-white dark:bg-[#171B20] text-gray-700 dark:text-[#9AA1AA] border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-500"
       }`}
     >
@@ -141,7 +141,7 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
             placeholder="Search IPO…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#171B20] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md pl-8 pr-3 py-2 text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors"
+            className="w-full border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#171B20] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md pl-8 pr-3 py-2 text-[13px] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white transition-colors"
           />
         </div>
 
@@ -200,7 +200,6 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
                   key={ipo.id}
                   className="hover:bg-gray-50 dark:hover:bg-[#171B20]/60 transition-colors bg-white dark:bg-[#111418]"
                 >
-                  {/* IPO Name */}
                   <td className="px-4 py-3">
                     <Link
                       href={`/ipo/${ipo.slug}`}
@@ -210,18 +209,13 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
                     </Link>
                     {ipo.ipo_type && (
                       <span
-                        className={`ml-2 text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${
-                          ipo.ipo_type.toLowerCase() === "sme"
-                            ? "bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300"
-                            : "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300"
-                        }`}
+                        className="ml-2 text-[10px] font-medium text-gray-500 dark:text-[#9AA1AA] bg-gray-100 dark:bg-[#252A31] px-1.5 py-0.5 rounded"
                       >
                         {ipo.ipo_type.toUpperCase()}
                       </span>
                     )}
                   </td>
 
-                  {/* GMP */}
                   <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">
                     {gmp != null ? (
                       <span

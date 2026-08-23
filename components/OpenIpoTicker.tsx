@@ -58,15 +58,17 @@ export default function OpenIpoTicker() {
 
   if (loading || openIpos.length === 0) return null;
 
-  // Duplicate items for infinite marquee loop
-  const displayItems = [...openIpos, ...openIpos, ...openIpos];
+  // Only duplicate if needed for smooth continuous loop
+  const displayItems = openIpos.length <= 3 
+    ? [...openIpos, ...openIpos] 
+    : openIpos;
 
   return (
-    <div className="w-full bg-[#f8fafc]/95 dark:bg-[#0D1015]/95 border-b border-gray-200 dark:border-[#252A31] backdrop-blur-md overflow-hidden select-none h-8 flex items-center text-[12px] relative z-20">
+    <div className="w-full bg-[#f8fafc]/95 dark:bg-[#0D1015]/95 border-b border-gray-200 dark:border-[#252A31] backdrop-blur-md overflow-hidden select-none h-7 flex items-center text-[12px] relative z-20">
       {/* Static Label Badge */}
-      <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-slate-100 dark:bg-[#171B20] text-slate-700 dark:text-[#F1F3F5] font-semibold text-[11px] uppercase tracking-wider shrink-0 border-r border-gray-200 dark:border-[#252A31] z-10 h-full">
+      <div className="hidden sm:flex items-center gap-1.5 px-3 py-0.5 bg-slate-100 dark:bg-[#171B20] text-slate-700 dark:text-[#F1F3F5] font-semibold text-[10.5px] uppercase tracking-wider shrink-0 border-r border-gray-200 dark:border-[#252A31] z-10 h-full">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-        <span>Open Issues</span>
+        <span>OPEN IPOs ({openIpos.length})</span>
       </div>
 
       {/* Marquee Container (Moving Left-to-Right) */}
@@ -97,12 +99,12 @@ export default function OpenIpoTicker() {
                 )}
 
                 {gmp != null && gmp > 0 ? (
-                  <span className="inline-flex items-center gap-0.5 text-emerald-600 dark:text-emerald-400 font-medium">
-                    GMP: ₹{gmp} {gmpPct && `(+${gmpPct}%)`}
+                  <span className="inline-flex items-center gap-0.5 text-emerald-600 dark:text-emerald-400 font-medium tabular-nums">
+                    GMP ₹{gmp} {gmpPct && `(+${gmpPct}%)`}
                   </span>
                 ) : (
                   <span className="text-gray-400 dark:text-[#6B7280]">
-                    GMP: -
+                    GMP -
                   </span>
                 )}
 

@@ -32,8 +32,8 @@ export default async function PerformancePage() {
   }));
 
   return (
-    <main className="min-h-screen bg-[#F8FAFC] dark:bg-[#080D18] pt-[72px] md:pt-[84px] pb-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <main className="min-h-screen bg-[#F8FAFC] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] py-5 sm:py-7">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <PerformanceClient ipos={safeIpos} />
       </div>
     </main>

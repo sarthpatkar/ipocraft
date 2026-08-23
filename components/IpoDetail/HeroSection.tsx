@@ -141,7 +141,7 @@ export default function HeroSection({
             {shareButton && <div>{shareButton}</div>}
             <a
               href="#how-to-apply"
-              className="inline-flex items-center gap-2 bg-[#1e3a8a] dark:bg-blue-600 hover:bg-[#1a327a] dark:hover:bg-blue-500 text-white text-[13px] font-medium px-5 py-2 rounded-md transition-colors shadow-xs"
+              className="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black border border-gray-900 dark:border-white text-[13px] font-medium px-5 py-2 rounded-md transition-colors shadow-xs"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               How to Apply
@@ -158,7 +158,7 @@ export default function HeroSection({
                 className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-[13px] font-semibold px-4 py-2 rounded-md transition-colors w-full sm:w-auto text-center"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                Check Allotment Status ↗
+                Check Allotment Status
               </a>
             )}
             <p

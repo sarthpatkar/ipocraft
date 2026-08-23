@@ -22,7 +22,7 @@ const inter = Inter({
 const subsUrl = canonicalUrl("/subscriptions");
 
 export const metadata: Metadata = {
-  title: "Live IPO Subscriptions — Real-Time QIB, NII, and Retail Demand | IPOCraft",
+  title: "Live IPO Subscriptions - Real-Time QIB, NII, and Retail Demand | IPOCraft",
   description:
     "Track live IPO subscriptions today. See exact oversubscription multiples for QIB, NII, and Retail categories to predict allotment chances and listing gains.",
   keywords: [
@@ -85,89 +85,79 @@ export default async function SubscriptionsPage({
       className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
-      {/* ── Breadcrumb ── */}
-      <div className="bg-white dark:bg-[#111418] border-b border-[#e2e8f0] dark:border-[#252A31]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center gap-2">
-          <Link
-            href="/"
-            className="text-[11.5px] text-[#94a3b8] dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F5F9] transition-colors"
-            style={{ fontFamily: "var(--font-inter)" }}
-          >
-            Home
-          </Link>
-          <svg
-            className="w-3 h-3 text-[#cbd5e1] dark:text-[#6B7280]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-          <span
-            className="text-[11.5px] text-[#0f172a] dark:text-[#F1F3F5] font-medium"
-            style={{ fontFamily: "var(--font-inter)" }}
-          >
-            Live Subscriptions
-          </span>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
+        {/* Compact Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5 pb-4 border-b border-gray-200 dark:border-[#252A31]">
+          <div>
+            <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-1 tracking-wider">
+              Subscription Demand
+            </p>
+            <h1
+              className="text-xl sm:text-2xl font-semibold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight"
+              style={{ fontFamily: "var(--font-outfit)" }}
+            >
+              Live IPO Subscription Tracker
+            </h1>
+            <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA]">
+              Verified bidding multiples across QIB, NII, and Retail investor categories.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0 text-[12.5px]">
+            <Link
+              href="/ipo"
+              className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              IPO Directory
+            </Link>
+            <span className="text-gray-300 dark:text-[#252A31]">|</span>
+            <Link
+              href="/gmp"
+              className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white"
+            >
+              GMP Tracker
+            </Link>
+          </div>
         </div>
-      </div>
 
-      {/* ── Header ── */}
-      <section className="bg-white dark:bg-[#111418] border-b border-[#e2e8f0] dark:border-[#252A31]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9 text-center">
-          <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-1.5 tracking-wider">
-            Subscription Analytics
-          </p>
-          <h1
-            className="text-2xl sm:text-3xl md:text-[2.2rem] font-semibold text-[#0f172a] dark:text-[#F1F3F5] tracking-tight mb-2"
-            style={{ fontFamily: "var(--font-outfit)" }}
-          >
-            Live IPO Subscription Tracker
-          </h1>
-          <p className="text-sm sm:text-[14.5px] text-[#475569] dark:text-[#9AA1AA] max-w-xl mx-auto leading-relaxed">
-            Monitor verified exchange bidding across institutional (QIB), non-institutional (NII), and retail investor categories.
-          </p>
+        {/* Table Section */}
+        <div>
+          <SubscriptionTableClient
+            data={data}
+            filterStatus={filterStatus}
+            typeFilter={typeFilter}
+          />
         </div>
-      </section>
 
-      {/* ── Table Section ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-16">
-        <SubscriptionTableClient
-          data={data}
-          filterStatus={filterStatus}
-          typeFilter={typeFilter}
-        />
-
-        {/* SEO Content */}
-        <article className="mt-8 bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-5 sm:p-6 shadow-xs">
+        {/* SEO Subordinated Content */}
+        <article className="mt-8 bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 sm:p-5 shadow-xs">
           <h2
-            className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-3"
+            className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
             How to Interpret IPO Subscriptions
           </h2>
           <div
-            className="prose prose-sm prose-slate dark:prose-invert max-w-none text-[13px]"
+            className="text-[12.5px] text-gray-500 dark:text-[#9AA1AA] leading-relaxed space-y-2"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            <p className="mb-3 text-[#475569] dark:text-[#9AA1AA]">
+            <p>
               Subscription data reflects official demand submitted on stock exchange order books (BSE/NSE).
             </p>
-            <ul className="list-disc pl-4 space-y-1.5 text-[#475569] dark:text-[#9AA1AA]">
+            <ul className="list-disc pl-4 space-y-1">
               <li>
-                <strong>QIB (Qualified Institutional Buyers):</strong> Mutual funds, banks, and FPIs. Heavy QIB subscription (&gt;30x) typically reflects institutional conviction.
+                <strong className="text-gray-700 dark:text-gray-300">QIB (Qualified Institutional Buyers):</strong> Mutual funds, banks, and FPIs. Heavy QIB subscription reflects institutional conviction.
               </li>
               <li>
-                <strong>NII / HNI (Non-Institutional Investors):</strong> High net-worth individuals and corporate investors bidding above ₹2 Lakhs.
+                <strong className="text-gray-700 dark:text-gray-300">NII / HNI (Non-Institutional Investors):</strong> High net-worth individuals and corporate investors bidding above ₹2 Lakhs.
               </li>
               <li>
-                <strong>RII (Retail Individual Investors):</strong> Bids below ₹2 Lakhs. High retail demand indicates retail market enthusiasm.
+                <strong className="text-gray-700 dark:text-gray-300">RII (Retail Individual Investors):</strong> Bids below ₹2 Lakhs. High retail demand indicates retail market participation.
               </li>
             </ul>
           </div>
         </article>
-      </section>
+      </main>
     </div>
   );
 }

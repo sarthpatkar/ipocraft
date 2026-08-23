@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import IpoList from "@/components/IpoList";
+import IpoTable from "@/components/IpoTable";
 import type { IPOListItem } from "@/components/IpoCard";
 import type { IpoCursor } from "@/lib/ipoFeed";
+import { TableCellsIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 
 type IpoFeedApiResponse = {
   items: IPOListItem[];
@@ -24,7 +26,7 @@ type Props = {
   emptyMessage?: string;
 };
 
-const DEFAULT_LIMIT = 6;
+const DEFAULT_LIMIT = 10;
 
 export default function IpoLoadMoreClient({
   initialItems,
@@ -42,6 +44,7 @@ export default function IpoLoadMoreClient({
   const [nextCursor, setNextCursor] = useState<IpoCursor | null>(initialNextCursor);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
 
   useEffect(() => {
     setItems(initialItems);
@@ -103,7 +106,54 @@ export default function IpoLoadMoreClient({
 
   return (
     <div>
-      <IpoList items={items} emptyMessage={emptyMessage} />
+      {/* View Switcher & Result Count */}
+      <div className="flex items-center justify-between mb-3.5">
+        <span className="text-[12px] font-medium text-gray-500 dark:text-[#9AA1AA]">
+          Showing {items.length} {status ? status.toLowerCase() : ""} IPO{items.length === 1 ? "" : "s"}
+        </span>
+
+        {/* View toggle (Cards / Table) */}
+        <div className="hidden sm:flex items-center gap-1 rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50 dark:bg-[#171B20] p-0.5">
+          <button
+            type="button"
+            onClick={() => setViewMode("cards")}
+            className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11.5px] font-medium transition-colors ${
+              viewMode === "cards"
+                ? "bg-white dark:bg-white text-[#0f172a] dark:text-black font-semibold shadow-xs"
+                : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-[#F1F5F9]"
+            }`}
+          >
+            <Squares2X2Icon className="w-3.5 h-3.5" />
+            <span>Cards</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode("table")}
+            className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11.5px] font-medium transition-colors ${
+              viewMode === "table"
+                ? "bg-white dark:bg-white text-[#0f172a] dark:text-black font-semibold shadow-xs"
+                : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-[#F1F5F9]"
+            }`}
+          >
+            <TableCellsIcon className="w-3.5 h-3.5" />
+            <span>Table</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content Area: Cards by default, Table if toggled */}
+      {viewMode === "table" ? (
+        <>
+          <div className="hidden sm:block">
+            <IpoTable items={items} emptyMessage={emptyMessage} />
+          </div>
+          <div className="block sm:hidden">
+            <IpoList items={items} emptyMessage={emptyMessage} />
+          </div>
+        </>
+      ) : (
+        <IpoList items={items} emptyMessage={emptyMessage} />
+      )}
 
       {hasMore && (
         <div className="mt-8 flex justify-center">
@@ -111,15 +161,15 @@ export default function IpoLoadMoreClient({
             type="button"
             onClick={loadMore}
             disabled={loading}
-            className="inline-flex items-center justify-center rounded-md bg-[#1e3a8a] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#1a327a] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-md border border-gray-900 dark:border-white bg-gray-900 text-white dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 px-5 py-2 text-[13px] font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 shadow-xs"
           >
-            {loading ? "Loading..." : "Show More IPOs"}
+            {loading ? "Loading more..." : "Load More IPOs"}
           </button>
         </div>
       )}
 
       {error && (
-        <p className="mt-3 text-center text-[13px] text-rose-700">{error}</p>
+        <p className="mt-3 text-center text-[13px] text-rose-600 dark:text-rose-400">{error}</p>
       )}
     </div>
   );

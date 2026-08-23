@@ -59,7 +59,7 @@ export default function BrokerCard({ broker }: { broker: BrokerListItem }) {
             href={broker.cta_url}
             target="_blank"
             rel="noreferrer noopener"
-            className="inline-flex items-center justify-center bg-[#1e3a8a] hover:bg-[#1a327a] dark:bg-blue-600 dark:hover:bg-blue-500 text-white text-[12px] font-semibold px-3.5 py-1.5 rounded-md transition-colors shadow-xs shrink-0"
+            className="inline-flex items-center justify-center bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black border border-gray-900 dark:border-white text-[12px] font-semibold px-3.5 py-1.5 rounded-md transition-colors shadow-xs shrink-0"
           >
             Open Account
           </a>

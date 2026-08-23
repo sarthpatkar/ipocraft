@@ -47,8 +47,8 @@ export function getIpoLifecycleStatus(
  */
 export const STATUS_BADGE_CLASSES: Record<IpoStatus, string> = {
   Open: "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/40 status-open",
-  Upcoming: "bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/40",
-  Listed: "bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800/40",
+  Upcoming: "bg-gray-100 text-gray-700 border border-gray-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
+  Listed: "bg-gray-100 text-gray-700 border border-gray-200 dark:bg-[#171B20] dark:text-[#9AA1AA] dark:border-[#252A31]",
   Closed: "bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/40",
 };
 

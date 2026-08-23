@@ -311,21 +311,21 @@ export default function AdminDashboard() {
       {tab === "ipos" && (
         <>
           {/* FinAPI Autonomous Ingestion & Refresh Monitor */}
-          <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-xl p-5 shadow-sm border border-blue-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="bg-[#111418] text-[#F1F3F5] rounded-lg p-5 shadow-xs border border-[#252A31] flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span className="text-xs uppercase font-bold tracking-wider text-emerald-300">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span className="text-xs uppercase font-bold tracking-wider text-emerald-400">
                   Autonomous Ingestion Engine Active
                 </span>
-                <span className="text-xs bg-white dark:bg-[#111827]/10 text-white/90 px-2 py-0.5 rounded border border-white/15">
-                  FinAPI Upvaly Free Quota
+                <span className="text-[11px] bg-[#171B20] text-gray-300 px-2 py-0.5 rounded border border-[#252A31]">
+                  FinAPI Upvaly Quota
                 </span>
               </div>
-              <h2 className="text-lg font-semibold tracking-tight text-white">
-                Live Market Data & Daily Auto-Discovery
+              <h2 className="text-base font-semibold tracking-tight text-[#F1F3F5]">
+                Live Market Data &amp; Daily Auto-Discovery
               </h2>
-              <p className="text-xs text-blue-200">
+              <p className="text-xs text-gray-400">
                 Subscriptions auto-refreshed every 30m • GMP refreshed every 1h • New IPOs auto-added
               </p>
               {syncStatus?.lastSyncAt && (

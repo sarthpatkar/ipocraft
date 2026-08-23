@@ -117,7 +117,7 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
-            {copied ? "✓ Copied!" : "Share"}
+            {copied ? "Copied" : "Share"}
           </button>
           <span className="text-[11.5px] font-medium text-gray-500 dark:text-[#9AA1AA]">
             Based on 1 allotment lot
@@ -145,7 +145,7 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
                 onClick={() => setLots(preset.value)}
                 className={`px-2.5 py-1 text-[11.5px] font-medium rounded-md border transition-colors ${
                   lots === preset.value
-                    ? "bg-[#1e3a8a] text-white dark:bg-[#171B20] dark:text-[#F1F3F5] border-transparent dark:border-[#252A31] font-semibold"
+                    ? "bg-gray-900 text-white dark:bg-white dark:text-black border-gray-900 dark:border-white font-semibold shadow-xs"
                     : "bg-white dark:bg-[#171B20] border-gray-200 dark:border-[#252A31] text-gray-700 dark:text-[#9AA1AA] hover:border-gray-300 dark:hover:border-gray-500"
                 }`}
                 style={{ fontFamily: "var(--font-inter)" }}
@@ -158,58 +158,46 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
 
         {/* Lots Applied Controls */}
         <div className="bg-gray-50 dark:bg-[#171B20] p-3.5 sm:p-4 rounded-lg border border-gray-200 dark:border-[#252A31] space-y-3">
-          <div className="flex justify-between items-center">
-            <span className="text-[12.5px] font-semibold text-gray-800 dark:text-[#F1F5F9]">
-              Lots Applied
+          <div className="flex items-center justify-between">
+            <span className="text-[12.5px] font-semibold text-[#0f172a] dark:text-[#F1F3F5]" style={{ fontFamily: "var(--font-inter)" }}>
+              Lots Applied:
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={() => setLots(Math.max(1, lots - 1))}
-                className="w-7 h-7 flex items-center justify-center bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-md text-gray-800 dark:text-[#F1F5F9] font-bold text-sm hover:border-blue-500 transition-colors"
+                className="w-7 h-7 rounded border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[#0f172a] dark:text-[#F1F3F5] font-bold text-sm flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#1F242B] transition-colors"
                 aria-label="Decrease lots"
               >
                 −
               </button>
-              <input
-                type="number"
-                min="1"
-                max="100"
-                value={lots}
-                onChange={(e) => setLots(Math.max(1, Math.min(100, Number(e.target.value) || 1)))}
-                className="w-14 text-center py-0.5 bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-md text-[13.5px] font-bold text-gray-900 dark:text-[#F1F5F9] focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
+              <span className="w-12 text-center text-[13.5px] font-semibold tabular-nums text-[#0f172a] dark:text-[#F1F3F5]">
+                {lots}
+              </span>
               <button
                 type="button"
-                onClick={() => setLots(Math.min(100, lots + 1))}
-                className="w-7 h-7 flex items-center justify-center bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-md text-gray-800 dark:text-[#F1F5F9] font-bold text-sm hover:border-blue-500 transition-colors"
+                onClick={() => setLots(lots + 1)}
+                className="w-7 h-7 rounded border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] text-[#0f172a] dark:text-[#F1F3F5] font-bold text-sm flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#1F242B] transition-colors"
                 aria-label="Increase lots"
               >
                 +
               </button>
-              <span className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA] ml-1 font-medium">
-                ({totalShares.toLocaleString("en-IN")} shares)
-              </span>
             </div>
           </div>
 
-          <input
-            type="range"
-            min="1"
-            max={Math.max(30, retailMaxLots + 5)}
-            value={lots}
-            onChange={(e) => setLots(Number(e.target.value))}
-            className="w-full h-1.5 bg-gray-200 dark:bg-[#111418] rounded-md appearance-none cursor-pointer accent-blue-600"
-          />
+          <div className="flex items-center justify-between text-[11.5px] text-gray-500 dark:text-[#9AA1AA] pt-1 border-t border-gray-200/60 dark:border-[#252A31]">
+            <span>Total Shares: <strong className="text-[#0f172a] dark:text-[#F1F3F5]">{totalShares.toLocaleString("en-IN")}</strong></span>
+            <span>Total Investment: <strong className="text-[#0f172a] dark:text-[#F1F3F5]">₹{totalInvestment.toLocaleString("en-IN")}</strong></span>
+          </div>
         </div>
 
-        {/* Expected GMP / Scenario Toggle */}
+        {/* GMP Input Mode Selection */}
         <div className="bg-gray-50 dark:bg-[#171B20] p-3.5 sm:p-4 rounded-lg border border-gray-200 dark:border-[#252A31] space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <span className="text-[12.5px] font-semibold text-gray-800 dark:text-[#F1F5F9]">
-              Listing Price Scenario
+            <span className="text-[12.5px] font-semibold text-[#0f172a] dark:text-[#F1F3F5]" style={{ fontFamily: "var(--font-inter)" }}>
+              Estimated Gain Scenario:
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={() => {
@@ -218,7 +206,7 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
                 }}
                 className={`px-2.5 py-1 text-[11px] font-medium rounded-md border transition-colors ${
                   !useCustomGmp
-                    ? "bg-[#1e3a8a] text-white dark:bg-[#111418] dark:text-[#F1F3F5] border-transparent dark:border-[#252A31] font-semibold"
+                    ? "bg-gray-900 text-white dark:bg-white dark:text-black border-gray-900 dark:border-white font-semibold shadow-xs"
                     : "bg-white dark:bg-[#111418] border-gray-200 dark:border-[#252A31] text-gray-600 dark:text-[#9AA1AA]"
                 }`}
               >
@@ -229,7 +217,7 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
                 onClick={() => setUseCustomGmp(true)}
                 className={`px-2.5 py-1 text-[11px] font-medium rounded-md border transition-colors ${
                   useCustomGmp
-                    ? "bg-[#1e3a8a] text-white dark:bg-[#111418] dark:text-[#F1F3F5] border-transparent dark:border-[#252A31] font-semibold"
+                    ? "bg-gray-900 text-white dark:bg-white dark:text-black border-gray-900 dark:border-white font-semibold shadow-xs"
                     : "bg-white dark:bg-[#111418] border-gray-200 dark:border-[#252A31] text-gray-600 dark:text-[#9AA1AA]"
                 }`}
               >
@@ -247,7 +235,7 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
                 type="number"
                 value={customGmp}
                 onChange={(e) => setCustomGmp(Number(e.target.value) || 0)}
-                className="w-24 px-2.5 py-1 bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-md text-[13px] font-semibold text-gray-900 dark:text-[#F1F5F9] focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-24 px-2.5 py-1 bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-md text-[13px] font-semibold text-gray-900 dark:text-[#F1F5F9] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white"
               />
               <span className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA]">
                 (= ₹{estimatedListingPrice} est. listing price)

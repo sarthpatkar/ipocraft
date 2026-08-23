@@ -199,7 +199,7 @@ export default function WhatIsIpoGmpPage() {
               Estimated Listing Price = ₹150 + ₹40 = ₹190
             </p>
             <p>
-              On listing day, the stock opened at ₹185 — slightly below the implied GMP price. This illustrates that while GMP reflects sentiment, actual listing price depends on broader market liquidity and final demand during price discovery.
+              On listing day, the stock opened at ₹185, slightly below the implied GMP price. This illustrates that while GMP reflects sentiment, actual listing price depends on broader market liquidity and final demand during price discovery.
             </p>
           </Section>
 

@@ -230,7 +230,7 @@ export default async function Home({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100 antialiased`}
+      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* Structured Data for SEO & GEO */}
@@ -248,62 +248,58 @@ export default async function Home({
         }}
       />
 
-      {/* HERO */}
-      <section className="border-b border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9">
-          <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-1.5 tracking-wider">
-            IPO Research &amp; Analytics Platform
-          </p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
+        {/* Compact Hero */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-5 pb-4 border-b border-gray-200 dark:border-[#252A31]">
+          <div>
+            <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-1 tracking-wider">
+              IPO Research &amp; Analytics
+            </p>
+            <h1
+              className="text-xl sm:text-2xl lg:text-[1.85rem] font-semibold leading-tight tracking-tight text-[#0f172a] dark:text-[#F1F5F9]"
+              style={{ fontFamily: "var(--font-outfit)" }}
+            >
+              IPOCraft: IPO GMP, Subscription &amp; Timeline Tracker
+            </h1>
+            <p className="mt-1 text-[13.5px] text-gray-500 dark:text-[#9AA1AA]">
+              Track Grey Market Premiums, live bidding multiples, and allotment dates for Mainboard &amp; SME issues.
+            </p>
 
-          <h1
-            className="text-2xl sm:text-3xl lg:text-[2.2rem] font-semibold leading-tight tracking-tight text-[#0f172a] dark:text-[#F1F3F5]"
-            style={{ fontFamily: "var(--font-outfit)" }}
-          >
-            IPOCraft: IPO GMP, Subscription &amp; Timeline Tracker
-          </h1>
-
-          <p className="mt-2 text-sm sm:text-[14.5px] text-[#475569] dark:text-[#9AA1AA] max-w-2xl leading-relaxed">
-            Track <Link href="/what-is-ipo-gmp" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Grey Market Premium (GMP)</Link>, subscription demand multiples, and allotment dates for Mainboard &amp; SME IPOs.
-          </p>
-
-          {/* LIVE STATS ROW */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            <StatPill color="emerald" label={`${openCount} Open`} href="/?status=open" animated count={openCount} />
-            <StatPill color="blue" label={`${upcomingCount} Upcoming`} href="/?status=upcoming" animated count={upcomingCount} />
-            {topGmpIpo?.gmp != null && (topGmpIpo.price_max != null || topGmpIpo.price_min != null) && (
-              <StatPill
-                color="blue"
-                label={`Top GMP: ${topGmpIpo.name} ₹${topGmpIpo.gmp} (+${((Number(topGmpIpo.gmp) / Number(topGmpIpo.price_max ?? topGmpIpo.price_min)) * 100).toFixed(1)}%)`}
-                href={`/ipo/${topGmpIpo.slug}`}
-              />
-            )}
-            <StatPill color="slate" label="Exchange Filings Referenced" />
+            {/* LIVE STATS ROW */}
+            <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
+              <StatPill color="emerald" label={`${openCount} Open`} href="/?status=open" animated count={openCount} />
+              <StatPill color="blue" label={`${upcomingCount} Upcoming`} href="/?status=upcoming" animated count={upcomingCount} />
+              {topGmpIpo?.gmp != null && (topGmpIpo.price_max != null || topGmpIpo.price_min != null) && (
+                <StatPill
+                  color="blue"
+                  label={`Top GMP: ${topGmpIpo.name} ₹${topGmpIpo.gmp} (+${((Number(topGmpIpo.gmp) / Number(topGmpIpo.price_max ?? topGmpIpo.price_min)) * 100).toFixed(1)}%)`}
+                  href={`/ipo/${topGmpIpo.slug}`}
+                />
+              )}
+            </div>
           </div>
 
-          {/* CTA */}
-          <div className="flex flex-wrap gap-2.5 mt-5">
+          <div className="flex items-center gap-3 shrink-0 text-[12.5px]">
             <Link
               href="/ipo"
-              className="inline-flex items-center justify-center bg-[#1e3a8a] dark:bg-blue-600 hover:bg-[#1a327a] dark:hover:bg-blue-500 text-white text-[13px] font-semibold px-4.5 py-2 rounded-md shadow-xs transition-colors"
+              className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
             >
-              Explore IPOs
+              IPO Directory
             </Link>
-
+            <span className="text-gray-300 dark:text-[#252A31]">|</span>
             <Link
               href="/gmp"
-              className="inline-flex items-center justify-center border border-[#cbd5e1] dark:border-[#252A31] hover:border-[#94a3b8] dark:hover:border-gray-500 bg-white dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F3F5] text-[13px] font-semibold px-4.5 py-2 rounded-md transition-colors"
+              className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white"
             >
-              View GMP Tracker
+              GMP Tracker
             </Link>
           </div>
         </div>
-      </section>
 
-      {/* ── Data Freshness Bar ── */}
-      <DataFreshnessBar lastUpdatedAt={lastUpdatedAt} syncIntervalMinutes={30} />
+        {/* -- Data Freshness Bar -- */}
+        <DataFreshnessBar lastUpdatedAt={lastUpdatedAt} syncIntervalMinutes={30} />
 
-      <section className="bg-[#f8fafc] dark:bg-[#090B0F] border-b border-[#e2e8f0] dark:border-[#252A31]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="py-4">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
             <div>
               <h2
@@ -321,10 +317,10 @@ export default async function Home({
             </div>
             <Link
               href="/ipo"
-              className="inline-flex items-center justify-center gap-1.5 bg-[#1e3a8a] dark:bg-[#171B20] hover:bg-[#1a327a] dark:hover:bg-[#252A31] text-white dark:text-[#F1F3F5] text-[12.5px] font-semibold px-3.5 py-1.5 rounded-md border border-transparent dark:border-[#252A31] transition-colors shrink-0"
+              className="inline-flex items-center justify-center bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black text-[12.5px] font-semibold px-3.5 py-1.5 rounded-md border border-gray-900 dark:border-white transition-colors shrink-0 shadow-xs"
               style={{ fontFamily: "var(--font-inter)" }}
             >
-              View All IPOs →
+              View All IPOs
             </Link>
           </div>
           {/* Instant Search Bar */}
@@ -346,7 +342,7 @@ export default async function Home({
                 name="search"
                 defaultValue={params?.search || ""}
                 placeholder="Search IPO by company name…"
-                className="w-full border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#171B20] text-gray-900 dark:text-[#F1F3F5] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md pl-9 pr-3.5 py-2 text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-xs transition-colors"
+                className="w-full border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#171B20] text-gray-900 dark:text-[#F1F3F5] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md pl-9 pr-3.5 py-2 text-[13px] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white shadow-xs transition-colors"
               />
             </div>
           </form>
@@ -414,7 +410,7 @@ export default async function Home({
 
             <Link
               href="/"
-              className="px-3 py-1.5 text-[12px] font-medium bg-[#1e3a8a] dark:bg-[#171B20] text-white dark:text-[#F1F3F5] border border-transparent dark:border-[#252A31] rounded-md transition-colors font-semibold"
+              className="px-3 py-1.5 text-[12px] font-medium bg-gray-900 dark:bg-white text-white dark:text-black border border-gray-900 dark:border-white rounded-md transition-colors font-semibold shadow-xs"
             >
               All
             </Link>
@@ -431,7 +427,7 @@ export default async function Home({
                 <div className="mt-6 flex justify-center lg:justify-start">
                   <Link
                     href={showMoreHref}
-                    className="inline-flex items-center justify-center rounded-md bg-[#1e3a8a] dark:bg-[#171B20] border border-transparent dark:border-[#252A31] px-5 py-2 text-[13px] font-semibold text-white dark:text-[#F1F3F5] transition-colors hover:bg-[#1a327a] dark:hover:bg-[#252A31]"
+                    className="inline-flex items-center justify-center rounded-md bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 border border-gray-900 dark:border-white px-5 py-2 text-[13px] font-semibold text-white dark:text-black transition-colors shadow-xs"
                   >
                     Show More IPOs
                   </Link>
@@ -439,7 +435,7 @@ export default async function Home({
               )}
             </div>
 
-            {/* Right Rail — Live Widgets */}
+            {/* Right Rail - Live Widgets */}
             <aside className="hidden lg:block space-y-3">
 
               {/* Widget: Highest Hype Score */}
@@ -559,11 +555,9 @@ export default async function Home({
             IPOCraft is a financial data and research platform and is not registered with SEBI as an investment advisor. Content is provided strictly for educational purposes and does not constitute investment advice.
           </div>
         </div>
-      </section>
 
-      {/* Top Brokers */}
-      <section className="bg-white dark:bg-[#111418] border-b border-[#e2e8f0] dark:border-[#252A31] py-8 sm:py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Top Brokers */}
+        <div className="border-t border-[#e2e8f0] dark:border-[#252A31] pt-8 pb-4">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
             <div>
               <h2
@@ -584,8 +578,7 @@ export default async function Home({
             <BrokerList limit={4} />
           </div>
         </div>
-      </section>
-
+      </main>
     </div>
   );
 }

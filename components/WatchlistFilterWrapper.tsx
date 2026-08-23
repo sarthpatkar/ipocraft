@@ -23,7 +23,7 @@ export default function WatchlistFilterWrapper({ initialIpos }: { initialIpos: I
             onClick={() => setShowWatchlist(!showWatchlist)}
             className={`px-3 py-1.5 text-[12px] font-semibold rounded-md transition-colors border ${
               showWatchlist
-                ? "bg-[#1e3a8a] dark:bg-[#171B20] text-white dark:text-[#F1F3F5] border-transparent dark:border-[#252A31]"
+                ? "bg-gray-900 text-white dark:bg-white dark:text-black border-gray-900 dark:border-white shadow-xs"
                 : "bg-white dark:bg-[#111418] text-gray-700 dark:text-[#9AA1AA] border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-500"
             }`}
           >

@@ -64,7 +64,7 @@
   /* Input */
   --input-bg: #ffffff;
   --input-border: #d1d5db;
-  --input-focus-border: #3b82f6;
+  --input-focus-border: #0f172a;
   --input-placeholder: #9ca3af;
 
   /* Footer */
@@ -133,7 +133,7 @@
   /* Input */
   --input-bg: #171B20;
   --input-border: #252A31;
-  --input-focus-border: #2563EB;
+  --input-focus-border: #ffffff;
   --input-placeholder: #6B7280;
 
   /* Footer */
@@ -233,10 +233,25 @@ a {
   transition: color 0.15s ease, opacity 0.15s ease;
 }
 
-/* ─── Focus Styles ────────────────────────────────────────────────────────── */
+/* ─── Focus Styles & Input Reset ─────────────────────────────────────────── */
+input,
+textarea,
+select,
+button {
+  outline: none;
+}
+
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible {
+  outline: none !important;
+}
+
 :focus-visible {
-  outline: 2px solid var(--brand-500);
-  outline-offset: 2px;
+  outline: none;
 }
 
 /* ─── Scrollbar Styling ───────────────────────────────────────────────────── */

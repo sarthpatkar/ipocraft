@@ -48,7 +48,7 @@ export default function HypeLeaderboard({ ipos }: { ipos: IPOListItem[] }) {
           href="/ipo"
           className="text-[11.5px] text-blue-600 dark:text-blue-400 hover:underline font-semibold shrink-0"
         >
-          View All →
+          View All
         </Link>
       </div>
 

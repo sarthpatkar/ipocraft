@@ -99,7 +99,7 @@ export default function AllotmentCalculator({
                   onClick={() => setCategory(cat)}
                   className={`flex-1 py-1.5 text-[12.5px] font-semibold rounded-md border transition-colors ${
                     category === cat
-                      ? "bg-[#1e3a8a] text-white dark:bg-[#171B20] dark:text-[#F1F3F5] border-transparent dark:border-[#252A31]"
+                      ? "bg-gray-900 text-white dark:bg-white dark:text-black border-gray-900 dark:border-white shadow-xs"
                       : "bg-white dark:bg-[#171B20] border-gray-200 dark:border-[#252A31] text-gray-700 dark:text-[#9AA1AA] hover:border-gray-300 dark:hover:border-gray-500"
                   }`}
                   style={{ fontFamily: "var(--font-inter)" }}

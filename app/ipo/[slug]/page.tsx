@@ -164,8 +164,8 @@ export default async function IPODetail({
 
   const priceBand =
     ipo.price_min && ipo.price_max
-      ? `₹${ipo.price_min} – ₹${ipo.price_max}`
-      : "—";
+      ? `₹${ipo.price_min} - ₹${ipo.price_max}`
+      : "-";
 
   const gmpSeries = (gmpHistory ?? [])
     .map((point) => {
@@ -190,7 +190,7 @@ export default async function IPODetail({
   const gmpDisplay =
     latestGmp != null
       ? `₹${latestGmp.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`
-      : "—";
+      : "-";
 
   const gmpChangePercent =
     latestGmp != null && previousGmp != null && previousGmp !== 0
@@ -279,7 +279,7 @@ export default async function IPODetail({
   }
 
   function timeAgo(date: Date | null) {
-    if (!date) return "Updated —";
+    if (!date) return "Updated recently";
     const diffMs = Number(new Date()) - date.getTime();
     if (diffMs < 0) return "Updated just now";
     const diffMins = Math.floor(diffMs / (1000 * 60));
@@ -295,22 +295,22 @@ export default async function IPODetail({
   }
 
   function valueOrDash(value: unknown) {
-    if (value == null) return "—";
-    if (typeof value === "string" && value.trim() === "") return "—";
+    if (value == null) return "-";
+    if (typeof value === "string" && value.trim() === "") return "-";
     return String(value);
   }
 
   function percentOrDash(value: unknown) {
-    if (value == null) return "—";
-    if (typeof value === "string" && value.trim() === "") return "—";
+    if (value == null) return "-";
+    if (typeof value === "string" && value.trim() === "") return "-";
     const parsedValue = Number(value);
     if (Number.isNaN(parsedValue)) return String(value);
     return `${Number.isInteger(parsedValue) ? parsedValue : parsedValue.toFixed(2)}%`;
   }
 
   function currencyOrDash(value: unknown) {
-    if (value == null) return "—";
-    if (typeof value === "string" && value.trim() === "") return "—";
+    if (value == null) return "-";
+    if (typeof value === "string" && value.trim() === "") return "-";
     const parsedValue = Number(value);
     if (Number.isNaN(parsedValue)) return String(value);
     return `₹${parsedValue.toLocaleString("en-IN")}`;
@@ -1462,7 +1462,7 @@ export default async function IPODetail({
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/ipo"
-              className="inline-flex items-center gap-2 bg-[#1e3a8a] dark:bg-[#171B20] text-white dark:text-[#F1F3F5] border border-transparent dark:border-[#252A31] text-[12.5px] font-semibold px-4 py-2 rounded-md transition-colors hover:bg-[#1a327a] dark:hover:bg-[#252A31]"
+              className="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black border border-gray-900 dark:border-white text-[12.5px] font-semibold px-4 py-2 rounded-md transition-colors shadow-xs"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               View All IPOs

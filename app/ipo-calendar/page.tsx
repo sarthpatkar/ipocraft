@@ -108,39 +108,43 @@ export default async function IpoCalendarPage() {
       className="min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] overflow-x-hidden"
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
-      {/* HERO */}
-      <section className="border-b border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9">
-          <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-1.5 tracking-wider">
-            IPO Timelines &amp; Schedules
-          </p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
+        {/* Compact Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5 pb-4 border-b border-gray-200 dark:border-[#252A31]">
+          <div>
+            <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-1 tracking-wider">
+              IPO Timelines &amp; Schedules
+            </p>
+            <h1
+              className="text-xl sm:text-2xl font-semibold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight"
+              style={{ fontFamily: "var(--font-outfit)" }}
+            >
+              IPO Calendar 2026: Upcoming, Open &amp; Listing Dates
+            </h1>
+            <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA]">
+              Bidding windows, allotment milestones, and listing timelines across Mainboard and SME segments.
+            </p>
+          </div>
 
-          <h1
-            className="text-2xl sm:text-3xl lg:text-[2.2rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F3F5]"
-            style={{ fontFamily: "var(--font-outfit)" }}
-          >
-            IPO Calendar 2026: Upcoming, Open &amp; Listing Dates
-          </h1>
-
-          <p className="mt-2 text-sm sm:text-[14.5px] text-[#475569] dark:text-[#9AA1AA] max-w-2xl leading-relaxed">
-            Explore upcoming IPO issue dates, bidding windows, <Link href="/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">allotment timelines</Link>, and stock exchange listing dates across Mainboard and SME segments.
-          </p>
-
-          {/* TRUST BADGES */}
-          <div className="flex flex-wrap gap-2 mt-4 text-[11px]">
-            <span className="bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-[#475569] dark:text-[#9AA1AA] px-2.5 py-1 rounded-md">
-              SEBI Disclosures Referenced
-            </span>
-            <span className="bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-[#475569] dark:text-[#9AA1AA] px-2.5 py-1 rounded-md">
-              Timeline Calendar
-            </span>
+          <div className="flex items-center gap-3 shrink-0 text-[12.5px]">
+            <Link
+              href="/ipo"
+              className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              IPO Directory
+            </Link>
+            <span className="text-gray-300 dark:text-[#252A31]">|</span>
+            <Link
+              href="/allotment-status"
+              className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white"
+            >
+              Allotment Status
+            </Link>
           </div>
         </div>
-      </section>
 
-      {/* CALENDAR GRID */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 sm:p-6 shadow-xs">
+        {/* CALENDAR GRID */}
+        <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3.5 sm:p-5 shadow-xs mb-8">
           <IpoCalendarGrid ipos={(ipos || []).map((ipo: any) => ({
             slug: ipo.slug,
             name: ipo.name,
@@ -151,48 +155,35 @@ export default async function IpoCalendarPage() {
             gmp: ipo.gmp,
           }))} />
         </div>
-      </section>
 
-      {/* LIST SECTIONS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 space-y-8">
-        <Section title="Upcoming IPOs" ipos={upcoming} />
-        <Section title="Open IPOs" ipos={open} />
-        <Section title="Closed IPOs" ipos={closed} />
-      </section>
+        {/* LIST SECTIONS */}
+        <div className="space-y-6 mb-8">
+          <Section title="Upcoming IPOs" ipos={upcoming} />
+          <Section title="Open IPOs" ipos={open} />
+          <Section title="Closed IPOs" ipos={closed} />
+        </div>
 
-      {/* INFO + SEO CONTENT */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-5">
-            <h2
-              className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2"
-              style={{ fontFamily: "var(--font-outfit)" }}
-            >
+        {/* SUBORDINATED FOOTNOTE */}
+        <div className="border-t border-gray-200 dark:border-[#252A31] pt-6 grid md:grid-cols-2 gap-4 text-[12.5px] text-gray-500 dark:text-[#9AA1AA]">
+          <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 shadow-xs">
+            <h2 className="text-[13px] font-semibold text-gray-800 dark:text-[#F1F5F9] mb-1">
               What is an IPO Calendar?
             </h2>
-            <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
-              An IPO calendar tracks public offering milestones including opening dates, closing dates, <Link href="/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">allotment schedules</Link>, and exchange listings.
+            <p>
+              An IPO calendar tracks public offering milestones including opening dates, closing dates, <Link href="/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 hover:underline">allotment schedules</Link>, and exchange listings.
             </p>
           </div>
 
-          <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-5">
-            <h2
-              className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-2"
-              style={{ fontFamily: "var(--font-outfit)" }}
-            >
+          <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 shadow-xs">
+            <h2 className="text-[13px] font-semibold text-gray-800 dark:text-[#F1F5F9] mb-1">
               How are Dates Determined?
             </h2>
-            <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
+            <p>
               Dates are officially announced in the Red Herring Prospectus (RHP) and exchange circulars upon SEBI approval.
             </p>
           </div>
         </div>
-
-        {/* LEGAL DISCLAIMER */}
-        <div className="mt-6 text-[12px] text-[#64748b] dark:text-[#9AA1AA] leading-relaxed bg-[#f1f5f9] dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4">
-          IPOCraft is a financial research platform. All IPO dates and data points are referenced from publicly accessible exchange filings. Verify with official DRHP/RHP filings before participating.
-        </div>
-      </section>
+      </main>
     </div>
   );
 }
