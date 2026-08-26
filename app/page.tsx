@@ -611,7 +611,7 @@ export default async function Home({
                     Allotment Odds Calculator
                   </h4>
                   <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA] mt-1 leading-relaxed">
-                    Input subscription numbers to see your exact lottery probability under exchange rules.
+                    Input subscription numbers to see your estimated retail and NII allotment probability.
                   </p>
                 </div>
                 <span className="text-[12px] font-semibold text-blue-600 dark:text-blue-400 mt-3 inline-flex items-center">

@@ -10,6 +10,8 @@ import {
   CheckIcon,
   TrashIcon,
   ChevronDownIcon,
+  PlusIcon,
+  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import ChatMessage from "./ChatMessage";
@@ -78,7 +80,11 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
   const [exportOpen, setExportOpen] = useState(false);
   const [copiedExport, setCopiedExport] = useState(false);
   const [showScrollFab, setShowScrollFab] = useState(false);
-  const [isTyping, setIsTyping] = useState(false); // true before first token arrives
+  const [isTyping, setIsTyping] = useState(false);
+
+  // Confirmation modal
+  type Confirm = { type: "new" } | { type: "delete"; id: string; title: string };
+  const [confirm, setConfirm] = useState<Confirm | null>(null);
 
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -141,8 +147,16 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
     return ["What are open IPOs today?", "Compare top Mainboard IPOs", "What is GMP meaning?"];
   };
 
-  // Create new session
+  // Create new session — with confirmation if there are messages
   const handleNewSession = () => {
+    if (messages.length > 0) {
+      setConfirm({ type: "new" });
+      return;
+    }
+    _doNewSession();
+  };
+
+  const _doNewSession = () => {
     handleStop();
     const newSessId = `sess-${Date.now()}`;
     const newSession: ChatSession = {
@@ -158,6 +172,7 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
     saveSessions(updated);
     setFollowUps([]);
     setError(null);
+    setConfirm(null);
   };
 
   // Switch session
@@ -168,15 +183,21 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
     setError(null);
   };
 
-  // Delete session
+  // Delete session — always confirm
   const handleDeleteSession = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    const sess = sessions.find(s => s.id === id);
+    setConfirm({ type: "delete", id, title: sess?.title || "this thread" });
+  };
+
+  const _doDeleteSession = (id: string) => {
     const updated = sessions.filter((s) => s.id !== id);
     setSessions(updated);
     saveSessions(updated);
     if (currentSessionId === id) {
       setCurrentSessionId(updated.length > 0 ? updated[0].id : null);
     }
+    setConfirm(null);
   };
 
   // Stop streaming generation
@@ -454,6 +475,48 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
 
   return (
     <div className="flex w-full h-full bg-[#F8FAFC] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F8FAFC] select-text overflow-hidden relative">
+
+      {/* ── CONFIRMATION MODAL ── */}
+      {confirm && (
+        <div className="absolute inset-0 z-[80] flex items-center justify-center bg-black/30">
+          <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg shadow-lg p-5 w-[280px] mx-4">
+            <div className="flex items-start gap-3 mb-4">
+              <ExclamationTriangleIcon className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+              <div>
+                <p className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#E8EDF3] leading-snug">
+                  {confirm.type === "new" ? "Start a new thread?" : "Delete this thread?"}
+                </p>
+                <p className="text-[12px] text-gray-400 dark:text-[#5A6070] mt-1">
+                  {confirm.type === "new"
+                    ? "The current conversation will be saved in history."
+                    : `"${confirm.title}" will be permanently removed.`}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 justify-end">
+              <button
+                onClick={() => setConfirm(null)}
+                className="px-3 py-1.5 rounded text-[12px] font-medium text-gray-500 dark:text-[#6B7280] hover:bg-gray-100 dark:hover:bg-[#1A1F26] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  if (confirm.type === "new") _doNewSession();
+                  else _doDeleteSession(confirm.id);
+                }}
+                className={`px-3 py-1.5 rounded text-[12px] font-semibold transition-colors ${
+                  confirm.type === "delete"
+                    ? "bg-rose-600 hover:bg-rose-700 text-white"
+                    : "bg-[#1C317A] hover:bg-[#152763] text-white"
+                }`}
+              >
+                {confirm.type === "new" ? "Start new" : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* ── COLLAPSIBLE RESEARCH SIDEBAR ── */}
       {!embedded && (
         <ChatSidebar
@@ -471,97 +534,89 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
 
       {/* ── MAIN RESEARCH CANVAS ── */}
       <div className="flex-1 flex flex-col h-full min-w-0 bg-[#F8FAFC] dark:bg-[#090B0F] overflow-hidden">
-        {/* ── TOP HEADER ── */}
-        <header className="flex items-center justify-between px-3 sm:px-6 py-2.5 bg-white dark:bg-[#111418] border-b border-gray-200/80 dark:border-[#1F242C] shrink-0 z-10">
+        {/* ── HEADER ── */}
+        <header className="flex items-center justify-between px-4 sm:px-5 py-3 border-b border-gray-200 dark:border-[#1E2329] shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
             {!embedded && (
               <button
                 onClick={() => setSidebarOpen((prev) => !prev)}
-                aria-label="Toggle research sidebar"
-                className="p-1.5 rounded-lg border border-gray-200/80 dark:border-[#262C36] text-gray-500 hover:text-[#0f172a] dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#1A1F26] transition-colors"
-                title="Toggle Research Navigator (⌘B)"
+                aria-label="Toggle sidebar"
+                className="p-1.5 rounded text-gray-400 hover:text-[#0f172a] dark:hover:text-[#E8EDF3] hover:bg-gray-100 dark:hover:bg-[#1A1F26] transition-colors"
+                title="Toggle sidebar (⌘B)"
               >
                 <Bars3Icon className="w-4 h-4" />
               </button>
             )}
-
-            <div className="flex items-center gap-2 min-w-0">
-              <div className="w-7 h-7 rounded-lg bg-[#1C317A] text-white flex items-center justify-center font-bold text-[10px] tracking-tight shrink-0 shadow-xs">
-                IC
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-2">
-                  <h1 className="text-[13.5px] sm:text-[14px] font-bold text-[#0f172a] dark:text-[#F8FAFC] truncate leading-tight" style={{ fontFamily: "var(--font-outfit)" }}>
-                    {currentSession?.title || "IPO AI Research Assistant"}
-                  </h1>
-                  <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/40 shrink-0">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Live Market Intelligence
-                  </span>
-                </div>
-              </div>
+            <div className="min-w-0">
+              <p
+                className="text-[13px] font-semibold text-[#0f172a] dark:text-[#E8EDF3] truncate leading-none"
+                style={{ fontFamily: "var(--font-outfit)" }}
+              >
+                {currentSession?.title || "IPO Research Assistant"}
+              </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
-            {/* Export / Share Dropdown */}
+          <div className="flex items-center gap-1 shrink-0">
             {messages.length > 0 && (
-              <div className="relative">
+              <>
+                {/* Export dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => setExportOpen((p) => !p)}
+                    className="p-1.5 rounded text-gray-400 hover:text-[#0f172a] dark:hover:text-[#E8EDF3] hover:bg-gray-100 dark:hover:bg-[#1A1F26] transition-colors"
+                    title="Export"
+                  >
+                    <ArrowDownTrayIcon className="w-4 h-4" />
+                  </button>
+                  {exportOpen && (
+                    <div className="absolute right-0 mt-1 w-44 rounded-lg bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] shadow-md py-1 z-50 text-[12px]">
+                      <button
+                        onClick={copyConversation}
+                        className="w-full px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#1A1F26] text-gray-700 dark:text-[#CBD5E1] flex items-center justify-between"
+                      >
+                        <span>Copy thread</span>
+                        {copiedExport ? <CheckIcon className="w-3.5 h-3.5 text-emerald-500" /> : <ClipboardDocumentIcon className="w-3.5 h-3.5 text-gray-400" />}
+                      </button>
+                      <button
+                        onClick={exportAsMarkdown}
+                        className="w-full px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#1A1F26] text-gray-700 dark:text-[#CBD5E1] flex items-center justify-between"
+                      >
+                        <span>Download .md</span>
+                        <ArrowDownTrayIcon className="w-3.5 h-3.5 text-gray-400" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* New thread */}
                 <button
-                  onClick={() => setExportOpen((prev) => !prev)}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11.5px] font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1A1F26] border border-gray-200/80 dark:border-[#262C36] transition-colors"
-                  title="Export thread"
+                  onClick={handleNewSession}
+                  className="p-1.5 rounded text-gray-400 hover:text-[#0f172a] dark:hover:text-[#E8EDF3] hover:bg-gray-100 dark:hover:bg-[#1A1F26] transition-colors"
+                  title="New thread"
+                  aria-label="New thread"
                 >
-                  <ArrowDownTrayIcon className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Export</span>
+                  <PlusIcon className="w-4 h-4" />
                 </button>
-
-                {exportOpen && (
-                  <div className="absolute right-0 mt-1.5 w-48 rounded-xl bg-white dark:bg-[#171E28] border border-gray-200 dark:border-[#252E3E] shadow-xl py-1.5 z-50 text-[12.5px]">
-                    <button
-                      onClick={copyConversation}
-                      className="w-full px-3.5 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#1F2937] text-gray-700 dark:text-gray-200 flex items-center justify-between"
-                    >
-                      <span>Copy Full Thread</span>
-                      {copiedExport ? <CheckIcon className="w-3.5 h-3.5 text-emerald-500" /> : <ClipboardDocumentIcon className="w-3.5 h-3.5 text-gray-400" />}
-                    </button>
-                    <button
-                      onClick={exportAsMarkdown}
-                      className="w-full px-3.5 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#1F2937] text-gray-700 dark:text-gray-200 flex items-center justify-between"
-                    >
-                      <span>Download Markdown (.md)</span>
-                      <ArrowDownTrayIcon className="w-3.5 h-3.5 text-gray-400" />
-                    </button>
-                  </div>
-                )}
-              </div>
+              </>
             )}
-
-            {messages.length > 0 && (
-              <button
-                onClick={handleNewSession}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11.5px] font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1A1F26] border border-gray-200/80 dark:border-[#262C36] transition-colors"
-                title="Start a new thread"
-              >
-                <span>+ New</span>
-              </button>
-            )}
-
-            {!embedded && (
+            {/* Expand to full page — only when embedded (e.g. as a widget) */}
+            {embedded && (
               <Link
                 href="/chat"
-                className="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-[#1A1F26] text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                className="p-1.5 rounded text-gray-400 hover:text-[#0f172a] dark:hover:text-[#E8EDF3] hover:bg-gray-100 dark:hover:bg-[#1A1F26] transition-colors"
                 title="Open full page"
+                aria-label="Open full chat page"
               >
                 <ArrowsPointingOutIcon className="w-4 h-4" />
               </Link>
             )}
-
             {onClose && (
               <button
                 onClick={onClose}
-                aria-label="Close assistant"
-                className="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-[#1A1F26] text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                aria-label="Close chat"
+                title="Close"
+                className="p-1.5 rounded text-gray-400 hover:text-[#0f172a] dark:hover:text-[#E8EDF3] hover:bg-gray-100 dark:hover:bg-[#1A1F26] transition-colors"
               >
                 <XMarkIcon className="w-4 h-4" />
               </button>
@@ -612,17 +667,12 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
                 );
               })}
 
-              {/* Typing indicator — shows before first token arrives */}
+              {/* Typing indicator — before first token */}
               {isTyping && (
-                <div className="flex items-end gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-[#1C317A] flex items-center justify-center text-white text-[9px] font-bold shrink-0">IC</div>
-                  <div className="bg-white dark:bg-[#171B20] border border-gray-100 dark:border-[#222731] rounded-2xl rounded-bl-sm px-4 py-3 shadow-xs">
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500 animate-bounce" style={{ animationDelay: "0ms" }} />
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500 animate-bounce" style={{ animationDelay: "150ms" }} />
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500 animate-bounce" style={{ animationDelay: "300ms" }} />
-                    </div>
-                  </div>
+                <div className="flex items-center gap-1.5 py-2 pl-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-[#3A4050] animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-[#3A4050] animate-bounce" style={{ animationDelay: "150ms" }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-[#3A4050] animate-bounce" style={{ animationDelay: "300ms" }} />
                 </div>
               )}
 
@@ -638,35 +688,35 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
             </div>
           )}
 
-          {/* Scroll-to-bottom FAB */}
+          {/* Scroll-to-bottom button */}
           {showScrollFab && (
             <button
-              onClick={() => {
-                isAutoScrollEnabled.current = true;
-                scrollToBottom("smooth");
-              }}
-              className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#171B20] border border-gray-200 dark:border-[#262C36] shadow-lg text-[12px] font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#1A1F26] transition-all animate-fade-in-up"
-              aria-label="Jump to latest message"
+              onClick={() => { isAutoScrollEnabled.current = true; scrollToBottom("smooth"); }}
+              className="absolute bottom-4 right-4 z-10 flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] text-[11.5px] font-medium text-gray-600 dark:text-[#9AA1AA] hover:bg-gray-50 dark:hover:bg-[#1A1F26] transition-colors shadow-sm"
+              aria-label="Jump to latest"
             >
               <ChevronDownIcon className="w-3.5 h-3.5" />
-              <span>Latest</span>
+              Latest
             </button>
           )}
           {error && (
-            <div className="w-full max-w-3xl mx-auto my-3 p-3.5 rounded-lg bg-rose-50 dark:bg-rose-950/30 border border-rose-200/80 dark:border-rose-800/40 text-[12.5px] text-rose-700 dark:text-rose-400 flex items-center justify-between">
+            <div className="w-full max-w-3xl mx-auto my-2 px-3 py-2.5 rounded-lg border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/20 text-[12px] text-rose-700 dark:text-rose-400 flex items-center justify-between gap-3">
               <span>{error}</span>
               <button
                 onClick={handleRegenerate}
-                className="px-2.5 py-1 rounded bg-rose-100 dark:bg-rose-900/40 font-medium hover:bg-rose-200 dark:hover:bg-rose-900/60 transition-colors text-[11.5px]"
+                className="text-[11px] font-semibold px-2 py-1 rounded border border-rose-200 dark:border-rose-800/60 hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors shrink-0"
               >
-                Try Again
+                Retry
               </button>
             </div>
           )}
         </div>
 
-        {/* ── STICKY INPUT CAPSULE ── */}
-        <div className="px-3 sm:px-6 pb-4 pt-2 bg-white dark:bg-[#111418] border-t border-gray-200/70 dark:border-[#1F242C] shrink-0">
+        {/* ── INPUT ── */}
+        <div
+          className="px-4 sm:px-6 pt-2.5 border-t border-gray-200 dark:border-[#1E2329] shrink-0 bg-[#F8FAFC] dark:bg-[#090B0F]"
+          style={{ paddingBottom: "max(calc(env(safe-area-inset-bottom) + 4rem), 4rem)" }}
+        >
           <div className="w-full max-w-3xl mx-auto">
             <ChatInput
               input={input}

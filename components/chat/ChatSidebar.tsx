@@ -131,12 +131,15 @@ export default function ChatSidebar({
     <aside
       className={`${
         isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0 lg:w-0 lg:opacity-0 lg:overflow-hidden"
-      } fixed inset-y-0 left-0 z-30 w-72 lg:static lg:h-full bg-white dark:bg-[#111418] border-r border-gray-200/90 dark:border-[#222731] flex flex-col transition-all duration-200 shrink-0 shadow-lg lg:shadow-none`}
+      } fixed left-0 z-[45] w-64 lg:static lg:h-full bg-white dark:bg-[#111418] border-r border-gray-200 dark:border-[#1E2329] flex flex-col transition-all duration-200 shrink-0 shadow-md lg:shadow-none`}
+      style={{ top: "86px", bottom: "72px" }}
     >
       {/* ── TOP ACTION BAR ── */}
       <div className="p-3.5 border-b border-gray-100 dark:border-[#222731] flex items-center justify-between gap-2">
         <button
           onClick={onNewSession}
+          title="New research thread"
+          aria-label="New research thread"
           className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[#1C317A] hover:bg-[#28439E] text-white text-[12.5px] font-semibold transition-colors shadow-xs"
         >
           <PlusIcon className="w-4 h-4" />
@@ -154,30 +157,30 @@ export default function ChatSidebar({
         )}
       </div>
 
-      {/* ── SEGMENT TABS (Presets vs History) ── */}
-      <div className="p-2 border-b border-gray-100 dark:border-[#222731]">
-        <div className="flex bg-gray-100 dark:bg-[#171B20] p-0.5 rounded-lg text-xs font-semibold">
+      {/* ── TABS ── */}
+      <div className="border-b border-gray-100 dark:border-[#1E2329]">
+        <div className="flex">
           <button
             onClick={() => setActiveTab("presets")}
-            className={`flex-1 py-1.5 rounded-md transition-colors ${
+            className={`flex-1 py-2.5 text-[11.5px] font-semibold border-b-2 transition-colors ${
               activeTab === "presets"
-                ? "bg-white dark:bg-[#252C37] text-[#0f172a] dark:text-white shadow-xs"
-                : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white"
+                ? "border-[#1C317A] dark:border-[#3D5BA9] text-[#1C317A] dark:text-[#93B4FF]"
+                : "border-transparent text-gray-400 dark:text-[#5A6070] hover:text-[#0f172a] dark:hover:text-[#E8EDF3]"
             }`}
           >
-            Market Presets
+            Presets
           </button>
           <button
             onClick={() => setActiveTab("history")}
-            className={`flex-1 py-1.5 rounded-md transition-colors flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2.5 text-[11.5px] font-semibold border-b-2 transition-colors flex items-center justify-center gap-1.5 ${
               activeTab === "history"
-                ? "bg-white dark:bg-[#252C37] text-[#0f172a] dark:text-white shadow-xs"
-                : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white"
+                ? "border-[#1C317A] dark:border-[#3D5BA9] text-[#1C317A] dark:text-[#93B4FF]"
+                : "border-transparent text-gray-400 dark:text-[#5A6070] hover:text-[#0f172a] dark:hover:text-[#E8EDF3]"
             }`}
           >
-            <span>History</span>
+            History
             {sessions.length > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-gray-200 dark:bg-[#343D4C] text-gray-700 dark:text-gray-300">
+              <span className="text-[10px] font-bold text-gray-400 dark:text-[#4B5563]">
                 {sessions.length}
               </span>
             )}
@@ -219,11 +222,11 @@ export default function ChatSidebar({
             ))}
           </div>
         ) : (
-          <div className="space-y-1">
+          <div className="divide-y divide-gray-100 dark:divide-[#1E2329]">
             {sessions.length === 0 ? (
-              <div className="text-center py-8 px-3 text-gray-400 dark:text-[#64748B] space-y-2">
-                <ClockIcon className="w-6 h-6 mx-auto opacity-50" />
-                <p className="text-xs">No past research threads saved yet.</p>
+              <div className="py-10 text-center px-3">
+                <ClockIcon className="w-5 h-5 mx-auto text-gray-300 dark:text-[#252A31] mb-2" />
+                <p className="text-[11.5px] text-gray-400 dark:text-[#4B5563]">No past threads yet.</p>
               </div>
             ) : (
               sessions.map((sess) => {
@@ -231,30 +234,28 @@ export default function ChatSidebar({
                 return (
                   <div
                     key={sess.id}
-                    onClick={() => {
-                      onSelectSession(sess.id);
-                      if (onCloseMobile) onCloseMobile();
-                    }}
-                    className={`group relative flex items-center justify-between p-2.5 rounded-lg border cursor-pointer transition-colors ${
+                    onClick={() => { onSelectSession(sess.id); if (onCloseMobile) onCloseMobile(); }}
+                    className={`group flex items-center justify-between px-3 py-2.5 cursor-pointer transition-colors ${
                       isActive
-                        ? "bg-blue-50/70 dark:bg-[#17202E] border-blue-200 dark:border-[#2C4164] text-[#1C317A] dark:text-[#93B4FF]"
-                        : "bg-white dark:bg-[#111418] border-gray-100 dark:border-[#222731] hover:border-gray-200 dark:hover:border-[#2A313C] text-gray-700 dark:text-[#CBD5E1]"
+                        ? "bg-[#1C317A]/5 dark:bg-[#1C317A]/10"
+                        : "hover:bg-gray-50 dark:hover:bg-[#14181F]"
                     }`}
                   >
                     <div className="min-w-0 flex-1 pr-2">
-                      <p className="text-[12.5px] font-medium truncate leading-tight">
-                        {sess.title || "Untitled Session"}
+                      <p className={`text-[12.5px] font-medium truncate leading-tight ${
+                        isActive ? "text-[#1C317A] dark:text-[#93B4FF]" : "text-[#0f172a] dark:text-[#E8EDF3]"
+                      }`}>
+                        {sess.title || "Untitled"}
                       </p>
-                      <p className="text-[10px] text-gray-400 dark:text-[#64748B] mt-0.5">
+                      <p className="text-[10px] text-gray-400 dark:text-[#4B5563] mt-0.5">
                         {formatSessionTime(sess.updatedAt || sess.createdAt)} · {sess.messages.length} msg
                       </p>
                     </div>
-
                     <button
                       onClick={(e) => onDeleteSession(sess.id, e)}
-                      aria-label="Delete session"
-                      title="Delete thread"
-                      className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-rose-100 dark:hover:bg-rose-950/50 text-gray-400 hover:text-rose-600 dark:hover:text-rose-400 transition-all shrink-0"
+                      aria-label="Delete chat"
+                      title="Delete chat"
+                      className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-rose-50 dark:hover:bg-rose-950/30 text-gray-300 dark:text-[#3A4050] hover:text-rose-500 dark:hover:text-rose-400 transition-all shrink-0"
                     >
                       <TrashIcon className="w-3.5 h-3.5" />
                     </button>
@@ -266,14 +267,7 @@ export default function ChatSidebar({
         )}
       </div>
 
-      {/* ── FOOTER STATUS ── */}
-      <div className="p-3 border-t border-gray-100 dark:border-[#222731] text-[11px] text-gray-500 dark:text-[#8E97A6] flex items-center justify-between">
-        <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span>NSE / BSE Feed Active</span>
-        </span>
-        <span className="font-mono text-[10px]">Free Tier</span>
-      </div>
+
     </aside>
   );
 }

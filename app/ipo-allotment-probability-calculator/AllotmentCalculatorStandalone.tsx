@@ -40,20 +40,20 @@ export default function AllotmentCalculatorStandalone() {
   } else if (category === "bNII") {
     probability = Math.min(100, (1 / multiple) * 100);
     ratioText = `1 in ${Math.round(multiple)}`;
-    explanation = `bNII (above ₹10L) uses proportional allotment — not a lottery. At ${multiple.toFixed(2)}x subscription, each applicant may receive approximately ${(100 / multiple).toFixed(1)}% of lots applied for.`;
+    explanation = `bNII (above ₹10L) uses proportional allotment — not a draw. At ${multiple.toFixed(2)}x subscription, each applicant may receive approximately ${(100 / multiple).toFixed(1)}% of lots applied for.`;
   } else {
-    // Retail / sNII lottery
+    // Retail / sNII draw
     if (category === "Retail" && totalApps != null && totalApps > 0) {
       // Exact calculation
       const allottableCount = Math.max(1, Math.floor(totalApps / multiple));
       probability = Math.min(100, (allottableCount / totalApps) * 100);
       ratioText = `1 in ${Math.round(totalApps / allottableCount)}`;
-      explanation = `Based on ${totalApps.toLocaleString("en-IN")} total retail applications and ${multiple.toFixed(2)}x subscription. Approximately ~${allottableCount.toLocaleString("en-IN")} applicants are selected via computerised lottery draw.`;
+      explanation = `Based on ${totalApps.toLocaleString("en-IN")} total retail applications and ${multiple.toFixed(2)}x subscription. Approximately ~${allottableCount.toLocaleString("en-IN")} applicants are selected via computerized draw.`;
     } else {
       probability = (1 / multiple) * 100;
       const ratioNum = Math.round(multiple);
       ratioText = `1 in ${ratioNum}`;
-      explanation = `${category === "sNII" ? "sNII (₹2L–₹10L) uses lottery draw. " : ""}The ${category} category is subscribed ${multiple.toFixed(2)}x. In an oversubscribed issue, approximately 1 in every ${ratioNum} valid applications will be allotted 1 lot via computerised draw.`;
+      explanation = `${category === "sNII" ? "sNII (₹2L–₹10L) uses a computerized draw. " : ""}The ${category} category is subscribed ${multiple.toFixed(2)}x. In an oversubscribed issue, approximately 1 in every ${ratioNum} valid applications will be allotted 1 lot via computerized draw.`;
     }
     showLotWarning = multiple > 1.05;
   }

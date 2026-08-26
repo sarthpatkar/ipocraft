@@ -6,37 +6,31 @@ import {
   UsersIcon,
   CalculatorIcon,
   ArrowsRightLeftIcon,
-  SparklesIcon,
 } from "@heroicons/react/24/outline";
-import type { PromptSuggestion } from "./types";
 
-const HERO_PROMPTS: (PromptSuggestion & { icon: React.ComponentType<{ className?: string }> })[] = [
+const HERO_PROMPTS = [
   {
-    title: "Live GMP Tracker",
-    description: "What is the Grey Market Premium and expected listing gain of open IPOs?",
+    title: "Live GMP",
+    description: "Grey Market Premium & expected listing gain of open IPOs",
     query: "What is the GMP and estimated listing price of all open IPOs right now?",
-    badge: "Live",
     icon: ChartBarIcon,
   },
   {
-    title: "Subscription Demand Ratios",
-    description: "Compare total, QIB, NII, and Retail subscription multiples of active issues",
+    title: "Subscription Ratios",
+    description: "QIB, NII, and Retail subscription multiples of active issues",
     query: "Compare subscription multiples of all active IPOs across QIB, NII, and Retail.",
-    badge: "Bidding",
     icon: UsersIcon,
   },
   {
-    title: "Allotment Probability Model",
-    description: "Calculate computerized lottery odds for a 50x oversubscribed retail IPO",
+    title: "Allotment Odds",
+    description: "Computerized lottery probability for oversubscribed retail IPOs",
     query: "What are my retail allotment chances for a 50x subscribed IPO under the lottery model?",
-    badge: "Odds Model",
     icon: CalculatorIcon,
   },
   {
-    title: "Compare Active Issues",
-    description: "Side-by-side comparison of issue sizes, price bands, and GMPs",
+    title: "Compare Issues",
+    description: "Side-by-side: issue size, price band, valuation, GMP",
     query: "Compare the top active Mainboard IPOs side-by-side by valuation, GMP, and dates.",
-    badge: "Comparison",
     icon: ArrowsRightLeftIcon,
   },
 ];
@@ -50,70 +44,61 @@ export default function ChatSuggestions({
   onSelect,
   followUpSuggestions,
 }: ChatSuggestionsProps) {
-  // ── Dynamic follow-up chips (shown beneath assistant responses) ──
+  // Follow-up chips after a response — flat, minimal
   if (followUpSuggestions && followUpSuggestions.length > 0) {
     return (
-      <div className="flex flex-wrap gap-1.5 pt-2 pb-1">
+      <div className="flex flex-wrap gap-1.5 pt-1">
         {followUpSuggestions.map((text, i) => (
           <button
             key={i}
             onClick={() => onSelect(text)}
-            className="inline-flex items-center text-[12px] font-medium text-[#1C317A] dark:text-[#93B4FF] bg-blue-50/70 dark:bg-[#131A26] border border-blue-100/90 dark:border-[#223049] rounded-md px-2.5 py-1 hover:bg-blue-100/80 dark:hover:bg-[#1B273A] transition-all text-left shadow-2xs"
-            style={{ fontFamily: "var(--font-inter)" }}
+            className="inline-flex items-center text-[12px] font-medium text-[#1C317A] dark:text-[#93B4FF] border border-[#1C317A]/20 dark:border-[#93B4FF]/20 rounded px-2.5 py-1 hover:bg-[#1C317A]/5 dark:hover:bg-[#93B4FF]/5 transition-colors text-left"
           >
-            <span>{text}</span>
+            {text}
           </button>
         ))}
       </div>
     );
   }
 
-  // ── Empty State 2x2 Hero Prompt Grid ──
+  // Empty state — centered, clean, no cards
   return (
-    <div className="w-full max-w-2xl mx-auto py-8 sm:py-12 space-y-6">
-      <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 dark:bg-[#131A26] border border-blue-100 dark:border-[#223049] text-[#1C317A] dark:text-[#93B4FF] text-[11px] font-semibold tracking-wide">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Real-Time Indian IPO Analytics</span>
+    <div className="w-full max-w-xl mx-auto flex flex-col items-center justify-center py-8 sm:py-14 px-4">
+      {/* Wordmark */}
+      <div className="mb-6 text-center">
+        <div className="w-10 h-10 rounded-lg bg-[#1C317A] text-white flex items-center justify-center font-bold text-[13px] tracking-tight mx-auto mb-3">
+          IC
         </div>
         <h2
-          className="text-xl sm:text-2xl font-bold text-[#0f172a] dark:text-[#F8FAFC] tracking-tight"
+          className="text-[18px] sm:text-[20px] font-bold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight mb-1"
           style={{ fontFamily: "var(--font-outfit)" }}
         >
-          What would you like to research today?
+          IPO Research Assistant
         </h2>
-        <p className="text-[13px] sm:text-[13.5px] text-[#475569] dark:text-[#9AA1AA] max-w-md mx-auto leading-relaxed">
-          Ask about live GMP, subscription demand, retail allotment odds, or historical listing track records.
+        <p className="text-[12.5px] text-gray-400 dark:text-[#6B7280]">
+          GMP · Subscription data · Allotment odds · Listing dates
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* Prompt grid — 2×2, flat bordered, no shadow */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
         {HERO_PROMPTS.map((item, idx) => {
           const Icon = item.icon;
           return (
             <button
               key={idx}
               onClick={() => onSelect(item.query)}
-              className="group flex flex-col text-left p-4 rounded-xl border bg-white dark:bg-[#111418] border-gray-200/90 dark:border-[#222731] hover:border-[#1C317A] dark:hover:border-[#3D5BA9] transition-all shadow-xs hover:shadow-sm"
+              className="group flex items-start gap-3 text-left px-3.5 py-3 border border-gray-200 dark:border-[#252A31] rounded-lg hover:border-[#1C317A]/40 dark:hover:border-[#3D5BA9] hover:bg-gray-50/60 dark:hover:bg-[#14181F] transition-colors"
             >
-              <div className="flex items-center justify-between w-full mb-1.5">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md bg-[#1C317A]/10 dark:bg-[#1C317A]/25 text-[#1C317A] dark:text-[#93B4FF] flex items-center justify-center shrink-0">
-                    <Icon className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F8FAFC] group-hover:text-[#1C317A] dark:group-hover:text-[#93B4FF] transition-colors" style={{ fontFamily: "var(--font-outfit)" }}>
-                    {item.title}
-                  </span>
-                </div>
-                {item.badge && (
-                  <span className="text-[9.5px] font-bold px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 text-[#1C317A] dark:text-[#93B4FF] uppercase tracking-wider">
-                    {item.badge}
-                  </span>
-                )}
+              <Icon className="w-4 h-4 text-gray-400 dark:text-[#6B7280] shrink-0 mt-0.5 group-hover:text-[#1C317A] dark:group-hover:text-[#93B4FF] transition-colors" />
+              <div className="min-w-0">
+                <p className="text-[12.5px] font-semibold text-[#0f172a] dark:text-[#E8EDF3] leading-none mb-0.5 group-hover:text-[#1C317A] dark:group-hover:text-[#93B4FF] transition-colors">
+                  {item.title}
+                </p>
+                <p className="text-[11.5px] text-gray-400 dark:text-[#5A6070] leading-snug">
+                  {item.description}
+                </p>
               </div>
-              <p className="text-[12px] text-gray-500 dark:text-[#8E97A6] line-clamp-2 leading-relaxed">
-                {item.description}
-              </p>
             </button>
           );
         })}
@@ -121,4 +106,3 @@ export default function ChatSuggestions({
     </div>
   );
 }
-

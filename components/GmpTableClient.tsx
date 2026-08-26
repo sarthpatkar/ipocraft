@@ -280,10 +280,11 @@ export default function GmpTableClient({
 
       {/* 2-Level Filter Ribbon */}
       <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 shadow-xs flex flex-col gap-3">
-        {/* Level 1: Primary Status Tabs & Search */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-          {/* Status Tabs */}
-          <div className="flex bg-gray-50 dark:bg-[#171B20] p-0.5 rounded-md border border-gray-200 dark:border-[#252A31]">
+        {/* Level 1: Status Tabs + Search — scrollable row on small screens */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          {/* Status Tabs — horizontally scrollable */}
+          <div className="overflow-x-auto scrollbar-none -mx-0.5 px-0.5">
+            <div className="flex bg-gray-50 dark:bg-[#171B20] p-0.5 rounded-md border border-gray-200 dark:border-[#252A31] w-max min-w-full sm:w-auto sm:min-w-0">
             {[
               { id: "all", label: "All" },
               { id: "open", label: "Open" },
@@ -297,7 +298,7 @@ export default function GmpTableClient({
                 <Link
                   key={tab.id}
                   href={href}
-                  className={`px-3 py-1 text-[11.5px] font-semibold rounded transition-colors ${
+                  className={`px-3 py-1 text-[11.5px] font-semibold rounded transition-colors whitespace-nowrap ${
                     isMatch
                       ? "bg-white dark:bg-white text-[#0f172a] dark:text-black shadow-xs font-semibold"
                       : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-[#F1F5F9]"
@@ -308,7 +309,8 @@ export default function GmpTableClient({
                 </Link>
               );
             })}
-          </div>
+            </div>
+          </div>{/* end overflow-x-auto status tabs */}
 
           {/* Search Box & Alerts Pill */}
           <div className="flex items-center gap-2 flex-1 max-w-md">
@@ -337,9 +339,10 @@ export default function GmpTableClient({
           </div>
         </div>
 
-        {/* Level 2: Secondary Dropdowns Ribbon */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-gray-100 dark:border-[#252A31] text-xs">
-          <div className="flex flex-wrap items-center gap-3">
+        {/* Level 2: Dropdowns Ribbon — horizontally scrollable on mobile */}
+        <div className="overflow-x-auto scrollbar-none -mx-0.5 px-0.5 pt-2.5 border-t border-gray-100 dark:border-[#252A31]">
+          <div className="flex items-center justify-between gap-3 text-xs min-w-max w-full">
+            <div className="flex items-center gap-3">
             {/* Sort Dropdown */}
             <div className="flex items-center gap-1.5">
               <span className="text-gray-500 dark:text-[#9AA1AA] font-medium">Sort:</span>
@@ -395,11 +398,12 @@ export default function GmpTableClient({
                 <option value="sme">SME Only</option>
               </select>
             </div>
-          </div>
+            </div>
 
-          <span className="text-[12px] font-medium text-gray-500 dark:text-[#9AA1AA]">
-            Showing <strong className="text-gray-900 dark:text-[#F1F5F9]">{filtered.length}</strong> IPOs
-          </span>
+            <span className="text-[12px] font-medium text-gray-500 dark:text-[#9AA1AA] whitespace-nowrap">
+              Showing <strong className="text-gray-900 dark:text-[#F1F5F9]">{filtered.length}</strong> IPOs
+            </span>
+          </div>
         </div>
       </div>
 

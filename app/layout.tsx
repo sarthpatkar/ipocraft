@@ -8,7 +8,7 @@ import { Inter, Outfit } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
-import ChatBubbleLoader from "@/components/chat/ChatBubbleLoader";
+
 
 
 const siteUrl = CANONICAL_ORIGIN;
@@ -159,13 +159,14 @@ export default function RootLayout({
         <ThemeProvider>
         <Navbar />
 
-        <main 
-          className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 pt-6 sm:pt-8 pb-20 md:pb-8"
+        <main
+          className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 pt-6 sm:pt-8"
+          style={{ paddingBottom: "max(calc(env(safe-area-inset-bottom) + var(--nav-bottom-clearance)), var(--nav-bottom-clearance))" }}
         >
           {children}
         </main>
 
-        <footer className="mt-14 pb-20 md:pb-0 border-t border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#090B0F]">
+        <footer className="mt-14 pb-28 border-t border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#090B0F]">
           {/* Telegram CTA Banner */}
           <a
             href="https://t.me/ipocraft"
@@ -347,7 +348,7 @@ export default function RootLayout({
 
           </div>
         </footer>
-        <ChatBubbleLoader />
+
         <CookieConsentBanner />
         </ThemeProvider>
       </body>

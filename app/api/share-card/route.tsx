@@ -339,7 +339,7 @@ export async function GET(request: Request) {
             {`Retail subscription: ${subRii != null ? `${subRii}x` : "\u2014"} \u00B7 Allotment: ${fmtDate(ipo.allotment_date as string)}`}
           </span>
           <span style={{ color: "#6B7280", fontSize: 13, display: "flex" }}>
-            Applying for more lots does NOT improve your odds — SEBI lottery
+            Applying for more lots does NOT improve allotment odds — each application counts once.
           </span>
         </div>
       </div>

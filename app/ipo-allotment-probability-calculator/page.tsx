@@ -7,30 +7,30 @@ import AllotmentCalculatorStandalone from "./AllotmentCalculatorStandalone";
 const pageUrl = canonicalUrl("/ipo-allotment-probability-calculator");
 
 export const metadata: Metadata = {
-  title: "Free IPO Allotment Probability Calculator — SEBI Lottery Method | IPOCraft",
+  title: "IPO Allotment Probability Calculator — Check Your Odds | IPOCraft",
   description:
-    "Calculate your IPO allotment probability using the correct SEBI lottery method. See your actual '1 in X' odds for Retail, sNII and bNII categories. Free and accurate.",
+    "Calculate your IPO allotment probability instantly. See your exact '1 in X' odds for Retail, sNII and bNII categories based on subscription data. Free and accurate.",
   keywords: [
     "IPO allotment probability calculator",
     "IPO allotment chances calculator India",
-    "retail IPO lottery calculator",
+    "retail IPO allotment odds",
     "IPO allotment odds",
     "how to calculate IPO allotment probability",
-    "SEBI IPO lottery allotment",
     "IPO allotment calculator free",
+    "SEBI IPO lottery allotment",
   ],
   alternates: { canonical: pageUrl },
   openGraph: {
-    title: "Free IPO Allotment Probability Calculator — SEBI Lottery Method | IPOCraft",
+    title: "IPO Allotment Probability Calculator | IPOCraft",
     description:
-      "Find out your real IPO allotment odds using SEBI's computerized lottery formula. See your '1 in X' chance instantly.",
+      "Find out your real IPO allotment odds for Retail, sNII and bNII categories. See your '1 in X' chance instantly based on subscription multiples.",
     url: pageUrl,
     siteName: "IPOCraft",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "IPO Allotment Probability Calculator — SEBI Method | IPOCraft",
+    title: "IPO Allotment Probability Calculator | IPOCraft",
     description: "Calculate your exact IPO allotment odds for Retail, sNII, and bNII categories.",
   },
 };
@@ -122,7 +122,7 @@ export default function AllotmentCalculatorPage() {
         {/* Header */}
         <div className="mb-8">
           <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#1C317A] dark:text-blue-400 mb-3" style={{ fontFamily: "var(--font-inter)" }}>
-            Free Tool · SEBI Lottery Method
+            Free Tool · Allotment Probability
           </p>
           <h1 className="text-[1.75rem] sm:text-[2.25rem] font-bold text-[#0f172a] dark:text-[#F1F5F9] leading-tight mb-3" style={{ fontFamily: "var(--font-outfit)" }}>
             IPO Allotment Probability Calculator

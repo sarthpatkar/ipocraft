@@ -81,7 +81,7 @@ export default async function IpoCalendarPage() {
   const supabase = await createSupabaseServerClient();
 
   const threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 2);
   const formattedDate = threeMonthsAgo.toISOString().split("T")[0];
 
   const { data: ipos } = await supabase
@@ -143,8 +143,7 @@ export default async function IpoCalendarPage() {
           </div>
         </div>
 
-        {/* CALENDAR GRID */}
-        <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3.5 sm:p-5 shadow-xs mb-8">
+        <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-2xl p-4 sm:p-6 shadow-xs mb-8">
           <IpoCalendarGrid ipos={(ipos || []).map((ipo: any) => ({
             slug: ipo.slug,
             name: ipo.name,
@@ -153,6 +152,9 @@ export default async function IpoCalendarPage() {
             listing_date: ipo.listing_date,
             allotment_date: ipo.allotment_date,
             gmp: ipo.gmp,
+            price_min: ipo.price_min,
+            price_max: ipo.price_max,
+            ipo_type: ipo.ipo_type,
           }))} />
         </div>
 

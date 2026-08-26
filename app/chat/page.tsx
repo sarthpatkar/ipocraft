@@ -70,10 +70,10 @@ export default function ChatPage() {
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      {/* Full-screen chat canvas — breaks out of layout padding to fill viewport */}
+      {/* Full-screen chat canvas — exact height: 100dvh minus sticky header (56px nav + 28px ticker + 2px progress = 86px) */}
       <div
         className="-mx-4 sm:-mx-6 lg:-mx-12 -mt-6 sm:-mt-8 flex flex-col overflow-hidden bg-[#F8FAFC] dark:bg-[#090B0F]"
-        style={{ height: "calc(100dvh - 3.5rem)" }}
+        style={{ height: "calc(100dvh - 5.375rem)" }}
       >
         <ChatPageClient />
       </div>

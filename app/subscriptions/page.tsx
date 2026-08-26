@@ -123,7 +123,7 @@ export default async function SubscriptionsPage({
         {/* Educational Allotment Odds Banner */}
         <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
           <div className="text-[13px] text-[#0f172a] dark:text-[#F1F5F9]">
-            <span className="font-semibold text-blue-600 dark:text-blue-400">Allotment Rule:</span> In oversubscribed retail categories, allotment occurs via a computerised draw where each valid application receives 1 lottery entry.
+            <span className="font-semibold text-blue-600 dark:text-blue-400">Allotment Rule:</span> In oversubscribed retail categories, allotment occurs via a computerised draw where each valid PAN receives equal consideration for 1 lot.
           </div>
           <Link
             href="/ipo-allotment-probability-calculator"

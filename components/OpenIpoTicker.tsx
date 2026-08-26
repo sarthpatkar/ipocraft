@@ -16,9 +16,36 @@ type TickerIpo = {
   close_date: string | null;
 };
 
+function getMarketStatusIST(): { isOpen: boolean; label: string } {
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  const ist = new Date(utc + 3600000 * 5.5);
+  const day = ist.getDay(); // 0 = Sun, 6 = Sat
+  const hours = ist.getHours();
+  const minutes = ist.getMinutes();
+  const timeNum = hours * 60 + minutes;
+
+  const isWeekday = day >= 1 && day <= 5;
+  const isTradingHours = timeNum >= 9 * 60 + 15 && timeNum < 15 * 60 + 30;
+
+  if (isWeekday && isTradingHours) {
+    return { isOpen: true, label: "Market Open" };
+  }
+  return { isOpen: false, label: "Market Closed" };
+}
+
 export default function OpenIpoTicker() {
   const [openIpos, setOpenIpos] = useState<TickerIpo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [marketStatus, setMarketStatus] = useState<{ isOpen: boolean; label: string }>({ isOpen: false, label: "Market Closed" });
+
+  useEffect(() => {
+    setMarketStatus(getMarketStatusIST());
+    const interval = setInterval(() => {
+      setMarketStatus(getMarketStatusIST());
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     async function fetchOpenIpos() {
@@ -28,24 +55,15 @@ export default function OpenIpoTicker() {
           .from("ipos")
           .select("id, name, slug, ipo_type, gmp, price_max, price_min, status, close_date")
           .in("status", ["Open", "open"])
-          .order("id", { ascending: false })
-          .limit(10);
+          .gte("close_date", today)
+          .order("close_date", { ascending: true });
 
-        if (!error && data && data.length > 0) {
-          setOpenIpos(data);
-        } else {
-          // Fallback to active/upcoming if no strictly open IPOs currently in DB
-          const { data: fallbackData } = await supabase
-            .from("ipos")
-            .select("id, name, slug, ipo_type, gmp, price_max, price_min, status, close_date")
-            .gte("close_date", today)
-            .order("gmp", { ascending: false, nullsFirst: false })
-            .limit(8);
-
-          if (fallbackData && fallbackData.length > 0) {
-            setOpenIpos(fallbackData);
-          }
+        if (error) {
+          console.error("Error fetching ticker IPOs:", error);
+          return;
         }
+
+        setOpenIpos((data as TickerIpo[]) || []);
       } catch (e) {
         console.error("Failed to load ticker IPOs", e);
       } finally {
@@ -65,14 +83,25 @@ export default function OpenIpoTicker() {
 
   return (
     <div className="w-full bg-[#f8fafc]/95 dark:bg-[#0D1015]/95 border-b border-gray-200 dark:border-[#252A31] backdrop-blur-md overflow-hidden select-none h-7 flex items-center text-[12px] relative z-20">
-      {/* Static Label Badge */}
-      <div className="hidden sm:flex items-center gap-1.5 px-3 py-0.5 bg-slate-100 dark:bg-[#171B20] text-slate-700 dark:text-[#F1F3F5] font-semibold text-[10.5px] uppercase tracking-wider shrink-0 border-r border-gray-200 dark:border-[#252A31] z-10 h-full">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-        <span>OPEN IPOs ({openIpos.length})</span>
+      {/* Static Label Badge with Market Status */}
+      <div className="hidden sm:flex items-center gap-2 px-3 py-0.5 bg-slate-100 dark:bg-[#14181F] text-slate-700 dark:text-[#E8EDF3] font-semibold text-[10px] uppercase tracking-wider shrink-0 border-r border-gray-200 dark:border-[#252A31] z-20 h-full">
+        <div className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <span>OPEN IPOs ({openIpos.length})</span>
+        </div>
+        <span className="text-gray-300 dark:text-[#252A31]">|</span>
+        <div className="flex items-center gap-1.5 text-gray-500 dark:text-[#8E97A6]">
+          <span className={`w-1.5 h-1.5 rounded-full ${marketStatus.isOpen ? "bg-emerald-500" : "bg-gray-400 dark:bg-gray-600"}`} />
+          <span>{marketStatus.label}</span>
+        </div>
       </div>
 
-      {/* Marquee Container (Moving Left-to-Right) */}
-      <div className="flex-1 overflow-hidden relative flex items-center group">
+      {/* Marquee Container with smooth gradient masks */}
+      <div className="flex-1 overflow-hidden relative flex items-center group h-full">
+        {/* Left fade */}
+        <div className="absolute left-0 inset-y-0 w-6 bg-gradient-to-r from-[#f8fafc] dark:from-[#0D1015] to-transparent z-10 pointer-events-none" />
+
+        {/* Scrolling items */}
         <div
           className="flex items-center gap-6 whitespace-nowrap animate-ticker-ltr group-hover:[animation-play-state:paused]"
           style={{ willChange: "transform" }}
@@ -88,7 +117,7 @@ export default function OpenIpoTicker() {
                 href={`/ipo/${ipo.slug}`}
                 className="inline-flex items-center gap-2 text-[#334155] dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F3F5] transition-colors py-0.5 cursor-pointer shrink-0"
               >
-                <span className="font-semibold text-[#0f172a] dark:text-[#F1F3F5]">
+                <span className="font-semibold text-[#0f172a] dark:text-[#F1F5F9]">
                   {ipo.name}
                 </span>
 
@@ -113,6 +142,9 @@ export default function OpenIpoTicker() {
             );
           })}
         </div>
+
+        {/* Right fade */}
+        <div className="absolute right-0 inset-y-0 w-8 bg-gradient-to-l from-[#f8fafc] dark:from-[#0D1015] to-transparent z-10 pointer-events-none" />
       </div>
     </div>
   );
