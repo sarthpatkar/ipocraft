@@ -332,7 +332,7 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
           className="text-[12px] font-medium text-[#1C317A] dark:text-blue-400 hover:underline"
           style={{ fontFamily: "var(--font-inter)" }}
         >
-          Use the full standalone Profit Calculator →
+          Use the full standalone Profit Calculator
         </a>
       </div>
     </section>

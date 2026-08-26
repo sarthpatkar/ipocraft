@@ -127,9 +127,9 @@ export default async function SubscriptionsPage({
           </div>
           <Link
             href="/ipo-allotment-probability-calculator"
-            className="inline-flex items-center gap-1 text-[12px] font-semibold text-blue-600 dark:text-blue-400 hover:underline shrink-0"
+            className="inline-flex items-center text-[12px] font-semibold text-blue-600 dark:text-blue-400 hover:underline shrink-0"
           >
-            Calculate Allotment Odds <span>→</span>
+            Calculate Allotment Odds
           </Link>
         </div>
 

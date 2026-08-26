@@ -83,10 +83,9 @@ export default function ChatInput({
             <button
               key={pi}
               onClick={() => onSend(pill.query)}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-100 dark:bg-[#171E28] hover:bg-gray-200/80 dark:hover:bg-[#202937] text-[#334155] dark:text-[#CBD5E1] text-[11.5px] font-medium transition-colors shrink-0 border border-gray-200/60 dark:border-[#222F42]"
+              className="inline-flex items-center px-2.5 py-1 rounded-full bg-gray-100 dark:bg-[#171E28] hover:bg-gray-200/80 dark:hover:bg-[#202937] text-[#334155] dark:text-[#CBD5E1] text-[11.5px] font-medium transition-colors shrink-0 border border-gray-200/60 dark:border-[#222F42]"
             >
               <span>{pill.label}</span>
-              <span className="text-gray-400 dark:text-gray-500 text-[10px]">→</span>
             </button>
           ))}
         </div>

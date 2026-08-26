@@ -62,7 +62,6 @@ export default function ChatSuggestions({
             style={{ fontFamily: "var(--font-inter)" }}
           >
             <span>{text}</span>
-            <span className="ml-1 opacity-60">→</span>
           </button>
         ))}
       </div>

@@ -130,9 +130,9 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
         <div className="flex items-center gap-3 shrink-0">
           <Link
             href="/gmp"
-            className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-md bg-[#1C317A] text-white text-[12px] font-semibold hover:bg-[#28439E] transition-colors shadow-xs"
+            className="inline-flex items-center px-3.5 py-1.5 rounded-md bg-[#1C317A] text-white text-[12px] font-semibold hover:bg-[#28439E] transition-colors shadow-xs"
           >
-            Live GMP Tracker <span>→</span>
+            Live GMP Tracker
           </Link>
         </div>
       </div>

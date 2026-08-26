@@ -145,8 +145,8 @@ export default function AllotmentCalculatorPage() {
           <p className="text-[13px] text-[#334155] dark:text-[#9AA1AA]" style={{ fontFamily: "var(--font-inter)" }}>
             Want pre-filled data for a specific IPO? Open that IPO&apos;s detail page on IPOCraft.
           </p>
-          <Link href="/ipo" className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#1C317A] dark:text-blue-400 hover:underline shrink-0" style={{ fontFamily: "var(--font-inter)" }}>
-            View All Active IPOs →
+          <Link href="/ipo" className="inline-flex items-center text-[13px] font-semibold text-[#1C317A] dark:text-blue-400 hover:underline shrink-0" style={{ fontFamily: "var(--font-inter)" }}>
+            View All Active IPOs
           </Link>
         </div>
 
@@ -257,8 +257,7 @@ export default function AllotmentCalculatorPage() {
                 { href: "/gmp", label: "IPO GMP Today" },
                 { href: "/ipo", label: "All Active IPOs" },
               ].map(({ href, label }) => (
-                <Link key={href} href={href} className="flex items-center gap-2 p-3 rounded-lg border border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418] hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors text-[13.5px] font-medium text-[#334155] dark:text-[#9AA1AA] hover:text-[#1C317A] dark:hover:text-blue-400" style={{ fontFamily: "var(--font-inter)" }}>
-                  <span className="text-[#1C317A] dark:text-blue-400">→</span>
+                <Link key={href} href={href} className="flex items-center p-3 rounded-lg border border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418] hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors text-[13.5px] font-medium text-[#334155] dark:text-[#9AA1AA] hover:text-[#1C317A] dark:hover:text-blue-400" style={{ fontFamily: "var(--font-inter)" }}>
                   {label}
                 </Link>
               ))}

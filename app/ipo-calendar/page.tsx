@@ -232,7 +232,7 @@ function Section({
                 </div>
 
                 <p className="text-[11.5px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-3 bg-gray-50 dark:bg-[#171B20] px-2.5 py-1 rounded-md inline-block border border-gray-200 dark:border-[#252A31]">
-                  {ipo.open_date ?? "-"} → {ipo.close_date ?? "-"}
+                  {ipo.open_date ?? "-"} to {ipo.close_date ?? "-"}
                 </p>
 
                 <div className="space-y-1 text-[12.5px] text-[#475569] dark:text-[#9AA1AA]">

@@ -195,7 +195,7 @@ export default function IpoCalendarGrid({ ipos }: Props) {
                               ))}
                               {cell.events.length > 2 && (
                                 <div className="text-[9px] text-center text-gray-500 dark:text-[#9AA1AA] font-medium">
-                                  +{cell.events.length - 2} more →
+                                  +{cell.events.length - 2} more
                                 </div>
                               )}
                             </div>

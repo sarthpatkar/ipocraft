@@ -347,10 +347,9 @@ export default async function Home({
                 </div>
                 <Link
                   href={`/compare?ipos=${ipoA.slug},${ipoB.slug}`}
-                  className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 bg-[#1C317A] hover:bg-[#28439E] text-white text-[12px] font-semibold rounded-md transition-colors shrink-0 shadow-xs"
+                  className="inline-flex items-center justify-center px-3.5 py-1.5 bg-[#1C317A] hover:bg-[#28439E] text-white text-[12px] font-semibold rounded-md transition-colors shrink-0 shadow-xs"
                 >
                   Compare Metrics
-                  <span aria-hidden="true">→</span>
                 </Link>
               </div>
             );
@@ -615,8 +614,8 @@ export default async function Home({
                     Input subscription numbers to see your exact lottery probability under exchange rules.
                   </p>
                 </div>
-                <span className="text-[12px] font-semibold text-blue-600 dark:text-blue-400 mt-3 inline-flex items-center gap-1">
-                  Calculate Odds <span>→</span>
+                <span className="text-[12px] font-semibold text-blue-600 dark:text-blue-400 mt-3 inline-flex items-center">
+                  Calculate Odds
                 </span>
               </Link>
 
@@ -638,8 +637,8 @@ export default async function Home({
                     Calculate estimated net gain per lot based on price band and live Grey Market Premiums.
                   </p>
                 </div>
-                <span className="text-[12px] font-semibold text-emerald-600 dark:text-emerald-400 mt-3 inline-flex items-center gap-1">
-                  Estimate Profit <span>→</span>
+                <span className="text-[12px] font-semibold text-emerald-600 dark:text-emerald-400 mt-3 inline-flex items-center">
+                  Estimate Profit
                 </span>
               </Link>
 
@@ -661,8 +660,8 @@ export default async function Home({
                     Extract top promoter risks, objects of the issue, and revenue trends from official prospectuses.
                   </p>
                 </div>
-                <span className="text-[12px] font-semibold text-[#1C317A] dark:text-[#93B4FF] mt-3 inline-flex items-center gap-1">
-                  Analyze Filing <span>→</span>
+                <span className="text-[12px] font-semibold text-[#1C317A] dark:text-[#93B4FF] mt-3 inline-flex items-center">
+                  Analyze Filing
                 </span>
               </Link>
 
@@ -684,8 +683,8 @@ export default async function Home({
                     Compare price bands, lot sizes, subscription demand, and timelines across up to 3 issues.
                   </p>
                 </div>
-                <span className="text-[12px] font-semibold text-amber-600 dark:text-amber-400 mt-3 inline-flex items-center gap-1">
-                  Open Comparison <span>→</span>
+                <span className="text-[12px] font-semibold text-amber-600 dark:text-amber-400 mt-3 inline-flex items-center">
+                  Open Comparison
                 </span>
               </Link>
             </div>

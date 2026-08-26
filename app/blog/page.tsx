@@ -104,8 +104,8 @@ export default async function BlogIndexPage() {
 
                 <div className="pt-3 border-t border-gray-100 dark:border-[#252A31] flex items-center justify-between mt-auto">
                   <span className="text-[12px] text-gray-500 dark:text-[#9AA1AA] font-medium">{formatDisplayDate(article.date)}</span>
-                  <span className="text-blue-600 dark:text-blue-400 text-[12.5px] font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center">
-                    Read Article →
+                  <span className="text-blue-600 dark:text-blue-400 text-[12.5px] font-semibold">
+                    Read Article
                   </span>
                 </div>
               </div>

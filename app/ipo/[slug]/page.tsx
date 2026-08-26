@@ -614,9 +614,9 @@ export default async function IPODetail({
                 </div>
                 <Link
                   href={`/drhp-analyzer?company=${encodeURIComponent(ipo.name)}`}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#1C317A] hover:bg-[#28439E] text-white text-[12px] font-semibold rounded-md transition-colors shrink-0 shadow-xs"
+                  className="inline-flex items-center px-3.5 py-1.5 bg-[#1C317A] hover:bg-[#28439E] text-white text-[12px] font-semibold rounded-md transition-colors shrink-0 shadow-xs"
                 >
-                  Analyze DRHP <span>→</span>
+                  Analyze DRHP
                 </Link>
               </div>
             </section>
@@ -644,7 +644,7 @@ export default async function IPODetail({
                 className="text-[12px] text-[#64748b] dark:text-[#9AA1AA] mt-3"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                For category-wise quota breakdown such as QIB, HNI, and Retail allocation, refer to our <Link href="/qib-hni-retail-explained" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">IPO quota structure explanation</Link>. Compare this issue with others on our <Link href={`/compare?ipos=${ipo.slug}`} className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Comparison Engine →</Link>
+                For category-wise quota breakdown such as QIB, HNI, and Retail allocation, refer to our <Link href="/qib-hni-retail-explained" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">IPO quota structure explanation</Link>. Compare this issue with others on our <Link href={`/compare?ipos=${ipo.slug}`} className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Comparison Engine</Link>
               </p>
             </section>
 
@@ -802,7 +802,7 @@ export default async function IPODetail({
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.773 4.773z" />
                   </svg>
-                  Full allotment odds calculator →
+                  Full allotment odds calculator
                 </Link>
               )}
               <Link
@@ -812,7 +812,7 @@ export default async function IPODetail({
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 3M21 7.5H7.5" />
                 </svg>
-                Compare with another IPO →
+                Compare with another IPO
               </Link>
             </div>
 
@@ -1209,7 +1209,7 @@ export default async function IPODetail({
                         className="text-[13px] font-medium text-blue-600 dark:text-blue-400 hover:underline transition-colors break-all"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
-                        Open Link ↗
+                        Open Link
                       </a>
                     ) : (
                       <p
@@ -1234,7 +1234,7 @@ export default async function IPODetail({
                   <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                   </svg>
-                  View DRHP / RHP on SEBI EFILING ↗
+                  View DRHP / RHP on SEBI EFILING
                 </a>
                 <p className="text-[11px] text-gray-400 dark:text-[#6B7280] mt-1">
                   Opens SEBI&apos;s official filing portal. Search for the company name in results.
@@ -1274,7 +1274,7 @@ export default async function IPODetail({
                             className="text-[13px] font-medium text-blue-600 dark:text-blue-400 hover:underline transition-colors truncate"
                             style={{ fontFamily: "var(--font-inter)" }}
                           >
-                            {domain || `Coverage ${i + 1}`} ↗
+                            {domain || `Coverage ${i + 1}`}
                           </a>
                         </li>
                       );
@@ -1523,7 +1523,7 @@ export default async function IPODetail({
                         className="text-[12px] font-medium text-blue-600 dark:text-blue-400 hover:underline text-right"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
-                        View on NSE ↗
+                        View on NSE
                       </a>
                     ) : (
                       <p

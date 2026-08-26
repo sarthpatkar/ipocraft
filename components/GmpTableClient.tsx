@@ -267,9 +267,9 @@ export default function GmpTableClient({
               <div className="flex items-center gap-3 shrink-0">
                 <Link
                   href={`/compare?ipos=${ipoA.slug},${ipoB.slug}`}
-                  className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#1C317A] dark:text-[#93B4FF] hover:underline"
+                  className="inline-flex items-center text-[12px] font-semibold text-[#1C317A] dark:text-[#93B4FF] hover:underline"
                 >
-                  Side-by-Side Comparison <span>→</span>
+                  Side-by-Side Comparison
                 </Link>
               </div>
             </div>
