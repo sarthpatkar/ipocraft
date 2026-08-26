@@ -37,6 +37,7 @@ import {
   ChartBarIcon as ChartBarIconSolid,
   BuildingStorefrontIcon as BuildingStorefrontIconSolid,
   UsersIcon as UsersIconSolid,
+  DocumentTextIcon as DocumentTextIconSolid,
 } from "@heroicons/react/24/solid";
 import ThemeToggle from "@/components/ThemeToggle";
 import SearchCommand from "@/components/SearchCommand";
@@ -49,10 +50,10 @@ type LinkItem = {
   ActiveIcon: React.ElementType; 
 };
 
-// 5 Ergonomic Mobile Bottom Tabs (No redundant chat tab, as floating bubble exists)
+// 4 Ergonomic Mobile Bottom Tabs + "More" drawer
 const MOBILE_BOTTOM_TABS: LinkItem[] = [
   { href: "/", label: "Home", Icon: HomeIcon, ActiveIcon: HomeIconSolid },
-  { href: "/gmp", label: "GMP", Icon: ChartBarIcon, ActiveIcon: ChartBarIconSolid },
+  { href: "/ipo", label: "IPO", Icon: DocumentTextIcon, ActiveIcon: DocumentTextIconSolid },
   { href: "/sme-ipo", label: "SME", Icon: BuildingStorefrontIcon, ActiveIcon: BuildingStorefrontIconSolid },
   { href: "/subscriptions", label: "Subs", Icon: UsersIcon, ActiveIcon: UsersIconSolid },
 ];

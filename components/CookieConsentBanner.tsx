@@ -65,7 +65,7 @@ export default function CookieConsentBanner() {
               .
             </p>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center flex-wrap gap-2 shrink-0">
             <button
               onClick={() => setShowPrefs(true)}
               className="px-3.5 py-1.5 rounded-md border border-gray-300 dark:border-[#252A31] text-[12px] font-semibold text-[#374151] dark:text-[#9AA1AA] hover:bg-gray-50 dark:hover:bg-[#171B20] transition-colors"

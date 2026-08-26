@@ -100,7 +100,9 @@ export default function ChatInput({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           rows={1}
-          className="flex-1 bg-transparent px-2.5 py-1 text-[13.5px] sm:text-[14px] text-[#0f172a] dark:text-[#F8FAFC] placeholder:text-gray-400 dark:placeholder:text-[#525B6A] resize-none focus:outline-none leading-relaxed max-h-36 overflow-y-auto"
+          inputMode="text"
+          enterKeyHint="send"
+          className="flex-1 bg-transparent px-2.5 py-1 text-[13.5px] sm:text-[14px] text-[#0f172a] dark:text-[#F8FAFC] placeholder:text-gray-400 dark:placeholder:text-[#525B6A] resize-none focus:outline-none leading-relaxed max-h-28 overflow-y-auto"
           style={{ fontFamily: "var(--font-inter)" }}
         />
 

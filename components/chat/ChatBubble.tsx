@@ -37,23 +37,23 @@ export default function ChatBubble() {
 
   return (
     <>
-      {/* Floating window / Mobile sheet */}
+      {/* Floating window */}
       {isOpen && (
         <div
-          className="fixed inset-x-0 bottom-0 top-12 z-[300] sm:inset-auto sm:bottom-20 sm:right-6 sm:top-auto sm:w-[420px] sm:h-[620px] shadow-lg transition-all"
+          className="fixed inset-x-0 bottom-[3.5rem] top-0 z-[300] sm:inset-auto sm:bottom-24 sm:right-6 sm:top-auto sm:w-[420px] sm:h-[620px] shadow-lg"
           style={{ animation: "popupFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
-          <div className="w-full h-full sm:rounded-2xl overflow-hidden border-t sm:border border-gray-200/90 dark:border-[#222731]">
+          <div className="w-full h-full sm:rounded-2xl overflow-hidden border-t sm:border border-gray-200/90 dark:border-[#222731]" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
             <ChatWindow embedded={true} onClose={() => setIsOpen(false)} />
           </div>
         </div>
       )}
 
-      {/* Floating Action Button */}
+      {/* Floating Action Button — sits above mobile bottom nav */}
       <button
         onClick={() => setIsOpen((o) => !o)}
         aria-label={isOpen ? "Close IPO Assistant" : "Open IPO Assistant"}
-        className="fixed bottom-5 right-4 sm:right-6 z-[301] w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-[#1C317A] hover:bg-[#152763] text-white shadow-md hover:shadow-lg transition-all flex items-center justify-center group active:scale-95"
+        className="fixed bottom-[4.5rem] right-4 sm:bottom-6 sm:right-6 z-[301] w-12 h-12 rounded-full bg-[#1C317A] hover:bg-[#152763] text-white shadow-md hover:shadow-lg transition-all flex items-center justify-center group active:scale-95"
       >
 
         {isOpen ? (

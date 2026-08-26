@@ -160,7 +160,7 @@ export default function RootLayout({
         <Navbar />
 
         <main 
-          className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 pt-6 sm:pt-8 pb-28 md:pb-8"
+          className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 pt-6 sm:pt-8 pb-20 md:pb-8"
         >
           {children}
         </main>
@@ -176,7 +176,8 @@ export default function RootLayout({
             <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
               <path d="M9.04 15.35 8.9 19.5c.33 0 .47-.14.64-.31l3.07-2.92 6.36 4.65c1.17.64 2 .31 2.29-1.08l4.15-19.46.01-.01c.36-1.67-.6-2.32-1.74-1.9L1.4 8.74C-.2 9.38-.18 10.3 1.13 10.7l5.5 1.72L19.9 4.3c.63-.38 1.2-.17.73.21" />
             </svg>
-            Get daily IPO GMP alerts and exchange updates · Join our Telegram channel <strong className="font-semibold ml-1">@ipocraft</strong>
+            <span className="sm:hidden">Join <strong className="font-semibold">@ipocraft</strong> on Telegram for daily IPO alerts</span>
+            <span className="hidden sm:inline">Get daily IPO GMP alerts and exchange updates · Join our Telegram channel <strong className="font-semibold ml-1">@ipocraft</strong></span>
           </a>
           <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 py-8">
 
