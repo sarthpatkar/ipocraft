@@ -326,6 +326,15 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
       >
         Estimates assume 100% allotment and listing at the indicated GMP rate of ₹{activeGmp}. Grey Market Premium is an unofficial and non-binding indicator. For allotment probabilities, review the <a href="#subscription" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Subscription Demand</a> section.
       </p>
+      <div className="mt-3 pt-3 border-t border-gray-100 dark:border-[#252A31] text-center">
+        <a
+          href="/ipo-profit-calculator"
+          className="text-[12px] font-medium text-[#1C317A] dark:text-blue-400 hover:underline"
+          style={{ fontFamily: "var(--font-inter)" }}
+        >
+          Use the full standalone Profit Calculator →
+        </a>
+      </div>
     </section>
   );
 }

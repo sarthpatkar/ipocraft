@@ -13,6 +13,7 @@ type IpoRow = {
   sub_total: number | null;
   price_min: number | null;
   price_max: number | null;
+  lot_size?: number | null;
   issue_size: string | null;
   open_date: string | null;
   close_date: string | null;
@@ -244,6 +245,39 @@ export default function GmpTableClient({
 
   return (
     <div className="w-full flex flex-col gap-3">
+      {/* Top Compare Banner if active issues available */}
+      {(() => {
+        const openOrUpcoming = data.filter((i) => {
+          const s = getLifecycleStatus(i);
+          return s === "open" || s === "upcoming";
+        });
+        if (openOrUpcoming.length >= 2) {
+          const ipoA = openOrUpcoming[0];
+          const ipoB = openOrUpcoming[1];
+          return (
+            <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="inline-flex items-center justify-center px-2 py-0.5 rounded bg-[#1C317A]/10 text-[#1C317A] dark:bg-[#1C317A]/25 dark:text-[#93B4FF] text-[11px] font-bold shrink-0">
+                  Compare
+                </span>
+                <span className="text-[13px] text-gray-700 dark:text-[#CBD5E1] truncate">
+                  Compare active issues: <strong className="text-[#0f172a] dark:text-[#F1F5F9]">{ipoA.name}</strong> vs <strong className="text-[#0f172a] dark:text-[#F1F5F9]">{ipoB.name}</strong>
+                </span>
+              </div>
+              <div className="flex items-center gap-3 shrink-0">
+                <Link
+                  href={`/compare?ipos=${ipoA.slug},${ipoB.slug}`}
+                  className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#1C317A] dark:text-[#93B4FF] hover:underline"
+                >
+                  Side-by-Side Comparison <span>→</span>
+                </Link>
+              </div>
+            </div>
+          );
+        }
+        return null;
+      })()}
+
       {/* 2-Level Filter Ribbon */}
       <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 shadow-xs flex flex-col gap-3">
         {/* Level 1: Primary Status Tabs & Search */}
@@ -276,18 +310,30 @@ export default function GmpTableClient({
             })}
           </div>
 
-          {/* Search Box */}
-          <div className="relative flex-1 max-w-md">
-            <svg className="h-4 w-4 text-gray-400 dark:text-[#6B7280] absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              type="search"
-              placeholder="Search IPO by company name…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-9 pr-3.5 py-1.5 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md text-[13px] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white transition-colors"
-            />
+          {/* Search Box & Alerts Pill */}
+          <div className="flex items-center gap-2 flex-1 max-w-md">
+            <div className="relative flex-1">
+              <svg className="h-4 w-4 text-gray-400 dark:text-[#6B7280] absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                type="search"
+                placeholder="Search IPO by company name…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="w-full pl-9 pr-3.5 py-1.5 bg-gray-50 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-900 dark:text-[#F1F5F9] placeholder-gray-400 dark:placeholder-[#6B7280] rounded-md text-[13px] focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-1 dark:focus:ring-white transition-colors"
+              />
+            </div>
+            <Link
+              href="/alerts"
+              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md border border-blue-200 dark:border-blue-900/40 bg-blue-50/60 dark:bg-[#151D2A] text-blue-700 dark:text-blue-300 text-[11.5px] font-medium hover:bg-blue-100 transition-colors shrink-0"
+              title="Subscribe to daily morning GMP alerts"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+              Daily Alerts
+            </Link>
           </div>
         </div>
 
@@ -412,10 +458,23 @@ export default function GmpTableClient({
                             </span>
                           )}
                         </div>
-                        {ipo.gmp != null && ipo.price_max && (
-                          <span className={`text-[10px] font-semibold ${ipo.gmp >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
-                            Est. {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
-                          </span>
+                        {ipo.gmp != null && (
+                          <div className="flex flex-col">
+                            {ipo.price_max && (
+                              <span className={`text-[10px] font-semibold ${ipo.gmp >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                                Est. {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
+                              </span>
+                            )}
+                            {ipo.lot_size && (
+                              <Link
+                                href={`/ipo-profit-calculator?gmp=${ipo.gmp}&price=${ipo.price_max ?? ipo.price_min}&lot=${ipo.lot_size}`}
+                                className="text-[10px] text-gray-500 dark:text-[#9AA1AA] hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline tabular-nums"
+                                title="Calculate expected listing profit per lot"
+                              >
+                                {ipo.gmp >= 0 ? "+" : ""}₹{(Number(ipo.gmp) * Number(ipo.lot_size)).toLocaleString("en-IN")}/lot
+                              </Link>
+                            )}
+                          </div>
                         )}
                       </div>
                     </td>

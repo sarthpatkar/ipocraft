@@ -56,7 +56,25 @@ export async function generateMetadata({
 
   const title = `${ipo.name} IPO GMP, Price, Dates, Details | IPOCraft`;
 
-  const description = `Latest GMP, price band, dates, subscription, and listing insights for ${ipo.name} IPO. Data sourced from public filings and exchange disclosures.`;
+  const gmpVal = ipo.gmp != null ? `₹${ipo.gmp}` : null;
+  const gmpPct =
+    ipo.gmp != null && (ipo.price_max ?? ipo.price_min) != null
+      ? ` (${(((ipo.gmp as number) / (ipo.price_max ?? ipo.price_min)!) * 100).toFixed(1)}%)`
+      : "";
+  const subTotal = ipo.sub_total != null ? `${ipo.sub_total}x` : null;
+  const openDate = ipo.open_date ?? null;
+  const allotDate = ipo.allotment_date ?? null;
+
+  const descParts: string[] = [];
+  if (openDate) descParts.push(`Opens ${openDate}`);
+  if (gmpVal) descParts.push(`GMP: ${gmpVal}${gmpPct}`);
+  if (subTotal) descParts.push(`Subscription: ${subTotal}`);
+  if (allotDate) descParts.push(`Allotment: ${allotDate}`);
+
+  const description =
+    descParts.length > 0
+      ? `${ipo.name} IPO — ${descParts.join(" · ")}. Track live data on IPOCraft.`
+      : `Latest GMP, price band, dates, subscription, and listing insights for ${ipo.name} IPO. Data sourced from public filings and exchange disclosures.`;
 
   const detailUrl = canonicalUrl(`/ipo/${encodeURIComponent(slug)}`);
 
@@ -64,12 +82,16 @@ export async function generateMetadata({
     title,
     description,
     keywords: [
+      ipo.name,
+      `${ipo.name} IPO`,
+      `${ipo.name} IPO GMP`,
+      `${ipo.name} IPO allotment date`,
+      `${ipo.name} IPO subscription`,
       "IPO GMP",
       "IPO details",
       "IPO listing gain",
       "Grey Market Premium India",
-      ipo?.name,
-    ],
+    ].filter(Boolean),
     alternates: {
       canonical: detailUrl,
     },
@@ -412,6 +434,45 @@ export default async function IPODetail({
         }}
       />
 
+      {/* Event schema — enables Google date pills in search results */}
+      {ipo.open_date && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Event",
+              name: `${ipo.name} IPO`,
+              description: `${ipo.name} IPO subscription open from ${ipo.open_date} to ${ipo.close_date ?? "—"}. Price band: ₹${ipo.price_min ?? "—"}–₹${ipo.price_max ?? "—"} per share.`,
+              startDate: ipo.open_date,
+              ...(ipo.close_date ? { endDate: ipo.close_date } : {}),
+              eventStatus: "https://schema.org/EventScheduled",
+              eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
+              location: {
+                "@type": "VirtualLocation",
+                url: detailUrl,
+              },
+              organizer: {
+                "@type": "Organization",
+                name: ipo.company_name ?? ipo.name,
+                url: "https://ipocraft.com",
+              },
+              ...(ipo.price_max != null
+                ? {
+                    offers: {
+                      "@type": "Offer",
+                      price: String(ipo.price_max),
+                      priceCurrency: "INR",
+                      availability: "https://schema.org/InStock",
+                      url: detailUrl,
+                    },
+                  }
+                : {}),
+            }),
+          }}
+        />
+      )}
+
       {/* ── Navigation Bar ── */}
       <div className="bg-white dark:bg-[#111418] border-b border-[#e2e8f0] dark:border-[#252A31]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center gap-3">
@@ -431,6 +492,7 @@ export default async function IPODetail({
           title={`${ipo.name} IPO`}
           url={detailUrl}
           text={`${ipo.name} IPO — GMP: ${gmpDisplay}, Price: ${priceBand} | ipocraft.com`}
+          slug={slug}
         />
       } />
 
@@ -539,6 +601,24 @@ export default async function IPODetail({
               >
                 New to IPO analysis? You may review our structured guides on <Link href="/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">how IPO allotment works</Link> and <Link href="/ipo-subscription-meaning" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">IPO subscription meaning</Link> to better understand demand and allocation mechanics.
               </p>
+
+              {/* DRHP AI Analyzer Card */}
+              <div className="mt-4 p-4 rounded-lg bg-blue-50/60 dark:bg-[#151E2E] border border-[#1C317A]/20 dark:border-[#3D5BA9]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">
+                    Analyze Draft Red Herring Prospectus (DRHP)
+                  </p>
+                  <p className="text-[12px] text-[#475569] dark:text-[#9AA1AA] mt-0.5">
+                    Extract top promoter risks, objects of the issue, and financial history with our DRHP AI Analyzer.
+                  </p>
+                </div>
+                <Link
+                  href={`/drhp-analyzer?company=${encodeURIComponent(ipo.name)}`}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#1C317A] hover:bg-[#28439E] text-white text-[12px] font-semibold rounded-md transition-colors shrink-0 shadow-xs"
+                >
+                  Analyze DRHP <span>→</span>
+                </Link>
+              </div>
             </section>
 
             {/* Issue Details */}
@@ -564,7 +644,7 @@ export default async function IPODetail({
                 className="text-[12px] text-[#64748b] dark:text-[#9AA1AA] mt-3"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                For category-wise quota breakdown such as QIB, HNI, and Retail allocation, refer to our <Link href="/qib-hni-retail-explained" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">IPO quota structure explanation</Link>.
+                For category-wise quota breakdown such as QIB, HNI, and Retail allocation, refer to our <Link href="/qib-hni-retail-explained" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">IPO quota structure explanation</Link>. Compare this issue with others on our <Link href={`/compare?ipos=${ipo.slug}`} className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Comparison Engine →</Link>
               </p>
             </section>
 
@@ -708,7 +788,33 @@ export default async function IPODetail({
               subShni={ipo.sub_shni != null ? Number(ipo.sub_shni) : null}
               subBhni={ipo.sub_bhni != null ? Number(ipo.sub_bhni) : null}
               subNii={ipo.sub_nii != null ? Number(ipo.sub_nii) : null}
+              lotSize={ipo.lot_size != null ? Number(ipo.lot_size) : null}
+              totalRetailApplications={ipo.total_retail_applications != null ? Number(ipo.total_retail_applications) : null}
             />
+
+            {/* Quick links: standalone calculator + compare */}
+            <div className="flex flex-wrap items-center gap-3 mt-1 mb-5">
+              {ipo.sub_rii != null && (
+                <Link
+                  href={`/ipo-allotment-probability-calculator?sub=${ipo.sub_rii}&cat=Retail`}
+                  className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#1C317A] dark:text-[#93B4FF] hover:underline"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.773 4.773z" />
+                  </svg>
+                  Full allotment odds calculator →
+                </Link>
+              )}
+              <Link
+                href={`/compare?ipos=${slug}`}
+                className="inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 dark:text-[#9AA1AA] hover:text-[#1C317A] dark:hover:text-[#93B4FF] hover:underline transition-colors"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 3M21 7.5H7.5" />
+                </svg>
+                Compare with another IPO →
+              </Link>
+            </div>
 
             {/* GMP Card */}
             <section id="gmp" className="scroll-mt-[120px] bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-5 sm:p-6 space-y-3 mb-6">
@@ -1115,6 +1221,24 @@ export default async function IPODetail({
                     )}
                   </div>
                 ))}
+              </div>
+
+              {/* SEBI EFILING fallback — always available for any IPO */}
+              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-[#252A31]">
+                <a
+                  href={`https://efts.sebi.gov.in/LATEST/search-plus?query=${encodeURIComponent(ipo.name || "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                  </svg>
+                  View DRHP / RHP on SEBI EFILING ↗
+                </a>
+                <p className="text-[11px] text-gray-400 dark:text-[#6B7280] mt-1">
+                  Opens SEBI&apos;s official filing portal. Search for the company name in results.
+                </p>
               </div>
             </section>
 

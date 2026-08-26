@@ -327,6 +327,37 @@ export default async function Home({
           )}
         </div>
 
+        {/* ── Compare Quick-Launcher Strip ── */}
+        {(() => {
+          const openIpos = ipoFeed.items.filter((i) => i.status?.toLowerCase() === "open" || i.status?.toLowerCase() === "upcoming");
+          if (openIpos.length >= 2) {
+            const ipoA = openIpos[0];
+            const ipoB = openIpos[1];
+            return (
+              <div className="bg-[#1C317A]/5 dark:bg-[#151E2E] border border-[#1C317A]/15 dark:border-[#3D5BA9]/30 rounded-lg p-3 sm:p-3.5 mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="inline-flex items-center justify-center w-6 h-6 rounded bg-[#1C317A] text-white text-[11px] font-bold shrink-0">
+                    VS
+                  </span>
+                  <div className="text-[13px] text-[#0f172a] dark:text-[#F1F5F9] truncate">
+                    <span className="font-semibold">{ipoA.name}</span>
+                    <span className="text-gray-400 dark:text-[#64748B] mx-1.5">vs</span>
+                    <span className="font-semibold">{ipoB.name}</span>
+                  </div>
+                </div>
+                <Link
+                  href={`/compare?ipos=${ipoA.slug},${ipoB.slug}`}
+                  className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 bg-[#1C317A] hover:bg-[#28439E] text-white text-[12px] font-semibold rounded-md transition-colors shrink-0 shadow-xs"
+                >
+                  Compare Metrics
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            );
+          }
+          return null;
+        })()}
+
         {/* -- Data Freshness Bar -- */}
         <DataFreshnessBar lastUpdatedAt={lastUpdatedAt} syncIntervalMinutes={30} />
 
@@ -549,6 +580,139 @@ export default async function Home({
               </div>
 
             </aside>
+          </div>
+
+          {/* ── 4-Card Utility Strip: Tools for IPO Bidders ── */}
+          <div className="mt-10 pt-8 border-t border-gray-200 dark:border-[#252A31]">
+            <div className="mb-4">
+              <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 tracking-wider mb-1">
+                Decision Tools
+              </p>
+              <h3
+                className="text-[1.25rem] sm:text-[1.4rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
+                style={{ fontFamily: "var(--font-outfit)" }}
+              >
+                Tools for IPO Bidders
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              {/* Card 1: Allotment Odds Calculator */}
+              <Link
+                href="/ipo-allotment-probability-calculator"
+                className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-600 rounded-xl p-4 flex flex-col justify-between transition-colors shadow-xs group"
+              >
+                <div>
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    Allotment Odds Calculator
+                  </h4>
+                  <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA] mt-1 leading-relaxed">
+                    Input subscription numbers to see your exact lottery probability under exchange rules.
+                  </p>
+                </div>
+                <span className="text-[12px] font-semibold text-blue-600 dark:text-blue-400 mt-3 inline-flex items-center gap-1">
+                  Calculate Odds <span>→</span>
+                </span>
+              </Link>
+
+              {/* Card 2: Expected Profit Estimator */}
+              <Link
+                href="/ipo-profit-calculator"
+                className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-600 rounded-xl p-4 flex flex-col justify-between transition-colors shadow-xs group"
+              >
+                <div>
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                    Listing Profit Estimator
+                  </h4>
+                  <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA] mt-1 leading-relaxed">
+                    Calculate estimated net gain per lot based on price band and live Grey Market Premiums.
+                  </p>
+                </div>
+                <span className="text-[12px] font-semibold text-emerald-600 dark:text-emerald-400 mt-3 inline-flex items-center gap-1">
+                  Estimate Profit <span>→</span>
+                </span>
+              </Link>
+
+              {/* Card 3: DRHP Prospectus Analyzer */}
+              <Link
+                href="/drhp-analyzer"
+                className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-600 rounded-xl p-4 flex flex-col justify-between transition-colors shadow-xs group"
+              >
+                <div>
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-[#1C317A] dark:text-[#93B4FF] flex items-center justify-center mb-3">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-[#1C317A] dark:group-hover:text-[#93B4FF] transition-colors">
+                    DRHP Risk Analyzer
+                  </h4>
+                  <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA] mt-1 leading-relaxed">
+                    Extract top promoter risks, objects of the issue, and revenue trends from official prospectuses.
+                  </p>
+                </div>
+                <span className="text-[12px] font-semibold text-[#1C317A] dark:text-[#93B4FF] mt-3 inline-flex items-center gap-1">
+                  Analyze Filing <span>→</span>
+                </span>
+              </Link>
+
+              {/* Card 4: Side-by-Side Comparison */}
+              <Link
+                href="/compare"
+                className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-600 rounded-xl p-4 flex flex-col justify-between transition-colors shadow-xs group"
+              >
+                <div>
+                  <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                    </svg>
+                  </div>
+                  <h4 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                    Compare Active IPOs
+                  </h4>
+                  <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA] mt-1 leading-relaxed">
+                    Compare price bands, lot sizes, subscription demand, and timelines across up to 3 issues.
+                  </p>
+                </div>
+                <span className="text-[12px] font-semibold text-amber-600 dark:text-amber-400 mt-3 inline-flex items-center gap-1">
+                  Open Comparison <span>→</span>
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          {/* ── Daily Morning GMP Alert Digest Card ── */}
+          <div className="mt-6 bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="max-w-xl">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 block mb-1">
+                Morning Market Brief
+              </span>
+              <h4
+                className="text-[1.1rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
+                style={{ fontFamily: "var(--font-outfit)" }}
+              >
+                Daily IPO &amp; GMP Updates at 8:30 AM
+              </h4>
+              <p className="text-[13px] text-gray-500 dark:text-[#9AA1AA] mt-1">
+                Receive the morning grey market digest and subscription closing notifications via email or Telegram.
+              </p>
+            </div>
+            <Link
+              href="/alerts"
+              className="inline-flex items-center justify-center px-4 py-2 bg-[#1C317A] hover:bg-[#28439E] text-white text-[13px] font-semibold rounded-lg transition-colors shrink-0 shadow-xs"
+            >
+              Subscribe to Alerts
+            </Link>
           </div>
 
           {/* Guides */}

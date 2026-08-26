@@ -8,6 +8,8 @@ import { Inter, Outfit } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
+import ChatBubbleLoader from "@/components/chat/ChatBubbleLoader";
+
 
 const siteUrl = CANONICAL_ORIGIN;
 
@@ -65,6 +67,13 @@ export default function RootLayout({
       <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
       <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+      {/* PWA */}
+      <link rel="manifest" href="/manifest.json" />
+      <meta name="theme-color" content="#1C317A" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="apple-mobile-web-app-title" content="IPOCraft" />
+      <link rel="apple-touch-icon" href="/icon-192.png" />
       </head>
       <body
         className="bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased"
@@ -85,11 +94,24 @@ export default function RootLayout({
         </Script>
         {/* Google AdSense */}
         <Script
-          id="google-adsense"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4829097668877345"
           strategy="afterInteractive"
           crossOrigin="anonymous"
+          id="google-adsense"
         />
+        {/* Service Worker registration (PWA) */}
+        <Script id="register-sw" strategy="lazyOnload">
+          {`
+            if ('serviceWorker' in navigator) {
+              window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function(err) {
+                  console.warn('SW registration failed:', err);
+                });
+              });
+            }
+          `}
+        </Script>
+
         <Script
           id="org-schema"
           type="application/ld+json"
@@ -109,7 +131,29 @@ export default function RootLayout({
               "https://youtube.com/@ipocraft-q5o"
             ],
             description:
-              "IPOCraft provides structured IPO data, GMP trends, and subscription insights for Indian investors.",
+              "IPOCraft (ipocraft.com) is an Indian IPO tracking platform providing live GMP, subscription data, allotment probability calculators, and listing performance analytics for Mainboard and SME IPOs.",
+          })}
+        </Script>
+        <Script
+          id="website-schema"
+          type="application/ld+json"
+          strategy="lazyOnload"
+        >
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": `${siteUrl}/#website`,
+            name: "IPOCraft",
+            url: siteUrl,
+            description: "Indian IPO tracking platform with live GMP, subscription data, allotment calculators, and listing analytics.",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: {
+                "@type": "EntryPoint",
+                urlTemplate: `${siteUrl}/ipo?q={search_term_string}`,
+              },
+              "query-input": "required name=search_term_string",
+            },
           })}
         </Script>
         <ThemeProvider>
@@ -171,6 +215,9 @@ export default function RootLayout({
                   <ul className="space-y-1.5">
                     <li><Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</Link></li>
                     <li><Link href="/contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</Link></li>
+                    <li><Link href="/methodology" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Data Methodology</Link></li>
+                    <li><Link href="/compare" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Compare IPOs</Link></li>
+                    <li><Link href="/alerts" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">GMP Alerts</Link></li>
                     <li><Link href="/disclaimer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Disclaimer</Link></li>
                     <li><Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
                     <li><Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Use</Link></li>
@@ -300,6 +347,7 @@ export default function RootLayout({
 
           </div>
         </footer>
+        <ChatBubbleLoader />
         <LegalBanner />
         </ThemeProvider>
       </body>

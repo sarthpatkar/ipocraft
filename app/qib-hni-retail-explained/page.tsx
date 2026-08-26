@@ -457,6 +457,29 @@ export default function InvestorCategoriesGuide() {
         })}
       </Script>
 
+      {/* Article Schema */}
+      <Script
+        id="article-schema"
+        type="application/ld+json"
+        strategy="lazyOnload"
+      >
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: "QIB, HNI (NII) and Retail — IPO Investor Categories Explained",
+          description: "Understand the difference between QIB, HNI (sNII and bNII), and Retail investor categories in Indian IPOs — including allocation percentages, application limits, and allotment rules.",
+          author: { "@type": "Organization", name: "IPOCraft Research Team" },
+          publisher: {
+            "@type": "Organization",
+            name: "IPOCraft",
+            logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+          },
+          datePublished: "2024-01-01",
+          dateModified: new Date().toISOString(),
+          mainEntityOfPage: { "@type": "WebPage", "@id": investorCategoriesUrl },
+        })}
+      </Script>
+
       {/* FAQ Schema */}
       <Script
         id="faq-schema"

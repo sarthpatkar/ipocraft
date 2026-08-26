@@ -13,12 +13,17 @@
     "@heroicons/react": "^2.2.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.98.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.2",
     "autoprefixer": "^10.4.27",
     "next": "16.1.6",
+    "openai": "^7.5.0",
     "postcss": "^8.5.8",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "recharts": "^3.7.0"
+    "recharts": "^3.7.0",
+    "resend": "^6.22.1",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -27,8 +32,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "pdf-parse": "^1.1.1",
     "tailwindcss": "^4.2.1",
-    "typescript": "^5",
-    "pdf-parse": "^1.1.1"
+    "typescript": "^5"
   }
 }

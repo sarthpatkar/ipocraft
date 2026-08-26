@@ -86,6 +86,7 @@ export default async function GMPPage({
       sub_total,
       price_min,
       price_max,
+      lot_size,
       issue_size,
       open_date,
       close_date,
@@ -127,11 +128,44 @@ export default async function GMPPage({
     });
   }
 
+  const renderTimestamp = new Date().toISOString();
+
   return (
     <div
       className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] overflow-x-hidden`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
+      {/* Dataset schema — freshness signal for "IPO GMP today" queries */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Dataset",
+            name: "IPO Grey Market Premium (GMP) Today — India",
+            description:
+              "Live Grey Market Premium (GMP) data for all active Mainboard and SME IPOs in India. Includes subscription status, price band, allotment date, and expected listing gain. Updated multiple times daily.",
+            url: "https://ipocraft.com/gmp",
+            creator: {
+              "@type": "Organization",
+              name: "IPOCraft",
+              url: "https://ipocraft.com",
+            },
+            dateModified: renderTimestamp,
+            license: "https://creativecommons.org/licenses/by-nc/4.0/",
+            temporalCoverage: "2024/..",
+            spatialCoverage: { "@type": "Place", name: "India" },
+            keywords: [
+              "IPO GMP",
+              "Grey Market Premium",
+              "IPO subscription",
+              "IPO listing gain",
+              "SME IPO",
+              "Mainboard IPO",
+            ],
+          }),
+        }}
+      />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
         {/* Compact Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5 pb-4 border-b border-gray-200 dark:border-[#252A31]">
@@ -145,8 +179,8 @@ export default async function GMPPage({
             >
               IPO GMP Today: Grey Market Premium &amp; Listing Insights
             </h1>
-            <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA]">
-              Track indicative GMP, daily subscription momentum, and listing estimates for Mainboard &amp; SME issues.
+            <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA] max-w-2xl leading-relaxed">
+              IPOCraft tracks live Grey Market Premium (GMP) for all active Mainboard and SME IPOs in India. GMP is the unofficial premium at which IPO shares trade before official listing — it reflects market sentiment but is not a guaranteed listing price. Updated multiple times daily. Data below covers all open, upcoming, and recently listed IPOs.
             </p>
           </div>
 

@@ -25,15 +25,19 @@ export default function CopyButton({
       onClick={handleCopy}
       title={copied ? "Copied!" : `Copy ${value}`}
       aria-label={copied ? "Copied to clipboard" : "Copy value to clipboard"}
-      className="group inline-flex items-center gap-1.5 cursor-pointer rounded-lg px-2 py-0.5 transition-colors hover:bg-gray-100 dark:bg-[#1e293b]"
+      className="group inline-flex items-center gap-1.5 cursor-pointer rounded-lg px-2 py-0.5 transition-colors hover:bg-gray-100 dark:hover:bg-[#1e293b]"
       style={{ backgroundColor: "transparent" }}
     >
       <span>{children}</span>
-      <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-        {copied
-          ? <CheckIcon className="w-3.5 h-3.5 text-emerald-500" />
-          : <ClipboardIcon className="w-3.5 h-3.5" style={{ color: "var(--text-faint)" }} />
-        }
+      <span className={copied ? "opacity-100 transition-opacity flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400" : "opacity-0 group-hover:opacity-100 transition-opacity"}>
+        {copied ? (
+          <>
+            <CheckIcon className="w-3.5 h-3.5 text-emerald-500" />
+            <span>Copied!</span>
+          </>
+        ) : (
+          <ClipboardIcon className="w-3.5 h-3.5" style={{ color: "var(--text-faint)" }} />
+        )}
       </span>
     </button>
   );

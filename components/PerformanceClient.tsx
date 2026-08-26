@@ -123,9 +123,17 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
           >
             IPO Performance &amp; Track Record
           </h1>
-          <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA]">
-            Historical listing day gains and returns for Indian Mainboard and SME IPOs.
+          <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA] max-w-2xl leading-relaxed">
+            IPOCraft tracks post-listing performance for all Indian Mainboard and SME IPOs. The table shows issue price, listing price, and listing day gain or loss percentage for each IPO. Sorted by most recent listing. Use filters to compare gainers, multibaggers, and discounted issues.
           </p>
+        </div>
+        <div className="flex items-center gap-3 shrink-0">
+          <Link
+            href="/gmp"
+            className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-md bg-[#1C317A] text-white text-[12px] font-semibold hover:bg-[#28439E] transition-colors shadow-xs"
+          >
+            Live GMP Tracker <span>→</span>
+          </Link>
         </div>
       </div>
 

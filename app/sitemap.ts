@@ -11,8 +11,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/gmp",
     "/ipo",
     "/ipo-calendar",
+    "/subscriptions",
+    "/performance",
+    "/allotment-status",
+    "/sme-ipo",
     "/brokers",
     "/about",
+    "/chat",
     "/contact",
     "/privacy",
     "/terms",
@@ -25,6 +30,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const lastModified = new Date();
+
+  // High-priority standalone tool pages for SEO
+  const toolPages = [
+    "/ipo-allotment-probability-calculator",
+    "/ipo-profit-calculator",
+    "/compare",
+    "/chat",
+    "/feedback",
+  ];
+  const toolUrls = toolPages.map((route) => ({
+    url: canonicalUrl(route),
+    lastModified,
+    changeFrequency: "daily" as const,
+    priority: route === "/chat" || route === "/compare" ? 0.9 : 0.8,
+  }));
+
+  const infoPages = ["/alerts", "/methodology", "/drhp-analyzer"];
+  const infoUrls = infoPages.map((route) => ({
+    url: canonicalUrl(route),
+    lastModified,
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
   const staticUrls = staticPages.map((route) => ({
     url: canonicalUrl(route),
     lastModified,
@@ -66,5 +95,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticUrls, ...dynamicUrls, ...blogUrls, ...educationalBlogUrls];
+  return [...toolUrls, ...infoUrls, ...staticUrls, ...dynamicUrls, ...blogUrls, ...educationalBlogUrls];
 }

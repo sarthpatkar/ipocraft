@@ -121,8 +121,8 @@ export default async function IpoCalendarPage() {
             >
               IPO Calendar 2026: Upcoming, Open &amp; Listing Dates
             </h1>
-            <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA]">
-              Bidding windows, allotment milestones, and listing timelines across Mainboard and SME segments.
+            <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA] max-w-2xl leading-relaxed">
+              IPOCraft&apos;s IPO Calendar lists all currently open, upcoming, and recently closed IPOs in India. Each entry shows subscription window, allotment date, listing date, price band, and GMP. Data covers both Mainboard and SME segments, updated daily.
             </p>
           </div>
 

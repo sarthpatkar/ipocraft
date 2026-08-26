@@ -39,6 +39,7 @@ const FIELD_ORDER = [
   "sub_rii",
   "sub_bhni",
   "sub_shni",
+  "total_retail_applications",
   "subscription_updated_at",
   "about_company",
   "objectives",
@@ -203,6 +204,7 @@ const FIELD_CONFIGS: FieldConfig[] = [
   { name: "sub_rii", label: "RII Subscription (x)", placeholder: "e.g. 11.32", section: "essentials" },
   { name: "sub_bhni", label: "BHNI Subscription (x)", placeholder: "e.g. 9.75", section: "essentials" },
   { name: "sub_shni", label: "SHNI Subscription (x)", placeholder: "e.g. 14.80", section: "essentials" },
+  { name: "total_retail_applications", label: "Total Retail Applications", placeholder: "e.g. 420000 (from NSE bid data)", section: "essentials" },
   {
     name: "subscription_updated_at",
     label: "Subscription Last Updated",
@@ -475,6 +477,7 @@ function buildInitialForm(ipo?: IpoSource | null): IpoFormState {
     sub_rii: readText(source.sub_rii),
     sub_bhni: readText(source.sub_bhni),
     sub_shni: readText(source.sub_shni),
+    total_retail_applications: readText(source.total_retail_applications),
     subscription_updated_at: readText(source.subscription_updated_at),
     lot_size: readText(source.lot_size),
     status: normalizeStatus(source.status),
@@ -1161,6 +1164,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         sub_qib: d.sub_qib != null ? String(d.sub_qib) : prev.sub_qib,
         sub_nii: d.sub_nii != null ? String(d.sub_nii) : prev.sub_nii,
         sub_rii: d.sub_rii != null ? String(d.sub_rii) : prev.sub_rii,
+        total_retail_applications: d.total_retail_applications != null ? String(d.total_retail_applications) : prev.total_retail_applications,
         open_date: d.open_date || prev.open_date,
         close_date: d.close_date || prev.close_date,
         listing_date: d.listing_date || prev.listing_date,
@@ -1263,6 +1267,7 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
         sub_qib: toNullableNumber(form.sub_qib),
         sub_nii: toNullableNumber(form.sub_nii),
         sub_rii: toNullableNumber(form.sub_rii),
+        total_retail_applications: toNullableNumber(form.total_retail_applications),
         lot_size: toNullableNumber(form.lot_size),
         status: toNullableText(form.status),
         about_company: toNullableText(form.about_company),
@@ -1856,6 +1861,24 @@ export default function AdminForm({ ipo, onClose }: AdminFormProps) {
                     onChange={handleChange}
                     ref={registerFieldRef("sub_shni")}
                     placeholder={FIELD_CONFIG_BY_NAME.sub_shni.placeholder}
+                    className={INPUT_CLASS}
+                  />
+                </FieldLabel>
+
+                <FieldLabel
+                  name="total_retail_applications"
+                  helper="Fill after NSE/BSE publishes bid data (Day 1 or Day 3). Enables exact SEBI allotment formula."
+                >
+                  <input
+                    id="total_retail_applications"
+                    name="total_retail_applications"
+                    type="number"
+                    step="1"
+                    inputMode="numeric"
+                    value={form.total_retail_applications}
+                    onChange={handleChange}
+                    ref={registerFieldRef("total_retail_applications")}
+                    placeholder={FIELD_CONFIG_BY_NAME.total_retail_applications.placeholder}
                     className={INPUT_CLASS}
                   />
                 </FieldLabel>

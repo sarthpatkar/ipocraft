@@ -73,7 +73,7 @@ export default function FeedbackPage() {
 
       {/* BOOKLET CONTEXT BANNER */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-5">
-        <div className="flex gap-3 items-start bg-white dark:bg-[#111418] border-l-4 border-[#1C317A] border-t border-r border-b border-gray-200 dark:border-[#252A31] rounded-r-md px-4 py-3">
+        <div className="flex gap-3 items-start bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg px-4 py-3 shadow-xs">
           <div className="flex-1">
             <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">
               Got here via a booklet or from someone you know?

@@ -74,9 +74,7 @@ export default function AboutPage() {
           </h1>
 
           <p className="mt-4 text-sm sm:text-[15px] text-gray-600 dark:text-[#9AA1AA] max-w-2xl leading-relaxed">
-            IPOCraft helps users track IPO timelines, GMP movements, subscription demand,
-            and listing outcomes in a clean and structured interface designed for clarity
-            and research-focused learning.
+            IPOCraft (ipocraft.com) is an Indian IPO tracking platform providing live GMP, subscription data, allotment probability calculators, and listing performance analytics for Mainboard and SME IPOs.
           </p>
 
           {/* Trust badges */}

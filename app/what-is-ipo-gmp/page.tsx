@@ -324,6 +324,28 @@ export default function WhatIsIpoGmpPage() {
       </Script>
 
       <Script
+        id="article-schema"
+        type="application/ld+json"
+        strategy="lazyOnload"
+      >
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: "What is IPO GMP? Grey Market Premium Meaning & Calculation",
+          description: "Learn what IPO GMP (Grey Market Premium) means, how it is calculated, why it changes daily, and how investors use it to estimate listing gains.",
+          author: { "@type": "Organization", name: "IPOCraft Research Team" },
+          publisher: {
+            "@type": "Organization",
+            name: "IPOCraft",
+            logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+          },
+          datePublished: "2024-01-01",
+          dateModified: new Date().toISOString(),
+          mainEntityOfPage: { "@type": "WebPage", "@id": whatIsIpoGmpUrl },
+        })}
+      </Script>
+
+      <Script
         id="faq-schema"
         type="application/ld+json"
         strategy="lazyOnload"
