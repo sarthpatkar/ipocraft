@@ -85,7 +85,7 @@ export default function ContactPage() {
               Public Data Sources
             </span>
             <span className="bg-white dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-700 dark:text-[#9AA1AA] px-3 py-1.5 rounded-md shadow-xs">
-              SEBI Filings Referenced
+              Exchange Filings Referenced
             </span>
             <span className="bg-white dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] text-gray-700 dark:text-[#9AA1AA] px-3 py-1.5 rounded-md shadow-xs">
               Informational Platform

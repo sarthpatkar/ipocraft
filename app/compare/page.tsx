@@ -11,6 +11,13 @@ export const metadata: Metadata = {
     title: "IPO Comparison Tool | IPOCraft",
     description: "Side-by-side IPO comparison: GMP, subscription multiples, price band, and timeline.",
     type: "website",
+    images: [{ url: "https://www.ipocraft.com/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IPO Comparison Tool | IPOCraft",
+    description: "Side-by-side IPO comparison: GMP, subscription multiples, price band, and timeline.",
+    images: ["https://www.ipocraft.com/og-image.png"],
   },
 };
 
@@ -20,7 +27,7 @@ export default function ComparePage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
         <div className="mb-8">
           <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#1C317A] dark:text-blue-400 mb-2" style={{ fontFamily: "var(--font-inter)" }}>
-            Free Tool
+            Comparison Engine
           </p>
           <h1 className="text-[1.75rem] sm:text-[2rem] font-bold text-[#0f172a] dark:text-[#F1F5F9] leading-tight" style={{ fontFamily: "var(--font-outfit)" }}>
             IPO Comparison Tool

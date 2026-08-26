@@ -122,7 +122,7 @@ export default function TermsPage() {
         <div className="space-y-3">
           <h2
             className="font-semibold text-lg"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Grey Market Premium Disclaimer
           </h2>
@@ -163,7 +163,7 @@ export default function TermsPage() {
         <div className="space-y-3">
           <h2
             className="font-semibold text-lg"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Compliance & Data Transparency
           </h2>
@@ -176,7 +176,7 @@ export default function TermsPage() {
         </div>
 
         {/* Disclaimer box */}
-        <div className="bg-[#f1f5f9] dark:bg-[#1e293b] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4 text-xs text-[#64748b] dark:text-slate-400 leading-relaxed">
+        <div className="bg-[#f1f5f9] dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-4 text-xs text-[#64748b] dark:text-[#9AA1AA] leading-relaxed">
           IPOCraft is an informational platform and is not registered with SEBI
           or any financial regulatory authority. This content does not
           constitute investment advice, recommendations, or solicitation. Users
@@ -188,7 +188,7 @@ export default function TermsPage() {
         <div className="space-y-3">
           <h2
             className="font-semibold text-lg"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Contact
           </h2>
@@ -211,16 +211,16 @@ export default function TermsPage() {
   );
 }
 
-function Section({ title, text }: { title: string; text: string }) {
+  function Section({ title, text }: { title: string; text: string }) {
   return (
     <section className="space-y-3">
       <h2
         className="font-semibold text-lg"
-        style={{ fontFamily: "var(--font-playfair)" }}
+        style={{ fontFamily: "var(--font-outfit)" }}
       >
         {title}
       </h2>
-      <p className="text-[#475569] dark:text-slate-400 text-sm sm:text-base leading-relaxed">
+      <p className="text-[#475569] dark:text-[#9AA1AA] text-sm sm:text-base leading-relaxed">
         {text}
       </p>
     </section>

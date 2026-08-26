@@ -11,6 +11,18 @@ export const metadata: Metadata = {
   description:
     "Learn how IPOCraft collects, verifies, and updates IPO GMP, subscription, allotment, and listing data for 60+ Mainboard and SME IPOs tracked on the platform.",
   alternates: { canonical: "https://www.ipocraft.com/methodology" },
+  openGraph: {
+    title: "Data Methodology | IPOCraft",
+    description: "How IPOCraft collects, verifies, and updates IPO GMP, subscription, and listing data.",
+    type: "website",
+    images: [{ url: "https://www.ipocraft.com/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Data Methodology | IPOCraft",
+    description: "How IPOCraft collects, verifies, and updates IPO GMP, subscription, and listing data.",
+    images: ["https://www.ipocraft.com/og-image.png"],
+  },
 };
 
 const methodologySchema = {

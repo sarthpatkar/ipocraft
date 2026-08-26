@@ -9,6 +9,7 @@ import {
   ClipboardDocumentIcon,
   CheckIcon,
   TrashIcon,
+  ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import ChatMessage from "./ChatMessage";
@@ -76,6 +77,8 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [exportOpen, setExportOpen] = useState(false);
   const [copiedExport, setCopiedExport] = useState(false);
+  const [showScrollFab, setShowScrollFab] = useState(false);
+  const [isTyping, setIsTyping] = useState(false); // true before first token arrives
 
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -112,7 +115,9 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;
     const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-    isAutoScrollEnabled.current = scrollHeight - scrollTop - clientHeight < 100;
+    const distFromBottom = scrollHeight - scrollTop - clientHeight;
+    isAutoScrollEnabled.current = distFromBottom < 100;
+    setShowScrollFab(distFromBottom > 200);
   };
 
   useEffect(() => {
@@ -291,6 +296,7 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
       setSessions(currentSessionsList);
       setInput("");
       setIsLoading(true);
+      setIsTyping(true);
       setError(null);
       setFollowUps([]);
       isAutoScrollEnabled.current = true;
@@ -354,6 +360,7 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
               const event = JSON.parse(line.slice(6));
               if (event.type === "token") {
                 accumulated += event.content;
+                setIsTyping(false); // First token arrived — hide typing indicator
                 setSessions((prev) =>
                   prev.map((s) =>
                     s.id === activeId
@@ -404,6 +411,7 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
         }
       } finally {
         setIsLoading(false);
+        setIsTyping(false);
         abortControllerRef.current = null;
         setSessions((prev) =>
           prev.map((s) =>
@@ -456,6 +464,7 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
           onDeleteSession={handleDeleteSession}
           onSelectPreset={sendMessage}
           isOpen={sidebarOpen}
+          isIconRail={!sidebarOpen}
           onCloseMobile={() => setSidebarOpen(false)}
         />
       )}
@@ -564,23 +573,58 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 space-y-3 scroll-smooth"
+          className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 space-y-3 scroll-smooth relative"
         >
           {isEmpty ? (
             <ChatSuggestions onSelect={sendMessage} />
           ) : (
             <div className="w-full max-w-3xl mx-auto space-y-4">
-              {messages.map((msg, i) => (
-                <ChatMessage
-                  key={msg.id}
-                  message={msg}
-                  isLastAssistant={
-                    msg.role === "assistant" && i === messages.length - 1
-                  }
-                  onRegenerate={handleRegenerate}
-                  onEditUserMessage={handleEditUserMessage}
-                />
-              ))}
+              {messages.map((msg, i) => {
+                // Show timestamp separator before each user message (except first)
+                const showTimestamp = msg.role === "user" && i > 0;
+                const timeLabel = (() => {
+                  const diff = Date.now() - (msg.timestamp || Date.now());
+                  const mins = Math.floor(diff / 60000);
+                  if (mins < 1) return "Just now";
+                  if (mins < 60) return `${mins} min ago`;
+                  const hrs = Math.floor(mins / 60);
+                  if (hrs < 24) return `${hrs}h ago`;
+                  return new Date(msg.timestamp || Date.now()).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
+                })();
+                return (
+                  <React.Fragment key={msg.id}>
+                    {showTimestamp && (
+                      <div className="flex items-center gap-3 my-2">
+                        <div className="flex-1 h-px bg-gray-100 dark:bg-[#1F242C]" />
+                        <span className="text-[10.5px] text-gray-400 dark:text-[#4B5563] shrink-0">{timeLabel}</span>
+                        <div className="flex-1 h-px bg-gray-100 dark:bg-[#1F242C]" />
+                      </div>
+                    )}
+                    <ChatMessage
+                      message={msg}
+                      isLastAssistant={
+                        msg.role === "assistant" && i === messages.length - 1
+                      }
+                      onRegenerate={handleRegenerate}
+                      onEditUserMessage={handleEditUserMessage}
+                    />
+                  </React.Fragment>
+                );
+              })}
+
+              {/* Typing indicator — shows before first token arrives */}
+              {isTyping && (
+                <div className="flex items-end gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-[#1C317A] flex items-center justify-center text-white text-[9px] font-bold shrink-0">IC</div>
+                  <div className="bg-white dark:bg-[#171B20] border border-gray-100 dark:border-[#222731] rounded-2xl rounded-bl-sm px-4 py-3 shadow-xs">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500 animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500 animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500 animate-bounce" style={{ animationDelay: "300ms" }} />
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Post-Response Follow-up Suggestions */}
               {!isLoading && followUps.length > 0 && (
@@ -594,7 +638,20 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
             </div>
           )}
 
-          {/* Error Banner */}
+          {/* Scroll-to-bottom FAB */}
+          {showScrollFab && (
+            <button
+              onClick={() => {
+                isAutoScrollEnabled.current = true;
+                scrollToBottom("smooth");
+              }}
+              className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#171B20] border border-gray-200 dark:border-[#262C36] shadow-lg text-[12px] font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#1A1F26] transition-all animate-fade-in-up"
+              aria-label="Jump to latest message"
+            >
+              <ChevronDownIcon className="w-3.5 h-3.5" />
+              <span>Latest</span>
+            </button>
+          )}
           {error && (
             <div className="w-full max-w-3xl mx-auto my-3 p-3.5 rounded-lg bg-rose-50 dark:bg-rose-950/30 border border-rose-200/80 dark:border-rose-800/40 text-[12.5px] text-rose-700 dark:text-rose-400 flex items-center justify-between">
               <span>{error}</span>

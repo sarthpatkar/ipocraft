@@ -6,94 +6,98 @@ import fs from "fs";
 import path from "path";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticPages = [
-    "/",
-    "/gmp",
-    "/ipo",
-    "/ipo-calendar",
-    "/subscriptions",
-    "/performance",
-    "/allotment-status",
-    "/sme-ipo",
-    "/brokers",
-    "/about",
-    "/chat",
-    "/contact",
-    "/privacy",
-    "/terms",
-    "/what-is-ipo-gmp",
-    "/how-ipo-allotment-works",
-    "/ipo-subscription-meaning",
-    "/qib-hni-retail-explained",
-    "/ipo-grey-market-guide",
-    "/blog",
-  ];
-
   const lastModified = new Date();
+  const urlMap = new Map<string, MetadataRoute.Sitemap[number]>();
 
-  // High-priority standalone tool pages for SEO
-  const toolPages = [
-    "/ipo-allotment-probability-calculator",
-    "/ipo-profit-calculator",
-    "/compare",
-    "/chat",
-    "/feedback",
-  ];
-  const toolUrls = toolPages.map((route) => ({
-    url: canonicalUrl(route),
-    lastModified,
-    changeFrequency: "daily" as const,
-    priority: route === "/chat" || route === "/compare" ? 0.9 : 0.8,
-  }));
+  const addUrl = (
+    path: string,
+    priority: number,
+    changeFrequency: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never"
+  ) => {
+    const fullUrl = canonicalUrl(path);
+    // If URL already exists, keep the one with higher priority
+    const existing = urlMap.get(fullUrl);
+    if (!existing || existing.priority! < priority) {
+      urlMap.set(fullUrl, {
+        url: fullUrl,
+        lastModified,
+        changeFrequency,
+        priority,
+      });
+    }
+  };
 
-  const infoPages = ["/alerts", "/methodology", "/drhp-analyzer"];
-  const infoUrls = infoPages.map((route) => ({
-    url: canonicalUrl(route),
-    lastModified,
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
+  // ── 1. Core Platform & Real-Time Trackers (Highest Priority) ──
+  addUrl("/", 1.0, "daily");
+  addUrl("/gmp", 0.95, "daily");
+  addUrl("/ipo", 0.9, "daily");
+  addUrl("/sme-ipo", 0.9, "daily");
+  addUrl("/subscriptions", 0.9, "daily");
+  addUrl("/performance", 0.85, "daily");
+  addUrl("/ipo-calendar", 0.85, "daily");
+  addUrl("/allotment-status", 0.85, "daily");
 
-  const staticUrls = staticPages.map((route) => ({
-    url: canonicalUrl(route),
-    lastModified,
-    changeFrequency: "weekly" as const,
-    priority: route === "/" ? 1 : 0.7,
-  }));
+  // ── 2. Standalone Research Tools & AI Workstation ──
+  addUrl("/chat", 0.9, "daily");
+  addUrl("/compare", 0.9, "daily");
+  addUrl("/drhp-analyzer", 0.85, "weekly");
+  addUrl("/ipo-profit-calculator", 0.85, "weekly");
+  addUrl("/ipo-allotment-probability-calculator", 0.85, "weekly");
+  addUrl("/alerts", 0.8, "weekly");
+  addUrl("/methodology", 0.8, "monthly");
 
-  const ipoSlugs = await getSanitizedIpoSlugs();
-  const dynamicUrls = ipoSlugs.map((slug) => ({
-    url: canonicalUrl(`/ipo/${encodeURIComponent(slug)}`),
-    lastModified,
-    changeFrequency: "daily" as const,
-    priority: 0.8,
-  }));
+  // ── 3. Educational Guides & Knowledge Center ──
+  addUrl("/how-ipo-allotment-works", 0.8, "monthly");
+  addUrl("/what-is-ipo-gmp", 0.8, "monthly");
+  addUrl("/ipo-subscription-meaning", 0.8, "monthly");
+  addUrl("/qib-hni-retail-explained", 0.8, "monthly");
+  addUrl("/ipo-grey-market-guide", 0.8, "monthly");
+  addUrl("/blog", 0.75, "weekly");
+  addUrl("/brokers", 0.7, "monthly");
 
-  // Blog dynamic urls
-  const blogRegistryPath = path.join(process.cwd(), "data", "blog-registry.json");
-  let blogUrls: MetadataRoute.Sitemap = [];
+  // ── 4. Transparency, Company & Legal Pages ──
+  addUrl("/about", 0.5, "monthly");
+  addUrl("/contact", 0.5, "monthly");
+  addUrl("/feedback", 0.5, "monthly");
+  addUrl("/privacy", 0.4, "monthly");
+  addUrl("/terms", 0.4, "monthly");
+  addUrl("/disclaimer", 0.4, "monthly");
+
+  // ── 5. Dynamic IPO Detail Pages ──
   try {
+    const ipoSlugs = await getSanitizedIpoSlugs();
+    for (const slug of ipoSlugs) {
+      addUrl(`/ipo/${encodeURIComponent(slug)}`, 0.8, "daily");
+    }
+  } catch (error) {
+    console.error("Error loading IPO slugs for sitemap:", error);
+  }
+
+  // ── 6. Dynamic Blog Articles ──
+  try {
+    const blogRegistryPath = path.join(process.cwd(), "data", "blog-registry.json");
     if (fs.existsSync(blogRegistryPath)) {
       const fileContents = fs.readFileSync(blogRegistryPath, "utf8");
       const articles = JSON.parse(fileContents);
-      blogUrls = articles.map((article: any) => ({
-        url: canonicalUrl(`/blog/${article.slug}`),
-        lastModified,
-        changeFrequency: "monthly" as const,
-        priority: 0.6,
-      }));
+      if (Array.isArray(articles)) {
+        for (const article of articles) {
+          if (article?.slug) {
+            addUrl(`/blog/${article.slug}`, 0.65, "monthly");
+          }
+        }
+      }
     }
   } catch (error) {
     console.error("Error reading blog-registry.json in sitemap:", error);
   }
-  
-  // Additional mock educational blogs
-  const educationalBlogUrls: MetadataRoute.Sitemap = MOCK_ARTICLES.map((article) => ({
-    url: canonicalUrl(`/blog/${article.slug}`),
-    lastModified,
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
 
-  return [...toolUrls, ...infoUrls, ...staticUrls, ...dynamicUrls, ...blogUrls, ...educationalBlogUrls];
+  // ── 7. Educational Mock Articles ──
+  for (const article of MOCK_ARTICLES) {
+    if (article?.slug) {
+      addUrl(`/blog/${article.slug}`, 0.65, "monthly");
+    }
+  }
+
+  return Array.from(urlMap.values());
 }
+

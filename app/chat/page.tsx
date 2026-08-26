@@ -70,9 +70,13 @@ export default function ChatPage() {
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <main className="min-h-[calc(100dvh-56px)] h-[calc(100dvh-56px)] flex flex-col bg-[#F8FAFC] dark:bg-[#090B0F] overflow-hidden">
+      {/* Full-screen chat canvas — breaks out of layout padding to fill viewport */}
+      <div
+        className="-mx-4 sm:-mx-6 lg:-mx-12 -mt-6 sm:-mt-8 flex flex-col overflow-hidden bg-[#F8FAFC] dark:bg-[#090B0F]"
+        style={{ height: "calc(100dvh - 3.5rem)" }}
+      >
         <ChatPageClient />
-      </main>
+      </div>
 
       {/* SEO Content Section — crawlable, below the interactive chat */}
       <section

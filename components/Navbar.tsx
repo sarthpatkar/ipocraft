@@ -151,8 +151,6 @@ export default function Navbar() {
 
   return (
     <>
-      <OpenIpoTicker />
-
       <header
         className={`sticky top-0 z-40 w-full transition-all duration-200 ${
           scrolled
@@ -305,6 +303,7 @@ export default function Navbar() {
           className="h-0.5 bg-[#1C317A] dark:bg-[#3D5BA9] transition-all duration-75"
           style={{ width: `${scrollProgress}%` }}
         />
+        <OpenIpoTicker />
       </header>
 
       <SearchCommand open={searchOpen} onClose={() => setSearchOpen(false)} />

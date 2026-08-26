@@ -74,6 +74,7 @@ interface ChatSidebarProps {
   onDeleteSession: (id: string, e: React.MouseEvent) => void;
   onSelectPreset: (query: string) => void;
   isOpen: boolean;
+  isIconRail?: boolean; // desktop collapsed icon-only mode
   onCloseMobile?: () => void;
 }
 
@@ -85,9 +86,46 @@ export default function ChatSidebar({
   onDeleteSession,
   onSelectPreset,
   isOpen,
+  isIconRail = false,
   onCloseMobile,
 }: ChatSidebarProps) {
   const [activeTab, setActiveTab] = useState<"presets" | "history">("presets");
+
+  // Icon-rail mode — narrow 44px strip on desktop when sidebar is "closed"
+  if (isIconRail) {
+    return (
+      <aside className="hidden lg:flex flex-col w-11 shrink-0 bg-white dark:bg-[#111418] border-r border-gray-200/90 dark:border-[#222731] h-full items-center py-3 gap-3">
+        {/* New Thread */}
+        <button
+          onClick={onNewSession}
+          title="New Research Thread"
+          className="w-8 h-8 rounded-lg bg-[#1C317A] hover:bg-[#28439E] text-white flex items-center justify-center transition-colors shadow-xs"
+        >
+          <PlusIcon className="w-4 h-4" />
+        </button>
+        {/* Preset icons */}
+        {RESEARCH_PRESETS.flatMap((g) => g.presets).slice(0, 5).map((preset) => (
+          <button
+            key={preset.id}
+            onClick={() => onSelectPreset(preset.query)}
+            title={preset.label}
+            className="w-8 h-8 rounded-lg border border-gray-100 dark:border-[#222731] hover:bg-gray-50 dark:hover:bg-[#171B20] text-gray-500 dark:text-[#9AA1AA] flex items-center justify-center transition-colors text-[10px] font-bold"
+          >
+            {preset.label.charAt(0)}
+          </button>
+        ))}
+        {/* Session count badge */}
+        {sessions.length > 0 && (
+          <div className="relative mt-auto mb-1">
+            <ClockIcon className="w-5 h-5 text-gray-400 dark:text-[#64748B]" />
+            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-blue-600 text-white text-[8px] flex items-center justify-center font-bold">
+              {sessions.length > 9 ? "9+" : sessions.length}
+            </span>
+          </div>
+        )}
+      </aside>
+    );
+  }
 
   return (
     <aside

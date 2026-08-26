@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import LegalBanner from "@/components/LegalBanner";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 import ThemeProvider from "@/components/ThemeProvider";
 import Script from "next/script";
 import { Inter, Outfit } from "next/font/google";
@@ -160,8 +160,7 @@ export default function RootLayout({
         <Navbar />
 
         <main 
-          className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 pb-28 md:pb-8"
-          style={{ paddingTop: "calc(env(safe-area-inset-top) + 6rem)" }}
+          className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 pt-6 sm:pt-8 pb-28 md:pb-8"
         >
           {children}
         </main>
@@ -177,7 +176,7 @@ export default function RootLayout({
             <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
               <path d="M9.04 15.35 8.9 19.5c.33 0 .47-.14.64-.31l3.07-2.92 6.36 4.65c1.17.64 2 .31 2.29-1.08l4.15-19.46.01-.01c.36-1.67-.6-2.32-1.74-1.9L1.4 8.74C-.2 9.38-.18 10.3 1.13 10.7l5.5 1.72L19.9 4.3c.63-.38 1.2-.17.73.21" />
             </svg>
-            Live IPO alerts and exchange disclosures | Join <strong className="font-semibold ml-1">@ipocraft</strong> on Telegram
+            Get daily IPO GMP alerts and exchange updates · Join our Telegram channel <strong className="font-semibold ml-1">@ipocraft</strong>
           </a>
           <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 py-8">
 
@@ -217,7 +216,7 @@ export default function RootLayout({
                     <li><Link href="/contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</Link></li>
                     <li><Link href="/methodology" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Data Methodology</Link></li>
                     <li><Link href="/compare" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Compare IPOs</Link></li>
-                    <li><Link href="/alerts" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">GMP Alerts</Link></li>
+                    <li><Link href="/alerts" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Daily IPO Alerts</Link></li>
                     <li><Link href="/disclaimer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Disclaimer</Link></li>
                     <li><Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
                     <li><Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Use</Link></li>
@@ -348,7 +347,7 @@ export default function RootLayout({
           </div>
         </footer>
         <ChatBubbleLoader />
-        <LegalBanner />
+        <CookieConsentBanner />
         </ThemeProvider>
       </body>
     </html>

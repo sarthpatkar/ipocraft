@@ -360,7 +360,7 @@ export default async function Home({
         {/* -- Data Freshness Bar -- */}
         <DataFreshnessBar lastUpdatedAt={lastUpdatedAt} syncIntervalMinutes={30} />
 
-        <div className="py-4">
+        <div>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
             <div>
               <h2
@@ -587,12 +587,12 @@ export default async function Home({
               <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 tracking-wider mb-1">
                 Decision Tools
               </p>
-              <h3
+              <h2
                 className="text-[1.25rem] sm:text-[1.4rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
                 style={{ fontFamily: "var(--font-outfit)" }}
               >
                 Tools for IPO Bidders
-              </h3>
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
@@ -751,7 +751,7 @@ export default async function Home({
         </div>
 
         {/* Top Brokers */}
-        <div className="border-t border-[#e2e8f0] dark:border-[#252A31] pt-8 pb-4">
+        <div className="border-t border-[#e2e8f0] dark:border-[#252A31] pt-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
             <div>
               <h2
@@ -767,6 +767,13 @@ export default async function Home({
                 Compare core broker charges and quickly access verified account opening links.
               </p>
             </div>
+            <Link
+              href="/brokers"
+              className="inline-flex items-center justify-center bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black text-[12.5px] font-semibold px-3.5 py-1.5 rounded-md border border-gray-900 dark:border-white transition-colors shrink-0 shadow-xs"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              View All Brokers
+            </Link>
           </div>
           <div>
             <BrokerList limit={4} />
