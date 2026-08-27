@@ -3,10 +3,6 @@ import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import { cache } from "react";
 
-type IpoSlugRow = {
-  slug?: unknown;
-};
-
 export type IpoRecord = {
   [key: string]: unknown;
   id: number | string;
@@ -75,18 +71,10 @@ export const getIpoBySlug = cache(
 );
 
 export async function getSanitizedIpoSlugs() {
-  const { data, error } = await supabase.from("ipos").select("slug");
-
-  if (error) {
-    console.error("Failed to load IPO slugs for sitemap", {
-      message: error.message,
-    });
-    return [];
-  }
-
+  const rows = await fetchAllIpoSlugRows();
   const seen = new Set<string>();
 
-  return ((data as IpoSlugRow[] | null) ?? []).flatMap((row) => {
+  return rows.flatMap((row) => {
     const slug = sanitizeIpoSlug(
       typeof row.slug === "string" ? row.slug : null
     );
@@ -98,4 +86,69 @@ export async function getSanitizedIpoSlugs() {
     seen.add(slug);
     return [slug];
   });
+}
+
+export type IpoSitemapRow = {
+  slug: string;
+  status: string | null;
+  listing_date: string | null;
+};
+
+/**
+ * Same slug list, plus status/listing_date so the sitemap can set
+ * changeFrequency conditionally instead of "daily" for every page —
+ * a long-since-listed historical IPO's page rarely changes, unlike an
+ * open/upcoming one.
+ */
+export async function getSitemapIpoRows(): Promise<IpoSitemapRow[]> {
+  const rows = await fetchAllIpoSlugRows();
+  const seen = new Set<string>();
+  const out: IpoSitemapRow[] = [];
+
+  for (const row of rows) {
+    const slug = sanitizeIpoSlug(
+      typeof row.slug === "string" ? row.slug : null
+    );
+    if (!slug || seen.has(slug)) continue;
+    seen.add(slug);
+    out.push({
+      slug,
+      status: typeof row.status === "string" ? row.status : null,
+      listing_date: typeof row.listing_date === "string" ? row.listing_date : null,
+    });
+  }
+
+  return out;
+}
+
+// PostgREST caps rows per request (commonly 1000) regardless of .limit() —
+// page through with .range() so this stays correct as the table grows past
+// that cap, rather than silently truncating (the old select("slug") call
+// with no pagination would have hit exactly this once the table crossed
+// ~1000 rows).
+async function fetchAllIpoSlugRows(): Promise<
+  { slug?: unknown; status?: unknown; listing_date?: unknown }[]
+> {
+  const PAGE = 1000;
+  const all: { slug?: unknown; status?: unknown; listing_date?: unknown }[] = [];
+  let from = 0;
+
+  while (true) {
+    const { data, error } = await supabase
+      .from("ipos")
+      .select("slug, status, listing_date")
+      .range(from, from + PAGE - 1);
+
+    if (error) {
+      console.error("Failed to load IPO rows for sitemap", { message: error.message });
+      break;
+    }
+    if (!data || data.length === 0) break;
+
+    all.push(...data);
+    if (data.length < PAGE) break;
+    from += PAGE;
+  }
+
+  return all;
 }

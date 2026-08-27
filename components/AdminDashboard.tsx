@@ -14,6 +14,12 @@ import {
   saveBrokerAction,
   triggerFinapiSyncAction,
   getFinapiStatusAction,
+  getSyncRunsAction,
+  getSyncStatsAction,
+  getIpoAlertsQuotaAction,
+  getFeedbackListAction,
+  getFeedbackStatsAction,
+  getChatFeedbackStatsAction,
 } from "@/app/actions/admin";
 
 const supabase = createBrowserClient(
@@ -21,7 +27,47 @@ const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-type Tab = "ipos" | "brokers" | "settings";
+type Tab = "ipos" | "brokers" | "feedback" | "automation" | "settings";
+
+type SyncRun = {
+  id: string;
+  provider: string;
+  sync_type: string | null;
+  success: boolean;
+  total_fetched: number | null;
+  inserted_count: number | null;
+  updated_count: number | null;
+  gmp_points_count: number | null;
+  errors: string[] | null;
+  rate_limit_remaining: number | null;
+  started_at: string;
+  completed_at: string;
+  duration_ms: number | null;
+  created_at: string;
+};
+
+type SyncStatsWindow = {
+  total: number;
+  succeeded: number;
+  failed: number;
+  inserted: number;
+  updated: number;
+  byProvider: Record<string, number>;
+};
+
+type FeedbackRow = {
+  id: string;
+  source: string | null;
+  rating: number;
+  first_look: string | null;
+  found_what_looking: string | null;
+  confusion: string | null;
+  investor_type: string | null;
+  missing_features: string | null;
+  name: string | null;
+  contact: string | null;
+  created_at: string;
+};
 type IpoRecord = {
   [key: string]: string | number | boolean | null | undefined;
   id: string;
@@ -77,6 +123,74 @@ export default function AdminDashboard() {
     lastSubscriptionSyncAt: string | null;
     rateLimit: { remainingEndpoint: number | null };
   } | null>(null);
+
+  // Automation tab state
+  const [syncRuns, setSyncRuns] = useState<SyncRun[]>([]);
+  const [syncStats, setSyncStats] = useState<{
+    today: SyncStatsWindow;
+    last7Days: SyncStatsWindow;
+    last30Days: SyncStatsWindow;
+    lastYear: SyncStatsWindow;
+  } | null>(null);
+  const [ipoAlertsQuota, setIpoAlertsQuota] = useState<{
+    requestsUsedToday: number;
+    remaining: number;
+    date: string;
+  } | null>(null);
+  const [automationLoading, setAutomationLoading] = useState(true);
+
+  // Feedback tab state
+  const [feedbackList, setFeedbackList] = useState<FeedbackRow[]>([]);
+  const [feedbackStats, setFeedbackStats] = useState<{
+    total: number;
+    thisWeek: number;
+    thisMonth: number;
+    thisYear: number;
+    avgRating: number | null;
+    ratingCounts: Record<number, number>;
+  } | null>(null);
+  const [chatFeedbackStats, setChatFeedbackStats] = useState<{
+    total: number;
+    thumbsUp: number;
+    thumbsDown: number;
+  } | null>(null);
+  const [feedbackLoading, setFeedbackLoading] = useState(true);
+
+  async function fetchAutomationData() {
+    setAutomationLoading(true);
+    try {
+      const [runs, stats, quota] = await Promise.all([
+        getSyncRunsAction(20),
+        getSyncStatsAction(),
+        getIpoAlertsQuotaAction(),
+      ]);
+      setSyncRuns(runs as SyncRun[]);
+      setSyncStats(stats);
+      setIpoAlertsQuota(quota);
+    } catch (err) {
+      console.error("Failed to load automation data:", err);
+    } finally {
+      setAutomationLoading(false);
+    }
+  }
+
+  async function fetchFeedbackData() {
+    setFeedbackLoading(true);
+    try {
+      const [list, stats, chatStats] = await Promise.all([
+        getFeedbackListAction(50),
+        getFeedbackStatsAction(),
+        getChatFeedbackStatsAction(),
+      ]);
+      setFeedbackList(list as FeedbackRow[]);
+      setFeedbackStats(stats);
+      setChatFeedbackStats(chatStats);
+    } catch (err) {
+      console.error("Failed to load feedback data:", err);
+    } finally {
+      setFeedbackLoading(false);
+    }
+  }
 
   function getStatusClass(status: string | null) {
     switch (status) {
@@ -143,6 +257,13 @@ export default function AdminDashboard() {
     fetchBrokers();
     fetchFinapiStatus();
   }, []);
+
+  // Lazy-load each tab's data the first time it's opened.
+  useEffect(() => {
+    if (tab === "automation" && !syncStats) fetchAutomationData();
+    if (tab === "feedback" && !feedbackStats) fetchFeedbackData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab]);
 
   async function handleTriggerFinapiSync(type: "all" | "subs" | "gmp" = "all") {
     try {
@@ -291,6 +412,8 @@ export default function AdminDashboard() {
           {[
             { id: "ipos", label: "IPOs" },
             { id: "brokers", label: "Brokers" },
+            { id: "feedback", label: "Feedback" },
+            { id: "automation", label: "Automation" },
             { id: "settings", label: "Settings" },
           ].map((t) => (
             <button
@@ -326,7 +449,7 @@ export default function AdminDashboard() {
                 Live Market Data &amp; Daily Auto-Discovery
               </h2>
               <p className="text-xs text-gray-400">
-                Subscriptions auto-refreshed every 30m • GMP refreshed every 1h • New IPOs auto-added
+                Scheduled sync runs once daily (Vercel cron, 00:00 UTC) • buttons below trigger an on-demand sync
               </p>
               {syncStatus?.lastSyncAt && (
                 <p className="text-[11px] text-blue-300/80 pt-0.5">
@@ -342,14 +465,14 @@ export default function AdminDashboard() {
                 disabled={syncing}
                 className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-[#111827]/10 hover:bg-white dark:bg-[#111827]/20 text-white border border-white/20 transition-all disabled:opacity-50"
               >
-                Sync Subscriptions (30m)
+                Sync Subscriptions Now
               </button>
               <button
                 onClick={() => handleTriggerFinapiSync("gmp")}
                 disabled={syncing}
                 className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-[#111827]/10 hover:bg-white dark:bg-[#111827]/20 text-white border border-white/20 transition-all disabled:opacity-50"
               >
-                Sync GMP (1h)
+                Sync GMP Now
               </button>
               <button
                 onClick={() => handleTriggerFinapiSync("all")}
@@ -670,6 +793,223 @@ export default function AdminDashboard() {
               </tbody>
             </table>
           </div>
+        </>
+      )}
+
+      {/* FEEDBACK TAB */}
+      {tab === "feedback" && (
+        <>
+          {feedbackLoading ? (
+            <p className="text-gray-500 dark:text-slate-400">Loading feedback…</p>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div className="border rounded p-4">
+                  <div className="text-sm text-gray-500 dark:text-slate-400">Total Responses</div>
+                  <div className="text-xl font-semibold">{feedbackStats?.total ?? 0}</div>
+                </div>
+                <div className="border rounded p-4">
+                  <div className="text-sm text-gray-500 dark:text-slate-400">Avg. Rating</div>
+                  <div className="text-xl font-semibold">{feedbackStats?.avgRating ?? "—"} / 5</div>
+                </div>
+                <div className="border rounded p-4">
+                  <div className="text-sm text-gray-500 dark:text-slate-400">This Week</div>
+                  <div className="text-xl font-semibold">{feedbackStats?.thisWeek ?? 0}</div>
+                </div>
+                <div className="border rounded p-4">
+                  <div className="text-sm text-gray-500 dark:text-slate-400">This Month</div>
+                  <div className="text-xl font-semibold">{feedbackStats?.thisMonth ?? 0}</div>
+                </div>
+                <div className="border rounded p-4">
+                  <div className="text-sm text-gray-500 dark:text-slate-400">This Year</div>
+                  <div className="text-xl font-semibold">{feedbackStats?.thisYear ?? 0}</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="border rounded p-4">
+                  <div className="text-sm text-gray-500 dark:text-slate-400 mb-2">Rating breakdown</div>
+                  <div className="space-y-1.5">
+                    {[5, 4, 3, 2, 1].map((star) => {
+                      const count = feedbackStats?.ratingCounts?.[star] ?? 0;
+                      const total = feedbackStats?.total || 1;
+                      const pct = Math.round((count / total) * 100);
+                      return (
+                        <div key={star} className="flex items-center gap-2 text-sm">
+                          <span className="w-10 text-gray-500 dark:text-slate-400">{star}★</span>
+                          <div className="flex-1 h-2 rounded bg-gray-100 dark:bg-[#1e293b] overflow-hidden">
+                            <div className="h-full bg-amber-400" style={{ width: `${pct}%` }} />
+                          </div>
+                          <span className="w-8 text-right text-gray-500 dark:text-slate-400">{count}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="border rounded p-4">
+                  <div className="text-sm text-gray-500 dark:text-slate-400 mb-2">Chat answer feedback (last 30 days)</div>
+                  <div className="flex items-center gap-6">
+                    <div>
+                      <div className="text-xl font-semibold text-emerald-600">{chatFeedbackStats?.thumbsUp ?? 0}</div>
+                      <div className="text-xs text-gray-500 dark:text-slate-400">👍 helpful</div>
+                    </div>
+                    <div>
+                      <div className="text-xl font-semibold text-rose-600">{chatFeedbackStats?.thumbsDown ?? 0}</div>
+                      <div className="text-xs text-gray-500 dark:text-slate-400">👎 not helpful</div>
+                    </div>
+                    <div>
+                      <div className="text-xl font-semibold">{chatFeedbackStats?.total ?? 0}</div>
+                      <div className="text-xs text-gray-500 dark:text-slate-400">total rated</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border rounded-lg overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50 dark:bg-[#0f172a] text-left">
+                    <tr>
+                      <th className="p-3 font-medium">Date</th>
+                      <th className="p-3 font-medium">Rating</th>
+                      <th className="p-3 font-medium">Investor Type</th>
+                      <th className="p-3 font-medium">Missing Features</th>
+                      <th className="p-3 font-medium">Confusion</th>
+                      <th className="p-3 font-medium">Contact</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {feedbackList.length === 0 && (
+                      <tr>
+                        <td colSpan={6} className="p-4 text-center text-gray-500 dark:text-slate-400">
+                          No feedback yet.
+                        </td>
+                      </tr>
+                    )}
+                    {feedbackList.map((f) => (
+                      <tr key={f.id} className="border-t">
+                        <td className="p-3 whitespace-nowrap text-gray-500 dark:text-slate-400">
+                          {new Date(f.created_at).toLocaleDateString("en-IN")}
+                        </td>
+                        <td className="p-3">{f.rating} / 5</td>
+                        <td className="p-3">{f.investor_type || "—"}</td>
+                        <td className="p-3 max-w-xs truncate" title={f.missing_features || ""}>
+                          {f.missing_features || "—"}
+                        </td>
+                        <td className="p-3 max-w-xs truncate" title={f.confusion || ""}>
+                          {f.confusion || "—"}
+                        </td>
+                        <td className="p-3">{f.contact || f.name || "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </>
+      )}
+
+      {/* AUTOMATION TAB */}
+      {tab === "automation" && (
+        <>
+          {automationLoading ? (
+            <p className="text-gray-500 dark:text-slate-400">Loading automation stats…</p>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {(["today", "last7Days", "last30Days", "lastYear"] as const).map((key) => {
+                  const labels: Record<typeof key, string> = {
+                    today: "Today",
+                    last7Days: "Last 7 Days",
+                    last30Days: "Last 30 Days",
+                    lastYear: "Last Year",
+                  };
+                  const w = syncStats?.[key];
+                  return (
+                    <div key={key} className="border rounded p-4">
+                      <div className="text-sm text-gray-500 dark:text-slate-400">{labels[key]}</div>
+                      <div className="text-xl font-semibold">
+                        {w?.succeeded ?? 0}/{w?.total ?? 0} runs ok
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-slate-400 mt-1">
+                        {w?.inserted ?? 0} added • {w?.updated ?? 0} updated
+                        {w && w.failed > 0 ? ` • ${w.failed} failed` : ""}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="border rounded p-4">
+                  <div className="text-sm text-gray-500 dark:text-slate-400 mb-2">FinAPI (live market data)</div>
+                  <div className="text-sm">
+                    Rate limit remaining: {syncStatus?.rateLimit?.remainingEndpoint ?? "—"}/30 req/min
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-slate-400 mt-1">
+                    Last sync: {syncStatus?.lastSyncAt ? new Date(syncStatus.lastSyncAt).toLocaleString("en-IN") : "—"}
+                  </div>
+                </div>
+                <div className="border rounded p-4">
+                  <div className="text-sm text-gray-500 dark:text-slate-400 mb-2">IPOAlerts (enrichment)</div>
+                  <div className="text-sm">
+                    Requests today: {ipoAlertsQuota?.requestsUsedToday ?? 0} used, {ipoAlertsQuota?.remaining ?? "—"} remaining
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-slate-400 mt-1">Resets daily (date: {ipoAlertsQuota?.date ?? "—"})</div>
+                </div>
+              </div>
+
+              <div className="border rounded-lg overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50 dark:bg-[#0f172a] text-left">
+                    <tr>
+                      <th className="p-3 font-medium">Started</th>
+                      <th className="p-3 font-medium">Provider</th>
+                      <th className="p-3 font-medium">Type</th>
+                      <th className="p-3 font-medium">Status</th>
+                      <th className="p-3 font-medium">Fetched</th>
+                      <th className="p-3 font-medium">Added</th>
+                      <th className="p-3 font-medium">Updated</th>
+                      <th className="p-3 font-medium">Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {syncRuns.length === 0 && (
+                      <tr>
+                        <td colSpan={8} className="p-4 text-center text-gray-500 dark:text-slate-400">
+                          No sync runs logged yet.
+                        </td>
+                      </tr>
+                    )}
+                    {syncRuns.map((run) => (
+                      <tr key={run.id} className="border-t">
+                        <td className="p-3 whitespace-nowrap text-gray-500 dark:text-slate-400">
+                          {new Date(run.started_at).toLocaleString("en-IN")}
+                        </td>
+                        <td className="p-3 capitalize">{run.provider}</td>
+                        <td className="p-3">{run.sync_type || "—"}</td>
+                        <td className="p-3">
+                          <span
+                            className={`px-2 py-0.5 rounded text-xs font-medium ${
+                              run.success
+                                ? "bg-green-100 text-green-700"
+                                : "bg-rose-100 text-rose-700"
+                            }`}
+                          >
+                            {run.success ? "OK" : "Failed"}
+                          </span>
+                        </td>
+                        <td className="p-3">{run.total_fetched ?? "—"}</td>
+                        <td className="p-3">{run.inserted_count ?? 0}</td>
+                        <td className="p-3">{run.updated_count ?? 0}</td>
+                        <td className="p-3">{run.duration_ms ? `${(run.duration_ms / 1000).toFixed(1)}s` : "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
         </>
       )}
 

@@ -56,6 +56,18 @@ export async function proxy(req: NextRequest) {
       return NextResponse.redirect(new URL("/auth", req.url));
     }
 
+    // Any authenticated Supabase user currently gets full /admin access —
+    // there's no role/allowlist check by default. Set ADMIN_EMAILS (comma-
+    // separated) to restrict access; left unset, behavior is unchanged so
+    // this doesn't lock anyone out until explicitly configured.
+    const adminEmails = process.env.ADMIN_EMAILS;
+    if (adminEmails) {
+      const allowlist = adminEmails.split(",").map((e) => e.trim().toLowerCase());
+      if (!user.email || !allowlist.includes(user.email.toLowerCase())) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+    }
+
     return res;
   }
 

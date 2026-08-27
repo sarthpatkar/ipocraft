@@ -84,10 +84,20 @@ export default async function IpoCalendarPage() {
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 2);
   const formattedDate = threeMonthsAgo.toISOString().split("T")[0];
 
+  // Calendar is for upcoming/open/recently-closed IPOs, not the full
+  // historical archive (see /ipo-history for that). The old
+  // `.or(open_date.is.null)` clause pulled in every row with a null
+  // open_date regardless of age — harmless when the table was ~25 rows,
+  // but with a 600+-row historical backfill this became an effectively
+  // unbounded query. Scope to status so historical "Listed" rows (which
+  // won't legitimately have a null open_date going forward, but old/
+  // incomplete ones might) can't leak in here.
   const { data: ipos } = await supabase
     .from("ipos")
     .select("*")
-    .or(`open_date.gte.${formattedDate},open_date.is.null`);
+    .neq("status", "Listed")
+    .or(`open_date.gte.${formattedDate},open_date.is.null`)
+    .limit(300);
 
   const sortedIpos = sortIposByNewestOpenDate((ipos || []) as CalendarIpo[]);
 

@@ -3,6 +3,8 @@
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { syncFinApiIpos } from "@/lib/finapi/sync";
 import { getRateLimitStatus } from "@/lib/finapi/client";
+import { getQuotaStatus } from "@/lib/ipoalerts/client";
+import { getServiceSupabaseClient } from "@/lib/supabaseAdmin";
 import type { SyncOptions, SyncTelemetry } from "@/lib/finapi/types";
 
 export async function deleteIpoAction(id: string) {
@@ -93,5 +95,125 @@ export async function getFinapiStatusAction() {
     rateLimit,
     lastSyncAt: latest?.updated_at || null,
     lastSubscriptionSyncAt: latest?.subscription_updated_at || null,
+  };
+}
+
+// ── Automation / sync history (sync_runs, api_quota_tracking) ──────────────
+// RLS on these tables is service_role-only, so the cookie-scoped client
+// can't read them — use the service-role client, same as syncFinApiIpos().
+
+export async function getSyncRunsAction(limit = 20) {
+  const supabase = getServiceSupabaseClient();
+  const { data, error } = await supabase
+    .from("sync_runs")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) throw new Error(error.message);
+  return data || [];
+}
+
+export async function getSyncStatsAction() {
+  const supabase = getServiceSupabaseClient();
+  const now = Date.now();
+  const since = (days: number) => new Date(now - days * 86_400_000).toISOString();
+
+  const [day1, day7, day30, day365] = await Promise.all(
+    [1, 7, 30, 365].map((days) =>
+      supabase
+        .from("sync_runs")
+        .select("provider, success, inserted_count, updated_count")
+        .gte("created_at", since(days))
+    )
+  );
+
+  function summarize(rows: { provider: string; success: boolean; inserted_count: number | null; updated_count: number | null }[] | null) {
+    const list = rows || [];
+    return {
+      total: list.length,
+      succeeded: list.filter((r) => r.success).length,
+      failed: list.filter((r) => !r.success).length,
+      inserted: list.reduce((sum, r) => sum + (r.inserted_count || 0), 0),
+      updated: list.reduce((sum, r) => sum + (r.updated_count || 0), 0),
+      byProvider: list.reduce<Record<string, number>>((acc, r) => {
+        acc[r.provider] = (acc[r.provider] || 0) + 1;
+        return acc;
+      }, {}),
+    };
+  }
+
+  return {
+    today: summarize(day1.data),
+    last7Days: summarize(day7.data),
+    last30Days: summarize(day30.data),
+    lastYear: summarize(day365.data),
+  };
+}
+
+export async function getIpoAlertsQuotaAction() {
+  return await getQuotaStatus();
+}
+
+// ── Feedback (feedback, chat_feedback) ──────────────────────────────────────
+
+export async function getFeedbackListAction(limit = 50) {
+  const supabase = getServiceSupabaseClient();
+  const { data, error } = await supabase
+    .from("feedback")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) throw new Error(error.message);
+  return data || [];
+}
+
+export async function getFeedbackStatsAction() {
+  const supabase = getServiceSupabaseClient();
+  const now = Date.now();
+  const since = (days: number) => new Date(now - days * 86_400_000).toISOString();
+
+  const { data, error } = await supabase
+    .from("feedback")
+    .select("rating, missing_features, confusion, investor_type, created_at");
+  if (error) throw new Error(error.message);
+
+  const rows = data || [];
+  const inWindow = (days: number) => rows.filter((r) => r.created_at >= since(days));
+
+  const avgRating = rows.length
+    ? Math.round((rows.reduce((sum, r) => sum + (r.rating || 0), 0) / rows.length) * 100) / 100
+    : null;
+
+  const ratingCounts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  for (const r of rows) {
+    if (r.rating >= 1 && r.rating <= 5) ratingCounts[r.rating]++;
+  }
+
+  return {
+    total: rows.length,
+    thisWeek: inWindow(7).length,
+    thisMonth: inWindow(30).length,
+    thisYear: inWindow(365).length,
+    avgRating,
+    ratingCounts,
+  };
+}
+
+export async function getChatFeedbackStatsAction() {
+  const supabase = getServiceSupabaseClient();
+  const now = Date.now();
+  const since = (days: number) => new Date(now - days * 86_400_000).toISOString();
+
+  const { data, error } = await supabase
+    .from("chat_feedback")
+    .select("rating, created_at")
+    .gte("created_at", since(30));
+  if (error) throw new Error(error.message);
+
+  const rows = data || [];
+  return {
+    total: rows.length,
+    thumbsUp: rows.filter((r) => r.rating === 1).length,
+    thumbsDown: rows.filter((r) => r.rating === -1).length,
   };
 }

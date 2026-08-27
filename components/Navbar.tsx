@@ -26,6 +26,7 @@ import {
   ChatBubbleLeftRightIcon,
   ChartBarSquareIcon,
   WrenchScrewdriverIcon,
+  ClockIcon,
 } from "@heroicons/react/24/outline";
 import {
   HomeIcon as HomeIconSolid,
@@ -59,6 +60,7 @@ export const TOOLS_CATEGORIES = [
       { href: "/compare", label: "Compare IPOs", Icon: ScaleIcon, desc: "Side-by-side comparison" },
       { href: "/drhp-analyzer", label: "DRHP AI Analyzer", Icon: DocumentMagnifyingGlassIcon, desc: "Promoter risks & financials" },
       { href: "/performance", label: "Listing Track Record", Icon: ArrowTrendingUpIcon, desc: "Historical listing gains" },
+      { href: "/ipo-history", label: "IPO History Archive", Icon: ClockIcon, desc: "Browse past IPOs by year" },
       { href: "/ipo-calendar", label: "IPO Calendar", Icon: CalendarDaysIcon, desc: "Open & upcoming schedule" },
       { href: "/sme-ipo", label: "SME IPO Hub", Icon: BuildingStorefrontIcon, desc: "BSE SME & NSE Emerge" },
     ],
@@ -158,21 +160,21 @@ export default function Navbar() {
             : "border-b border-gray-200/60 dark:border-[#1F242C]"
         } bg-white dark:bg-[#090B0F] relative`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14 gap-3">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 gap-2 sm:gap-3">
             {/* Brand Logo */}
             <Link href="/" className="flex items-center gap-2 shrink-0 focus:outline-none" aria-label="IPOCraft Home">
               <Image src="/logo-light.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain dark:hidden" />
               <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain hidden dark:block" />
             </Link>
 
-            {/* Right Action Cluster: Search + Theme + AI Chat */}
-            <div className="flex items-center gap-2">
+            {/* Right Action Cluster: Search + Theme + IPO History + AI Chat */}
+            <div className="flex items-center gap-1 sm:gap-2 min-w-0">
               {/* Modern Command Search Bar Trigger */}
               <button
                 id="global-search-trigger"
                 onClick={() => setSearchOpen(true)}
-                className="group flex items-center justify-between gap-2.5 px-3 h-8.5 rounded-lg text-[13px] text-gray-500 dark:text-[#9AA1AA] bg-gray-100/70 dark:bg-[#14181F] border border-gray-200/80 dark:border-[#222731] hover:border-gray-300 dark:hover:border-[#384152] hover:bg-gray-100 dark:hover:bg-[#181D26] transition-all sm:w-60 md:w-72"
+                className="group flex items-center justify-between gap-2.5 px-2.5 sm:px-3 h-8.5 rounded-lg text-[13px] text-gray-500 dark:text-[#9AA1AA] bg-gray-100/70 dark:bg-[#14181F] border border-gray-200/80 dark:border-[#222731] hover:border-gray-300 dark:hover:border-[#384152] hover:bg-gray-100 dark:hover:bg-[#181D26] transition-all shrink-0 sm:w-60 md:w-72"
                 aria-label="Search"
                 title="Search (⌘K)"
               >
@@ -181,7 +183,10 @@ export default function Navbar() {
                   <span className="hidden sm:inline truncate text-[12px] text-gray-400 dark:text-[#6B7280]">
                     Search IPOs, GMP, Tools...
                   </span>
-                  <span className="sm:hidden text-[12px] font-medium">Search</span>
+                  {/* Below ~400px there isn't room for icon + label on every
+                      button in this cluster — drop to icon-only search there
+                      rather than let the row overflow. */}
+                  <span className="hidden min-[400px]:inline sm:hidden text-[12px] font-medium">Search</span>
                 </div>
                 <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] bg-white dark:bg-[#1E242E] border border-gray-200/90 dark:border-[#2A3342] text-gray-500 dark:text-[#8E97A6] rounded font-mono font-semibold shadow-2xs shrink-0">
                   ⌘K
@@ -190,6 +195,23 @@ export default function Navbar() {
 
               {/* Theme Switcher */}
               <ThemeToggle />
+
+              {/* IPO History Link — icon always visible, label collapses on the
+                  narrowest screens (same pattern as AI Chat below) rather than
+                  disappearing entirely. */}
+              <Link
+                href="/ipo-history"
+                title="IPO History Archive"
+                aria-label="IPO History Archive"
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[13px] transition-colors shrink-0 ${
+                  isActive("/ipo-history")
+                    ? "text-[#1C317A] dark:text-[#93B4FF] bg-[#1C317A]/10 dark:bg-[#1C317A]/20 font-semibold"
+                    : "text-gray-600 dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1A1F26] font-medium"
+                }`}
+              >
+                <ClockIcon className="w-4 h-4" />
+                <span className="hidden min-[400px]:inline">IPO</span>
+              </Link>
 
               {/* AI Chat Link */}
               <Link
@@ -203,7 +225,7 @@ export default function Navbar() {
                 }`}
               >
                 <ChatBubbleLeftRightIcon className="w-4 h-4" />
-                <span className="hidden xs:inline">AI Chat</span>
+                <span className="hidden min-[400px]:inline">AI Chat</span>
               </Link>
             </div>
           </div>

@@ -19,6 +19,8 @@ import CopyButton from "@/components/CopyButton";
 import SubscriptionChart from "@/components/IpoDetail/SubscriptionChart";
 import JumpNav from "@/components/IpoDetail/JumpNav";
 import RelatedIpos from "@/components/IpoDetail/RelatedIpos";
+import BrokerAffiliateCta from "@/components/BrokerAffiliateCta";
+import AdSlot from "@/components/AdSlot";
 import { formatDisplayDate, formatTimeAgo, formatSubscriptionDayHeader, formatSubscriptionTimes } from "@/lib/formatters";
 import { cache } from "react";
 
@@ -909,6 +911,9 @@ export default async function IPODetail({
               </div>
             </section>
 
+            {/* Broker Affiliate CTA */}
+            <BrokerAffiliateCta />
+
             {/* Listing Profit Calculator */}
             <ProfitCalculator ipo={ipo} />
 
@@ -993,6 +998,9 @@ export default async function IPODetail({
                 Investors can bid in multiples of the lot size at the cut-off price.
               </p>
             </section>
+
+            {/* Ad Slot */}
+            <AdSlot slot="0000000000" className="mb-6" />
 
             {/* Reservation Details */}
             <section className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-5 sm:p-6 space-y-3 mb-6">
@@ -1478,7 +1486,7 @@ export default async function IPODetail({
                 className="text-[12.5px] text-[#64748b] dark:text-[#9AA1AA] leading-relaxed"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                Information is sourced from publicly available exchange filings and company offer documents. GMP is unofficial and indicative. IPOCraft does not provide investment advice.
+                Information is sourced from publicly available exchange filings and company offer documents. GMP is unofficial and indicative. IPOCraft does not provide investment advice. Some broker links on this page are affiliate/referral links — IPOCraft may earn a commission if you open an account through them, at no extra cost to you.
               </p>
             </div>
 

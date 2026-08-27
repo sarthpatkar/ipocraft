@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getSanitizedIpoSlugs } from "@/lib/ipo.server";
+import { getSitemapIpoRows } from "@/lib/ipo.server";
 import { canonicalUrl } from "@/lib/site-url";
 import { MOCK_ARTICLES } from "@/lib/mock-articles";
 import fs from "fs";
@@ -35,6 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   addUrl("/subscriptions", 0.9, "daily");
   addUrl("/performance", 0.85, "daily");
   addUrl("/ipo-calendar", 0.85, "daily");
+  addUrl("/ipo-history", 0.85, "weekly");
   addUrl("/allotment-status", 0.85, "daily");
 
   // ── 2. Standalone Research Tools & AI Workstation ──
@@ -65,12 +66,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // ── 5. Dynamic IPO Detail Pages ──
   try {
-    const ipoSlugs = await getSanitizedIpoSlugs();
-    for (const slug of ipoSlugs) {
-      addUrl(`/ipo/${encodeURIComponent(slug)}`, 0.8, "daily");
+    const ipoRows = await getSitemapIpoRows();
+    const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
+    for (const row of ipoRows) {
+      // A long-since-listed historical IPO's page rarely changes — "daily"
+      // for all 600+ of them was both wasteful and a wrong freshness signal
+      // to search engines. Open/upcoming/recently-listed pages still move
+      // often (GMP, subscription, allotment) and keep "daily".
+      const isOldListed =
+        row.status === "Listed" &&
+        row.listing_date != null &&
+        new Date(row.listing_date) < ninetyDaysAgo;
+      addUrl(
+        `/ipo/${encodeURIComponent(row.slug)}`,
+        0.8,
+        isOldListed ? "monthly" : "daily"
+      );
     }
   } catch (error) {
-    console.error("Error loading IPO slugs for sitemap:", error);
+    console.error("Error loading IPO rows for sitemap:", error);
   }
 
   // ── 6. Dynamic Blog Articles ──

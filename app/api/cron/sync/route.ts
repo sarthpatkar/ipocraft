@@ -1,8 +1,31 @@
 import { NextResponse } from "next/server";
 import { syncFinApiIpos } from "@/lib/finapi/sync";
-import { enrichIposWithIpoAlerts } from "@/lib/ipoalerts/enricher";
+import { enrichIposWithIpoAlerts, type EnrichmentTelemetry } from "@/lib/ipoalerts/enricher";
 import { getQuotaStatus } from "@/lib/ipoalerts/client";
+import { getServiceSupabaseClient } from "@/lib/supabaseAdmin";
 import type { SyncOptions } from "@/lib/finapi/types";
+
+// Best-effort — a logging failure must never fail the sync response.
+async function recordEnrichmentRun(t: EnrichmentTelemetry) {
+  try {
+    await getServiceSupabaseClient().from("sync_runs").insert({
+      provider: "ipoalerts",
+      sync_type: "enrich",
+      success: t.success,
+      total_fetched: t.enrichedCount + t.skippedCount,
+      inserted_count: 0,
+      updated_count: t.enrichedCount,
+      gmp_points_count: 0,
+      errors: t.errors,
+      rate_limit_remaining: t.quotaRemaining,
+      started_at: t.startedAt,
+      completed_at: t.completedAt,
+      duration_ms: t.durationMs,
+    });
+  } catch {
+    // non-critical
+  }
+}
 
 export const dynamic = "force-dynamic";
 // Allow up to 120s for enrichment runs (IPOAlerts has 10s delay per request)
@@ -46,6 +69,7 @@ export async function GET(req: Request) {
   if (typeParam === "enrich") {
     try {
       const result = await enrichIposWithIpoAlerts();
+      await recordEnrichmentRun(result);
       return NextResponse.json(result, { status: result.success ? 200 : 500 });
     } catch (err: any) {
       return NextResponse.json(

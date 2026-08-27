@@ -93,12 +93,14 @@ export default function RootLayout({
           `}
         </Script>
         {/* Google AdSense */}
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4829097668877345"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-          id="google-adsense"
-        />
+        {process.env.NEXT_PUBLIC_ADSENSE_ENABLED === "true" && (
+          <Script
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4829097668877345"
+            strategy="afterInteractive"
+            crossOrigin="anonymous"
+            id="google-adsense"
+          />
+        )}
         {/* Service Worker registration (PWA) */}
         <Script id="register-sw" strategy="lazyOnload">
           {`

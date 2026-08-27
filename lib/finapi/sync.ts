@@ -360,7 +360,7 @@ export async function syncFinApiIpos(
     }
 
     const completedAt = new Date().toISOString();
-    return {
+    return recordAndReturn(supabase, {
       success: errors.length === 0,
       syncType: options?.syncType || "all",
       totalFetched,
@@ -372,11 +372,11 @@ export async function syncFinApiIpos(
       completedAt,
       durationMs: Date.now() - startTime,
       rateLimitRemaining: rateLimit.remainingEndpoint,
-    };
+    });
   } catch (err: any) {
     const completedAt = new Date().toISOString();
     errors.push(err?.message || "Unknown synchronization error");
-    return {
+    return recordAndReturn(supabase, {
       success: false,
       syncType: options?.syncType || "all",
       totalFetched: 0,
@@ -388,6 +388,34 @@ export async function syncFinApiIpos(
       completedAt,
       durationMs: Date.now() - startTime,
       rateLimitRemaining: null,
-    };
+    });
   }
+}
+
+// Persist telemetry to sync_runs so the admin panel can show historical
+// success/fail rates — this used to be built and then discarded on every
+// run. Best-effort: a logging failure must never fail the sync itself.
+async function recordAndReturn(
+  supabase: ReturnType<typeof getServiceSupabaseClient>,
+  telemetry: SyncTelemetry
+): Promise<SyncTelemetry> {
+  try {
+    await supabase.from("sync_runs").insert({
+      provider: "finapi",
+      sync_type: telemetry.syncType,
+      success: telemetry.success,
+      total_fetched: telemetry.totalFetched,
+      inserted_count: telemetry.insertedCount,
+      updated_count: telemetry.updatedCount,
+      gmp_points_count: telemetry.gmpPointsCount,
+      errors: telemetry.errors,
+      rate_limit_remaining: telemetry.rateLimitRemaining,
+      started_at: telemetry.startedAt,
+      completed_at: telemetry.completedAt,
+      duration_ms: telemetry.durationMs,
+    });
+  } catch {
+    // non-critical — never let telemetry logging break the sync response
+  }
+  return telemetry;
 }
