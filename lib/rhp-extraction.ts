@@ -9,6 +9,7 @@
  */
 
 import { extractWithFallback, type AiExtractionResult } from "./ai-providers";
+import { SEBI_RETAIL_MAX_INVESTMENT, SEBI_SHNI_MAX_INVESTMENT } from "./sebi-constants";
 // Bypassing pdf-parse's root index.js which contains a buggy testing block
 // that crashes Next.js by attempting to read a test PDF synchronously.
 const pdfParse = require("pdf-parse/lib/pdf-parse.js");
@@ -302,7 +303,7 @@ function validateExtraction(
     const lotPrice = priceMax * lotSize;
     
     // RETAIL: Max investment < ₹2,00,000
-    const retailMaxLots = Math.floor(199999 / lotPrice);
+    const retailMaxLots = Math.floor((SEBI_RETAIL_MAX_INVESTMENT - 1) / lotPrice);
     cleaned.retail_min_lots = "1";
     cleaned.retail_min_shares = String(lotSize);
     cleaned.retail_min_amount = String(lotPrice);
@@ -319,7 +320,7 @@ function validateExtraction(
 
     // sHNI: Investment > ₹2,00,000 and <= ₹10,00,000
     const shniMinLots = retailMaxLots + 1;
-    const shniMaxLots = Math.floor(1000000 / lotPrice);
+    const shniMaxLots = Math.floor(SEBI_SHNI_MAX_INVESTMENT / lotPrice);
     
     cleaned.shni_min_lots = String(shniMinLots);
     cleaned.shni_min_shares = String(shniMinLots * lotSize);

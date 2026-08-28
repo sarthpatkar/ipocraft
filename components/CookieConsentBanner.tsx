@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { CONSENT_UPDATED_EVENT } from "./ConsentScripts";
 
 const COOKIE_KEY = "ipocraft_cookies_accepted";
 const PREFS_KEY = "ipocraft_cookie_prefs";
@@ -30,6 +31,7 @@ export default function CookieConsentBanner() {
       localStorage.setItem(COOKIE_KEY, "true");
       localStorage.setItem(PREFS_KEY, JSON.stringify({ analytics: true, advertising: true }));
     } catch {}
+    window.dispatchEvent(new Event(CONSENT_UPDATED_EVENT));
     setIsVisible(false);
   };
 
@@ -38,6 +40,7 @@ export default function CookieConsentBanner() {
       localStorage.setItem(COOKIE_KEY, "true");
       localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
     } catch {}
+    window.dispatchEvent(new Event(CONSENT_UPDATED_EVENT));
     setShowPrefs(false);
     setIsVisible(false);
   };

@@ -2,24 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import GmpTableClient from "@/components/GmpTableClient";
+import PushOptIn from "@/components/PushOptIn";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 import { canonicalUrl } from "@/lib/site-url";
 
-import { Outfit, Inter } from "next/font/google";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const gmpUrl = canonicalUrl("/gmp");
 
@@ -132,7 +120,7 @@ export default async function GMPPage({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] overflow-x-hidden`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] overflow-x-hidden`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* Dataset schema — freshness signal for "IPO GMP today" queries */}
@@ -199,6 +187,10 @@ export default async function GMPPage({
               Compare Brokers
             </Link>
           </div>
+        </div>
+
+        <div className="mb-4">
+          <PushOptIn />
         </div>
 
         {/* Primary GMP Table with 2-Level Filter Ribbon */}

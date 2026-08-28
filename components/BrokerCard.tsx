@@ -1,3 +1,5 @@
+import BrokerLogo from "@/components/BrokerLogo";
+
 export type BrokerListItem = {
   id: string;
   name: string;
@@ -21,13 +23,16 @@ function valueOrDash(value: string | null) {
 export default function BrokerCard({ broker }: { broker: BrokerListItem }) {
   return (
     <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg overflow-hidden h-full hover:border-gray-400 dark:hover:border-gray-500 transition-colors shadow-xs">
-      <div className="px-5 py-3.5 border-b border-gray-100 dark:border-[#252A31]">
-        <h3 className="text-[1.05rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight" style={{ fontFamily: "var(--font-outfit)" }}>
-          {broker.name}
-        </h3>
-        <p className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA] mt-0.5">
-          Core charges snapshot
-        </p>
+      <div className="px-5 py-3.5 border-b border-gray-100 dark:border-[#252A31] flex items-center gap-3">
+        <BrokerLogo name={broker.name} logoUrl={broker.logo_url} />
+        <div className="min-w-0">
+          <h3 className="text-[1.05rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] leading-tight truncate" style={{ fontFamily: "var(--font-outfit)" }}>
+            {broker.name}
+          </h3>
+          <p className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA] mt-0.5">
+            Core charges snapshot
+          </p>
+        </div>
       </div>
 
       <div className="px-5 py-4 grid grid-cols-2 gap-x-5 gap-y-3.5">

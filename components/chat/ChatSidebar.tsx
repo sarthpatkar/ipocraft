@@ -99,6 +99,7 @@ export default function ChatSidebar({
         <button
           onClick={onNewSession}
           title="New Research Thread"
+          aria-label="New research thread"
           className="w-8 h-8 rounded-lg bg-[#1C317A] hover:bg-[#28439E] text-white flex items-center justify-center transition-colors shadow-xs"
         >
           <PlusIcon className="w-4 h-4" />
@@ -109,6 +110,7 @@ export default function ChatSidebar({
             key={preset.id}
             onClick={() => onSelectPreset(preset.query)}
             title={preset.label}
+            aria-label={preset.label}
             className="w-8 h-8 rounded-lg border border-gray-100 dark:border-[#222731] hover:bg-gray-50 dark:hover:bg-[#171B20] text-gray-500 dark:text-[#9AA1AA] flex items-center justify-center transition-colors text-[10px] font-bold"
           >
             {preset.label.charAt(0)}

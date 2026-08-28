@@ -3,6 +3,7 @@ import type {
   RawFinApiGmpTrend,
   NormalizedIpoData,
 } from "./types";
+import { SEBI_RETAIL_MAX_INVESTMENT, SEBI_SHNI_MAX_INVESTMENT } from "@/lib/sebi-constants";
 
 export function parsePriceRange(
   rawRange?: string | null
@@ -100,7 +101,7 @@ export function calculateLotTiers(
   const retail_min_shares = lotSize;
   const retail_min_amount = oneLotAmount;
 
-  const maxRetailLots = Math.max(1, Math.floor(200000 / oneLotAmount));
+  const maxRetailLots = Math.max(1, Math.floor(SEBI_RETAIL_MAX_INVESTMENT / oneLotAmount));
   const retail_max_lots = maxRetailLots;
   const retail_max_shares = maxRetailLots * lotSize;
   const retail_max_amount = retail_max_shares * priceMax;
@@ -110,7 +111,7 @@ export function calculateLotTiers(
   const shni_min_shares = shni_min_lots * lotSize;
   const shni_min_amount = shni_min_shares * priceMax;
 
-  const maxShniLots = Math.max(shni_min_lots, Math.floor(1000000 / oneLotAmount));
+  const maxShniLots = Math.max(shni_min_lots, Math.floor(SEBI_SHNI_MAX_INVESTMENT / oneLotAmount));
   const shni_max_lots = maxShniLots;
   const shni_max_shares = maxShniLots * lotSize;
   const shni_max_amount = shni_max_shares * priceMax;

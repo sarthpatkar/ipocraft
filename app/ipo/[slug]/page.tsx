@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { sanitizeIpoSlug } from "@/lib/ipo.server";
+import { SEBI_RETAIL_MAX_INVESTMENT, SEBI_SHNI_MAX_INVESTMENT } from "@/lib/sebi-constants";
 import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
 import GMPChart from "@/components/GmpChart";
 import HeroSection from "@/components/IpoDetail/HeroSection";
@@ -944,7 +945,7 @@ export default async function IPODetail({
                   const rMinShares = ipo.retail_min_shares ?? (rMinLots * lotSz);
                   const rMinAmt = ipo.retail_min_amount ?? (rMinShares * prcMax);
 
-                  const rMaxLots = ipo.retail_max_lots ?? Math.max(1, Math.floor(200000 / (lotSz * prcMax)));
+                  const rMaxLots = ipo.retail_max_lots ?? Math.max(1, Math.floor(SEBI_RETAIL_MAX_INVESTMENT / (lotSz * prcMax)));
                   const rMaxShares = ipo.retail_max_shares ?? (rMaxLots * lotSz);
                   const rMaxAmt = ipo.retail_max_amount ?? (rMaxShares * prcMax);
 
@@ -952,7 +953,7 @@ export default async function IPODetail({
                   const sMinShares = ipo.shni_min_shares ?? (sMinLots * lotSz);
                   const sMinAmt = ipo.shni_min_amount ?? (sMinShares * prcMax);
 
-                  const sMaxLots = ipo.shni_max_lots ?? Math.floor(1000000 / (lotSz * prcMax));
+                  const sMaxLots = ipo.shni_max_lots ?? Math.floor(SEBI_SHNI_MAX_INVESTMENT / (lotSz * prcMax));
                   const sMaxShares = ipo.shni_max_shares ?? (sMaxLots * lotSz);
                   const sMaxAmt = ipo.shni_max_amount ?? (sMaxShares * prcMax);
 
@@ -1015,7 +1016,7 @@ export default async function IPODetail({
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                 {[
-                  { label: "QIB", value: valueOrDash(ipo.reservation_qib || (ipo.ipo_type?.toLowerCase() === "sme" ? "50%" : "50%")) },
+                  { label: "QIB", value: valueOrDash(ipo.reservation_qib || "50%") },
                   { label: "NII", value: valueOrDash(ipo.reservation_nii || "15%") },
                   { label: "RII", value: valueOrDash(ipo.reservation_rii || "35%") },
                   {

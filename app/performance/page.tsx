@@ -11,12 +11,18 @@ export const metadata: Metadata = {
 export default async function PerformancePage() {
   const supabase = await createSupabaseServerClient();
 
-  const { data: ipos } = await supabase
+  const { data: ipos, error } = await supabase
     .from("ipos")
     .select("id, name, slug, ipo_type, price_min, price_max, issue_price, listing_price, listing_date, listing_gain")
     .in("status", ["Listed", "listed"])
     .order("listing_date", { ascending: false, nullsFirst: false })
     .limit(100);
+
+  if (error) {
+    // Surfaces to the nearest app/error.tsx boundary instead of silently
+    // rendering an empty performance table that looks like "no IPOs listed".
+    throw new Error(`Failed to load IPO performance data: ${error.message}`);
+  }
 
   const safeIpos: PerformanceIpo[] = (ipos ?? []).map((row) => ({
     id: Number(row.id),

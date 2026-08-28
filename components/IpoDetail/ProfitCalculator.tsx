@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { SEBI_RETAIL_MAX_INVESTMENT } from "@/lib/sebi-constants";
 
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
@@ -25,8 +26,8 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
   const lotSize = Number(ipo.lot_size) || 1;
   const defaultGmp = ipo.gmp != null ? Number(ipo.gmp) : 0;
 
-  // Calculate retail max lots (₹2,00,000 threshold)
-  const retailMaxLots = Math.max(1, Math.floor(200000 / (lotSize * issuePrice)));
+  // Calculate retail max lots (SEBI retail category investment threshold)
+  const retailMaxLots = Math.max(1, Math.floor(SEBI_RETAIL_MAX_INVESTMENT / (lotSize * issuePrice)));
   const sniiMinLots = retailMaxLots + 1;
 
   // URL-synced state

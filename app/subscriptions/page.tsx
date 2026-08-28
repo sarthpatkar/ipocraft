@@ -3,21 +3,8 @@ import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import SubscriptionTableClient from "@/components/SubscriptionTableClient";
 import { canonicalUrl } from "@/lib/site-url";
-import { Outfit, Inter } from "next/font/google";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const subsUrl = canonicalUrl("/subscriptions");
 
@@ -82,7 +69,7 @@ export default async function SubscriptionsPage({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">

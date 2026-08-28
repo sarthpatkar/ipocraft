@@ -1,25 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import { Outfit, Inter } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
+import RelatedGuides from "@/components/RelatedGuides";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const ipoSubscriptionUrl = canonicalUrl("/ipo-subscription-meaning");
 const logoUrl = canonicalUrl("/logo.png");
+const CURRENT_YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
   title: "IPO Subscription Meaning – What Does IPO Subscription Status Mean?",
@@ -47,7 +36,7 @@ export const metadata: Metadata = {
 export default function IpoSubscriptionMeaning() {
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen scroll-smooth bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100`}
+      className={`min-h-screen scroll-smooth bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9]`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
@@ -56,25 +45,21 @@ export default function IpoSubscriptionMeaning() {
         </p>
 
         <h1
-          className="mt-3 text-2xl sm:text-3xl lg:text-[2.2rem] font-semibold leading-tight text-[#0f172a] dark:text-white"
+          className="mt-3 text-2xl sm:text-3xl lg:text-[2.2rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F5F9]"
           style={{ fontFamily: "var(--font-outfit)" }}
         >
-          IPO Subscription Meaning – Complete Explanation (2026 Guide)
+          IPO Subscription Meaning – Complete Explanation ({CURRENT_YEAR} Guide)
         </h1>
 
-        <div className="mt-3 text-xs text-[#64748b] dark:text-slate-400 flex flex-wrap gap-3">
+        <div className="mt-3 text-xs text-[#64748b] dark:text-[#9AA1AA] flex flex-wrap gap-3">
           <span>
-            Last Updated: {new Date().toLocaleDateString("en-IN", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
+            Last Updated: 27 August 2026
           </span>
           <span>•</span>
           <span>Approx. 12 min read</span>
         </div>
 
-        <p className="mt-6 text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed">
+        <p className="mt-6 text-[15px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
           IPO subscription refers to the number of times investors apply for
           shares compared to the total shares offered in an Initial Public
           Offering. It reflects demand levels across Retail, HNI (NII), and QIB
@@ -85,7 +70,7 @@ export default function IpoSubscriptionMeaning() {
         {/* Jump Navigation */}
         <nav
           aria-label="Jump to Section"
-          className="mt-8 bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 sticky top-16 z-10"
+          className="mt-8 bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-xl p-5 sticky top-16 z-10"
         >
           <p className="text-sm font-semibold mb-3">Jump to Section</p>
           <div className="grid sm:grid-cols-2 gap-2 text-sm">
@@ -256,35 +241,50 @@ export default function IpoSubscriptionMeaning() {
             <dl className="space-y-6">
               <div>
                 <dt className="font-semibold text-[#1C317A] dark:text-blue-400">What does 10x IPO subscription mean?</dt>
-                <dd className="mt-1 text-[#475569] dark:text-slate-400">
+                <dd className="mt-1 text-[#475569] dark:text-[#9AA1AA]">
                   It means investors have applied for 10 times more shares than available in the IPO.
                 </dd>
               </div>
               <div>
                 <dt className="font-semibold text-[#1C317A] dark:text-blue-400">Does high IPO subscription guarantee listing gains?</dt>
-                <dd className="mt-1 text-[#475569] dark:text-slate-400">
+                <dd className="mt-1 text-[#475569] dark:text-[#9AA1AA]">
                   No. High subscription reflects demand but listing depends on market conditions and institutional interest.
                 </dd>
               </div>
               <div>
                 <dt className="font-semibold text-[#1C317A] dark:text-blue-400">Can IPO subscription vary by category?</dt>
-                <dd className="mt-1 text-[#475569] dark:text-slate-400">
+                <dd className="mt-1 text-[#475569] dark:text-[#9AA1AA]">
                   Yes, subscription ratios often differ across retail, HNI, and QIB categories due to different investor bases and quotas.
                 </dd>
               </div>
               <div>
                 <dt className="font-semibold text-[#1C317A] dark:text-blue-400">How is IPO allotment decided in oversubscribed IPOs?</dt>
-                <dd className="mt-1 text-[#475569] dark:text-slate-400">
+                <dd className="mt-1 text-[#475569] dark:text-[#9AA1AA]">
                   Retail allotment is usually done by lottery, while HNI and QIB allotments are proportional to bids.
                 </dd>
               </div>
               <div>
                 <dt className="font-semibold text-[#1C317A] dark:text-blue-400">Where can I check IPO subscription status?</dt>
-                <dd className="mt-1 text-[#475569] dark:text-slate-400">
+                <dd className="mt-1 text-[#475569] dark:text-[#9AA1AA]">
                   IPO subscription status is published daily on stock exchanges' websites and financial portals during the IPO period.
                 </dd>
               </div>
             </dl>
+          </Section>
+
+          <Section id="related-resources" title="Related IPO Learning Resources">
+            <p>To connect subscription data with GMP, allotment, and investor category rules, explore:</p>
+            <RelatedGuides
+              exclude="ipo-subscription-meaning"
+              only={[
+                "what-is-ipo-gmp",
+                "ipo-grey-market-guide",
+                "how-ipo-allotment-works",
+                "qib-hni-retail-explained",
+                "ipo-allotment-probability-calculator",
+                "blog",
+              ]}
+            />
           </Section>
         </article>
       </section>
@@ -408,12 +408,12 @@ function Section({ id, title, children }: any) {
   return (
     <div id={id} className="scroll-mt-24">
       <h2
-        className="text-xl sm:text-2xl font-semibold mb-4 text-[#0f172a] dark:text-white"
+        className="text-xl sm:text-2xl font-semibold mb-4 text-[#0f172a] dark:text-[#F1F5F9]"
         style={{ fontFamily: "var(--font-outfit)" }}
       >
         {title}
       </h2>
-      <div className="text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed space-y-4">
+      <div className="text-[15px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed space-y-4">
         {children}
       </div>
     </div>

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Outfit, Inter } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { MOCK_ARTICLES } from "@/lib/mock-articles";
@@ -8,19 +7,7 @@ import { formatDisplayDate } from "@/lib/formatters";
 import fs from "fs";
 import path from "path";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "IPO Market Blog & Insights | IPOCraft",
@@ -52,7 +39,7 @@ export default async function BlogIndexPage() {
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9] antialiased pb-16`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9] antialiased pb-16`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <div className="bg-white dark:bg-[#111418] border-b border-gray-200 dark:border-[#252A31]">

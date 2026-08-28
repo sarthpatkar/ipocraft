@@ -421,6 +421,7 @@ export default function IpoCalendarGrid({ ipos }: { ipos: CalendarIpo[] }) {
                     </span>
                     <button
                       onClick={() => setSel(null)}
+                      aria-label="Close day details"
                       className="p-1 rounded hover:bg-gray-100 dark:hover:bg-[#1A1F26] text-gray-300 dark:text-[#4B5563] transition-colors"
                     >
                       <XMarkIcon className="w-3.5 h-3.5" />
@@ -471,6 +472,7 @@ export default function IpoCalendarGrid({ ipos }: { ipos: CalendarIpo[] }) {
                 </div>
                 <button
                   onClick={() => setSheet(false)}
+                  aria-label="Close day details"
                   className="p-2 -mr-1 text-gray-400 dark:text-[#4B5563] hover:text-gray-600 dark:hover:text-[#6B7280] transition-colors"
                 >
                   <XMarkIcon className="w-4 h-4" />

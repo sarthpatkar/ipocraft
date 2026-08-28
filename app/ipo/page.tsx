@@ -1,25 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Outfit, Inter } from "next/font/google";
 import IpoLoadMoreClient from "@/components/IpoLoadMoreClient";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { unstable_noStore as noStore } from "next/cache";
 import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const ipoListingsUrl = canonicalUrl("/ipo");
 
@@ -120,7 +107,7 @@ export default async function IPOPage({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* Structured Data for SEO */}

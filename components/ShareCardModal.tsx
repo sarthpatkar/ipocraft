@@ -114,6 +114,7 @@ export default function ShareCardModal({ slug, ipoName, onClose }: ShareCardModa
           </div>
           <button
             onClick={onClose}
+            aria-label="Close"
             className="p-1.5 rounded-md text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#171B20] transition-colors"
           >
             <XMarkIcon className="w-5 h-5" />

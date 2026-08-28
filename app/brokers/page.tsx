@@ -1,27 +1,15 @@
 import type { Metadata } from "next";
 import BrokerList from "@/components/BrokerList";
-import { Outfit, Inter } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const brokersUrl = canonicalUrl("/brokers");
+const CURRENT_YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
   title:
-    "Best Stock Brokers in India 2026 — Charges, Fees & IPO Support Comparison | IPOCraft",
+    `Best Stock Brokers in India ${CURRENT_YEAR} — Charges, Fees & IPO Support Comparison | IPOCraft`,
   description:
     "Compare the best stock brokers in India including Zerodha, Groww, Angel One and others. Review brokerage charges, account fees, platform features, and IPO application support to choose the right broker.",
   keywords: [
@@ -57,7 +45,7 @@ export const metadata: Metadata = {
 export default async function BrokersPage() {
   return (
     <main
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5]`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5]`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* HERO */}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { SEBI_RETAIL_MAX_INVESTMENT } from "@/lib/sebi-constants";
 
 export default function ProfitCalculatorStandalone() {
   const [issuePrice, setIssuePrice] = useState<string>("");
@@ -12,7 +13,7 @@ export default function ProfitCalculatorStandalone() {
   const ls = parseInt(lotSize) || 0;
   const gmpVal = parseFloat(gmp) || 0;
 
-  const retailMaxLots = ip > 0 && ls > 0 ? Math.max(1, Math.floor(200000 / (ls * ip))) : 13;
+  const retailMaxLots = ip > 0 && ls > 0 ? Math.max(1, Math.floor(SEBI_RETAIL_MAX_INVESTMENT / (ls * ip))) : 13;
 
   const results = useMemo(() => {
     if (ip <= 0 || ls <= 0) return null;

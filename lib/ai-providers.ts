@@ -32,7 +32,10 @@ interface AiProvider {
 // ─── OpenRouter Provider ────────────────────────────────────────────────────────
 
 const OPENROUTER_MODELS: AiModel[] = [
-  { id: "google/gemini-flash-1.5-8b:free", label: "Gemini Flash 1.5 8B" },
+  // NOTE: verify these IDs against https://openrouter.ai/api/v1/models periodically —
+  // free-tier model IDs get retired/renamed without warning (found "gemini-flash-1.5-8b:free"
+  // already gone when this list was last audited).
+  { id: "liquid/lfm-2.5-2.6b:free", label: "LFM 2.5 2.6B" },
   { id: "nvidia/nemotron-3-ultra-550b-a55b:free", label: "Nemotron 3 Ultra 550B" },
   { id: "google/gemma-4-31b-it:free", label: "Gemma 4 31B IT" }
 ];
@@ -90,10 +93,14 @@ class OpenRouterProvider implements AiProvider {
 
 // ─── Groq Provider ──────────────────────────────────────────────────────────────
 
+// NOTE: verify against https://api.groq.com/openai/v1/models periodically —
+// Groq retires free-tier models on short notice (llama-3.3-70b-versatile,
+// gemma2-9b-it, and llama-3.1-8b-instant were all already retired when this
+// list was last audited).
 const GROQ_MODELS: AiModel[] = [
-  { id: "llama-3.3-70b-versatile", label: "Llama 3.3 70B" },
-  { id: "gemma2-9b-it", label: "Gemma 2 9B" },
-  { id: "llama-3.1-8b-instant", label: "Llama 3.1 8B" },
+  { id: "openai/gpt-oss-120b", label: "GPT-OSS 120B" },
+  { id: "openai/gpt-oss-20b", label: "GPT-OSS 20B" },
+  { id: "qwen/qwen3.8-27b", label: "Qwen3.8 27B" },
 ];
 
 class GroqProvider implements AiProvider {
@@ -130,6 +137,10 @@ class GroqProvider implements AiProvider {
           ],
           temperature: 0.1,
           max_tokens: 8192,
+          // gpt-oss models are reasoning models — without this they can burn
+          // the entire token budget on hidden chain-of-thought and return an
+          // empty content string (finish_reason: "length").
+          ...(model.id.startsWith("openai/gpt-oss") ? { reasoning_effort: "low" } : {}),
         }),
       }
     );

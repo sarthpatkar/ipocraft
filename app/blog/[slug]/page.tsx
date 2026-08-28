@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Outfit, Inter } from "next/font/google";
 import { ClockIcon, CalendarIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { canonicalUrl } from "@/lib/site-url";
 import { getMockArticleBySlug, MOCK_ARTICLES } from "@/lib/mock-articles";
@@ -11,19 +10,7 @@ import { formatDisplayDate } from "@/lib/formatters";
 import fs from "fs";
 import path from "path";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 async function getArticle(slug: string) {
   const filePath = path.join(process.cwd(), "data", "blog-registry.json");
@@ -80,7 +67,7 @@ export default async function BlogDetailPage({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9] antialiased pb-20`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9] antialiased pb-20`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <ReadingProgress />

@@ -149,27 +149,38 @@ export default function IpoCompareClient() {
   const [allIpos, setAllIpos] = useState<IpoRow[]>([]);
   const [searchQ, setSearchQ] = useState("");
   const [loading, setLoading] = useState(false);
+  const [listError, setListError] = useState(false);
+  const [compareError, setCompareError] = useState(false);
 
   // Fetch all IPO names for the picker
   useEffect(() => {
     fetch("/api/ipos/list")
       .then(r => r.json())
-      .then(d => setAllIpos(Array.isArray(d) ? d : []))
-      .catch(() => {});
+      .then(d => {
+        if (Array.isArray(d)) {
+          setAllIpos(d);
+          setListError(false);
+        } else {
+          setListError(true);
+        }
+      })
+      .catch(() => setListError(true));
   }, []);
 
   // Fetch data for selected slugs
   useEffect(() => {
     if (selectedSlugs.length === 0) return;
     setLoading(true);
+    setCompareError(false);
     fetch(`/api/ipos/compare?slugs=${selectedSlugs.join(",")}`)
       .then(r => r.json())
-      .then((rows: IpoRow[]) => {
+      .then((rows: IpoRow[] | { error: string }) => {
+        if (!Array.isArray(rows)) throw new Error("error" in rows ? rows.error : "Unexpected response");
         const map: Record<string, IpoRow> = {};
         for (const r of rows) map[r.slug] = r;
         setIpoData(map);
       })
-      .catch(() => {})
+      .catch(() => setCompareError(true))
       .finally(() => setLoading(false));
   }, [selectedSlugs]);
 
@@ -210,7 +221,11 @@ export default function IpoCompareClient() {
               <span className="text-[12.5px] font-medium text-[#1C317A] dark:text-[#93B4FF]">
                 {ipoData[slug]?.name || slug}
               </span>
-              <button onClick={() => removeIpo(slug)} className="text-gray-400 hover:text-red-500 transition-colors">
+              <button
+                onClick={() => removeIpo(slug)}
+                aria-label={`Remove ${ipoData[slug]?.name || slug} from comparison`}
+                className="text-gray-400 hover:text-red-500 transition-colors"
+              >
                 <XMarkIcon className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -227,6 +242,11 @@ export default function IpoCompareClient() {
                   className="text-[12.5px] bg-transparent outline-none text-[#0f172a] dark:text-[#F1F5F9] placeholder:text-gray-400 w-40"
                 />
               </div>
+              {listError && (
+                <p className="mt-1.5 text-[11.5px] text-rose-600 dark:text-rose-400">
+                  Couldn&apos;t load the IPO list. Please refresh the page.
+                </p>
+              )}
               {searchQ && filtered.length > 0 && (
                 <div className="absolute top-full left-0 mt-1 w-64 bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg shadow-lg z-50 overflow-hidden">
                   {filtered.map(ipo => (
@@ -253,7 +273,14 @@ export default function IpoCompareClient() {
       </div>
 
       {/* Comparison Table */}
-      {selectedData.length > 0 && (
+      {compareError && selectedSlugs.length > 0 && (
+        <div className="text-center py-10 px-5 bg-white dark:bg-[#111418] border border-rose-200 dark:border-rose-900/40 rounded-xl">
+          <p className="text-[13.5px] text-rose-600 dark:text-rose-400 font-medium">
+            Couldn&apos;t load comparison data. Please try again in a moment.
+          </p>
+        </div>
+      )}
+      {!compareError && selectedData.length > 0 && (
         <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-xl overflow-hidden">
           {loading && (
             <div className="px-5 py-2 bg-blue-50 dark:bg-[#0E1623] text-[12px] text-[#1C317A] dark:text-[#93B4FF]">

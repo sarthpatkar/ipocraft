@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import ConsentScripts from "@/components/ConsentScripts";
 import ThemeProvider from "@/components/ThemeProvider";
 import Script from "next/script";
 import { Inter, Outfit } from "next/font/google";
@@ -79,28 +80,9 @@ export default function RootLayout({
         className="bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased"
         style={{ fontFamily: "var(--font-inter), sans-serif" }}
       >
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-V2DGFHC1DY"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-V2DGFHC1DY');
-          `}
-        </Script>
-        {/* Google AdSense */}
-        {process.env.NEXT_PUBLIC_ADSENSE_ENABLED === "true" && (
-          <Script
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4829097668877345"
-            strategy="afterInteractive"
-            crossOrigin="anonymous"
-            id="google-adsense"
-          />
-        )}
+        {/* Google Analytics / AdSense — only load once the user has actually
+            consented via CookieConsentBanner (see components/ConsentScripts.tsx) */}
+        <ConsentScripts />
         {/* Service Worker registration (PWA) */}
         <Script id="register-sw" strategy="lazyOnload">
           {`

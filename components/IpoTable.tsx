@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { IPOListItem } from "@/components/IpoCard";
 import { formatDisplayDate, formatShortDate } from "@/lib/formatters";
+import ScrollHint from "@/components/ScrollHint";
 
 type Props = {
   items: IPOListItem[];
@@ -45,7 +46,7 @@ export default function IpoTable({ items, emptyMessage = "No IPO listings found.
   }
 
   return (
-    <div className="w-full overflow-x-auto rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418]">
+    <ScrollHint className="w-full overflow-x-auto rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418]">
       <table className="min-w-[880px] w-full text-[13px] text-left border-collapse">
         <thead className="bg-[#f8fafc] dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31]">
           <tr>
@@ -171,6 +172,6 @@ export default function IpoTable({ items, emptyMessage = "No IPO listings found.
           })}
         </tbody>
       </table>
-    </div>
+    </ScrollHint>
   );
 }

@@ -6,15 +6,16 @@ import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import IpoCalendarGrid from "@/components/IpoCalendarGrid";
 
 const ipoCalendarUrl = canonicalUrl("/ipo-calendar");
+const CURRENT_YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
   title:
-    "IPO Calendar India 2026 — Upcoming, Open & Listed IPO Dates | IPOCraft",
+    `IPO Calendar India ${CURRENT_YEAR} — Upcoming, Open & Listed IPO Dates | IPOCraft`,
   description:
     "View the IPO calendar for India with upcoming, open, and recently listed IPO dates, subscription timelines, allotment schedules, and listing information across Mainboard and SME segments.",
   keywords: [
     "IPO calendar India",
-    "Upcoming IPO 2026",
+    `Upcoming IPO ${CURRENT_YEAR}`,
     "Open IPO list",
     "IPO dates India",
     "IPO allotment date",
@@ -129,7 +130,7 @@ export default async function IpoCalendarPage() {
               className="text-xl sm:text-2xl font-semibold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
-              IPO Calendar 2026: Upcoming, Open &amp; Listing Dates
+              IPO Calendar {CURRENT_YEAR}: Upcoming, Open &amp; Listing Dates
             </h1>
             <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA] max-w-2xl leading-relaxed">
               IPOCraft&apos;s IPO Calendar lists all currently open, upcoming, and recently closed IPOs in India. Each entry shows subscription window, allotment date, listing date, price band, and GMP. Data covers both Mainboard and SME segments, updated daily.

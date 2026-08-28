@@ -1,21 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Outfit, Inter } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const ipoGreyMarketGuideUrl = canonicalUrl("/ipo-grey-market-guide");
 
@@ -29,12 +16,11 @@ export const metadata: Metadata = {
 };
 
 export default function IpoGreyMarketGuide() {
-  const lastUpdatedISO = new Date().toISOString();
-  const lastUpdatedReadable = new Date().toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  // Static — this used to be new Date() evaluated on every render, so the
+  // page always claimed to have been updated "today," on every single visit,
+  // indefinitely. Update these by hand whenever the guide content changes.
+  const lastUpdatedISO = "2026-08-27T00:00:00.000Z";
+  const lastUpdatedReadable = "27 August 2026";
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -115,7 +101,7 @@ export default function IpoGreyMarketGuide() {
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9]`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -194,8 +180,8 @@ export default function IpoGreyMarketGuide() {
 
         <Section id="correlation" title="GMP vs Listing Correlation Table">
           <div className="overflow-x-auto">
-            <table className="min-w-full border border-[#e2e8f0] dark:border-[#1e293b] text-sm">
-              <thead className="bg-[#f1f5f9] dark:bg-[#1e293b]">
+            <table className="min-w-full border border-[#e2e8f0] dark:border-[#252A31] text-sm">
+              <thead className="bg-[#f1f5f9] dark:bg-[#171B20]">
                 <tr>
                   <th className="p-3 border">Scenario</th>
                   <th className="p-3 border">GMP Trend</th>
@@ -250,7 +236,7 @@ export default function IpoGreyMarketGuide() {
             Below is a simplified illustration of how GMP may trend upward during strong subscription momentum.
           </p>
 
-          <div className="mt-6 bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-4 overflow-x-auto">
+          <div className="mt-6 bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-xl p-4 overflow-x-auto">
             <svg viewBox="0 0 400 180" className="w-full max-w-md mx-auto">
               <polyline
                 fill="none"
@@ -287,12 +273,12 @@ export default function IpoGreyMarketGuide() {
             ].map((item, index) => (
               <details
                 key={index}
-                className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4 group"
+                className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-4 group"
               >
-                <summary className="cursor-pointer font-medium text-[#0f172a] dark:text-slate-100">
+                <summary className="cursor-pointer font-medium text-[#0f172a] dark:text-[#F1F5F9]">
                   {item.q}
                 </summary>
-                <p className="mt-3 text-sm text-[#475569] dark:text-slate-400 leading-relaxed">
+                <p className="mt-3 text-sm text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
                   {item.a}
                 </p>
               </details>
@@ -305,12 +291,16 @@ export default function IpoGreyMarketGuide() {
             <li><Link href="/gmp" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO GMP Tracker</Link></li>
             <li><Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Calendar</Link></li>
             <li><Link href="/how-ipo-allotment-works" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Allotment Guide</Link></li>
+            <li><Link href="/what-is-ipo-gmp" className="text-[#1C317A] dark:text-blue-400 hover:underline">What is IPO GMP?</Link></li>
+            <li><Link href="/ipo-subscription-meaning" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Subscription Meaning</Link></li>
+            <li><Link href="/ipo-profit-calculator" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Listing Profit Calculator</Link></li>
+            <li><Link href="/blog" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPOCraft Blog</Link></li>
           </ul>
         </Section>
       </section>
 
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div className="text-xs text-[#64748b] dark:text-slate-400 bg-[#f1f5f9] dark:bg-[#1e293b] border border-[#e2e8f0] dark:border-[#1e293b] rounded-lg p-4">
+        <div className="text-xs text-[#64748b] dark:text-[#9AA1AA] bg-[#f1f5f9] dark:bg-[#171B20] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-4">
           IPOCraft is an informational platform and not registered with SEBI. Content is for educational purposes only and does not constitute investment advice.
         </div>
       </section>
@@ -322,12 +312,12 @@ function Section({ id, title, children }: any) {
   return (
     <div id={id} className="scroll-mt-40 sm:scroll-mt-44">
       <h2
-        className="text-xl sm:text-2xl font-semibold mb-4 text-[#0f172a] dark:text-white"
+        className="text-xl sm:text-2xl font-semibold mb-4 text-[#0f172a] dark:text-[#F1F5F9]"
         style={{ fontFamily: "var(--font-outfit)" }}
       >
         {title}
       </h2>
-      <div className="space-y-4 text-sm sm:text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed">
+      <div className="space-y-4 text-sm sm:text-[15px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
         {children}
       </div>
     </div>

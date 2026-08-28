@@ -1,26 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+import { createRateLimiter } from "@/lib/rateLimit";
+import { extractWithFallback } from "@/lib/ai-providers";
+
+// Bypassing pdf-parse's root index.js, which contains a debug block that
+// synchronously reads a test PDF and crashes Next.js on import. Same
+// workaround already used in lib/rhp-extraction.ts.
+const pdfParse = require("pdf-parse/lib/pdf-parse.js");
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// Simple in-memory rate limit (5/hour per IP)
-const rlStore = new Map<string, { count: number; resetAt: number }>();
-function checkDRHPLimit(ip: string): boolean {
-  const now = Date.now();
-  const entry = rlStore.get(ip);
-  if (!entry || now > entry.resetAt) {
-    rlStore.set(ip, { count: 1, resetAt: now + 60 * 60 * 1000 });
-    return true;
-  }
-  if (entry.count >= 5) return false;
-  entry.count++;
-  return true;
-}
+// 5 analyses per hour per IP — Upstash-backed in production, in-memory in local dev.
+const checkDRHPLimit = createRateLimiter("drhp", 5, 60 * 60 * 1000);
 
-function getGroq(): OpenAI | null {
-  if (!process.env.GROQ_API_KEY) return null;
-  return new OpenAI({ apiKey: process.env.GROQ_API_KEY, baseURL: "https://api.groq.com/openai/v1" });
+function getClientIp(req: NextRequest): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
 }
 
 const SYSTEM_PROMPT = `You are a financial analyst specializing in IPO analysis for the Indian market.
@@ -42,8 +40,9 @@ Extract and return ONLY a valid JSON object with this structure (no markdown, no
 Focus on the most investor-relevant information. Use "—" for any field you cannot find.`;
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (!checkDRHPLimit(ip)) {
+  const ip = getClientIp(req);
+  const { allowed } = await checkDRHPLimit(ip);
+  if (!allowed) {
     return NextResponse.json({ error: "Rate limit exceeded. You can analyze 5 DRHPs per hour." }, { status: 429 });
   }
 
@@ -52,12 +51,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Please provide a valid DRHP PDF URL." }, { status: 400 });
   }
 
-  // Fetch PDF text (first 50KB is usually enough for key sections)
+  // Fetch and parse the actual PDF text (not a raw byte-to-string decode —
+  // PDF is a binary/compressed container, not plain text).
   let pdfText = "";
   try {
     const res = await fetch(url, {
-      headers: { "Accept": "application/pdf,*/*", "User-Agent": "IPOCraft-DRHPAnalyzer/1.0" },
-      signal: AbortSignal.timeout(15000),
+      headers: { Accept: "application/pdf,*/*", "User-Agent": "IPOCraft-DRHPAnalyzer/1.0" },
+      signal: AbortSignal.timeout(20000),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const contentType = res.headers.get("content-type") || "";
@@ -65,36 +65,22 @@ export async function POST(req: NextRequest) {
       const j = await res.json();
       pdfText = JSON.stringify(j).slice(0, 30000);
     } else {
-      const buf = await res.arrayBuffer();
-      // Basic PDF text extraction — look for text between stream markers
-      const bytes = new Uint8Array(buf);
-      const decoder = new TextDecoder("utf-8", { fatal: false });
-      const raw = decoder.decode(bytes.slice(0, 200000));
-      pdfText = raw.replace(/[\x00-\x08\x0b-\x0c\x0e-\x1f]/g, " ").slice(0, 40000);
+      const buf = Buffer.from(await res.arrayBuffer());
+      const parsed = await pdfParse(buf, { max: 60 }); // first ~60 pages is plenty for key sections
+      pdfText = (parsed.text || "").replace(/\s+/g, " ").trim().slice(0, 40000);
+      if (!pdfText) throw new Error("PDF parsed but contained no extractable text (likely scanned/image-only)");
     }
-  } catch (err) {
-    return NextResponse.json({ error: "Failed to fetch the DRHP PDF. Please check the URL and try again." }, { status: 422 });
-  }
-
-  const client = getGroq();
-  if (!client) {
-    return NextResponse.json({ error: "AI service not configured." }, { status: 503 });
+  } catch {
+    return NextResponse.json(
+      { error: "Failed to read the DRHP PDF. Please check the URL and try a text-based (non-scanned) PDF." },
+      { status: 422 }
+    );
   }
 
   try {
-    const completion = await client.chat.completions.create({
-      model: "meta-llama/llama-4-maverick-17b-128e-instruct",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: `Analyze this DRHP text:\n\n${pdfText}` },
-      ],
-      temperature: 0.2,
-      max_tokens: 1024,
-      response_format: { type: "json_object" },
-    });
-
-    const raw = completion.choices[0]?.message?.content || "{}";
-    const parsed = JSON.parse(raw);
+    const { text } = await extractWithFallback(SYSTEM_PROMPT, `Analyze this DRHP text:\n\n${pdfText}`);
+    const cleaned = text.trim().replace(/^```json\s*/i, "").replace(/```\s*$/, "");
+    const parsed = JSON.parse(cleaned);
     return NextResponse.json(parsed);
   } catch {
     return NextResponse.json({ error: "AI analysis failed. Please try again shortly." }, { status: 500 });

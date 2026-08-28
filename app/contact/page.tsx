@@ -1,22 +1,9 @@
 import type { Metadata } from "next";
-import { Outfit, Inter } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
 
 const contactUrl = canonicalUrl("/contact");
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title:
@@ -55,7 +42,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9]`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9]`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* HERO */}
@@ -101,7 +88,9 @@ export default function ContactPage() {
           <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-5 sm:p-7 lg:p-8">
             <p className="text-sm text-gray-500 dark:text-[#9AA1AA] mb-1">Platform Support</p>
             <p className="font-semibold text-[15px] text-[#0f172a] dark:text-[#F1F5F9]">
-              contact@ipocraft.com
+              <a href="mailto:contact@ipocraft.com" className="hover:underline hover:text-[#1C317A] dark:hover:text-blue-400 transition-colors">
+                contact@ipocraft.com
+              </a>
             </p>
 
             <p className="mt-3 text-sm text-gray-500 dark:text-[#9AA1AA] leading-[1.7]">
@@ -115,7 +104,9 @@ export default function ContactPage() {
               Partnerships &amp; Business
             </p>
             <p className="font-semibold text-[15px] text-[#0f172a] dark:text-[#F1F5F9]">
-              contact@ipocraft.com
+              <a href="mailto:contact@ipocraft.com" className="hover:underline hover:text-[#1C317A] dark:hover:text-blue-400 transition-colors">
+                contact@ipocraft.com
+              </a>
             </p>
 
             <p className="mt-3 text-sm text-gray-500 dark:text-[#9AA1AA] leading-[1.7]">

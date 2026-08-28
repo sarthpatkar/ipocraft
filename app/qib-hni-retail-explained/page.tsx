@@ -1,24 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import { Outfit, Inter } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
+import RelatedGuides from "@/components/RelatedGuides";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const investorCategoriesUrl = canonicalUrl("/qib-hni-retail-explained");
+const CURRENT_YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
   title: "QIB vs HNI vs Retail Investors – IPO Categories Explained",
@@ -46,7 +35,7 @@ export const metadata: Metadata = {
 export default function InvestorCategoriesGuide() {
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen scroll-smooth bg-[#f8fafc] dark:bg-[#0f172a] text-[#0f172a] dark:text-slate-100`}
+      className={`min-h-screen scroll-smooth bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9]`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
@@ -55,25 +44,21 @@ export default function InvestorCategoriesGuide() {
         </p>
 
         <h1
-          className="mt-3 text-2xl sm:text-3xl lg:text-[2.2rem] font-semibold leading-tight text-[#0f172a] dark:text-white"
+          className="mt-3 text-2xl sm:text-3xl lg:text-[2.2rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F5F9]"
           style={{ fontFamily: "var(--font-outfit)" }}
         >
-          QIB vs HNI vs Retail Investors – Complete IPO Category Breakdown (2026)
+          QIB vs HNI vs Retail Investors – Complete IPO Category Breakdown ({CURRENT_YEAR})
         </h1>
 
-        <div className="mt-3 text-xs text-[#64748b] dark:text-slate-400 flex flex-wrap gap-3">
+        <div className="mt-3 text-xs text-[#64748b] dark:text-[#9AA1AA] flex flex-wrap gap-3">
           <span>
-            Last Updated: {new Date().toLocaleDateString("en-IN", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
+            Last Updated: 27 August 2026
           </span>
           <span>•</span>
           <span>Approx. 10–12 min read</span>
         </div>
 
-        <p className="mt-6 text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed">
+        <p className="mt-6 text-[15px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
           In an Initial Public Offering (IPO), shares are divided into different
           investor categories: Qualified Institutional Buyers (QIB), High
           Net-worth Individuals (HNI/NII), and Retail Individual Investors
@@ -83,30 +68,30 @@ export default function InvestorCategoriesGuide() {
         </p>
 
         {/* Quick Comparison Card */}
-        <div className="mt-6 bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 shadow-sm">
+        <div className="mt-6 bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-xl p-5 shadow-sm">
           <h3 className="text-sm font-semibold mb-3" style={{ fontFamily: "var(--font-playfair)" }}>
             Quick Comparison: QIB vs HNI vs Retail
           </h3>
           <div className="grid sm:grid-cols-3 gap-4 text-sm">
-            <div className="bg-[#f8fafc] dark:bg-[#0f172a] rounded-lg p-3 border border-[#e2e8f0] dark:border-[#1e293b]">
-              <p className="font-semibold text-[#0f172a] dark:text-slate-100">Retail (RII)</p>
-              <ul className="mt-2 list-disc pl-4 space-y-1 text-[#475569] dark:text-slate-400">
+            <div className="bg-[#f8fafc] dark:bg-[#090B0F] rounded-lg p-3 border border-[#e2e8f0] dark:border-[#252A31]">
+              <p className="font-semibold text-[#0f172a] dark:text-[#F1F5F9]">Retail (RII)</p>
+              <ul className="mt-2 list-disc pl-4 space-y-1 text-[#475569] dark:text-[#9AA1AA]">
                 <li>Up to ₹2 lakh application</li>
                 <li>~35% allocation</li>
                 <li>Lottery-based allotment</li>
               </ul>
             </div>
-            <div className="bg-[#f8fafc] dark:bg-[#0f172a] rounded-lg p-3 border border-[#e2e8f0] dark:border-[#1e293b]">
-              <p className="font-semibold text-[#0f172a] dark:text-slate-100">HNI / NII</p>
-              <ul className="mt-2 list-disc pl-4 space-y-1 text-[#475569] dark:text-slate-400">
+            <div className="bg-[#f8fafc] dark:bg-[#090B0F] rounded-lg p-3 border border-[#e2e8f0] dark:border-[#252A31]">
+              <p className="font-semibold text-[#0f172a] dark:text-[#F1F5F9]">HNI / NII</p>
+              <ul className="mt-2 list-disc pl-4 space-y-1 text-[#475569] dark:text-[#9AA1AA]">
                 <li>Above ₹2 lakh</li>
                 <li>~15% allocation</li>
                 <li>Proportionate allotment</li>
               </ul>
             </div>
-            <div className="bg-[#f8fafc] dark:bg-[#0f172a] rounded-lg p-3 border border-[#e2e8f0] dark:border-[#1e293b]">
-              <p className="font-semibold text-[#0f172a] dark:text-slate-100">QIB</p>
-              <ul className="mt-2 list-disc pl-4 space-y-1 text-[#475569] dark:text-slate-400">
+            <div className="bg-[#f8fafc] dark:bg-[#090B0F] rounded-lg p-3 border border-[#e2e8f0] dark:border-[#252A31]">
+              <p className="font-semibold text-[#0f172a] dark:text-[#F1F5F9]">QIB</p>
+              <ul className="mt-2 list-disc pl-4 space-y-1 text-[#475569] dark:text-[#9AA1AA]">
                 <li>Institutional investors</li>
                 <li>~50% allocation</li>
                 <li>Book-building driven</li>
@@ -116,7 +101,7 @@ export default function InvestorCategoriesGuide() {
         </div>
 
         {/* Jump Navigation */}
-        <div className="mt-8 sticky top-24 z-30 bg-white dark:bg-[#111827]/95 backdrop-blur border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5 shadow-sm">
+        <div className="mt-8 sticky top-24 z-30 bg-white dark:bg-[#111418]/95 backdrop-blur border border-[#e2e8f0] dark:border-[#252A31] rounded-xl p-5 shadow-sm">
           <p className="text-sm font-semibold mb-3">Jump to Section</p>
           <div className="grid sm:grid-cols-2 gap-2 text-sm">
             <a href="#overview" className="text-[#1C317A] dark:text-blue-400 hover:underline">Category Overview</a>
@@ -234,7 +219,7 @@ export default function InvestorCategoriesGuide() {
               The subscription process follows a structured flow — bids are collected category-wise, tallied daily, and finalized at issue close before allotment logic is applied.
             </p>
 
-            <div className="mt-6 bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-6 overflow-x-auto">
+            <div className="mt-6 bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-xl p-6 overflow-x-auto">
               <svg viewBox="0 0 800 200" className="min-w-[600px] w-full h-auto">
                 <defs>
                   <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto">
@@ -296,8 +281,8 @@ export default function InvestorCategoriesGuide() {
             </p>
 
             <div className="overflow-x-auto mt-4">
-              <table className="min-w-full text-sm border border-[#e2e8f0] dark:border-[#1e293b]">
-                <thead className="bg-[#f1f5f9] dark:bg-[#1e293b]">
+              <table className="min-w-full text-sm border border-[#e2e8f0] dark:border-[#252A31]">
+                <thead className="bg-[#f1f5f9] dark:bg-[#171B20]">
                   <tr>
                     <th className="text-left px-4 py-2 border">Category</th>
                     <th className="text-left px-4 py-2 border">Mainboard IPO</th>
@@ -336,7 +321,7 @@ export default function InvestorCategoriesGuide() {
 
           <Section id="historical-example" title="Historical IPO Example – Institutional vs Retail Demand">
             <p>
-              Consider a well-known Mainboard IPO such as Tata Technologies (2023). The IPO saw strong participation across categories, with QIB demand significantly higher toward the final bidding day.
+              Consider a recent Mainboard IPO such as Tempsens Instruments (2026). The IPO saw QIB subscription of over 300x, well ahead of its Retail subscription of around 61x, with strong participation across categories on the final bidding day.
             </p>
             <p>
               Despite heavy Retail oversubscription, institutional participation provided stronger confidence regarding listing sentiment. This example highlights why analysts often prioritize QIB demand over Retail multiples alone.
@@ -352,8 +337,8 @@ export default function InvestorCategoriesGuide() {
             </p>
 
             <div className="overflow-x-auto mt-4">
-              <table className="min-w-full text-sm border border-[#e2e8f0] dark:border-[#1e293b]">
-                <thead className="bg-[#f8fafc] dark:bg-[#0f172a]">
+              <table className="min-w-full text-sm border border-[#e2e8f0] dark:border-[#252A31]">
+                <thead className="bg-[#f8fafc] dark:bg-[#090B0F]">
                   <tr>
                     <th className="text-left px-4 py-2 border">Category</th>
                     <th className="text-left px-4 py-2 border">Shares Allocated</th>
@@ -388,23 +373,23 @@ export default function InvestorCategoriesGuide() {
           {/* FAQ Section */}
           <Section id="faqs" title="Frequently Asked Questions (Investor Categories)">
             <div className="space-y-6">
-              <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5">
-                <h3 className="font-semibold text-[#0f172a] dark:text-slate-100">Does higher QIB subscription guarantee listing gains?</h3>
-                <p className="mt-2 text-[#475569] dark:text-slate-400">
+              <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-xl p-5">
+                <h3 className="font-semibold text-[#0f172a] dark:text-[#F1F5F9]">Does higher QIB subscription guarantee listing gains?</h3>
+                <p className="mt-2 text-[#475569] dark:text-[#9AA1AA]">
                   No. Strong QIB demand often reflects institutional confidence, but listing performance depends on valuation, market conditions, and overall demand balance.
                 </p>
               </div>
 
-              <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5">
-                <h3 className="font-semibold text-[#0f172a] dark:text-slate-100">Why is HNI subscription sometimes extremely high?</h3>
-                <p className="mt-2 text-[#475569] dark:text-slate-400">
+              <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-xl p-5">
+                <h3 className="font-semibold text-[#0f172a] dark:text-[#F1F5F9]">Why is HNI subscription sometimes extremely high?</h3>
+                <p className="mt-2 text-[#475569] dark:text-[#9AA1AA]">
                   HNI subscription can appear very high due to leveraged funding, where investors borrow capital to apply for large quantities.
                 </p>
               </div>
 
-              <div className="bg-white dark:bg-[#111827] border border-[#e2e8f0] dark:border-[#1e293b] rounded-xl p-5">
-                <h3 className="font-semibold text-[#0f172a] dark:text-slate-100">Is Retail allotment purely lottery-based?</h3>
-                <p className="mt-2 text-[#475569] dark:text-slate-400">
+              <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-xl p-5">
+                <h3 className="font-semibold text-[#0f172a] dark:text-[#F1F5F9]">Is Retail allotment purely lottery-based?</h3>
+                <p className="mt-2 text-[#475569] dark:text-[#9AA1AA]">
                   Yes. In oversubscribed IPOs, valid retail applications enter a computerized lottery system where minimum lots are distributed fairly among applicants.
                 </p>
               </div>
@@ -415,23 +400,17 @@ export default function InvestorCategoriesGuide() {
             <p>
               To understand how subscription connects with other IPO metrics, explore:
             </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>
-                <Link href="/ipo-subscription-meaning" className="text-[#1C317A] dark:text-blue-400 underline">
-                  IPO Subscription Meaning Guide
-                </Link>
-              </li>
-              <li>
-                <Link href="/how-ipo-allotment-works" className="text-[#1C317A] dark:text-blue-400 underline">
-                  How IPO Allotment Works
-                </Link>
-              </li>
-              <li>
-                <Link href="/gmp" className="text-[#1C317A] dark:text-blue-400 underline">
-                  IPO GMP Tracker
-                </Link>
-              </li>
-            </ul>
+            <RelatedGuides
+              exclude="qib-hni-retail-explained"
+              only={[
+                "ipo-subscription-meaning",
+                "how-ipo-allotment-works",
+                "what-is-ipo-gmp",
+                "ipo-grey-market-guide",
+                "ipo-allotment-probability-calculator",
+                "blog",
+              ]}
+            />
           </Section>
 
         </div>
@@ -583,12 +562,12 @@ function Section({ id, title, children }: any) {
   return (
     <div id={id} className="scroll-mt-24">
       <h2
-        className="text-xl sm:text-2xl font-semibold mb-4 text-[#0f172a] dark:text-white"
+        className="text-xl sm:text-2xl font-semibold mb-4 text-[#0f172a] dark:text-[#F1F5F9]"
         style={{ fontFamily: "var(--font-outfit)" }}
       >
         {title}
       </h2>
-      <div className="text-[15px] text-[#475569] dark:text-slate-300 leading-relaxed space-y-4">
+      <div className="text-[15px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed space-y-4">
         {children}
       </div>
     </div>

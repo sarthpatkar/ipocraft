@@ -4,6 +4,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 import { formatDisplayDate, formatShortDate, formatSubscriptionTimes } from "@/lib/formatters";
+import ScrollHint from "@/components/ScrollHint";
 
 type IpoRow = {
   id: number;
@@ -408,7 +409,7 @@ export default function GmpTableClient({
       </div>
 
       {/* Tabular Layout */}
-      <div className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg shadow-xs">
+      <ScrollHint className="w-full max-h-[75vh] overflow-auto overscroll-contain bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg shadow-xs">
         <table className="min-w-max w-full text-left relative">
           <thead className="bg-[#f8fafc] dark:bg-[#171B20] border-b border-gray-200 dark:border-[#252A31] text-[#475569] dark:text-[#9AA1AA] font-medium sticky top-0 z-30 shadow-xs">
             <tr className="divide-x divide-gray-200 dark:divide-[#252A31]">
@@ -509,7 +510,7 @@ export default function GmpTableClient({
             )}
           </tbody>
         </table>
-      </div>
+      </ScrollHint>
     </div>
   );
 }

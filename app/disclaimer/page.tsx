@@ -1,21 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Inter, Outfit } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["600"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const disclaimerUrl = canonicalUrl("/disclaimer");
 
@@ -31,7 +18,7 @@ export const metadata: Metadata = {
 export default function DisclaimerPage() {
   return (
     <article
-      className={`${outfit.variable} ${inter.variable} max-w-3xl mx-auto`}
+      className={`max-w-3xl mx-auto`}
     >
       <h1
         className="text-3xl sm:text-4xl font-semibold text-[#0f172a] dark:text-white mb-2"

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Outfit, Inter } from "next/font/google";
 import { canonicalUrl } from "@/lib/site-url";
 
 const termsUrl = canonicalUrl("/terms");
@@ -39,24 +38,12 @@ export const metadata: Metadata = {
   },
 };
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export default function TermsPage() {
   return (
     <main
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9]`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9]`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* HERO */}
@@ -195,16 +182,17 @@ export default function TermsPage() {
           <p className="text-[#475569] dark:text-slate-400 text-sm sm:text-base">
             For legal or policy related questions regarding these terms:
           </p>
-          <p className="font-medium">contact@ipocraft.com</p>
+          <p className="font-medium">
+            <a href="mailto:contact@ipocraft.com" className="hover:underline">contact@ipocraft.com</a>
+          </p>
         </div>
 
         <p className="text-xs sm:text-sm text-[#64748b] dark:text-slate-400 pt-6 border-t">
-          Last updated:{" "}
-          {new Date().toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
+          {/* Static date — this was showing today's date on every single page
+              load (new Date() at render time), which falsely implied the
+              terms were edited today, every day, forever. Update this string
+              by hand whenever the terms actually change. */}
+          Last updated: 27 August 2026
         </p>
       </section>
     </main>

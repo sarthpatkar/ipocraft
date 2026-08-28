@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Outfit, Inter } from "next/font/google";
 import WatchlistFilterWrapper from "@/components/WatchlistFilterWrapper";
 import BrokerList from "@/components/BrokerList";
 import DataFreshnessBar from "@/components/DataFreshnessBar";
@@ -11,19 +10,7 @@ import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { canonicalUrl } from "@/lib/site-url";
 import { calculateHypeScore } from "@/lib/hypeScore";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const homeUrl = canonicalUrl("/");
 
@@ -124,6 +111,15 @@ export default async function Home({
       .limit(20),
   ]);
 
+  // These are secondary stat-tile queries — a failure here shouldn't crash
+  // the whole homepage (the main feed above already throws into error.tsx
+  // if it fails), but silently showing "0" as if that's real data is
+  // misleading, so at minimum log it for visibility.
+  if (freshRecordResult.error) console.error("[home] last-updated query failed:", freshRecordResult.error.message);
+  if (openCountResult.error) console.error("[home] open-count query failed:", openCountResult.error.message);
+  if (upcomingCountResult.error) console.error("[home] upcoming-count query failed:", upcomingCountResult.error.message);
+  if (topGmpResult.error) console.error("[home] top-GMP query failed:", topGmpResult.error.message);
+
   const ipoFeed = ipoFeedResult;
   const lastUpdatedAt = freshRecordResult.data?.updated_at ?? null;
   const openCount = openCountResult.count ?? 0;
@@ -180,7 +176,7 @@ export default async function Home({
 
   return (
     <div
-      className={`${outfit.variable} ${inter.variable} min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
+      className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* Structured Data for SEO & GEO */}

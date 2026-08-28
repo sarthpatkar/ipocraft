@@ -254,8 +254,10 @@ export default function AllotmentCalculatorPage() {
                 { href: "/how-ipo-allotment-works", label: "How IPO Allotment Works" },
                 { href: "/ipo-subscription-meaning", label: "What is IPO Subscription?" },
                 { href: "/qib-hni-retail-explained", label: "QIB, HNI & Retail Explained" },
+                { href: "/what-is-ipo-gmp", label: "What is IPO GMP?" },
                 { href: "/gmp", label: "IPO GMP Today" },
                 { href: "/ipo", label: "All Active IPOs" },
+                { href: "/blog", label: "IPOCraft Blog" },
               ].map(({ href, label }) => (
                 <Link key={href} href={href} className="flex items-center p-3 rounded-lg border border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418] hover:border-[#1C317A] dark:hover:border-blue-500 transition-colors text-[13.5px] font-medium text-[#334155] dark:text-[#9AA1AA] hover:text-[#1C317A] dark:hover:text-blue-400" style={{ fontFamily: "var(--font-inter)" }}>
                   {label}
