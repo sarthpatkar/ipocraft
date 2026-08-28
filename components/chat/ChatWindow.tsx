@@ -715,7 +715,18 @@ export default function ChatWindow({ embedded = false, onClose }: ChatWindowProp
         {/* ── INPUT ── */}
         <div
           className="px-4 sm:px-6 pt-2.5 border-t border-gray-200 dark:border-[#1E2329] shrink-0 bg-[#F8FAFC] dark:bg-[#090B0F]"
-          style={{ paddingBottom: "max(calc(env(safe-area-inset-bottom) + 4rem), 4rem)" }}
+          // Full-page /chat needs to clear Navbar.tsx's floating bottom dock
+          // nav (fixed, renders on every page) — its footprint is roughly
+          // safe-area-inset-bottom + ~66px, so this needs real margin, not a
+          // tight guess. The embedded widget (ChatBubble.tsx) already clears
+          // that nav via its own outer positioning, so it just needs normal
+          // safe-area padding — reusing the full-page value there would eat
+          // into its fixed-height popup for no reason.
+          style={{
+            paddingBottom: embedded
+              ? "calc(env(safe-area-inset-bottom) + 0.75rem)"
+              : "calc(env(safe-area-inset-bottom) + 5rem)",
+          }}
         >
           <div className="w-full max-w-3xl mx-auto">
             <ChatInput

@@ -50,9 +50,13 @@ export default function CookieConsentBanner() {
   return (
     <>
       {/* ── COOKIE BANNER ── */}
+      {/* Sits above the floating bottom nav dock (Navbar.tsx renders it on
+          every page, ~70px tall including its own safe-area padding) rather
+          than at bottom-0, which would cover the nav and block navigation
+          for anyone who hasn't dismissed the banner yet. */}
       <div
-        className="fixed bottom-0 inset-x-0 z-[60] bg-white dark:bg-[#111418] border-t border-gray-200 dark:border-[#252A31] shadow-[0_-4px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.3)]"
-        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+        className="fixed inset-x-0 z-[60] bg-white dark:bg-[#111418] border-t border-gray-200 dark:border-[#252A31] shadow-[0_-4px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.3)]"
+        style={{ bottom: "calc(env(safe-area-inset-bottom) + 68px)" }}
         role="alertdialog"
         aria-label="Cookie consent"
       >
