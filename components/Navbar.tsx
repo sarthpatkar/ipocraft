@@ -19,7 +19,6 @@ import {
   ScaleIcon,
   CalculatorIcon,
   CurrencyRupeeIcon,
-  DocumentMagnifyingGlassIcon,
   BellIcon,
   BookOpenIcon,
   ShieldCheckIcon,
@@ -58,7 +57,6 @@ export const TOOLS_CATEGORIES = [
     color: "blue",
     links: [
       { href: "/compare", label: "Compare IPOs", Icon: ScaleIcon, desc: "Side-by-side comparison" },
-      { href: "/drhp-analyzer", label: "DRHP AI Analyzer", Icon: DocumentMagnifyingGlassIcon, desc: "Promoter risks & financials" },
       { href: "/performance", label: "Listing Track Record", Icon: ArrowTrendingUpIcon, desc: "Historical listing gains" },
       { href: "/ipo-history", label: "IPO History Archive", Icon: ClockIcon, desc: "Browse past IPOs by year" },
       { href: "/ipo-calendar", label: "IPO Calendar", Icon: CalendarDaysIcon, desc: "Open & upcoming schedule" },

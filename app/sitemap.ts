@@ -41,7 +41,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ── 2. Standalone Research Tools & AI Workstation ──
   addUrl("/chat", 0.9, "daily");
   addUrl("/compare", 0.9, "daily");
-  addUrl("/drhp-analyzer", 0.85, "weekly");
   addUrl("/ipo-profit-calculator", 0.85, "weekly");
   addUrl("/ipo-allotment-probability-calculator", 0.85, "weekly");
   addUrl("/alerts", 0.8, "weekly");

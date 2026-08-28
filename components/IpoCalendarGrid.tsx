@@ -212,11 +212,11 @@ export default function IpoCalendarGrid({ ipos }: { ipos: CalendarIpo[] }) {
       {/* ── Toolbar ── */}
       <div className="flex items-center justify-between mb-5 gap-3 flex-wrap">
         {/* Nav */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 flex-wrap">
           <button onClick={prev} className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-[#1A1F26] text-gray-500 dark:text-[#6B7280] transition-colors" aria-label="Previous month" title="Previous month">
             <ChevronLeftIcon className="w-4 h-4" />
           </button>
-          <span className="text-[15px] font-bold text-[#0f172a] dark:text-[#E8EDF3] min-w-[140px] text-center" style={{ fontFamily: "var(--font-outfit)" }}>
+          <span className="text-[15px] font-bold text-[#0f172a] dark:text-[#E8EDF3] min-w-[110px] sm:min-w-[140px] text-center" style={{ fontFamily: "var(--font-outfit)" }}>
             {MONTH_NAMES[month]} {year}
           </span>
           <button onClick={next} className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-[#1A1F26] text-gray-500 dark:text-[#6B7280] transition-colors" aria-label="Next month" title="Next month">
@@ -229,9 +229,9 @@ export default function IpoCalendarGrid({ ipos }: { ipos: CalendarIpo[] }) {
           )}
         </div>
 
-        <div className="flex items-center gap-4">
-          {/* Legend */}
-          <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
+          {/* Legend — hidden below sm; dots in the grid + Tag labels on click already convey event type on mobile */}
+          <div className="hidden sm:flex items-center gap-3">
             {(Object.keys(EV) as EventType[]).map(t => (
               <span key={t} className="flex items-center gap-1.5 text-[10.5px] text-gray-500 dark:text-[#5A6070]">
                 <span className={`w-2 h-2 rounded-full ${EV[t].dot}`} />

@@ -182,7 +182,7 @@ export default function AboutPage() {
             },
             {
               title: "Research Tools",
-              desc: "Allotment probability calculator, listing profit estimator, DRHP analyzer, and side-by-side comparison — all free.",
+              desc: "Allotment probability calculator, listing profit estimator, and side-by-side comparison — all free.",
             },
           ].map((item) => (
             <div

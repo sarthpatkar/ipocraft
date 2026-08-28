@@ -15,7 +15,6 @@ import {
   ScaleIcon,
   CalendarDaysIcon,
   ArrowTrendingUpIcon,
-  DocumentMagnifyingGlassIcon,
   CalculatorIcon,
   CurrencyRupeeIcon,
   BellIcon,
@@ -50,7 +49,6 @@ const FEATURE_PAGES: FeaturePage[] = [
 
   // Research tools
   { href: "/compare", label: "Compare IPOs", desc: "Side-by-side comparison of up to 3 IPOs", category: "Research", Icon: ScaleIcon, keywords: ["compare", "comparison", "side by side", "vs"] },
-  { href: "/drhp-analyzer", label: "DRHP AI Analyzer", desc: "AI analysis of IPO draft prospectus", category: "Research", Icon: DocumentMagnifyingGlassIcon, keywords: ["drhp", "rhp", "prospectus", "draft", "analyze", "ai analysis", "document"] },
   { href: "/performance", label: "Listing Performance", desc: "Historical listing day gains & returns", category: "Research", Icon: ArrowTrendingUpIcon, keywords: ["performance", "listing", "returns", "gains", "track record", "history", "listing day", "listing gain"] },
   { href: "/ipo-calendar", label: "IPO Calendar", desc: "Schedule of open & upcoming issues", category: "Research", Icon: CalendarDaysIcon, keywords: ["calendar", "schedule", "upcoming", "dates", "timeline", "ipo date"] },
 
@@ -296,7 +294,6 @@ export default function SearchCommand({ open, onClose }: { open: boolean; onClos
                   { label: "SME IPOs", q: "sme" },
                   { label: "Allotment Calculator", q: "allotment calculator" },
                   { label: "Live Subscriptions", q: "subscriptions" },
-                  { label: "DRHP Analyzer", q: "drhp" },
                 ].map((tag) => (
                   <button
                     key={tag.label}

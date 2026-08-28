@@ -604,24 +604,6 @@ export default async function IPODetail({
               >
                 New to IPO analysis? You may review our structured guides on <Link href="/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">how IPO allotment works</Link> and <Link href="/ipo-subscription-meaning" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">IPO subscription meaning</Link> to better understand demand and allocation mechanics.
               </p>
-
-              {/* DRHP AI Analyzer Card */}
-              <div className="mt-4 p-4 rounded-lg bg-blue-50/60 dark:bg-[#151E2E] border border-[#1C317A]/20 dark:border-[#3D5BA9]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]">
-                    Analyze Draft Red Herring Prospectus (DRHP)
-                  </p>
-                  <p className="text-[12px] text-[#475569] dark:text-[#9AA1AA] mt-0.5">
-                    Extract top promoter risks, objects of the issue, and financial history with our DRHP AI Analyzer.
-                  </p>
-                </div>
-                <Link
-                  href={`/drhp-analyzer?company=${encodeURIComponent(ipo.name)}`}
-                  className="inline-flex items-center px-3.5 py-1.5 bg-[#1C317A] hover:bg-[#28439E] text-white text-[12px] font-semibold rounded-md transition-colors shrink-0 shadow-xs"
-                >
-                  Analyze DRHP
-                </Link>
-              </div>
             </section>
 
             {/* Issue Details */}

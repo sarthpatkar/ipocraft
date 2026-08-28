@@ -5,6 +5,7 @@ import DeleteConfirmModal from "./DeleteConfirmModal";
 import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import AdminForm from "./AdminForm";
+import DRHPAnalyzerClient from "./DRHPAnalyzerClient";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 import {
   deleteIpoAction,
@@ -27,7 +28,7 @@ const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-type Tab = "ipos" | "brokers" | "feedback" | "automation" | "settings";
+type Tab = "ipos" | "brokers" | "feedback" | "automation" | "drhp" | "settings";
 
 type SyncRun = {
   id: string;
@@ -414,6 +415,7 @@ export default function AdminDashboard() {
             { id: "brokers", label: "Brokers" },
             { id: "feedback", label: "Feedback" },
             { id: "automation", label: "Automation" },
+            { id: "drhp", label: "DRHP Analyzer" },
             { id: "settings", label: "Settings" },
           ].map((t) => (
             <button
@@ -1014,6 +1016,16 @@ export default function AdminDashboard() {
       )}
 
       {/* SETTINGS TAB */}
+      {tab === "drhp" && (
+        <div className="max-w-3xl">
+          <h2 className="text-xl font-semibold mb-1">DRHP AI Analyzer</h2>
+          <p className="text-[13px] text-gray-500 dark:text-slate-400 mb-4">
+            Paste a DRHP PDF link to extract key risks, opportunities, and financials. Admin-only — 5 analyses per hour.
+          </p>
+          <DRHPAnalyzerClient />
+        </div>
+      )}
+
       {tab === "settings" && (
         <div className="border rounded-lg p-6 bg-gray-50 dark:bg-[#0f172a]">
           <h2 className="text-xl font-semibold mb-2">Settings</h2>

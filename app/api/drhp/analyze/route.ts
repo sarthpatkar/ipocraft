@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createRateLimiter } from "@/lib/rateLimit";
 import { extractWithFallback } from "@/lib/ai-providers";
+import { isAdminRequest } from "@/lib/requireAdmin";
 
 // Bypassing pdf-parse's root index.js, which contains a debug block that
 // synchronously reads a test PDF and crashes Next.js on import. Same
@@ -40,6 +41,13 @@ Extract and return ONLY a valid JSON object with this structure (no markdown, no
 Focus on the most investor-relevant information. Use "—" for any field you cannot find.`;
 
 export async function POST(req: NextRequest) {
+  // Admin-only tool — the analyzer's public page/nav/promo links were removed;
+  // this route stayed reachable by URL until this check was added, so it's
+  // enforced here rather than relying solely on there being no public link to it.
+  if (!(await isAdminRequest())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+  }
+
   const ip = getClientIp(req);
   const { allowed } = await checkDRHPLimit(ip);
   if (!allowed) {
