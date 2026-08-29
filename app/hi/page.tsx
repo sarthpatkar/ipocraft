@@ -330,7 +330,7 @@ export default async function HomeHindiPage({
           <div className="mt-6 bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="max-w-xl">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 block mb-1">मॉर्निंग मार्केट ब्रीफ</span>
-              <h4 className="text-[1.1rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]" style={{ fontFamily: "var(--font-outfit)" }}>सुबह 8:30 बजे रोज़ाना IPO और GMP अपडेट</h4>
+              <h4 className="text-[1.1rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]" style={{ fontFamily: "var(--font-outfit)" }}>सुबह 9:30 बजे रोज़ाना IPO और GMP अपडेट</h4>
               <p className="text-[13px] text-gray-500 dark:text-[#9AA1AA] mt-1">ईमेल या टेलीग्राम पर सुबह का ग्रे मार्केट डाइजेस्ट और सब्सक्रिप्शन बंद होने की सूचना पाएं।</p>
             </div>
             <Link href="/alerts" className="inline-flex items-center justify-center px-4 py-2 bg-[#1C317A] hover:bg-[#28439E] text-white text-[13px] font-semibold rounded-lg transition-colors shrink-0 shadow-xs">अलर्ट सब्सक्राइब करें</Link>

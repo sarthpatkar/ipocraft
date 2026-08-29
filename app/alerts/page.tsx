@@ -49,7 +49,7 @@ export default function AlertsPage() {
           </div>
           <div className="bg-[#17212B] rounded-xl p-4 font-mono text-[12.5px] leading-relaxed text-[#E8E8E8] border border-[#2B3947] shadow-lg">
             <p className="text-[#7EC8E3] font-semibold mb-1">IPOCraft Morning GMP Brief</p>
-            <p className="text-[#9AA1AA] text-[11px] mb-3">Daily at 8:30 AM IST · ipocraft.com</p>
+            <p className="text-[#9AA1AA] text-[11px] mb-3">Daily at 9:30 AM IST · ipocraft.com</p>
             <p className="text-[#64B5F6] font-semibold mb-1 text-[11px] uppercase tracking-wider">Mainboard IPOs</p>
             <p>
               <span className="text-white font-semibold">ABC Technologies Ltd</span>{" "}
