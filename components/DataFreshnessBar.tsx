@@ -59,7 +59,7 @@ export default function DataFreshnessBar({
         <span
           className={`w-1.5 h-1.5 rounded-full ${isStale ? "bg-amber-500" : "bg-emerald-500 animate-pulse"}`}
         />
-        {isStale ? "Data may be stale" : "Live data"}
+        {!isStale && "Live data"}
       </span>
 
       <span className="text-current opacity-40">·</span>
