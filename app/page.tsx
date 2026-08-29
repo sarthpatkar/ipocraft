@@ -673,7 +673,7 @@ export default async function Home({
                 className="text-[1.1rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
                 style={{ fontFamily: "var(--font-outfit)" }}
               >
-                Daily IPO &amp; GMP Updates at 8:30 AM
+                Daily IPO &amp; GMP Updates at 9:30 AM
               </h4>
               <p className="text-[13px] text-gray-500 dark:text-[#9AA1AA] mt-1">
                 Receive the morning grey market digest and subscription closing notifications via email or Telegram.
