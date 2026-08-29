@@ -16,6 +16,12 @@ export const metadata: Metadata = {
     "Understand IPO subscription meaning, oversubscription, undersubscription, category-wise demand, and how IPO subscription impacts allotment and listing.",
   alternates: {
     canonical: ipoSubscriptionUrl,
+    languages: {
+      en: ipoSubscriptionUrl,
+      hi: canonicalUrl("/hi/ipo-subscription-meaning"),
+      mr: canonicalUrl("/mr/ipo-subscription-meaning"),
+      "x-default": ipoSubscriptionUrl,
+    },
   },
   openGraph: {
     title: "IPO Subscription Meaning Explained – IPOCraft",
@@ -65,6 +71,18 @@ export default function IpoSubscriptionMeaning() {
           Offering. It reflects demand levels across Retail, HNI (NII), and QIB
           categories. Investors track IPO subscription status daily to estimate
           allotment probability and potential listing performance.
+        </p>
+
+        <p className="mt-3 text-[13px] text-[#64748b] dark:text-[#9AA1AA]">
+          Also available in{" "}
+          <Link href="/hi/ipo-subscription-meaning" className="text-[#1C317A] dark:text-blue-400 underline">
+            हिंदी
+          </Link>{" "}
+          and{" "}
+          <Link href="/mr/ipo-subscription-meaning" className="text-[#1C317A] dark:text-blue-400 underline">
+            मराठी
+          </Link>
+          .
         </p>
 
         {/* Jump Navigation */}
@@ -281,6 +299,7 @@ export default function IpoSubscriptionMeaning() {
                 "ipo-grey-market-guide",
                 "how-ipo-allotment-works",
                 "qib-hni-retail-explained",
+                "ipo-cut-off-price-meaning",
                 "ipo-allotment-probability-calculator",
                 "blog",
               ]}

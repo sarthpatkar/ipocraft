@@ -39,6 +39,12 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: homeUrl,
+    languages: {
+      en: homeUrl,
+      hi: canonicalUrl("/hi"),
+      mr: canonicalUrl("/mr"),
+      "x-default": homeUrl,
+    },
   },
 };
 

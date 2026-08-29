@@ -41,7 +41,17 @@ const REGISTRAR_URLS: Record<string, string> = {
   "alankit": "https://alankit.com/ipo-allotment-status",
 };
 
-export default function AllotmentClient({ ipos }: { ipos: AllotmentIpo[] }) {
+export default function AllotmentClient({
+  ipos,
+  title = "IPO Allotment Status: Check Online (Live)",
+  eyebrow = "Allotment Status",
+  subtitle = "Direct registrar links and BSE/NSE application verification for recent Mainboard and SME IPOs.",
+}: {
+  ipos: AllotmentIpo[];
+  title?: string;
+  eyebrow?: string;
+  subtitle?: string;
+}) {
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<"ALL" | "MAINBOARD" | "SME">("ALL");
   const [statusFilter, setStatusFilter] = useState<"ALL" | "OUT" | "AWAITING">("ALL");
@@ -103,16 +113,16 @@ export default function AllotmentClient({ ipos }: { ipos: AllotmentIpo[] }) {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b border-gray-200 dark:border-[#252A31]">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
-            Allotment Status
+            {eyebrow}
           </p>
           <h1
             className="text-xl sm:text-2xl font-semibold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
-            IPO Allotment Tracker
+            {title}
           </h1>
           <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA]">
-            Direct registrar links and BSE/NSE application verification for recent Mainboard and SME IPOs.
+            {subtitle}
           </p>
         </div>
       </div>

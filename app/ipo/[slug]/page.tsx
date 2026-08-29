@@ -476,6 +476,89 @@ export default async function IPODetail({
         />
       )}
 
+      {/* Dataset schema — per-IPO GMP/subscription data, mirrors the /gmp
+          page's Dataset markup but scoped to this single issue so each
+          detail page is independently eligible for data-rich results. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Dataset",
+            name: `${ipo.name} IPO GMP & Subscription Data`,
+            description: `Live Grey Market Premium, subscription status, price band, and allotment/listing timeline for the ${ipo.name} ${ipo.ipo_type ?? ""} IPO.`.replace(/\s+/g, " "),
+            url: detailUrl,
+            creator: { "@type": "Organization", name: "IPOCraft", url: "https://ipocraft.com" },
+            dateModified: (lastUpdated ?? new Date()).toISOString(),
+            license: "https://creativecommons.org/licenses/by-nc/4.0/",
+            spatialCoverage: { "@type": "Place", name: "India" },
+            keywords: [
+              `${ipo.name} IPO GMP`,
+              `${ipo.name} IPO allotment status`,
+              `${ipo.name} IPO subscription`,
+              "IPO GMP",
+              "Grey Market Premium",
+            ],
+          }),
+        }}
+      />
+
+      {/* FAQPage schema — answers built from this IPO's own live fields, so
+          every one of the 600+ detail pages carries a genuinely unique
+          Q&A set instead of templated boilerplate. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: `What is the GMP of ${ipo.name} IPO today?`,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    latestGmp != null
+                      ? `As of the latest update, the GMP (Grey Market Premium) of ${ipo.name} IPO is ${gmpDisplay}${gmpVsIssuePricePercent != null ? ` (about ${gmpVsIssuePricePercent.toFixed(1)}% over the issue price)` : ""}. GMP is an unofficial, unregulated indicator and can change until listing.`
+                      : `GMP for ${ipo.name} IPO has not been reported yet. Check the live IPO GMP tracker on IPOCraft for updates as the issue approaches its listing date.`,
+                },
+              },
+              {
+                "@type": "Question",
+                name: `What is the price band of ${ipo.name} IPO?`,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    priceBand !== "-"
+                      ? `${ipo.name} IPO has a price band of ${priceBand} per share, with a lot size of ${ipo.lot_size ?? "—"} shares (minimum investment of approximately ${minInvestment}).`
+                      : `The price band for ${ipo.name} IPO has not been announced yet.`,
+                },
+              },
+              {
+                "@type": "Question",
+                name: `When is the ${ipo.name} IPO allotment and listing date?`,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: `${ipo.name} IPO allotment is expected on ${valueOrDash(ipo.allotment_date)}, with listing on ${valueOrDash(ipo.listing_date)}. Check the registrar link on this page for live allotment status once finalized.`,
+                },
+              },
+              {
+                "@type": "Question",
+                name: `What is the subscription status of ${ipo.name} IPO?`,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    ipo.sub_total != null
+                      ? `${ipo.name} IPO has been subscribed ${ipo.sub_total}x overall (QIB: ${formatSubscriptionTimes(ipo.sub_qib)}, NII: ${formatSubscriptionTimes(ipo.sub_nii)}). Figures reflect exchange bidding data and update through the bidding period.`
+                      : `Subscription data for ${ipo.name} IPO is not yet available. It will populate once bidding opens.`,
+                },
+              },
+            ],
+          }),
+        }}
+      />
+
       {/* ── Navigation Bar ── */}
       <div className="bg-white dark:bg-[#111418] border-b border-[#e2e8f0] dark:border-[#252A31]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center gap-3">

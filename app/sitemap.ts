@@ -52,7 +52,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   addUrl("/ipo-subscription-meaning", 0.8, "monthly");
   addUrl("/qib-hni-retail-explained", 0.8, "monthly");
   addUrl("/ipo-grey-market-guide", 0.8, "monthly");
+  addUrl("/kostak-rate-meaning", 0.7, "monthly");
+  addUrl("/drhp-vs-rhp-difference", 0.7, "monthly");
+  addUrl("/ipo-cut-off-price-meaning", 0.7, "monthly");
+  addUrl("/anchor-investor-lock-in-period", 0.7, "monthly");
   addUrl("/blog", 0.75, "weekly");
+
+  // ── 3b. Hindi & Marathi Glossary Variants ──
+  for (const term of [
+    "what-is-ipo-gmp",
+    "ipo-subscription-meaning",
+    "qib-hni-retail-explained",
+    "ipo-grey-market-guide",
+    "how-ipo-allotment-works",
+    "kostak-rate-meaning",
+    "drhp-vs-rhp-difference",
+    "ipo-cut-off-price-meaning",
+    "anchor-investor-lock-in-period",
+  ]) {
+    addUrl(`/hi/${term}`, 0.65, "monthly");
+    addUrl(`/mr/${term}`, 0.65, "monthly");
+  }
+
+  // ── 3c. Hindi & Marathi Live Tool Pages ──
+  addUrl("/hi", 0.9, "daily");
+  addUrl("/mr", 0.9, "daily");
+  addUrl("/hi/gmp", 0.85, "daily");
+  addUrl("/mr/gmp", 0.85, "daily");
+  addUrl("/hi/allotment-status", 0.8, "daily");
+  addUrl("/mr/allotment-status", 0.8, "daily");
+  addUrl("/hi/subscriptions", 0.8, "daily");
+  addUrl("/mr/subscriptions", 0.8, "daily");
   addUrl("/brokers", 0.7, "monthly");
 
   // ── 4. Transparency, Company & Legal Pages ──

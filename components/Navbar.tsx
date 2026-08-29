@@ -36,6 +36,7 @@ import {
 import ThemeToggle from "@/components/ThemeToggle";
 import SearchCommand from "@/components/SearchCommand";
 import OpenIpoTicker from "@/components/OpenIpoTicker";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type LinkItem = {
   href: string;
@@ -160,11 +161,14 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 gap-2 sm:gap-3">
-            {/* Brand Logo */}
-            <Link href="/" className="flex items-center gap-2 shrink-0 focus:outline-none" aria-label="IPOCraft Home">
-              <Image src="/logo-light.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain dark:hidden" />
-              <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain hidden dark:block" />
-            </Link>
+            {/* Brand Logo + (page-specific) Language Switcher */}
+            <div className="flex items-center gap-2 min-w-0">
+              <Link href="/" className="flex items-center gap-2 shrink-0 focus:outline-none" aria-label="IPOCraft Home">
+                <Image src="/logo-light.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain dark:hidden" />
+                <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain hidden dark:block" />
+              </Link>
+              <LanguageSwitcher />
+            </div>
 
             {/* Right Action Cluster: Search + Theme + IPO History + AI Chat */}
             <div className="flex items-center gap-1 sm:gap-2 min-w-0">

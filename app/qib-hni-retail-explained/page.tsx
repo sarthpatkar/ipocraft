@@ -15,6 +15,12 @@ export const metadata: Metadata = {
     "Understand QIB, HNI (NII), and Retail investor categories in IPOs, their allocation quotas, subscription impact, and allotment differences.",
   alternates: {
     canonical: investorCategoriesUrl,
+    languages: {
+      en: investorCategoriesUrl,
+      hi: canonicalUrl("/hi/qib-hni-retail-explained"),
+      mr: canonicalUrl("/mr/qib-hni-retail-explained"),
+      "x-default": investorCategoriesUrl,
+    },
   },
   openGraph: {
     title: "QIB vs HNI vs Retail – IPO Investor Categories Explained",
@@ -65,6 +71,18 @@ export default function InvestorCategoriesGuide() {
           (RII). Each category has a specific quota, allocation method, and
           subscription dynamics. Understanding these differences helps investors
           evaluate allotment chances and demand trends more accurately.
+        </p>
+
+        <p className="mt-3 text-[13px] text-[#64748b] dark:text-[#9AA1AA]">
+          Also available in{" "}
+          <Link href="/hi/qib-hni-retail-explained" className="text-[#1C317A] dark:text-blue-400 underline">
+            हिंदी
+          </Link>{" "}
+          and{" "}
+          <Link href="/mr/qib-hni-retail-explained" className="text-[#1C317A] dark:text-blue-400 underline">
+            मराठी
+          </Link>
+          .
         </p>
 
         {/* Quick Comparison Card */}
@@ -407,6 +425,8 @@ export default function InvestorCategoriesGuide() {
                 "how-ipo-allotment-works",
                 "what-is-ipo-gmp",
                 "ipo-grey-market-guide",
+                "anchor-investor-lock-in-period",
+                "ipo-cut-off-price-meaning",
                 "ipo-allotment-probability-calculator",
                 "blog",
               ]}

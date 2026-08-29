@@ -12,6 +12,12 @@ export const metadata: Metadata = {
     "Advanced IPO Grey Market Guide covering GMP calculation, historical listing comparisons, SME vs Mainboard analysis, probability interpretation, risks, and data transparency.",
   alternates: {
     canonical: ipoGreyMarketGuideUrl,
+    languages: {
+      en: ipoGreyMarketGuideUrl,
+      hi: canonicalUrl("/hi/ipo-grey-market-guide"),
+      mr: canonicalUrl("/mr/ipo-grey-market-guide"),
+      "x-default": ipoGreyMarketGuideUrl,
+    },
   },
 };
 
@@ -126,6 +132,18 @@ export default function IpoGreyMarketGuide() {
 
           <p className="mt-4 text-sm sm:text-[14.5px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
             The IPO grey market plays a powerful psychological role in shaping investor expectations before listing. This guide explains how Grey Market Premium (GMP) forms, how it correlates with listing performance, historical behaviour patterns, SME differences, and how to interpret probability instead of certainty.
+          </p>
+
+          <p className="mt-3 text-[13px] text-[#64748b] dark:text-[#9AA1AA]">
+            Also available in{" "}
+            <Link href="/hi/ipo-grey-market-guide" className="text-[#1C317A] dark:text-blue-400 underline">
+              हिंदी
+            </Link>{" "}
+            and{" "}
+            <Link href="/mr/ipo-grey-market-guide" className="text-[#1C317A] dark:text-blue-400 underline">
+              मराठी
+            </Link>
+            .
           </p>
 
           <p className="mt-3 text-xs text-gray-500 dark:text-[#6B7280]">Last updated: {lastUpdatedReadable}</p>
@@ -293,6 +311,8 @@ export default function IpoGreyMarketGuide() {
             <li><Link href="/how-ipo-allotment-works" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Allotment Guide</Link></li>
             <li><Link href="/what-is-ipo-gmp" className="text-[#1C317A] dark:text-blue-400 hover:underline">What is IPO GMP?</Link></li>
             <li><Link href="/ipo-subscription-meaning" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Subscription Meaning</Link></li>
+            <li><Link href="/kostak-rate-meaning" className="text-[#1C317A] dark:text-blue-400 hover:underline">What is Kostak Rate?</Link></li>
+            <li><Link href="/anchor-investor-lock-in-period" className="text-[#1C317A] dark:text-blue-400 hover:underline">Anchor Investor Lock-in Period</Link></li>
             <li><Link href="/ipo-profit-calculator" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO Listing Profit Calculator</Link></li>
             <li><Link href="/blog" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPOCraft Blog</Link></li>
           </ul>

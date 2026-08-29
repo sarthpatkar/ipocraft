@@ -22,6 +22,12 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: subsUrl,
+    languages: {
+      en: subsUrl,
+      hi: canonicalUrl("/hi/subscriptions"),
+      mr: canonicalUrl("/mr/subscriptions"),
+      "x-default": subsUrl,
+    },
   },
 };
 

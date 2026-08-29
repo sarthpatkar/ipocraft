@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import GmpTableClient from "@/components/GmpTableClient";
 import PushOptIn from "@/components/PushOptIn";
+import DataFreshnessBar from "@/components/DataFreshnessBar";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 import { canonicalUrl } from "@/lib/site-url";
 
@@ -27,6 +28,12 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: gmpUrl,
+    languages: {
+      en: gmpUrl,
+      hi: canonicalUrl("/hi/gmp"),
+      mr: canonicalUrl("/mr/gmp"),
+      "x-default": gmpUrl,
+    },
   },
   openGraph: {
     title:
@@ -91,6 +98,18 @@ export default async function GMPPage({
 
   const ipos = sortIposByNewestOpenDate(iposData || []);
 
+  // Freshness signal for the "IPO GMP today" head term — same pattern as
+  // the homepage's DataFreshnessBar, scoped to whichever row moved last.
+  const { data: freshRecord, error: freshError } = await supabase
+    .from("ipos")
+    .select("updated_at")
+    .not("updated_at", "is", null)
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (freshError) console.error("[gmp] last-updated query failed:", freshError.message);
+  const lastUpdatedAt = freshRecord?.updated_at ?? null;
+
   const gmpMap: Record<string, { latest?: number; prev?: number }> = {};
 
   if (ipos?.length) {
@@ -154,6 +173,51 @@ export default async function GMPPage({
           }),
         }}
       />
+      {/* FAQPage schema — targets the "GMP full form", "is GMP reliable"
+          class of queries directly from the /gmp page itself. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What is IPO GMP?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "IPO GMP stands for Grey Market Premium — the unofficial premium at which IPO shares trade before listing on the exchange. It reflects investor sentiment, not a guaranteed listing price.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Is today's IPO GMP data live?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes. IPOCraft updates GMP figures for all open, upcoming, and recently listed Mainboard and SME IPOs multiple times daily as new market data comes in.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How is IPO GMP different from the subscription figure?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Subscription data is official demand reported by BSE/NSE from Retail, NII, and QIB investors. GMP is an unofficial, unregulated grey-market indicator tracked separately and shown alongside subscription data on this page.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Can I rely on GMP to decide whether to apply for an IPO?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "No. GMP is speculative and not SEBI-regulated. Use it as one sentiment signal alongside subscription trends, company fundamentals, and official filings — not as a standalone investment decision.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
         {/* Compact Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5 pb-4 border-b border-gray-200 dark:border-[#252A31]">
@@ -187,6 +251,10 @@ export default async function GMPPage({
               Compare Brokers
             </Link>
           </div>
+        </div>
+
+        <div className="-mx-4 sm:-mx-6 lg:-mx-8 mb-4">
+          <DataFreshnessBar lastUpdatedAt={lastUpdatedAt} syncIntervalMinutes={30} label="IPO GMP data" />
         </div>
 
         <div className="mb-4">
