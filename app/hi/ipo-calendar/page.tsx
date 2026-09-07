@@ -235,11 +235,11 @@ function Section({
                 href={`/ipo/${ipo.slug}`}
                 className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 hover:border-gray-400 dark:hover:border-gray-500 transition-colors group"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold text-[14px] text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">{ipo.name}</h3>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h3 className="min-w-0 flex-1 font-semibold text-[14px] text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">{ipo.name}</h3>
 
                   <span
-                    className={`text-[9.5px] px-2 py-0.5 font-semibold uppercase rounded-md ${getBadge(status)}`}
+                    className={`shrink-0 text-[9.5px] px-2 py-0.5 font-semibold uppercase rounded-md ${getBadge(status)}`}
                   >
                     {STATUS_LABEL_HI[status] ?? status}
                   </span>

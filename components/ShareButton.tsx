@@ -51,7 +51,7 @@ export default function ShareButton({ title, url, text, slug }: ShareButtonProps
 
   return (
     <>
-      <div ref={menuRef} className="relative">
+      <div ref={menuRef} className="relative self-start">
         <button
           onClick={handleShare}
           aria-label="Share this IPO"

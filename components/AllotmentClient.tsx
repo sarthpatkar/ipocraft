@@ -241,7 +241,7 @@ export default function AllotmentClient({
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <Link
                       href={`/ipo/${ipo.slug}`}
-                      className="text-[14.5px] sm:text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F3F5] hover:text-blue-600 dark:hover:text-blue-400 transition-colors truncate"
+                      className="min-w-0 max-w-full text-[14.5px] sm:text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F3F5] hover:text-blue-600 dark:hover:text-blue-400 transition-colors truncate"
                     >
                       {ipo.name}
                     </Link>

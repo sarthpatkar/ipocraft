@@ -6,11 +6,11 @@ export default function DeleteConfirmModal({
   onClose,
 }: any) {
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-[#111827] rounded-lg p-6 space-y-4 w-96">
-        <h2 className="text-lg font-semibold">{title}</h2>
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-[#111827] rounded-lg p-6 space-y-4 w-full max-w-sm">
+        <h2 className="text-lg font-semibold break-words">{title}</h2>
 
-        <div className="flex justify-end gap-3">
+        <div className="flex flex-wrap justify-end gap-3">
           <button
             onClick={onClose}
             className="border px-4 py-2 rounded"
