@@ -9,7 +9,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 export const metadata: Metadata = {
   title: "IPO Cut-off Price Meaning: What It Is & Who Can Use It | IPOCraft",
   description:
-    "IPO cut-off price explained: what bidding ’at cut-off’ means, who is eligible (Retail investors only), how refunds work if the final price is lower, and when to use it.",
+    "IPO cut-off price explained: what bidding ’at cut-off’ means, who’s eligible (Retail only), how refunds work, and when to use it.",
   alternates: {
     canonical: pageUrl,
     languages: {
@@ -158,7 +158,7 @@ export default function CutOffPricePage() {
             publisher: {
               "@type": "Organization",
               name: "IPOCraft",
-              logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+              logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" },
             },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),

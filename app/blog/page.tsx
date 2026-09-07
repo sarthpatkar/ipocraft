@@ -42,6 +42,27 @@ export default async function BlogIndexPage() {
       className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9] antialiased pb-16`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
+      {/* Blog + ItemList schema — lists every article so Google can crawl
+          the collection structure directly from structured data, not just
+          the rendered links. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Blog",
+            name: "IPOCraft Insights",
+            description: "IPO market articles, Grey Market Premium analysis, and listing strategies.",
+            url: canonicalUrl("/blog"),
+            publisher: { "@type": "Organization", name: "IPOCraft" },
+            blogPost: allArticles.map((article: any) => ({
+              "@type": "BlogPosting",
+              headline: article.title,
+              url: canonicalUrl(`/blog/${article.slug}`),
+            })),
+          }),
+        }}
+      />
       <div className="bg-white dark:bg-[#111418] border-b border-gray-200 dark:border-[#252A31]">
         <div className="max-w-[1000px] mx-auto px-4 sm:px-6 py-8 sm:py-10 text-center">
           <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-2 tracking-wider">

@@ -10,7 +10,7 @@ const investorCategoriesUrl = canonicalUrl("/qib-hni-retail-explained");
 const CURRENT_YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
-  title: "QIB vs HNI vs Retail Investors – IPO Categories Explained",
+  title: "QIB vs HNI vs Retail Explained – IPO Investor Categories | IPOCraft",
   description:
     "Understand QIB, HNI (NII), and Retail investor categories in IPOs, their allocation quotas, subscription impact, and allotment differences.",
   alternates: {
@@ -471,7 +471,7 @@ export default function InvestorCategoriesGuide() {
           publisher: {
             "@type": "Organization",
             name: "IPOCraft",
-            logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+            logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" },
           },
           datePublished: "2024-01-01",
           dateModified: new Date().toISOString(),

@@ -308,6 +308,7 @@ export default function WhatIsIpoGmpPage() {
                 "how-ipo-allotment-works",
                 "qib-hni-retail-explained",
                 "kostak-rate-meaning",
+                "drhp-vs-rhp-difference",
                 "ipo-profit-calculator",
                 "blog",
               ]}
@@ -360,7 +361,7 @@ export default function WhatIsIpoGmpPage() {
           publisher: {
             "@type": "Organization",
             name: "IPOCraft",
-            logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+            logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" },
           },
           datePublished: "2024-01-01",
           dateModified: new Date().toISOString(),

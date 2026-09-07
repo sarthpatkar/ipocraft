@@ -5,13 +5,15 @@ import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { canonicalUrl } from "@/lib/site-url";
 import HistoricalIpoCard, { type HistoricalIpoItem } from "@/components/HistoricalIpoCard";
 
-const ipoHistoryUrl = canonicalUrl("/ipo-history");
+const hiHistoryUrl = canonicalUrl("/hi/ipo-history");
+const enUrl = canonicalUrl("/ipo-history");
+const mrUrl = canonicalUrl("/mr/ipo-history");
 const PAGE_SIZE = 24;
 
 const SORTS = {
-  newest: { column: "listing_date", ascending: false, label: "Newest Listed" },
-  gain_desc: { column: "listing_gain_percent", ascending: false, label: "Best Gain" },
-  gain_asc: { column: "listing_gain_percent", ascending: true, label: "Worst Gain" },
+  newest: { column: "listing_date", ascending: false, label: "नई लिस्टिंग" },
+  gain_desc: { column: "listing_gain_percent", ascending: false, label: "सबसे अच्छा गेन" },
+  gain_asc: { column: "listing_gain_percent", ascending: true, label: "सबसे खराब गेन" },
 } as const;
 type SortKey = keyof typeof SORTS;
 
@@ -31,7 +33,7 @@ function buildHref(params: { year?: string; type?: string; sort?: SortKey; page?
   if (params.sort && params.sort !== "newest") q.set("sort", params.sort);
   if (params.page && params.page > 1) q.set("page", String(params.page));
   const query = q.toString();
-  return query ? `/ipo-history?${query}` : "/ipo-history";
+  return query ? `/hi/ipo-history?${query}` : "/hi/ipo-history";
 }
 
 export async function generateMetadata({
@@ -42,9 +44,6 @@ export async function generateMetadata({
   const params = await searchParams;
   const rawYear = params.year?.trim();
   const currentYear = new Date().getFullYear();
-  // Only treat a real 4-digit year in a sane range as its own indexable
-  // page — anything else (missing, "all", garbage) falls back to the
-  // base archive so we never canonicalize to a bogus query value.
   const isValidYear =
     !!rawYear &&
     rawYear !== "all" &&
@@ -53,52 +52,24 @@ export async function generateMetadata({
     Number(rawYear) <= currentYear + 1;
 
   const yearLabel = isValidYear ? rawYear! : "2004–2026";
-  const title = `IPO History India ${yearLabel} — Past IPO Listing Gains & Data | IPOCraft`;
+  const title = `IPO इतिहास भारत ${yearLabel} — पिछली IPO लिस्टिंग गेन और डेटा | IPOCraft`;
   const description = isValidYear
-    ? `Browse every Indian IPO listed in ${rawYear}, with issue price, listing price, realized listing gains, and lot size for Mainboard and SME issues.`
-    : "Browse the complete archive of past Indian IPOs by year — issue price, listing price, realized listing gains, and lot size for Mainboard and SME issues.";
-  // canonicalUrl() strips query strings by design (it's meant for clean
-  // canonical paths), so a valid year builds its own canonical directly
-  // rather than collapsing every /ipo-history?year=YYYY into the base
-  // archive page — each year has genuinely distinct, rankable content
-  // (e.g. "IPO listing gains 2023") that was previously invisible to
-  // Google behind a single shared canonical.
-  const canonical = isValidYear ? `${ipoHistoryUrl}?year=${rawYear}` : ipoHistoryUrl;
+    ? `${rawYear} में लिस्ट हुए हर भारतीय IPO को इश्यू प्राइस, लिस्टिंग प्राइस, वास्तविक लिस्टिंग गेन और मेनबोर्ड व SME इश्यू के लॉट साइज़ के साथ देखें।`
+    : "वर्ष के अनुसार पिछले भारतीय IPO का पूरा संग्रह ब्राउज़ करें, जिसमें इश्यू प्राइस, लिस्टिंग प्राइस, लिस्टिंग गेन और मेनबोर्ड और SME इश्यू के लिए लॉट साइज़ शामिल हैं।";
+  const canonical = isValidYear ? `${hiHistoryUrl}?year=${rawYear}` : hiHistoryUrl;
 
   return {
     title,
     description,
-    keywords: isValidYear
-      ? [
-          "IPO history India",
-          `IPO listing gains ${rawYear}`,
-          `IPO list ${rawYear}`,
-          `Mainboard IPO ${rawYear}`,
-          `SME IPO ${rawYear}`,
-          "past IPO performance India",
-        ]
-      : [
-          "IPO history India",
-          "past IPO listing gains",
-          "IPO archive India",
-          "historical IPO data",
-          "IPO listing price vs issue price",
-        ],
     alternates: {
       canonical,
-      languages: {
-        en: ipoHistoryUrl,
-        hi: canonicalUrl("/hi/ipo-history"),
-        mr: canonicalUrl("/mr/ipo-history"),
-        "x-default": ipoHistoryUrl,
-      },
+      languages: { en: enUrl, hi: hiHistoryUrl, mr: mrUrl, "x-default": enUrl },
     },
     openGraph: { title, description, url: canonical, siteName: "IPOCraft", type: "website" },
-    twitter: { card: "summary_large_image", title, description },
   };
 }
 
-export default async function IpoHistoryPage({
+export default async function IpoHistoryHindiPage({
   searchParams,
 }: {
   searchParams: Promise<{ year?: string; type?: string; sort?: string; page?: string }>;
@@ -112,7 +83,6 @@ export default async function IpoHistoryPage({
 
   const supabase = await createSupabaseServerClient();
 
-  // Distinct years present among listed IPOs — cheap single-column fetch.
   const { data: dateRows } = await supabase
     .from("ipos")
     .select("listing_date")
@@ -155,6 +125,7 @@ export default async function IpoHistoryPage({
 
   return (
     <div
+      lang="hi"
       className="min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased"
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
@@ -164,55 +135,57 @@ export default async function IpoHistoryPage({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Dataset",
-            name: "Historical IPO Listings India",
+            name: "ऐतिहासिक IPO लिस्टिंग — भारत",
             description:
-              "Archive of past Indian IPOs with issue price, listing price, and realized listing gains across Mainboard and SME segments.",
-            url: ipoHistoryUrl,
+              "मेनबोर्ड और SME सेगमेंट में इश्यू प्राइस, लिस्टिंग प्राइस और वास्तविक लिस्टिंग गेन के साथ पिछले भारतीय IPO का संग्रह।",
+            url: hiHistoryUrl,
           }),
         }}
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5 pb-4 border-b border-gray-200 dark:border-[#252A31]">
           <div>
             <p className="text-[11px] font-semibold tracking-wider uppercase text-blue-600 dark:text-blue-400 mb-1">
-              Historical Archive
+              ऐतिहासिक आर्काइव
             </p>
             <h1
               className="text-xl sm:text-2xl font-semibold tracking-tight text-[#0f172a] dark:text-[#F1F5F9]"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
-              Complete IPO History — India
+              पूरा IPO इतिहास — भारत
             </h1>
             <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA]">
-              {totalCount.toLocaleString("en-IN")} past Mainboard &amp; SME IPOs — issue price, listing price, and realized gains.
+              {totalCount.toLocaleString("en-IN")} पिछले मेनबोर्ड और SME IPO — इश्यू प्राइस, लिस्टिंग प्राइस और वास्तविक गेन के साथ।
             </p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0 text-[12.5px]">
             <Link href="/performance" className="font-medium text-blue-600 dark:text-blue-400 hover:underline">
-              Top Performers
+              टॉप परफॉर्मर्स
             </Link>
             <span className="text-gray-300 dark:text-[#252A31]">|</span>
             <Link href="/ipo" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">
-              Live IPO Directory
+              लाइव IPO डायरेक्टरी
+            </Link>
+            <span className="text-gray-300 dark:text-[#252A31]">|</span>
+            <Link href="/ipo-history" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">
+              English में देखें
             </Link>
           </div>
         </div>
 
-        {/* Stats strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
           <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3.5">
             <p className="text-[11px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-0.5">
-              {selectedYear === "all" ? "All-Time" : selectedYear} IPOs
+              {selectedYear === "all" ? "अब तक के" : selectedYear} IPO
             </p>
             <p className="text-[18px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]" style={{ fontFamily: "var(--font-outfit)" }}>
               {totalCount.toLocaleString("en-IN")}
             </p>
           </div>
           <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3.5">
-            <p className="text-[11px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-0.5">Avg. Listing Gain (page)</p>
+            <p className="text-[11px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-0.5">औसत लिस्टिंग गेन (पेज)</p>
             <p
               className={`text-[18px] font-semibold ${
                 avgGain == null ? "text-[#0f172a] dark:text-[#F1F5F9]" : avgGain >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
@@ -223,23 +196,21 @@ export default async function IpoHistoryPage({
             </p>
           </div>
           <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3.5">
-            <p className="text-[11px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-0.5">Gainers (page)</p>
+            <p className="text-[11px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-0.5">गेनर्स (पेज)</p>
             <p className="text-[18px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]" style={{ fontFamily: "var(--font-outfit)" }}>
               {gainerPct != null ? `${gainerPct}%` : "-"}
             </p>
           </div>
           <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3.5">
-            <p className="text-[11px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-0.5">Page</p>
+            <p className="text-[11px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-0.5">पेज</p>
             <p className="text-[18px] font-semibold text-[#0f172a] dark:text-[#F1F5F9]" style={{ fontFamily: "var(--font-outfit)" }}>
               {currentPage} / {totalPages}
             </p>
           </div>
         </div>
 
-        {/* Filters ribbon */}
         <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 mb-5 shadow-xs">
           <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-            {/* Year pills */}
             <div className="flex flex-wrap items-center gap-1 rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50 dark:bg-[#171B20] p-0.5">
               <Link
                 href={buildHref({ year: "all", type: selectedType, sort: selectedSort })}
@@ -249,7 +220,7 @@ export default async function IpoHistoryPage({
                     : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-[#F1F5F9]"
                 }`}
               >
-                All Years
+                सभी वर्ष
               </Link>
               {years.map((y) => (
                 <Link
@@ -267,7 +238,6 @@ export default async function IpoHistoryPage({
             </div>
 
             <div className="flex flex-wrap items-center gap-1.5">
-              {/* Type pills */}
               <div className="flex items-center gap-1 rounded-md border border-gray-200 dark:border-[#252A31] bg-gray-50 dark:bg-[#171B20] p-0.5">
                 <Link
                   href={buildHref({ year: selectedYear, sort: selectedSort })}
@@ -277,7 +247,7 @@ export default async function IpoHistoryPage({
                       : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-[#F1F5F9]"
                   }`}
                 >
-                  All
+                  सभी
                 </Link>
                 <Link
                   href={buildHref({ year: selectedYear, type: "mainboard", sort: selectedSort })}
@@ -287,7 +257,7 @@ export default async function IpoHistoryPage({
                       : "text-gray-500 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-[#F1F5F9]"
                   }`}
                 >
-                  Mainboard
+                  मेनबोर्ड
                 </Link>
                 <Link
                   href={buildHref({ year: selectedYear, type: "sme", sort: selectedSort })}
@@ -303,7 +273,6 @@ export default async function IpoHistoryPage({
 
               <span className="hidden sm:inline-block w-px h-4 bg-gray-200 dark:bg-[#252A31] mx-1" />
 
-              {/* Sort toggles */}
               {(Object.keys(SORTS) as SortKey[]).map((key) => (
                 <Link
                   key={key}
@@ -321,10 +290,9 @@ export default async function IpoHistoryPage({
           </div>
         </div>
 
-        {/* Grid */}
         {ipos.length === 0 ? (
           <div className="bg-white dark:bg-[#111418] border border-dashed border-gray-300 dark:border-[#252A31] rounded-lg p-8 text-center text-[#64748b] dark:text-[#9AA1AA] text-sm mb-6">
-            No IPOs found for this filter.
+            इस फ़िल्टर के लिए कोई IPO नहीं मिला।
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
@@ -334,7 +302,6 @@ export default async function IpoHistoryPage({
           </div>
         )}
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-2 mb-8">
             <Link
@@ -346,10 +313,10 @@ export default async function IpoHistoryPage({
                   : "border-gray-900 dark:border-white bg-gray-900 text-white dark:bg-white dark:text-black shadow-xs hover:opacity-90"
               }`}
             >
-              Previous
+              पिछला
             </Link>
             <span className="text-[12.5px] text-gray-500 dark:text-[#9AA1AA] px-2">
-              Page {currentPage} of {totalPages}
+              पेज {currentPage} / {totalPages}
             </span>
             <Link
               href={buildHref({ year: selectedYear, type: selectedType, sort: selectedSort, page: currentPage + 1 })}
@@ -360,16 +327,17 @@ export default async function IpoHistoryPage({
                   : "border-gray-900 dark:border-white bg-gray-900 text-white dark:bg-white dark:text-black shadow-xs hover:opacity-90"
               }`}
             >
-              Next
+              अगला
             </Link>
           </div>
         )}
 
-        {/* Footnote */}
         <div className="border-t border-gray-200 dark:border-[#252A31] pt-6 text-[12.5px] text-gray-500 dark:text-[#9AA1AA]">
           <p>
-            Listing gain is calculated as (listing price − issue price) / issue price. Some historical records may be missing lot size or subscription
-            data where the original source didn&apos;t disclose it — see our <Link href="/methodology" className="text-blue-600 dark:text-blue-400 hover:underline">data methodology</Link>.
+            लिस्टिंग गेन की गणना (लिस्टिंग प्राइस − इश्यू प्राइस) ÷ इश्यू प्राइस के रूप में की जाती
+            है। कुछ ऐतिहासिक रिकॉर्ड में लॉट साइज़ या सब्सक्रिप्शन डेटा गायब हो सकता है, जहाँ मूल
+            स्रोत ने इसका खुलासा नहीं किया था — हमारी{" "}
+            <Link href="/methodology" className="text-blue-600 dark:text-blue-400 hover:underline">डेटा मेथडोलॉजी</Link> देखें।
           </p>
         </div>
       </main>

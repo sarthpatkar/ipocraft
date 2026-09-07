@@ -114,7 +114,7 @@ export default function AnchorLockInMarathiPage() {
             headline: "IPO मध्ये अँकर गुंतवणूकदार लॉक-इन कालावधी: नियम आणि महत्त्व",
             description: "SEBI चे अँकर गुंतवणूकदार लॉक-इन नियम, 30/90 दिवसांची टप्पा विभागणी, आणि अनलॉक तारीख नव्याने सूचीबद्ध झालेल्या शेअरच्या किंमतीवर का परिणाम करते.",
             author: { "@type": "Organization", name: "IPOCraft Research Team" },
-            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" } },
+            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" } },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),
             mainEntityOfPage: { "@type": "WebPage", "@id": mrUrl },

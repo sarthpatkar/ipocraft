@@ -171,7 +171,7 @@ export default function IpoGreyMarketGuideHindiPage() {
         <Section title="और पढ़ें">
           <ul className="list-disc pr-6 pl-6 space-y-2 text-sm">
             <li><Link href="/hi/gmp" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO GMP ट्रैकर</Link></li>
-            <li><Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO कैलेंडर</Link></li>
+            <li><Link href="/hi/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO कैलेंडर</Link></li>
             <li><Link href="/hi/how-ipo-allotment-works" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO अलॉटमेंट गाइड</Link></li>
             <li><Link href="/hi/what-is-ipo-gmp" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO GMP क्या है</Link></li>
             <li><Link href="/hi/ipo-subscription-meaning" className="text-[#1C317A] dark:text-blue-400 hover:underline">IPO सब्सक्रिप्शन का मतलब</Link></li>

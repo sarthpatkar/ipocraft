@@ -126,7 +126,7 @@ export default function CutOffPriceHindiPage() {
             headline: "IPO Cut-off Price का मतलब क्या है? कौन इस्तेमाल कर सकता है",
             description: "IPO cut-off price विकल्प, सिर्फ़ Retail के लिए उपलब्धता, और फ़ाइनल भाव कम होने पर रिफंड कैसे काम करता है — यह समझाया गया है।",
             author: { "@type": "Organization", name: "IPOCraft Research Team" },
-            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" } },
+            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" } },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),
             mainEntityOfPage: { "@type": "WebPage", "@id": hiUrl },

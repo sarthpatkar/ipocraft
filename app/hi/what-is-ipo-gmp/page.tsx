@@ -10,7 +10,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 export const metadata: Metadata = {
   title: "IPO GMP क्या है? Grey Market Premium का अर्थ, गणना और जोखिम | IPOCraft",
   description:
-    "IPO GMP (Grey Market Premium) क्या है, इसकी गणना कैसे होती है, यह रोज़ क्यों बदलता है, और निवेशक इससे लिस्टिंग गेन का अंदाज़ा कैसे लगाते हैं — हिंदी में पूरी गाइड।",
+    "IPO GMP (Grey Market Premium) क्या है, इसकी गणना कैसे होती है, यह रोज़ क्यों बदलता है, और निवेशक इससे लिस्टिंग गेन का अंदाज़ा कैसे लगाते हैं?",
   alternates: {
     canonical: hiUrl,
     languages: { en: enUrl, hi: hiUrl, mr: mrUrl, "x-default": enUrl },
@@ -44,7 +44,7 @@ export default function WhatIsIpoGmpHindiPage() {
 
         <p className="mt-4 text-[15px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
           IPOCraft पर, निवेशक सदस्यता डेटा और{" "}
-          <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
+          <Link href="/hi/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
             IPO कैलेंडर
           </Link>{" "}
           टाइमलाइन के साथ{" "}
@@ -122,7 +122,7 @@ export default function WhatIsIpoGmpHindiPage() {
           <Section title="निवेशक IPO GMP का उपयोग कैसे करते हैं">
             <p>
               निवेशक आवेदन करने से पहले अक्सर GMP की तुलना आधिकारिक सदस्यता डेटा से करते हैं। आप{" "}
-              <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
+              <Link href="/hi/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
                 IPO कैलेंडर
               </Link>{" "}
               का उपयोग करके आगामी IPO समयसीमा ट्रैक कर सकते हैं और व्यक्तिगत IPO पृष्ठों के माध्यम
@@ -320,7 +320,7 @@ export default function WhatIsIpoGmpHindiPage() {
             publisher: {
               "@type": "Organization",
               name: "IPOCraft",
-              logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+              logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" },
             },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),

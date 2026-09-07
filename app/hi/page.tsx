@@ -136,6 +136,10 @@ export default async function HomeHindiPage({
             <Link href="/ipo" className="font-medium text-blue-600 dark:text-blue-400 hover:underline">IPO डायरेक्टरी</Link>
             <span className="text-gray-300 dark:text-[#252A31]">|</span>
             <Link href="/hi/gmp" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">GMP ट्रैकर</Link>
+            <span className="text-gray-300 dark:text-[#252A31]">|</span>
+            <Link href="/hi/ipo-calendar" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">IPO कैलेंडर</Link>
+            <span className="text-gray-300 dark:text-[#252A31]">|</span>
+            <Link href="/hi/ipo-history" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">IPO इतिहास</Link>
           </div>
         </div>
 

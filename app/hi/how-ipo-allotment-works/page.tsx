@@ -88,7 +88,7 @@ export default function HowIpoAllotmentWorksHindiPage() {
               </ul>
               <p>
                 आप{" "}
-                <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
+                <Link href="/hi/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
                   IPO कैलेंडर
                 </Link>{" "}
                 के ज़रिए आगामी IPO टाइमलाइन ट्रैक कर सकते हैं।
@@ -226,7 +226,7 @@ export default function HowIpoAllotmentWorksHindiPage() {
             </ul>
             <p>
               आप{" "}
-              <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
+              <Link href="/hi/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
                 IPO कैलेंडर
               </Link>{" "}
               से भी IPO टाइमलाइन ट्रैक कर सकते हैं।

@@ -113,7 +113,7 @@ export default function AnchorLockInHindiPage() {
             headline: "IPO में एंकर निवेशक लॉक-इन अवधि: नियम और यह क्यों मायने रखता है",
             description: "SEBI के एंकर निवेशक लॉक-इन नियम, 30/90 दिन का ट्रैंच बंटवारा, और अनलॉक तारीख़ नए लिस्ट हुए स्टॉक की क़ीमत को क्यों प्रभावित करती है।",
             author: { "@type": "Organization", name: "IPOCraft Research Team" },
-            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" } },
+            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" } },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),
             mainEntityOfPage: { "@type": "WebPage", "@id": hiUrl },

@@ -10,7 +10,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 export const metadata: Metadata = {
   title: "IPO GMP म्हणजे काय? Grey Market Premium अर्थ, गणना आणि धोके | IPOCraft",
   description:
-    "IPO GMP (Grey Market Premium) म्हणजे काय, त्याची गणना कशी होते, तो दररोज का बदलतो, आणि गुंतवणूकदार त्यावरून लिस्टिंग गेनचा अंदाज कसा घेतात — मराठीत सविस्तर मार्गदर्शक.",
+    "IPO GMP (Grey Market Premium) म्हणजे काय, त्याची गणना कशी होते, तो दररोज का बदलतो, आणि गुंतवणूकदार त्यावरून लिस्टिंग गेनचा अंदाज कसा घेतात?",
   alternates: {
     canonical: mrUrl,
     languages: { en: enUrl, hi: hiUrl, mr: mrUrl, "x-default": enUrl },
@@ -44,7 +44,7 @@ export default function WhatIsIpoGmpMarathiPage() {
 
         <p className="mt-4 text-[15px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
           IPOCraft वर, गुंतवणूकदार सदस्यता डेटा आणि{" "}
-          <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
+          <Link href="/mr/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
             IPO कॅलेंडर
           </Link>{" "}
           टाइमलाइनसह{" "}
@@ -124,7 +124,7 @@ export default function WhatIsIpoGmpMarathiPage() {
             <p>
               गुंतवणूकदार अर्ज करण्यापूर्वी अनेकदा GMP ची अधिकृत सदस्यता डेटाशी तुलना करतात.
               तुम्ही{" "}
-              <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
+              <Link href="/mr/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
                 IPO कॅलेंडर
               </Link>{" "}
               वापरून आगामी IPO वेळापत्रक ट्रॅक करू शकता आणि वैयक्तिक IPO पृष्ठांद्वारे IPO
@@ -323,7 +323,7 @@ export default function WhatIsIpoGmpMarathiPage() {
             publisher: {
               "@type": "Organization",
               name: "IPOCraft",
-              logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+              logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" },
             },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),

@@ -15,7 +15,7 @@ const gmpUrl = canonicalUrl("/gmp");
 export const metadata: Metadata = {
   title: "IPO GMP Today — Grey Market Premium, Subscription & Listing Dates India | IPOCraft",
   description:
-    "Check latest IPO Grey Market Premium (GMP) today with subscription data, price bands, allotment dates, and expected listing gains for Mainboard and SME IPOs. Updated regularly by IPOCraft.",
+    "Check today's IPO Grey Market Premium (GMP) with subscription data, price bands, allotment dates, and expected listing gains — updated regularly.",
   keywords: [
     "IPO GMP today",
     "Grey Market Premium India",
@@ -152,11 +152,11 @@ export default async function GMPPage({
             name: "IPO Grey Market Premium (GMP) Today — India",
             description:
               "Live Grey Market Premium (GMP) data for all active Mainboard and SME IPOs in India. Includes subscription status, price band, allotment date, and expected listing gain. Updated multiple times daily.",
-            url: "https://ipocraft.com/gmp",
+            url: "https://www.ipocraft.com/gmp",
             creator: {
               "@type": "Organization",
               name: "IPOCraft",
-              url: "https://ipocraft.com",
+              url: "https://www.ipocraft.com",
             },
             dateModified: renderTimestamp,
             license: "https://creativecommons.org/licenses/by-nc/4.0/",

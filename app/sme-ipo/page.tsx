@@ -4,7 +4,7 @@ import IpoLoadMoreClient from "@/components/IpoLoadMoreClient";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { unstable_noStore as noStore } from "next/cache";
-import { canonicalUrl } from "@/lib/site-url";
+import { CANONICAL_ORIGIN, canonicalUrl } from "@/lib/site-url";
 
 
 
@@ -41,7 +41,16 @@ export async function generateMetadata({
   return {
     title: `${baseTitle} — Live GMP, Subscriptions & Dates | IPOCraft`,
     description:
-      "Track the latest SME IPOs in India. View live Grey Market Premium (GMP), daily subscription demand, price bands, and listing dates for all upcoming and current SME IPOs.",
+      "Track the latest SME IPOs in India — live Grey Market Premium (GMP), daily subscription demand, price bands, and listing dates.",
+    keywords: [
+      "SME IPO",
+      "SME IPO GMP",
+      "SME IPO list India",
+      "upcoming SME IPO",
+      "SME IPO subscription status",
+      "NSE Emerge IPO",
+      "BSE SME IPO",
+    ],
     alternates: {
       canonical: smeIpoUrl,
     },
@@ -108,14 +117,24 @@ export default async function SMEIPOPage({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "WebPage",
+            "@type": "CollectionPage",
             name: "SME IPO Hub India",
+            url: smeIpoUrl,
             description: "Track all SME IPOs in India with live GMP, dates, and subscription data.",
-            publisher: {
-              "@type": "Organization",
+            isPartOf: {
+              "@type": "WebSite",
               name: "IPOCraft",
-              url: "https://ipocraft.com",
-            }
+              url: CANONICAL_ORIGIN,
+            },
+            mainEntity: {
+              "@type": "ItemList",
+              itemListElement: initialFeed.items.slice(0, 20).map((ipo, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `${CANONICAL_ORIGIN}/ipo/${encodeURIComponent(ipo.slug)}`,
+                name: ipo.name,
+              })),
+            },
           }),
         }}
       />

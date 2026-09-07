@@ -89,7 +89,7 @@ export default function HowIpoAllotmentWorksMarathiPage() {
               </ul>
               <p>
                 तुम्ही{" "}
-                <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
+                <Link href="/mr/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
                   IPO कॅलेंडर
                 </Link>{" "}
                 द्वारे आगामी IPO वेळापत्रक ट्रॅक करू शकता.
@@ -227,7 +227,7 @@ export default function HowIpoAllotmentWorksMarathiPage() {
             </ul>
             <p>
               तुम्ही{" "}
-              <Link href="/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
+              <Link href="/mr/ipo-calendar" className="text-[#1C317A] dark:text-blue-400 underline">
                 IPO कॅलेंडर
               </Link>{" "}
               द्वारे देखील IPO वेळापत्रक ट्रॅक करू शकता.

@@ -458,7 +458,7 @@ export default async function IPODetail({
               organizer: {
                 "@type": "Organization",
                 name: ipo.company_name ?? ipo.name,
-                url: "https://ipocraft.com",
+                url: "https://www.ipocraft.com",
               },
               ...(ipo.price_max != null
                 ? {
@@ -488,7 +488,7 @@ export default async function IPODetail({
             name: `${ipo.name} IPO GMP & Subscription Data`,
             description: `Live Grey Market Premium, subscription status, price band, and allotment/listing timeline for the ${ipo.name} ${ipo.ipo_type ?? ""} IPO.`.replace(/\s+/g, " "),
             url: detailUrl,
-            creator: { "@type": "Organization", name: "IPOCraft", url: "https://ipocraft.com" },
+            creator: { "@type": "Organization", name: "IPOCraft", url: "https://www.ipocraft.com" },
             dateModified: (lastUpdated ?? new Date()).toISOString(),
             license: "https://creativecommons.org/licenses/by-nc/4.0/",
             spatialCoverage: { "@type": "Place", name: "India" },

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import BrokerList from "@/components/BrokerList";
 import { canonicalUrl } from "@/lib/site-url";
+import { createSupabaseServerClient } from "@/lib/supabaseServer";
 
 
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   title:
     `Best Stock Brokers in India ${CURRENT_YEAR} — Charges, Fees & IPO Support Comparison | IPOCraft`,
   description:
-    "Compare the best stock brokers in India including Zerodha, Groww, Angel One and others. Review brokerage charges, account fees, platform features, and IPO application support to choose the right broker.",
+    "Compare top stock brokers in India — Zerodha, Groww, Angel One & more. Review brokerage charges, account fees, and IPO application support.",
   keywords: [
     "best stock broker India",
     "broker comparison India",
@@ -43,11 +44,44 @@ export const metadata: Metadata = {
 };
 
 export default async function BrokersPage() {
+  // Separate, minimal query just for the schema below — BrokerList does
+  // its own full fetch for the actual rendered cards.
+  const supabase = await createSupabaseServerClient();
+  const { data: brokerRows, error: brokersError } = await supabase
+    .from("brokers")
+    .select("name, cta_url")
+    .eq("is_active", true)
+    .order("sort_order", { ascending: true });
+  if (brokersError) console.error("[brokers] schema query failed:", brokersError.message);
+
   return (
     <main
       className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5]`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
+      {/* ItemList schema — lists every broker on the page so this is
+          eligible for list-style rich results, not just a plain page. */}
+      {brokerRows && brokerRows.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              name: "Best Stock Brokers in India for IPO Investing",
+              itemListElement: brokerRows.map((broker, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "FinancialService",
+                  name: broker.name,
+                  ...(broker.cta_url ? { url: broker.cta_url } : {}),
+                },
+              })),
+            }),
+          }}
+        />
+      )}
       {/* HERO */}
       <section className="border-b border-[#e2e8f0] dark:border-[#252A31] bg-white dark:bg-[#111418]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9">

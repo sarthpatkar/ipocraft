@@ -7,9 +7,9 @@ import { canonicalUrl } from "@/lib/site-url";
 const ipoGreyMarketGuideUrl = canonicalUrl("/ipo-grey-market-guide");
 
 export const metadata: Metadata = {
-  title: "IPO Grey Market Guide – Complete GMP Explained (Authority Edition)",
+  title: "IPO Grey Market Guide – Complete GMP Explained | IPOCraft",
   description:
-    "Advanced IPO Grey Market Guide covering GMP calculation, historical listing comparisons, SME vs Mainboard analysis, probability interpretation, risks, and data transparency.",
+    "Advanced IPO Grey Market Guide covering GMP calculation, historical listing comparisons, SME vs Mainboard analysis, and risk factors.",
   alternates: {
     canonical: ipoGreyMarketGuideUrl,
     languages: {

@@ -152,7 +152,7 @@ export default function AnchorLockInPage() {
             publisher: {
               "@type": "Organization",
               name: "IPOCraft",
-              logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+              logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" },
             },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),

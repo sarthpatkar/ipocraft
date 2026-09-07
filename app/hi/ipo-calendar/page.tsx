@@ -5,48 +5,26 @@ import { canonicalUrl } from "@/lib/site-url";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import IpoCalendarGrid from "@/components/IpoCalendarGrid";
 
-const ipoCalendarUrl = canonicalUrl("/ipo-calendar");
+const hiUrl = canonicalUrl("/hi/ipo-calendar");
+const enUrl = canonicalUrl("/ipo-calendar");
+const mrUrl = canonicalUrl("/mr/ipo-calendar");
 const CURRENT_YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
-  title:
-    `IPO Calendar India ${CURRENT_YEAR} — Upcoming, Open & Listed IPO Dates | IPOCraft`,
+  title: `IPO कैलेंडर भारत ${CURRENT_YEAR} — आगामी, खुले और लिस्टेड IPO तारीखें | IPOCraft`,
   description:
-    "View India's IPO calendar with upcoming, open, and recently listed IPO dates, subscription windows, allotment schedules, and listing info.",
-  keywords: [
-    "IPO calendar India",
-    `Upcoming IPO ${CURRENT_YEAR}`,
-    "Open IPO list",
-    "IPO dates India",
-    "IPO allotment date",
-    "IPO listing date",
-    "SME IPO calendar",
-    "Mainboard IPO calendar",
-  ],
+    "आगामी, खुले और हाल ही में सूचीबद्ध IPO तारीखों, सब्सक्रिप्शन विंडो, अलॉटमेंट शेड्यूल और लिस्टिंग जानकारी के साथ भारत का IPO कैलेंडर देखें।",
   alternates: {
-    canonical: ipoCalendarUrl,
-    languages: {
-      en: ipoCalendarUrl,
-      hi: canonicalUrl("/hi/ipo-calendar"),
-      mr: canonicalUrl("/mr/ipo-calendar"),
-      "x-default": ipoCalendarUrl,
-    },
+    canonical: hiUrl,
+    languages: { en: enUrl, hi: hiUrl, mr: mrUrl, "x-default": enUrl },
   },
   openGraph: {
-    title:
-      "IPO Calendar India — Upcoming, Open & Listed IPO Dates | IPOCraft",
+    title: `IPO कैलेंडर भारत ${CURRENT_YEAR} — आगामी, खुले और लिस्टेड IPO तारीखें | IPOCraft`,
     description:
-      "Track IPO timelines including opening, closing, allotment, and listing schedules across Indian IPOs.",
-    url: ipoCalendarUrl,
+      "भारतीय IPO में खुलने, बंद होने, अलॉटमेंट और लिस्टिंग शेड्यूल सहित IPO समय-सीमा को ट्रैक करें।",
+    url: hiUrl,
     siteName: "IPOCraft",
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title:
-      "IPO Calendar India — Upcoming, Open & Listed IPO Dates | IPOCraft",
-    description:
-      "Latest IPO calendar with key dates and timelines across India — IPOCraft.",
   },
 };
 
@@ -64,15 +42,12 @@ type CalendarIpo = {
 
 function getStatus(openDate?: string | null, closeDate?: string | null) {
   if (!openDate || !closeDate) return "Upcoming";
-
   const today = new Date();
   const open = new Date(openDate);
   const close = new Date(closeDate);
-
   if (today < open) return "Upcoming";
   if (today >= open && today <= close) return "Open";
   if (today > close) return "Closed";
-
   return "Upcoming";
 }
 
@@ -84,21 +59,19 @@ function getBadge(status: string) {
   return "bg-gray-100 dark:bg-[#1e293b] text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700";
 }
 
-export default async function IpoCalendarPage() {
+const STATUS_LABEL_HI: Record<string, string> = {
+  Open: "खुला",
+  Upcoming: "आगामी",
+  Closed: "बंद",
+};
+
+export default async function IpoCalendarHindiPage() {
   const supabase = await createSupabaseServerClient();
 
   const threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 2);
   const formattedDate = threeMonthsAgo.toISOString().split("T")[0];
 
-  // Calendar is for upcoming/open/recently-closed IPOs, not the full
-  // historical archive (see /ipo-history for that). The old
-  // `.or(open_date.is.null)` clause pulled in every row with a null
-  // open_date regardless of age — harmless when the table was ~25 rows,
-  // but with a 600+-row historical backfill this became an effectively
-  // unbounded query. Scope to status so historical "Listed" rows (which
-  // won't legitimately have a null open_date going forward, but old/
-  // incomplete ones might) can't leak in here.
   const { data: ipos } = await supabase
     .from("ipos")
     .select("*")
@@ -108,26 +81,15 @@ export default async function IpoCalendarPage() {
 
   const sortedIpos = sortIposByNewestOpenDate((ipos || []) as CalendarIpo[]);
 
-  const upcoming = sortedIpos.filter(
-    (ipo) => getStatus(ipo.open_date, ipo.close_date) === "Upcoming"
-  );
+  const upcoming = sortedIpos.filter((ipo) => getStatus(ipo.open_date, ipo.close_date) === "Upcoming");
+  const open = sortedIpos.filter((ipo) => getStatus(ipo.open_date, ipo.close_date) === "Open");
+  const closed = sortedIpos.filter((ipo) => getStatus(ipo.open_date, ipo.close_date) === "Closed");
 
-  const open = sortedIpos.filter(
-    (ipo) => getStatus(ipo.open_date, ipo.close_date) === "Open"
-  );
-
-  const closed = sortedIpos.filter(
-    (ipo) => getStatus(ipo.open_date, ipo.close_date) === "Closed"
-  );
-
-  // Event schema for the open + upcoming issues — this is the calendar's
-  // actual news value (closed/past ones live on /ipo-history instead).
-  // Capped so the payload stays reasonable if the pipeline is unusually
-  // backed up.
   const calendarEvents = [...open, ...upcoming].slice(0, 40);
 
   return (
     <div
+      lang="hi"
       className="min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] overflow-x-hidden"
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
@@ -138,7 +100,7 @@ export default async function IpoCalendarPage() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "ItemList",
-              name: `IPO Calendar ${CURRENT_YEAR} — Open & Upcoming IPOs`,
+              name: `IPO कैलेंडर ${CURRENT_YEAR} — खुले और आगामी IPO`,
               itemListElement: calendarEvents.map((ipo, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
@@ -158,36 +120,36 @@ export default async function IpoCalendarPage() {
         />
       )}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
-        {/* Compact Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5 pb-4 border-b border-gray-200 dark:border-[#252A31]">
           <div>
             <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 mb-1 tracking-wider">
-              IPO Timelines &amp; Schedules
+              IPO टाइमलाइन और शेड्यूल
             </p>
             <h1
               className="text-xl sm:text-2xl font-semibold text-[#0f172a] dark:text-[#F1F5F9] tracking-tight"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
-              IPO Calendar {CURRENT_YEAR}: Upcoming, Open &amp; Listing Dates
+              IPO कैलेंडर {CURRENT_YEAR}: आगामी, खुले और लिस्टिंग तारीखें
             </h1>
             <p className="mt-1 text-[13px] text-gray-500 dark:text-[#9AA1AA] max-w-2xl leading-relaxed">
-              IPOCraft&apos;s IPO Calendar lists all currently open, upcoming, and recently closed IPOs in India. Each entry shows subscription window, allotment date, listing date, price band, and GMP. Data covers both Mainboard and SME segments, updated daily.
+              IPOCraft का IPO कैलेंडर भारत में वर्तमान में खुले, आगामी और हाल ही में बंद हुए सभी
+              IPO को सूचीबद्ध करता है। प्रत्येक प्रविष्टि में सब्सक्रिप्शन विंडो, अलॉटमेंट डेट,
+              लिस्टिंग तिथि, प्राइस बैंड और GMP दिखाया गया है। डेटा में मेनबोर्ड और SME दोनों खंड
+              शामिल हैं, जो दैनिक रूप से अपडेट किया जाता है।
             </p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0 text-[12.5px]">
-            <Link
-              href="/ipo"
-              className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              IPO Directory
+            <Link href="/ipo" className="font-medium text-blue-600 dark:text-blue-400 hover:underline">
+              IPO डायरेक्टरी
             </Link>
             <span className="text-gray-300 dark:text-[#252A31]">|</span>
-            <Link
-              href="/allotment-status"
-              className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white"
-            >
-              Allotment Status
+            <Link href="/hi/allotment-status" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">
+              अलॉटमेंट स्टेटस
+            </Link>
+            <span className="text-gray-300 dark:text-[#252A31]">|</span>
+            <Link href="/ipo-calendar" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">
+              English में देखें
             </Link>
           </div>
         </div>
@@ -207,30 +169,31 @@ export default async function IpoCalendarPage() {
           }))} />
         </div>
 
-        {/* LIST SECTIONS */}
         <div className="space-y-6 mb-8">
-          <Section title="Upcoming IPOs" ipos={upcoming} />
-          <Section title="Open IPOs" ipos={open} />
-          <Section title="Closed IPOs" ipos={closed} />
+          <Section title="आगामी IPO" emptyText="फिलहाल कोई आगामी IPO नहीं है।" ipos={upcoming} />
+          <Section title="खुले IPO" emptyText="फिलहाल कोई खुला IPO नहीं है।" ipos={open} />
+          <Section title="बंद IPO" emptyText="फिलहाल कोई बंद IPO नहीं है।" ipos={closed} />
         </div>
 
-        {/* SUBORDINATED FOOTNOTE */}
         <div className="border-t border-gray-200 dark:border-[#252A31] pt-6 grid md:grid-cols-2 gap-4 text-[12.5px] text-gray-500 dark:text-[#9AA1AA]">
           <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 shadow-xs">
             <h2 className="text-[13px] font-semibold text-gray-800 dark:text-[#F1F5F9] mb-1">
-              What is an IPO Calendar?
+              IPO कैलेंडर क्या है?
             </h2>
             <p>
-              An IPO calendar tracks public offering milestones including opening dates, closing dates, <Link href="/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 hover:underline">allotment schedules</Link>, and exchange listings.
+              एक IPO कैलेंडर सार्वजनिक पेशकश के मील के पत्थरों को ट्रैक करता है जिसमें खुलने की
+              तारीखें, बंद होने की तारीखें, <Link href="/hi/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 hover:underline">अलॉटमेंट शेड्यूल</Link>, और एक्सचेंज
+              लिस्टिंग शामिल हैं।
             </p>
           </div>
 
           <div className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-4 shadow-xs">
             <h2 className="text-[13px] font-semibold text-gray-800 dark:text-[#F1F5F9] mb-1">
-              How are Dates Determined?
+              तारीखें कैसे तय होती हैं?
             </h2>
             <p>
-              Dates are officially announced in the Red Herring Prospectus (RHP) and exchange circulars upon SEBI approval.
+              SEBI की मंजूरी मिलने पर तारीखों की आधिकारिक घोषणा रेड हेरिंग प्रॉस्पेक्टस (RHP) और
+              एक्सचेंज सर्कुलर में की जाती है।
             </p>
           </div>
         </div>
@@ -241,9 +204,11 @@ export default async function IpoCalendarPage() {
 
 function Section({
   title,
+  emptyText,
   ipos,
 }: {
   title: string;
+  emptyText: string;
   ipos: CalendarIpo[];
 }) {
   return (
@@ -257,7 +222,7 @@ function Section({
 
       {!ipos || ipos.length === 0 ? (
         <div className="bg-white dark:bg-[#111418] border border-dashed border-gray-300 dark:border-[#252A31] rounded-lg p-6 text-center text-[#64748b] dark:text-[#9AA1AA] text-sm">
-          No {title.toLowerCase()} right now.
+          {emptyText}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -274,29 +239,27 @@ function Section({
                   <h3 className="font-semibold text-[14px] text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">{ipo.name}</h3>
 
                   <span
-                    className={`text-[9.5px] px-2 py-0.5 font-semibold uppercase rounded-md ${getBadge(
-                      status
-                    )}`}
+                    className={`text-[9.5px] px-2 py-0.5 font-semibold uppercase rounded-md ${getBadge(status)}`}
                   >
-                    {status}
+                    {STATUS_LABEL_HI[status] ?? status}
                   </span>
                 </div>
 
                 <p className="text-[11.5px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-3 bg-gray-50 dark:bg-[#171B20] px-2.5 py-1 rounded-md inline-block border border-gray-200 dark:border-[#252A31]">
-                  {ipo.open_date ?? "-"} to {ipo.close_date ?? "-"}
+                  {ipo.open_date ?? "-"} से {ipo.close_date ?? "-"}
                 </p>
 
                 <div className="space-y-1 text-[12.5px] text-[#475569] dark:text-[#9AA1AA]">
                   <div className="flex justify-between">
-                    <span className="text-gray-400 dark:text-[#6B7280]">Price Band</span>
+                    <span className="text-gray-400 dark:text-[#6B7280]">प्राइस बैंड</span>
                     <span className="font-medium text-[#0f172a] dark:text-[#F1F5F9]">₹{ipo.price_min ?? "-"} - ₹{ipo.price_max ?? "-"}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400 dark:text-[#6B7280]">Lot Size</span>
-                    <span className="font-medium text-[#0f172a] dark:text-[#F1F5F9]">{ipo.lot_size ?? "-"} shares</span>
+                    <span className="text-gray-400 dark:text-[#6B7280]">लॉट साइज़</span>
+                    <span className="font-medium text-[#0f172a] dark:text-[#F1F5F9]">{ipo.lot_size ?? "-"} शेयर</span>
                   </div>
                   <div className="flex justify-between pt-1.5 mt-1 border-t border-gray-100 dark:border-[#252A31]">
-                    <span className="text-gray-400 dark:text-[#6B7280]">Indicative GMP</span>
+                    <span className="text-gray-400 dark:text-[#6B7280]">अनुमानित GMP</span>
                     <span className="font-semibold text-emerald-600 dark:text-emerald-400">{ipo.gmp ? `₹${ipo.gmp}` : "-"}</span>
                   </div>
                 </div>

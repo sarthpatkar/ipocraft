@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title:
     "Terms & Conditions — Legal Disclaimer, Usage & Liability | IPOCraft",
   description:
-    "Review IPOCraft’s terms and conditions including legal disclaimers, informational use policy, liability limitations, affiliate disclosures, and platform usage guidelines.",
+    "Review IPOCraft’s terms and conditions — legal disclaimers, informational use policy, liability limits, and platform usage guidelines.",
   keywords: [
     "IPOCraft terms",
     "IPO website terms India",

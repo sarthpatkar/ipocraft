@@ -135,7 +135,7 @@ export default function KostakRateHindiPage() {
             headline: "IPO में कोस्टक रेट क्या है? GMP से फ़र्क़",
             description: "कोस्टक रेट, GMP और सब्जेक्ट-टू-सौदा में फ़र्क़, और ग्रे मार्केट ट्रेडिंग के जोखिम समझाए गए।",
             author: { "@type": "Organization", name: "IPOCraft Research Team" },
-            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" } },
+            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" } },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),
             mainEntityOfPage: { "@type": "WebPage", "@id": hiUrl },

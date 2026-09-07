@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title:
     "About IPOCraft — IPO GMP, Subscription & IPO Research Platform India",
   description:
-    "Learn about IPOCraft, an independent IPO information platform providing IPO GMP trends, subscription data, allotment timelines, and structured IPO insights sourced from publicly available filings.",
+    "IPOCraft is an independent IPO platform tracking GMP trends, subscription data, and allotment timelines from publicly available filings.",
   keywords: [
     "IPOCraft",
     "IPO GMP India",

@@ -1,11 +1,40 @@
 import { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import PerformanceClient, { PerformanceIpo } from "@/components/PerformanceClient";
+import { canonicalUrl } from "@/lib/site-url";
+
+const performanceUrl = canonicalUrl("/performance");
 
 export const metadata: Metadata = {
   title: "IPO Performance Tracker & Returns (Live) | IPOCraft",
   description:
     "Track historical post-listing performance and returns for Indian Mainboard and SME IPOs. Compare issue price vs listing price gains.",
+  keywords: [
+    "IPO performance tracker",
+    "IPO listing gains India",
+    "best performing IPO",
+    "IPO returns calculator",
+    "IPO listing day performance",
+    "Mainboard IPO returns",
+    "SME IPO returns",
+  ],
+  alternates: {
+    canonical: performanceUrl,
+  },
+  openGraph: {
+    title: "IPO Performance Tracker & Returns (Live) | IPOCraft",
+    description:
+      "See which Indian IPOs delivered the best and worst listing-day and post-listing returns, ranked by realized gains.",
+    url: performanceUrl,
+    siteName: "IPOCraft",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IPO Performance Tracker & Returns (Live) | IPOCraft",
+    description:
+      "Live-ranked IPO listing gains and post-listing performance for Indian Mainboard and SME IPOs — IPOCraft.",
+  },
 };
 
 export default async function PerformancePage() {

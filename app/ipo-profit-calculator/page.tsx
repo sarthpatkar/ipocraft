@@ -8,7 +8,7 @@ const pageUrl = canonicalUrl("/ipo-profit-calculator");
 export const metadata: Metadata = {
   title: "Free IPO Profit & Listing Gain Calculator — Estimate Your Returns | IPOCraft",
   description:
-    "Calculate your estimated IPO listing profit using GMP and issue price. Enter lots applied, issue price, and GMP to instantly estimate your listing day return. Free IPO profit calculator by IPOCraft.",
+    "Calculate your estimated IPO listing profit using GMP and issue price. Enter lots applied to instantly estimate your listing-day return.",
   keywords: [
     "IPO profit calculator",
     "IPO listing gain calculator",

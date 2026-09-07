@@ -10,6 +10,15 @@ export const metadata: Metadata = {
   title: "IPO Allotment Status Tracker (Live) | IPOCraft",
   description:
     "Check IPO allotment status live for recent Mainboard and SME IPOs. Find direct registrar links for Link Intime, KFintech, Bigshare, and BSE/NSE verification.",
+  keywords: [
+    "IPO allotment status",
+    "check IPO allotment status online",
+    "IPO allotment check",
+    "Link Intime allotment status",
+    "KFintech allotment status",
+    "Bigshare allotment status",
+    "BSE NSE IPO allotment",
+  ],
   alternates: {
     canonical: allotmentUrl,
     languages: {
@@ -18,6 +27,20 @@ export const metadata: Metadata = {
       mr: canonicalUrl("/mr/allotment-status"),
       "x-default": allotmentUrl,
     },
+  },
+  openGraph: {
+    title: "IPO Allotment Status Tracker (Live) | IPOCraft",
+    description:
+      "Check IPO allotment status for recent Mainboard and SME IPOs, with direct registrar links for Link Intime, KFintech, Bigshare, and BSE/NSE verification.",
+    url: allotmentUrl,
+    siteName: "IPOCraft",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IPO Allotment Status Tracker (Live) | IPOCraft",
+    description:
+      "Check IPO allotment status live with direct registrar and BSE/NSE verification links — IPOCraft.",
   },
 };
 
@@ -117,7 +140,7 @@ export default async function AllotmentStatusPage() {
             description:
               "Live allotment status tracking, registrar links, and BSE/NSE verification for recent Mainboard and SME IPOs in India.",
             url: allotmentUrl,
-            creator: { "@type": "Organization", name: "IPOCraft", url: "https://ipocraft.com" },
+            creator: { "@type": "Organization", name: "IPOCraft", url: "https://www.ipocraft.com" },
             dateModified: (lastUpdatedAt ? new Date(lastUpdatedAt) : new Date()).toISOString(),
             license: "https://creativecommons.org/licenses/by-nc/4.0/",
             spatialCoverage: { "@type": "Place", name: "India" },

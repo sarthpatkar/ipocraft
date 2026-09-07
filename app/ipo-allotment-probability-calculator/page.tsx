@@ -9,7 +9,7 @@ const pageUrl = canonicalUrl("/ipo-allotment-probability-calculator");
 export const metadata: Metadata = {
   title: "IPO Allotment Probability Calculator — Check Your Odds | IPOCraft",
   description:
-    "Calculate your IPO allotment probability instantly. See your exact '1 in X' odds for Retail, sNII and bNII categories based on subscription data. Free and accurate.",
+    "Calculate your IPO allotment probability instantly. See your exact '1 in X' odds for Retail, sNII and bNII based on subscription data — free.",
   keywords: [
     "IPO allotment probability calculator",
     "IPO allotment chances calculator India",

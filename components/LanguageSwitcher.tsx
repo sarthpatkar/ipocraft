@@ -14,6 +14,8 @@ const TRANSLATED_TERMS = [
   "gmp",
   "allotment-status",
   "subscriptions",
+  "ipo-calendar",
+  "ipo-history",
   "what-is-ipo-gmp",
   "ipo-subscription-meaning",
   "qib-hni-retail-explained",

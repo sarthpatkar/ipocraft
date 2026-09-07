@@ -11,7 +11,7 @@ const logoUrl = canonicalUrl("/logo.png");
 const CURRENT_YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
-  title: "IPO Subscription Meaning – What Does IPO Subscription Status Mean?",
+  title: "IPO Subscription Meaning Explained | IPOCraft",
   description:
     "Understand IPO subscription meaning, oversubscription, undersubscription, category-wise demand, and how IPO subscription impacts allotment and listing.",
   alternates: {

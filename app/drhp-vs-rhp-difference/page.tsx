@@ -9,7 +9,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 export const metadata: Metadata = {
   title: "DRHP vs RHP: Difference Explained (Full Forms & Meaning) | IPOCraft",
   description:
-    "DRHP full form is Draft Red Herring Prospectus, RHP full form is Red Herring Prospectus. Learn the difference between DRHP and RHP, what each contains, and when they’re filed.",
+    "DRHP means Draft Red Herring Prospectus, RHP means Red Herring Prospectus. Learn the difference, what each contains, and when they’re filed.",
   alternates: {
     canonical: pageUrl,
     languages: {
@@ -117,12 +117,12 @@ export default function DrhpVsRhpPage() {
           <Section title="Why This Matters to Investors">
             <p>
               Reading the RHP (not just the DRHP) before applying matters because it’s the only
-              document with the actual price you’ll be paying. IPOCraft’s{" "}
-              <Link href="/drhp-analyzer" className="text-[#1C317A] dark:text-blue-400 underline">
-                DRHP Analyzer
+              document with the actual price you’ll be paying. Every{" "}
+              <Link href="/ipo" className="text-[#1C317A] dark:text-blue-400 underline">
+                IPO’s page on IPOCraft
               </Link>{" "}
-              summarizes the key highlights and risk factors from these offer documents so you
-              don’t have to read hundreds of pages manually.
+              links directly to the official DRHP and RHP filed with SEBI, so you can go straight
+              to the source document instead of hunting for it.
             </p>
           </Section>
 
@@ -173,7 +173,7 @@ export default function DrhpVsRhpPage() {
             publisher: {
               "@type": "Organization",
               name: "IPOCraft",
-              logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+              logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" },
             },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),

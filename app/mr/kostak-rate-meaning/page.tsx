@@ -125,7 +125,7 @@ export default function KostakRateMarathiPage() {
             headline: "IPO मध्ये कोस्टक दर म्हणजे काय? GMP पेक्षा फरक",
             description: "कोस्टक दर, GMP आणि सब्जेक्ट-टू-सौदा यांच्यातील फरक, आणि ग्रे मार्केट व्यवहारांतील जोखीम स्पष्ट केली आहे.",
             author: { "@type": "Organization", name: "IPOCraft Research Team" },
-            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" } },
+            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" } },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),
             mainEntityOfPage: { "@type": "WebPage", "@id": mrUrl },

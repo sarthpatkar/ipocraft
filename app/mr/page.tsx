@@ -134,6 +134,10 @@ export default async function HomeMarathiPage({
             <Link href="/ipo" className="font-medium text-blue-600 dark:text-blue-400 hover:underline">IPO डिरेक्टरी</Link>
             <span className="text-gray-300 dark:text-[#252A31]">|</span>
             <Link href="/mr/gmp" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">GMP ट्रॅकर</Link>
+            <span className="text-gray-300 dark:text-[#252A31]">|</span>
+            <Link href="/mr/ipo-calendar" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">IPO कॅलेंडर</Link>
+            <span className="text-gray-300 dark:text-[#252A31]">|</span>
+            <Link href="/mr/ipo-history" className="font-medium text-gray-600 dark:text-[#9AA1AA] hover:text-gray-900 dark:hover:text-white">IPO इतिहास</Link>
           </div>
         </div>
 

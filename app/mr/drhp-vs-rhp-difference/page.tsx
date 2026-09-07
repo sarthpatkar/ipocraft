@@ -90,12 +90,12 @@ export default function DrhpVsRhpMarathiPage() {
           <Section title="गुंतवणूकदारांसाठी हे का महत्त्वाचे आहे">
             <p>
               अर्ज करण्यापूर्वी फक्त DRHP नाही तर RHP वाचणे महत्त्वाचे आहे, कारण तेच एकमेव कागदपत्र
-              आहे ज्यात तुम्ही प्रत्यक्षात भरणार असलेली किंमत असते. IPOCraft चे{" "}
-              <Link href="/drhp-analyzer" className="text-[#1C317A] dark:text-blue-400 underline">
-                DRHP Analyzer
+              आहे ज्यात तुम्ही प्रत्यक्षात भरणार असलेली किंमत असते. IPOCraft वरील{" "}
+              <Link href="/ipo" className="text-[#1C317A] dark:text-blue-400 underline">
+                प्रत्येक IPO च्या पानावर
               </Link>{" "}
-              या ऑफर कागदपत्रांमधील मुख्य मुद्दे आणि जोखीम घटकांचा सारांश देते, जेणेकरून तुम्हाला
-              शेकडो पाने स्वतः वाचावी लागू नयेत.
+              SEBI कडे दाखल केलेल्या अधिकृत DRHP आणि RHP चा थेट दुवा दिलेला असतो, त्यामुळे तुम्हाला
+              मूळ कागदपत्रापर्यंत सहज पोहोचता येते.
             </p>
           </Section>
 
@@ -133,7 +133,7 @@ export default function DrhpVsRhpMarathiPage() {
             headline: "DRHP विरुद्ध RHP: पूर्ण रूप, अर्थ आणि फरक",
             description: "DRHP (Draft Red Herring Prospectus) आणि RHP (Red Herring Prospectus) यांच्यातील फरक, प्रत्येकात काय असते, आणि ते कधी दाखल होतात.",
             author: { "@type": "Organization", name: "IPOCraft Research Team" },
-            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" } },
+            publisher: { "@type": "Organization", name: "IPOCraft", logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" } },
             datePublished: `${CURRENT_YEAR}-01-01`,
             dateModified: new Date().toISOString(),
             mainEntityOfPage: { "@type": "WebPage", "@id": mrUrl },

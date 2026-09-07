@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title:
     "Contact IPOCraft — Support, Partnerships & Business Enquiries India",
   description:
-    "Contact IPOCraft for platform support, IPO data corrections, partnerships, advertising opportunities, or business communication related to IPO research and GMP tracking.",
+    "Contact IPOCraft for platform support, data corrections, partnerships, advertising, or business enquiries related to IPO research and GMP tracking.",
   keywords: [
     "IPOCraft contact",
     "IPO GMP support",
