@@ -175,7 +175,7 @@ export default function Navbar() {
               <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain hidden dark:block" />
             </Link>
 
-            {/* Right Action Cluster: Search + Theme + Language + IPO History + AI Chat */}
+            {/* Right Action Cluster: Search + Theme + Language + AI Chat */}
             <div className="flex items-center gap-1 sm:gap-2 min-w-0">
               {/* Modern Command Search Bar Trigger */}
               <button
@@ -205,23 +205,6 @@ export default function Navbar() {
 
               {/* Language Switcher — only renders on pages that are actually translated */}
               <LanguageSwitcher />
-
-              {/* IPO History Link — icon always visible, label collapses on the
-                  narrowest screens (same pattern as AI Chat below) rather than
-                  disappearing entirely. */}
-              <Link
-                href="/ipo-history"
-                title="IPO History Archive"
-                aria-label="IPO History Archive"
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[13px] transition-colors shrink-0 ${
-                  isActive("/ipo-history")
-                    ? "text-[#1C317A] dark:text-[#93B4FF] bg-[#1C317A]/10 dark:bg-[#1C317A]/20 font-semibold"
-                    : "text-gray-600 dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1A1F26] font-medium"
-                }`}
-              >
-                <ClockIcon className="w-4 h-4" />
-                <span className="hidden min-[400px]:inline">IPO</span>
-              </Link>
 
               {/* AI Chat Link */}
               <Link
