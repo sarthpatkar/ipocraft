@@ -1,5 +1,11 @@
 import type { IPOListItem } from "@/components/IpoCard";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { withShortCache } from "@/lib/simpleCache";
+
+// Short TTL for the public feed cache — well under the ~30 min data sync
+// cycle, so staleness is imperceptible, but long enough to collapse repeat
+// requests (PSI re-runs, crawlers, traffic bursts) within a warm instance.
+const FEED_CACHE_TTL_MS = 20_000;
 
 const DEFAULT_LIMIT = 6;
 const MAX_LIMIT = 100;
@@ -158,38 +164,59 @@ export async function getIpoFeedPage({
   cursor,
 }: IpoFeedParams): Promise<IpoFeedResult> {
   const pageLimit = normalizeLimit(limit);
+
+  // When the caller doesn't pin a snapshot (the common case — first page
+  // load), bucket "now" to the cache TTL window instead of using a
+  // millisecond-precise timestamp. This keeps snapshot consistency for
+  // pagination within that window while making the cache key stable across
+  // repeat requests, which is what actually makes the cache below useful.
   const effectiveSnapshot = snapshot && snapshot.trim()
     ? snapshot
-    : new Date().toISOString();
+    : new Date(Math.floor(Date.now() / FEED_CACHE_TTL_MS) * FEED_CACHE_TTL_MS).toISOString();
 
-  const { data, error } = await supabase.rpc("get_ipos_page", {
-    p_limit: pageLimit + 1,
-    p_status: normalizeStatus(status),
-    p_type: normalizeType(type),
-    p_q: normalizeSearch(q),
-    p_snapshot: effectiveSnapshot,
-    p_cursor_open_date: cursor?.open_date ?? null,
-    p_cursor_created_at: cursor?.created_at ?? null,
-    p_cursor_slug: cursor?.slug ?? null,
+  const normalizedStatus = normalizeStatus(status);
+  const normalizedType = normalizeType(type);
+  const normalizedSearch = normalizeSearch(q);
+
+  const cacheKey = JSON.stringify({
+    pageLimit,
+    status: normalizedStatus,
+    type: normalizedType,
+    q: normalizedSearch,
+    snapshot: effectiveSnapshot,
+    cursor: cursor ?? null,
   });
 
-  if (error) {
-    throw new Error(error.message || "Unable to load IPO feed");
-  }
+  return withShortCache(`ipo-feed:${cacheKey}`, FEED_CACHE_TTL_MS, async () => {
+    const { data, error } = await supabase.rpc("get_ipos_page", {
+      p_limit: pageLimit + 1,
+      p_status: normalizedStatus,
+      p_type: normalizedType,
+      p_q: normalizedSearch,
+      p_snapshot: effectiveSnapshot,
+      p_cursor_open_date: cursor?.open_date ?? null,
+      p_cursor_created_at: cursor?.created_at ?? null,
+      p_cursor_slug: cursor?.slug ?? null,
+    });
 
-  const rows = Array.isArray(data) ? (data as RawIpoRow[]) : [];
-  const entries = rows
-    .map(normalizeIpoEntry)
-    .filter((entry): entry is IpoFeedEntry => entry !== null);
+    if (error) {
+      throw new Error(error.message || "Unable to load IPO feed");
+    }
 
-  const hasMore = entries.length > pageLimit;
-  const visibleEntries = entries.slice(0, pageLimit);
-  const nextCursor = hasMore ? (visibleEntries.at(-1)?.cursor ?? null) : null;
+    const rows = Array.isArray(data) ? (data as RawIpoRow[]) : [];
+    const entries = rows
+      .map(normalizeIpoEntry)
+      .filter((entry): entry is IpoFeedEntry => entry !== null);
 
-  return {
-    items: visibleEntries.map((entry) => entry.item),
-    hasMore,
-    nextCursor,
-    snapshot: effectiveSnapshot,
-  };
+    const hasMore = entries.length > pageLimit;
+    const visibleEntries = entries.slice(0, pageLimit);
+    const nextCursor = hasMore ? (visibleEntries.at(-1)?.cursor ?? null) : null;
+
+    return {
+      items: visibleEntries.map((entry) => entry.item),
+      hasMore,
+      nextCursor,
+      snapshot: effectiveSnapshot,
+    };
+  });
 }

@@ -146,6 +146,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
+  --font-outfit: var(--font-outfit);
   --color-blue-500: #1C317A;
   --color-blue-600: #1C317A;
   --color-blue-700: #15255d;
@@ -173,6 +174,14 @@ html {
 /* ─── Card Hover (border-only, no lift) ──────────────────────────────────── */
 .card-hover {
   transition: border-color 0.15s ease;
+}
+
+/* ─── Floating bottom-nav safe-area clearance ─────────────────────────────
+   Extracted from an inline style (SEO audits flag inline `style` attrs) —
+   used on <main> so page content never sits under the floating bottom nav /
+   the iOS home-indicator safe area. */
+.safe-area-bottom-padding {
+  padding-bottom: max(calc(env(safe-area-inset-bottom) + var(--nav-bottom-clearance)), var(--nav-bottom-clearance));
 }
 
 /* ─── Smooth Fade In ──────────────────────────────────────────────────────── */
