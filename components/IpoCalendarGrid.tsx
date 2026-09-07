@@ -112,8 +112,11 @@ function EventRow({ ev, isLast }: { ev: DayEvent; isLast: boolean }) {
       {/* Main content */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-[13px] font-semibold text-[#0f172a] dark:text-[#E8EDF3] group-hover:text-[#1C317A] dark:group-hover:text-[#93B4FF] transition-colors truncate leading-none">
-            {ev.fullName}
+          <span
+            title={ev.fullName}
+            className="min-w-0 max-w-full text-[13px] font-semibold text-[#0f172a] dark:text-[#E8EDF3] group-hover:text-[#1C317A] dark:group-hover:text-[#93B4FF] transition-colors truncate leading-none"
+          >
+            {ev.name}
           </span>
           <Tag type={ev.type} />
           {ev.ipo_type && (
@@ -387,11 +390,11 @@ export default function IpoCalendarGrid({ ipos }: { ipos: CalendarIpo[] }) {
                           {evs.slice(0, 2).map((ev, i) => (
                             <div
                               key={i}
-                              className="flex items-center gap-0.5 leading-tight"
+                              className="flex items-center gap-0.5 leading-tight min-w-0"
                               title={`${ev.fullName} — ${EV[ev.type].label}`}
                             >
                               <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${EV[ev.type].dot}`} />
-                              <span className="text-[9px] font-medium text-[#374151] dark:text-[#8B95A1] truncate">
+                              <span className="min-w-0 text-[9px] font-medium text-[#374151] dark:text-[#8B95A1] truncate">
                                 {ev.name}
                               </span>
                             </div>
