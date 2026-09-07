@@ -1,14 +1,53 @@
-User-agent: *
-Allow: /
+# IPOCraft
 
-Site: https://ipocraft.com
-Name: IPOCraft
-Description: IPOCraft provides structured IPO data, GMP trends, subscription insights, and IPO analysis for Indian investors.
+> IPOCraft is an independent Indian IPO research platform: live Grey Market
+> Premium (GMP), subscription/bidding data by investor category, allotment
+> status, listing-performance history, and structured educational guides for
+> Mainboard and SME IPOs. Data is sourced from public exchange filings and
+> grey-market indications; IPOCraft is not SEBI-registered and does not
+> provide investment advice.
 
-Primary-content:
-https://ipocraft.com/
-https://ipocraft.com/gmp
-https://ipocraft.com/ipo
-https://ipocraft.com/ipo-calendar
+## Live trackers
 
-Contact: https://ipocraft.com/contact
+- [Home](https://www.ipocraft.com/): current open/upcoming IPOs, top GMP, market snapshot
+- [IPO GMP Tracker](https://www.ipocraft.com/gmp): live Grey Market Premium for all active issues
+- [IPO Directory](https://www.ipocraft.com/ipo): all Mainboard IPOs — open, upcoming, listed
+- [SME IPO Hub](https://www.ipocraft.com/sme-ipo): NSE Emerge / BSE SME issues
+- [Live Subscriptions](https://www.ipocraft.com/subscriptions): QIB / NII / Retail bidding demand
+- [Allotment Status](https://www.ipocraft.com/allotment-status): registrar links + BSE/NSE verification
+- [IPO Calendar](https://www.ipocraft.com/ipo-calendar): open/upcoming/closed dates in one view
+- [IPO History Archive](https://www.ipocraft.com/ipo-history): past IPOs by year with listing gains
+- [Listing Performance Tracker](https://www.ipocraft.com/performance): realized listing-day returns
+- [Compare IPOs](https://www.ipocraft.com/compare): side-by-side GMP/subscription/timeline comparison
+- [Brokers Directory](https://www.ipocraft.com/brokers): broker charges for IPO account opening
+
+## Calculators
+
+- [Allotment Probability Calculator](https://www.ipocraft.com/ipo-allotment-probability-calculator)
+- [Listing Profit Calculator](https://www.ipocraft.com/ipo-profit-calculator)
+
+## Educational guides
+
+- [What is IPO GMP?](https://www.ipocraft.com/what-is-ipo-gmp)
+- [IPO Grey Market Guide](https://www.ipocraft.com/ipo-grey-market-guide)
+- [IPO Subscription Meaning](https://www.ipocraft.com/ipo-subscription-meaning)
+- [How IPO Allotment Works](https://www.ipocraft.com/how-ipo-allotment-works)
+- [QIB vs HNI vs Retail Explained](https://www.ipocraft.com/qib-hni-retail-explained)
+- [What is Kostak Rate?](https://www.ipocraft.com/kostak-rate-meaning)
+- [DRHP vs RHP: Difference](https://www.ipocraft.com/drhp-vs-rhp-difference)
+- [IPO Cut-off Price Meaning](https://www.ipocraft.com/ipo-cut-off-price-meaning)
+- [Anchor Investor Lock-in Period](https://www.ipocraft.com/anchor-investor-lock-in-period)
+- [IPOCraft Blog](https://www.ipocraft.com/blog): market articles and listing-strategy analysis
+
+Every guide above, plus the GMP tracker, allotment status, subscriptions,
+IPO calendar, and IPO history archive, are also published in Hindi
+(`/hi/...`) and Marathi (`/mr/...`) — e.g.
+https://www.ipocraft.com/hi/what-is-ipo-gmp and
+https://www.ipocraft.com/mr/what-is-ipo-gmp.
+
+## Other
+
+- [Data Methodology](https://www.ipocraft.com/methodology): sourcing, update cadence, disclaimers
+- [About](https://www.ipocraft.com/about)
+- [Contact](https://www.ipocraft.com/contact)
+- [Full sitemap](https://www.ipocraft.com/sitemap.xml)

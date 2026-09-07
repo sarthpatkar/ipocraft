@@ -25,6 +25,10 @@ import {
   DocumentTextIcon,
   ClockIcon,
   Squares2X2Icon,
+  TagIcon,
+  DocumentDuplicateIcon,
+  AdjustmentsHorizontalIcon,
+  LockClosedIcon,
 } from "@heroicons/react/24/outline";
 
 // ─── Platform feature pages ─────────────────────────────────────────────────
@@ -51,6 +55,7 @@ const FEATURE_PAGES: FeaturePage[] = [
   { href: "/compare", label: "Compare IPOs", desc: "Side-by-side comparison of up to 3 IPOs", category: "Research", Icon: ScaleIcon, keywords: ["compare", "comparison", "side by side", "vs"] },
   { href: "/performance", label: "Listing Performance", desc: "Historical listing day gains & returns", category: "Research", Icon: ArrowTrendingUpIcon, keywords: ["performance", "listing", "returns", "gains", "track record", "history", "listing day", "listing gain"] },
   { href: "/ipo-calendar", label: "IPO Calendar", desc: "Schedule of open & upcoming issues", category: "Research", Icon: CalendarDaysIcon, keywords: ["calendar", "schedule", "upcoming", "dates", "timeline", "ipo date"] },
+  { href: "/ipo-history", label: "IPO History Archive", desc: "Past IPOs by year with listing gains", category: "Research", Icon: ClockIcon, keywords: ["history", "past ipo", "archive", "listing gains", "by year"] },
 
   // Calculators
   { href: "/ipo-allotment-probability-calculator", label: "Allotment Calculator", desc: "Odds of getting IPO allotment", category: "Calculators", Icon: CalculatorIcon, keywords: ["allotment", "allotment calculator", "allotment odds", "probability", "chance", "lottery", "how many lots", "allotment probability"] },
@@ -66,6 +71,10 @@ const FEATURE_PAGES: FeaturePage[] = [
   { href: "/how-ipo-allotment-works", label: "How Allotment Works", desc: "Lottery mechanism explained", category: "Guides", Icon: BookOpenIcon, keywords: ["how allotment works", "allotment process", "lottery", "allotment explained"] },
   { href: "/ipo-subscription-meaning", label: "IPO Subscription Meaning", desc: "What subscription data means", category: "Guides", Icon: BookOpenIcon, keywords: ["subscription meaning", "what is subscription", "oversubscribed", "times subscribed"] },
   { href: "/ipo-grey-market-guide", label: "Grey Market Guide", desc: "Complete guide to IPO grey market", category: "Guides", Icon: BookOpenIcon, keywords: ["grey market guide", "gmp guide", "grey market", "grey market ipo"] },
+  { href: "/kostak-rate-meaning", label: "What is Kostak Rate?", desc: "Grey market deal, different from GMP", category: "Guides", Icon: TagIcon, keywords: ["kostak", "kostak rate", "kostak deal", "sauda"] },
+  { href: "/drhp-vs-rhp-difference", label: "DRHP vs RHP", desc: "Full forms, meaning & difference", category: "Guides", Icon: DocumentDuplicateIcon, keywords: ["drhp", "rhp", "red herring prospectus", "draft prospectus", "drhp vs rhp"] },
+  { href: "/ipo-cut-off-price-meaning", label: "IPO Cut-off Price Meaning", desc: "Retail-only bidding option explained", category: "Guides", Icon: AdjustmentsHorizontalIcon, keywords: ["cut off price", "cutoff", "bid at cut off", "retail bidding option"] },
+  { href: "/anchor-investor-lock-in-period", label: "Anchor Investor Lock-in Period", desc: "SEBI's 30/90-day lock-in rule", category: "Guides", Icon: LockClosedIcon, keywords: ["anchor investor", "lock in period", "anchor lock-in", "30/90 day rule", "anchor unlock"] },
   { href: "/methodology", label: "Data Methodology", desc: "Data sources, accuracy & disclaimer", category: "Guides", Icon: ShieldCheckIcon, keywords: ["methodology", "data source", "accuracy", "how data", "sources"] },
   { href: "/brokers", label: "Brokers Directory", desc: "Compare retail brokerage platforms", category: "Guides", Icon: BriefcaseIcon, keywords: ["broker", "brokers", "zerodha", "groww", "upstox", "angel", "platform", "demat", "brokerage"] },
 ];

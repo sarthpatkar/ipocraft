@@ -26,6 +26,10 @@ import {
   ChartBarSquareIcon,
   WrenchScrewdriverIcon,
   ClockIcon,
+  TagIcon,
+  DocumentDuplicateIcon,
+  AdjustmentsHorizontalIcon,
+  LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import {
   HomeIcon as HomeIconSolid,
@@ -86,6 +90,10 @@ export const TOOLS_CATEGORIES = [
     links: [
       { href: "/what-is-ipo-gmp", label: "What is GMP?", Icon: BookOpenIcon, desc: "Grey market premium guide" },
       { href: "/qib-hni-retail-explained", label: "Investor Categories", Icon: UsersIcon, desc: "QIB, NII, Retail quotas" },
+      { href: "/kostak-rate-meaning", label: "Kostak Rate", Icon: TagIcon, desc: "Grey market deal explained" },
+      { href: "/drhp-vs-rhp-difference", label: "DRHP vs RHP", Icon: DocumentDuplicateIcon, desc: "Offer document difference" },
+      { href: "/ipo-cut-off-price-meaning", label: "Cut-off Price", Icon: AdjustmentsHorizontalIcon, desc: "Retail bidding option" },
+      { href: "/anchor-investor-lock-in-period", label: "Anchor Lock-in", Icon: LockClosedIcon, desc: "30/90-day SEBI rule" },
       { href: "/methodology", label: "Data Methodology", Icon: ShieldCheckIcon, desc: "Sources & disclaimer" },
       { href: "/brokers", label: "Brokers Directory", Icon: BriefcaseIcon, desc: "Compare platforms" },
     ],
@@ -161,16 +169,13 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 gap-2 sm:gap-3">
-            {/* Brand Logo + (page-specific) Language Switcher */}
-            <div className="flex items-center gap-2 min-w-0">
-              <Link href="/" className="flex items-center gap-2 shrink-0 focus:outline-none" aria-label="IPOCraft Home">
-                <Image src="/logo-light.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain dark:hidden" />
-                <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain hidden dark:block" />
-              </Link>
-              <LanguageSwitcher />
-            </div>
+            {/* Brand Logo */}
+            <Link href="/" className="flex items-center gap-2 shrink-0 focus:outline-none" aria-label="IPOCraft Home">
+              <Image src="/logo-light.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain dark:hidden" />
+              <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain hidden dark:block" />
+            </Link>
 
-            {/* Right Action Cluster: Search + Theme + IPO History + AI Chat */}
+            {/* Right Action Cluster: Search + Theme + Language + IPO History + AI Chat */}
             <div className="flex items-center gap-1 sm:gap-2 min-w-0">
               {/* Modern Command Search Bar Trigger */}
               <button
@@ -197,6 +202,9 @@ export default function Navbar() {
 
               {/* Theme Switcher */}
               <ThemeToggle />
+
+              {/* Language Switcher — only renders on pages that are actually translated */}
+              <LanguageSwitcher />
 
               {/* IPO History Link — icon always visible, label collapses on the
                   narrowest screens (same pattern as AI Chat below) rather than

@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { GlobeAltIcon } from "@heroicons/react/24/outline";
+import { CheckIcon } from "@heroicons/react/24/solid";
 
 // Keep this list in sync with the hi/mr route pairs under app/hi/* and
 // app/mr/* — only these terms have translated pages, so the switcher stays
@@ -29,10 +31,10 @@ const TRANSLATED_TERMS = [
 
 type Lang = "en" | "hi" | "mr";
 
-const LANG_META: Record<Lang, { label: string; prefix: string; full: string }> = {
-  en: { label: "EN", prefix: "", full: "English" },
-  hi: { label: "हिं", prefix: "/hi", full: "हिंदी" },
-  mr: { label: "मरा", prefix: "/mr", full: "मराठी" },
+const LANG_META: Record<Lang, { prefix: string; native: string; english: string }> = {
+  en: { prefix: "", native: "English", english: "English" },
+  hi: { prefix: "/hi", native: "हिंदी", english: "Hindi" },
+  mr: { prefix: "/mr", native: "मराठी", english: "Marathi" },
 };
 
 function termPath(prefix: string, term: string) {
@@ -51,45 +53,84 @@ function parseCurrentPage(pathname: string): { term: string; lang: Lang } | null
 }
 
 /**
- * Prominent EN / हिंदी / मराठी switcher for the top bar. Renders nothing on
- * every other route — this guide is only translated for a handful of pages
- * (see TRANSLATED_TERMS), so it only ever appears where it's actually useful.
+ * Globe icon-button in the top-bar action cluster — matches ThemeToggle's
+ * button styling exactly, so it reads as one native control cluster rather
+ * than a bolted-on widget. Opens a small anchored dropdown with the 3
+ * language options; renders nothing on every other route (this content is
+ * only translated for a handful of pages — see TRANSLATED_TERMS).
  */
 export default function LanguageSwitcher() {
   const pathname = usePathname();
   const current = pathname ? parseCurrentPage(pathname) : null;
+
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // Close on outside click, Escape, or route change.
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  useEffect(() => { setOpen(false); }, [pathname]);
 
   if (!current) return null;
 
   const { term, lang } = current;
 
   return (
-    <div
-      role="group"
-      aria-label="Choose language for this page"
-      className="flex items-center gap-0.5 pl-1.5 pr-1 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 shadow-sm shrink-0"
-    >
-      <GlobeAltIcon className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
-      {(Object.keys(LANG_META) as Lang[]).map((l) => {
-        const meta = LANG_META[l];
-        const href = termPath(meta.prefix, term);
-        const active = l === lang;
-        return (
-          <Link
-            key={l}
-            href={href}
-            aria-current={active ? "page" : undefined}
-            title={`View this page in ${meta.full}`}
-            className={`px-2 py-1 rounded-full text-[12px] font-bold leading-none transition-colors ${
-              active
-                ? "bg-amber-500 text-white shadow-sm"
-                : "text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50"
-            }`}
-          >
-            {meta.label}
-          </Link>
-        );
-      })}
+    <div ref={rootRef} className="relative shrink-0">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-label="Choose language"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        title={`Language: ${LANG_META[lang].english}`}
+        className="p-2 rounded-lg text-gray-500 dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1A1F26] transition-colors"
+      >
+        <GlobeAltIcon className="w-5 h-5" />
+      </button>
+
+      {open && (
+        <div
+          role="menu"
+          aria-label="Choose language for this page"
+          className="absolute right-0 top-full mt-2 w-40 py-1 rounded-lg bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] shadow-lg shadow-black/8 dark:shadow-black/40 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+        >
+          {(Object.keys(LANG_META) as Lang[]).map((l) => {
+            const meta = LANG_META[l];
+            const active = l === lang;
+            return (
+              <Link
+                key={l}
+                href={termPath(meta.prefix, term)}
+                role="menuitem"
+                aria-current={active ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className={`flex items-center justify-between gap-2 px-3 py-2 text-[13px] transition-colors ${
+                  active
+                    ? "text-[#1C317A] dark:text-[#93B4FF] font-semibold bg-[#1C317A]/5 dark:bg-[#1C317A]/15"
+                    : "text-gray-600 dark:text-[#9AA1AA] hover:text-[#0f172a] dark:hover:text-[#F1F3F5] hover:bg-gray-100 dark:hover:bg-[#1A1F26] font-medium"
+                }`}
+              >
+                {meta.native}
+                {active && <CheckIcon className="w-3.5 h-3.5 shrink-0" />}
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
