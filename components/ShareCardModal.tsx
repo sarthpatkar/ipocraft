@@ -23,7 +23,7 @@ export default function ShareCardModal({ slug, ipoName, onClose }: ShareCardModa
   const [copied, setCopied] = useState(false);
 
   const cardUrl = `/api/share-card?slug=${encodeURIComponent(slug)}&template=${selected}`;
-  const pageUrl = `https://ipocraft.com/ipo/${encodeURIComponent(slug)}`;
+  const pageUrl = `https://www.ipocraft.com/ipo/${encodeURIComponent(slug)}`;
   const shareText = `${ipoName} IPO — check live GMP, subscription & allotment odds on IPOCraft`;
 
   // Reset load state when template changes

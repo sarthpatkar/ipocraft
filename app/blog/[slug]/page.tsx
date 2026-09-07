@@ -59,17 +59,69 @@ export default async function BlogDetailPage({
 }) {
   const { slug } = await params;
   const article = await getArticle(slug);
-  
+
   if (!article) return notFound();
 
   // Get next article for "Read Next" (simple logic: get first mock article that isn't this one)
   const nextArticle = MOCK_ARTICLES.find(a => a.slug !== slug) || MOCK_ARTICLES[0];
+
+  const articleUrl = canonicalUrl(`/blog/${slug}`);
+  const plainExcerpt = article.excerpt ?? article.title;
+  // article.date is a display string ("July 18, 2026") — schema.org wants
+  // ISO 8601. Falls back to the display string if parsing ever fails
+  // rather than emitting an empty/invalid date.
+  const parsedDate = article.date ? new Date(article.date) : null;
+  const isoDate =
+    parsedDate && !Number.isNaN(parsedDate.getTime())
+      ? parsedDate.toISOString()
+      : article.date;
 
   return (
     <div
       className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F5F9] antialiased pb-20`}
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
+      {/* BlogPosting schema — makes each article eligible for article rich
+          results / Google Discover, and gives AI answer engines a clean,
+          structured source to cite. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: article.title,
+            description: plainExcerpt,
+            articleSection: article.category,
+            datePublished: isoDate,
+            dateModified: isoDate,
+            author: { "@type": "Organization", name: "IPOCraft Research Team" },
+            publisher: {
+              "@type": "Organization",
+              name: "IPOCraft",
+              logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" },
+            },
+            mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+            url: articleUrl,
+          }),
+        }}
+      />
+      {/* BreadcrumbList — anchors this article under the blog section for
+          Google's breadcrumb rich result. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: canonicalUrl("/") },
+              { "@type": "ListItem", position: 2, name: "Blog", item: canonicalUrl("/blog") },
+              { "@type": "ListItem", position: 3, name: article.title, item: articleUrl },
+            ],
+          }),
+        }}
+      />
       <ReadingProgress />
       <div className="bg-white dark:bg-[#111418] border-b border-gray-200 dark:border-[#252A31] relative">
         <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-8 sm:py-12 relative z-10">

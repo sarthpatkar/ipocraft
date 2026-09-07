@@ -15,6 +15,12 @@ export const metadata: Metadata = {
     "Learn what IPO GMP (Grey Market Premium) means, how IPO GMP is calculated, why it changes daily, and how investors estimate listing gains using GMP data.",
   alternates: {
     canonical: whatIsIpoGmpUrl,
+    languages: {
+      en: whatIsIpoGmpUrl,
+      hi: canonicalUrl("/hi/what-is-ipo-gmp"),
+      mr: canonicalUrl("/mr/what-is-ipo-gmp"),
+      "x-default": whatIsIpoGmpUrl,
+    },
   },
 };
 
@@ -52,6 +58,18 @@ export default function WhatIsIpoGmpPage() {
           along with subscription data and IPO calendar timelines. However, GMP
           should always be interpreted cautiously and not treated as guaranteed
           listing performance.
+        </p>
+
+        <p className="mt-4 text-[13px] text-[#64748b] dark:text-[#9AA1AA]">
+          Also available in{" "}
+          <Link href="/hi/what-is-ipo-gmp" className="text-[#1C317A] dark:text-blue-400 underline">
+            हिंदी
+          </Link>{" "}
+          and{" "}
+          <Link href="/mr/what-is-ipo-gmp" className="text-[#1C317A] dark:text-blue-400 underline">
+            मराठी
+          </Link>
+          .
         </p>
 
         {/* Jump Navigation */}
@@ -289,6 +307,8 @@ export default function WhatIsIpoGmpPage() {
                 "ipo-subscription-meaning",
                 "how-ipo-allotment-works",
                 "qib-hni-retail-explained",
+                "kostak-rate-meaning",
+                "drhp-vs-rhp-difference",
                 "ipo-profit-calculator",
                 "blog",
               ]}
@@ -341,7 +361,7 @@ export default function WhatIsIpoGmpPage() {
           publisher: {
             "@type": "Organization",
             name: "IPOCraft",
-            logo: { "@type": "ImageObject", url: "https://ipocraft.com/logo2.png" },
+            logo: { "@type": "ImageObject", url: "https://www.ipocraft.com/logo2.png" },
           },
           datePublished: "2024-01-01",
           dateModified: new Date().toISOString(),

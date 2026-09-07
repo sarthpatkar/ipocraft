@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   title: "IPO Comparison Tool — Compare GMP, Subscription & Timeline | IPOCraft",
   description:
     "Compare up to 3 IPOs side-by-side. Instantly see GMP, subscription demand, price band, issue size, and listing dates for any Mainboard or SME IPO.",
+  keywords: [
+    "IPO comparison tool",
+    "compare IPO GMP",
+    "compare IPO subscription",
+    "which IPO to apply",
+    "IPO vs IPO comparison India",
+  ],
   alternates: { canonical: "https://www.ipocraft.com/compare" },
   openGraph: {
     title: "IPO Comparison Tool | IPOCraft",
@@ -24,6 +31,33 @@ export const metadata: Metadata = {
 export default function ComparePage() {
   return (
     <main className="min-h-screen bg-[#F8FAFC] dark:bg-[#090B0F] pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "How many IPOs can I compare at once?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "You can compare up to 3 IPOs side-by-side, viewing GMP, subscription multiples, price band, issue size, and key dates for each.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "What data does the IPO comparison tool show?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "It shows Grey Market Premium (GMP), subscription demand across categories, price band, lot size, issue size, and the open, close, allotment, and listing dates for each selected IPO.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
         <div className="mb-8">
           <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#1C317A] dark:text-blue-400 mb-2" style={{ fontFamily: "var(--font-inter)" }}>

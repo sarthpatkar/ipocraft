@@ -8,6 +8,10 @@ export type GuideKey =
   | "qib-hni-retail-explained"
   | "ipo-profit-calculator"
   | "ipo-allotment-probability-calculator"
+  | "kostak-rate-meaning"
+  | "drhp-vs-rhp-difference"
+  | "ipo-cut-off-price-meaning"
+  | "anchor-investor-lock-in-period"
   | "blog";
 
 const CATALOG: Record<GuideKey, { href: string; label: string }> = {
@@ -20,6 +24,13 @@ const CATALOG: Record<GuideKey, { href: string; label: string }> = {
   "ipo-allotment-probability-calculator": {
     href: "/ipo-allotment-probability-calculator",
     label: "IPO Allotment Probability Calculator",
+  },
+  "kostak-rate-meaning": { href: "/kostak-rate-meaning", label: "What is Kostak Rate?" },
+  "drhp-vs-rhp-difference": { href: "/drhp-vs-rhp-difference", label: "DRHP vs RHP: Difference" },
+  "ipo-cut-off-price-meaning": { href: "/ipo-cut-off-price-meaning", label: "IPO Cut-off Price Meaning" },
+  "anchor-investor-lock-in-period": {
+    href: "/anchor-investor-lock-in-period",
+    label: "Anchor Investor Lock-in Period",
   },
   blog: { href: "/blog", label: "IPOCraft Blog" },
 };

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title:
     `IPO Calendar India ${CURRENT_YEAR} — Upcoming, Open & Listed IPO Dates | IPOCraft`,
   description:
-    "View the IPO calendar for India with upcoming, open, and recently listed IPO dates, subscription timelines, allotment schedules, and listing information across Mainboard and SME segments.",
+    "View India's IPO calendar with upcoming, open, and recently listed IPO dates, subscription windows, allotment schedules, and listing info.",
   keywords: [
     "IPO calendar India",
     `Upcoming IPO ${CURRENT_YEAR}`,
@@ -25,6 +25,12 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: ipoCalendarUrl,
+    languages: {
+      en: ipoCalendarUrl,
+      hi: canonicalUrl("/hi/ipo-calendar"),
+      mr: canonicalUrl("/mr/ipo-calendar"),
+      "x-default": ipoCalendarUrl,
+    },
   },
   openGraph: {
     title:
@@ -114,11 +120,43 @@ export default async function IpoCalendarPage() {
     (ipo) => getStatus(ipo.open_date, ipo.close_date) === "Closed"
   );
 
+  // Event schema for the open + upcoming issues — this is the calendar's
+  // actual news value (closed/past ones live on /ipo-history instead).
+  // Capped so the payload stays reasonable if the pipeline is unusually
+  // backed up.
+  const calendarEvents = [...open, ...upcoming].slice(0, 40);
+
   return (
     <div
       className="min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] overflow-x-hidden"
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
+      {calendarEvents.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              name: `IPO Calendar ${CURRENT_YEAR} — Open & Upcoming IPOs`,
+              itemListElement: calendarEvents.map((ipo, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "Event",
+                  name: `${ipo.name} IPO`,
+                  url: canonicalUrl(`/ipo/${ipo.slug}`),
+                  ...(ipo.open_date ? { startDate: ipo.open_date } : {}),
+                  ...(ipo.close_date ? { endDate: ipo.close_date } : {}),
+                  eventStatus: "https://schema.org/EventScheduled",
+                  eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
+                  location: { "@type": "VirtualLocation", url: canonicalUrl(`/ipo/${ipo.slug}`) },
+                },
+              })),
+            }),
+          }}
+        />
+      )}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
         {/* Compact Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5 pb-4 border-b border-gray-200 dark:border-[#252A31]">

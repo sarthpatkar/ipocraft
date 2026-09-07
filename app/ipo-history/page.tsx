@@ -40,15 +40,60 @@ export async function generateMetadata({
   searchParams: Promise<{ year?: string }>;
 }): Promise<Metadata> {
   const params = await searchParams;
-  const yearLabel = params.year && params.year !== "all" ? params.year : "2004–2026";
+  const rawYear = params.year?.trim();
+  const currentYear = new Date().getFullYear();
+  // Only treat a real 4-digit year in a sane range as its own indexable
+  // page — anything else (missing, "all", garbage) falls back to the
+  // base archive so we never canonicalize to a bogus query value.
+  const isValidYear =
+    !!rawYear &&
+    rawYear !== "all" &&
+    /^\d{4}$/.test(rawYear) &&
+    Number(rawYear) >= 2000 &&
+    Number(rawYear) <= currentYear + 1;
+
+  const yearLabel = isValidYear ? rawYear! : "2004–2026";
   const title = `IPO History India ${yearLabel} — Past IPO Listing Gains & Data | IPOCraft`;
-  const description =
-    "Browse the complete archive of past Indian IPOs by year — issue price, listing price, realized listing gains, and lot size for Mainboard and SME issues.";
+  const description = isValidYear
+    ? `Browse every Indian IPO listed in ${rawYear}, with issue price, listing price, realized listing gains, and lot size for Mainboard and SME issues.`
+    : "Browse the complete archive of past Indian IPOs by year — issue price, listing price, realized listing gains, and lot size for Mainboard and SME issues.";
+  // canonicalUrl() strips query strings by design (it's meant for clean
+  // canonical paths), so a valid year builds its own canonical directly
+  // rather than collapsing every /ipo-history?year=YYYY into the base
+  // archive page — each year has genuinely distinct, rankable content
+  // (e.g. "IPO listing gains 2023") that was previously invisible to
+  // Google behind a single shared canonical.
+  const canonical = isValidYear ? `${ipoHistoryUrl}?year=${rawYear}` : ipoHistoryUrl;
+
   return {
     title,
     description,
-    alternates: { canonical: ipoHistoryUrl },
-    openGraph: { title, description, url: ipoHistoryUrl, siteName: "IPOCraft", type: "website" },
+    keywords: isValidYear
+      ? [
+          "IPO history India",
+          `IPO listing gains ${rawYear}`,
+          `IPO list ${rawYear}`,
+          `Mainboard IPO ${rawYear}`,
+          `SME IPO ${rawYear}`,
+          "past IPO performance India",
+        ]
+      : [
+          "IPO history India",
+          "past IPO listing gains",
+          "IPO archive India",
+          "historical IPO data",
+          "IPO listing price vs issue price",
+        ],
+    alternates: {
+      canonical,
+      languages: {
+        en: ipoHistoryUrl,
+        hi: canonicalUrl("/hi/ipo-history"),
+        mr: canonicalUrl("/mr/ipo-history"),
+        "x-default": ipoHistoryUrl,
+      },
+    },
+    openGraph: { title, description, url: canonical, siteName: "IPOCraft", type: "website" },
     twitter: { card: "summary_large_image", title, description },
   };
 }

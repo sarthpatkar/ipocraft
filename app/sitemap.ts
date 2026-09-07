@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getSitemapIpoRows } from "@/lib/ipo.server";
-import { canonicalUrl } from "@/lib/site-url";
+import { canonicalUrl, CANONICAL_ORIGIN } from "@/lib/site-url";
 import { MOCK_ARTICLES } from "@/lib/mock-articles";
 import fs from "fs";
 import path from "path";
@@ -24,6 +24,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency,
         priority,
       });
+    }
+  };
+
+  // Same as addUrl, but for paths that carry a query string (e.g.
+  // /ipo-history?year=2023) — canonicalUrl() intentionally strips query
+  // strings for the plain-path case above, so those need the origin
+  // prepended directly instead.
+  const addRawUrl = (
+    pathWithQuery: string,
+    priority: number,
+    changeFrequency: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never"
+  ) => {
+    const fullUrl = `${CANONICAL_ORIGIN}${pathWithQuery}`;
+    const existing = urlMap.get(fullUrl);
+    if (!existing || existing.priority! < priority) {
+      urlMap.set(fullUrl, { url: fullUrl, lastModified, changeFrequency, priority });
     }
   };
 
@@ -52,7 +68,41 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   addUrl("/ipo-subscription-meaning", 0.8, "monthly");
   addUrl("/qib-hni-retail-explained", 0.8, "monthly");
   addUrl("/ipo-grey-market-guide", 0.8, "monthly");
+  addUrl("/kostak-rate-meaning", 0.7, "monthly");
+  addUrl("/drhp-vs-rhp-difference", 0.7, "monthly");
+  addUrl("/ipo-cut-off-price-meaning", 0.7, "monthly");
+  addUrl("/anchor-investor-lock-in-period", 0.7, "monthly");
   addUrl("/blog", 0.75, "weekly");
+
+  // ── 3b. Hindi & Marathi Glossary Variants ──
+  for (const term of [
+    "what-is-ipo-gmp",
+    "ipo-subscription-meaning",
+    "qib-hni-retail-explained",
+    "ipo-grey-market-guide",
+    "how-ipo-allotment-works",
+    "kostak-rate-meaning",
+    "drhp-vs-rhp-difference",
+    "ipo-cut-off-price-meaning",
+    "anchor-investor-lock-in-period",
+  ]) {
+    addUrl(`/hi/${term}`, 0.65, "monthly");
+    addUrl(`/mr/${term}`, 0.65, "monthly");
+  }
+
+  // ── 3c. Hindi & Marathi Live Tool Pages ──
+  addUrl("/hi", 0.9, "daily");
+  addUrl("/mr", 0.9, "daily");
+  addUrl("/hi/gmp", 0.85, "daily");
+  addUrl("/mr/gmp", 0.85, "daily");
+  addUrl("/hi/allotment-status", 0.8, "daily");
+  addUrl("/mr/allotment-status", 0.8, "daily");
+  addUrl("/hi/subscriptions", 0.8, "daily");
+  addUrl("/mr/subscriptions", 0.8, "daily");
+  addUrl("/hi/ipo-calendar", 0.8, "daily");
+  addUrl("/mr/ipo-calendar", 0.8, "daily");
+  addUrl("/hi/ipo-history", 0.75, "weekly");
+  addUrl("/mr/ipo-history", 0.75, "weekly");
   addUrl("/brokers", 0.7, "monthly");
 
   // ── 4. Transparency, Company & Legal Pages ──
@@ -67,6 +117,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const ipoRows = await getSitemapIpoRows();
     const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
+    const listedYears = new Set<number>();
     for (const row of ipoRows) {
       // A long-since-listed historical IPO's page rarely changes — "daily"
       // for all 600+ of them was both wasteful and a wrong freshness signal
@@ -81,6 +132,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         0.8,
         isOldListed ? "monthly" : "daily"
       );
+
+      if (row.status === "Listed" && row.listing_date) {
+        const year = new Date(row.listing_date).getFullYear();
+        if (Number.isFinite(year)) listedYears.add(year);
+      }
+    }
+
+    // ── 5b. /ipo-history year archives ──
+    // Each year has genuinely distinct, long-tail-searchable content
+    // ("IPO listing gains 2023"), so give each its own canonical, indexable
+    // URL instead of leaving them only reachable behind a client-side filter.
+    for (const year of listedYears) {
+      addRawUrl(`/ipo-history?year=${year}`, 0.6, "monthly");
+      addRawUrl(`/hi/ipo-history?year=${year}`, 0.55, "monthly");
+      addRawUrl(`/mr/ipo-history?year=${year}`, 0.55, "monthly");
     }
   } catch (error) {
     console.error("Error loading IPO rows for sitemap:", error);

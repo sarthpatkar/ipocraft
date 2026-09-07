@@ -16,6 +16,12 @@ export const metadata: Metadata = {
     "Understand how IPO allotment works in India, including retail quota, HNI allocation, oversubscription rules, lottery system, and refund process.",
   alternates: {
     canonical: allotmentGuideUrl,
+    languages: {
+      en: allotmentGuideUrl,
+      hi: canonicalUrl("/hi/how-ipo-allotment-works"),
+      mr: canonicalUrl("/mr/how-ipo-allotment-works"),
+      "x-default": allotmentGuideUrl,
+    },
   },
   openGraph: {
     title: "How IPO Allotment Works in India – Complete Guide",
@@ -70,6 +76,18 @@ export default function IpoAllotmentGuide() {
           often want to understand how shares are actually allocated. This guide
           explains the complete allotment mechanism for Retail, HNI, and QIB
           categories.
+        </p>
+
+        <p className="mt-3 text-[13px] text-[#64748b] dark:text-[#9AA1AA]">
+          Also available in{" "}
+          <Link href="/hi/how-ipo-allotment-works" className="text-[#1C317A] dark:text-blue-400 underline">
+            हिंदी
+          </Link>{" "}
+          and{" "}
+          <Link href="/mr/how-ipo-allotment-works" className="text-[#1C317A] dark:text-blue-400 underline">
+            मराठी
+          </Link>
+          .
         </p>
 
         {/* Jump Navigation */}
@@ -337,6 +355,7 @@ export default function IpoAllotmentGuide() {
                 "ipo-grey-market-guide",
                 "ipo-subscription-meaning",
                 "qib-hni-retail-explained",
+                "drhp-vs-rhp-difference",
                 "ipo-allotment-probability-calculator",
                 "blog",
               ]}

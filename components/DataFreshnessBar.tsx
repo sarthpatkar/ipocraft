@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 interface DataFreshnessBarProps {
   lastUpdatedAt: string | null; // ISO string from DB updated_at
   syncIntervalMinutes?: number; // default 30
+  label?: string; // what's being kept fresh, e.g. "GMP & Subscription", "Allotment status"
 }
 
 function timeAgo(dateStr: string | null): { text: string; isStale: boolean } {
@@ -32,6 +33,7 @@ function nextRefreshIn(dateStr: string | null, intervalMinutes: number): string 
 export default function DataFreshnessBar({
   lastUpdatedAt,
   syncIntervalMinutes = 30,
+  label = "GMP & Subscription",
 }: DataFreshnessBarProps) {
   const [tick, setTick] = useState(0);
 
@@ -64,7 +66,7 @@ export default function DataFreshnessBar({
 
       {/* Last updated */}
       <span>
-        GMP &amp; Subscription updated <strong>{agoText}</strong>
+        {label} updated <strong>{agoText}</strong>
       </span>
 
       <span className="text-current opacity-40">·</span>

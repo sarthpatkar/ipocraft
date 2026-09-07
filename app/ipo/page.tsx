@@ -44,7 +44,17 @@ export async function generateMetadata({
   return {
     title: `${baseTitle} — IPO GMP, Upcoming & Current IPO List India | IPOCraft`,
     description:
-      "Explore the latest IPO listings in India including open, upcoming, and listed IPOs with GMP, price bands, subscription data, and key dates. Updated regularly by IPOCraft.",
+      "Explore the latest IPO listings in India — open, upcoming, and listed — with GMP, price bands, subscription data, and key dates. Updated daily.",
+    keywords: [
+      "IPO list India",
+      "upcoming IPO",
+      "current IPO",
+      "new IPO India",
+      "latest IPO GMP",
+      "open IPO today",
+      "Mainboard IPO list",
+      "SME IPO list",
+    ],
     alternates: {
       canonical: ipoListingsUrl,
     },
@@ -116,15 +126,25 @@ export default async function IPOPage({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "FinancialProduct",
-            name: "IPO Listings India",
-            provider: {
-              "@type": "Organization",
+            "@type": "CollectionPage",
+            name: "Latest IPO Listings in India",
+            url: ipoListingsUrl,
+            description:
+              "Latest IPO listings in India including open, upcoming, and listed IPOs with price bands, dates, and subscription insights.",
+            isPartOf: {
+              "@type": "WebSite",
               name: "IPOCraft",
               url: CANONICAL_ORIGIN,
             },
-            description:
-              "Latest IPO listings in India including open, upcoming, and listed IPOs with price bands, dates, and subscription insights.",
+            mainEntity: {
+              "@type": "ItemList",
+              itemListElement: initialFeed.items.slice(0, 20).map((ipo, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `${CANONICAL_ORIGIN}/ipo/${encodeURIComponent(ipo.slug)}`,
+                name: ipo.name,
+              })),
+            },
           }),
         }}
       />

@@ -6,7 +6,7 @@ import Script from "next/script";
 export const metadata: Metadata = {
   title: "IPO AI Assistant — Ask Anything About Indian IPOs | IPOCraft",
   description:
-    "Get instant, data-verified answers about IPO GMP, subscription multiples, allotment odds, and listing dates. IPOCraft's free AI assistant covers Mainboard and SME IPOs with live market data.",
+    "Get instant, data-verified answers on IPO GMP, subscription multiples, allotment odds, and listing dates. Free AI assistant for Mainboard & SME IPOs.",
   alternates: {
     canonical: "https://www.ipocraft.com/chat",
   },
