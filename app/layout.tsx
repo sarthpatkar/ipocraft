@@ -78,7 +78,6 @@ export default function RootLayout({
       </head>
       <body
         className="bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased"
-        style={{ fontFamily: "var(--font-inter), sans-serif" }}
       >
         {/* Google Analytics / AdSense — only load once the user has actually
             consented via CookieConsentBanner (see components/ConsentScripts.tsx) */}
@@ -116,6 +115,18 @@ export default function RootLayout({
             ],
             description:
               "IPOCraft (ipocraft.com) is an Indian IPO tracking platform providing live GMP, subscription data, allotment probability calculators, and listing performance analytics for Mainboard and SME IPOs.",
+            // IPOCraft is an online-only research platform with no public
+            // storefront, so we publish a ContactPoint (real support inbox)
+            // rather than a LocalBusiness/address schema, which Google
+            // reserves for physical-location businesses.
+            contactPoint: {
+              "@type": "ContactPoint",
+              email: "contact@ipocraft.com",
+              contactType: "customer support",
+              url: `${siteUrl}/contact`,
+              areaServed: "IN",
+              availableLanguage: ["English", "Hindi", "Marathi"],
+            },
           })}
         </Script>
         <Script
@@ -144,8 +155,7 @@ export default function RootLayout({
         <Navbar />
 
         <main
-          className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 pt-6 sm:pt-8"
-          style={{ paddingBottom: "max(calc(env(safe-area-inset-bottom) + var(--nav-bottom-clearance)), var(--nav-bottom-clearance))" }}
+          className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 pt-6 sm:pt-8 safe-area-bottom-padding"
         >
           {children}
         </main>

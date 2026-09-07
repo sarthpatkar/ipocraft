@@ -9,6 +9,13 @@ import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { canonicalUrl } from "@/lib/site-url";
 import { calculateHypeScore } from "@/lib/hypeScore";
+import { withShortCache } from "@/lib/simpleCache";
+
+// Same short-TTL rationale as lib/ipoFeed.ts — these stat tiles don't need
+// per-request freshness, and caching them collapses duplicate DB round
+// trips (this is what was flagged as slow "initial server response time"
+// in the SEOptimer audit).
+const STAT_CACHE_TTL_MS = 20_000;
 
 
 
@@ -74,7 +81,12 @@ export default async function Home({
   const params = await searchParams;
   const supabase = await createSupabaseServerClient();
 
-  // All data fetches run in parallel
+  const today = new Date().toISOString().slice(0, 10);
+
+  // All data fetches run in parallel. The 4 stat-tile queries are wrapped
+  // in a short in-memory cache (see lib/simpleCache.ts) — they're identical
+  // for every visitor on a given day, so there's no reason to hit Supabase
+  // for each request.
   const [
     ipoFeedResult,
     freshRecordResult,
@@ -89,32 +101,40 @@ export default async function Home({
       type: params?.type,
       q: params?.search,
     }),
-    supabase
-      .from("ipos")
-      .select("updated_at")
-      .not("updated_at", "is", null)
-      .order("updated_at", { ascending: false })
-      .limit(1)
-      .maybeSingle(),
+    withShortCache(`home:last-updated:${today}`, STAT_CACHE_TTL_MS, () =>
+      supabase
+        .from("ipos")
+        .select("updated_at")
+        .not("updated_at", "is", null)
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle()
+    ),
     // Count open IPOs
-    supabase
-      .from("ipos")
-      .select("id", { count: "exact", head: true })
-      .lte("open_date", new Date().toISOString().slice(0, 10))
-      .gte("close_date", new Date().toISOString().slice(0, 10)),
+    withShortCache(`home:open-count:${today}`, STAT_CACHE_TTL_MS, () =>
+      supabase
+        .from("ipos")
+        .select("id", { count: "exact", head: true })
+        .lte("open_date", today)
+        .gte("close_date", today)
+    ),
     // Count upcoming IPOs
-    supabase
-      .from("ipos")
-      .select("id", { count: "exact", head: true })
-      .gt("open_date", new Date().toISOString().slice(0, 10)),
+    withShortCache(`home:upcoming-count:${today}`, STAT_CACHE_TTL_MS, () =>
+      supabase
+        .from("ipos")
+        .select("id", { count: "exact", head: true })
+        .gt("open_date", today)
+    ),
     // Active IPOs with GMP to determine highest GMP %
-    supabase
-      .from("ipos")
-      .select("name, slug, gmp, price_max, price_min")
-      .not("gmp", "is", null)
-      .gt("gmp", 0)
-      .gte("close_date", new Date().toISOString().slice(0, 10))
-      .limit(20),
+    withShortCache(`home:top-gmp:${today}`, STAT_CACHE_TTL_MS, () =>
+      supabase
+        .from("ipos")
+        .select("name, slug, gmp, price_max, price_min")
+        .not("gmp", "is", null)
+        .gt("gmp", 0)
+        .gte("close_date", today)
+        .limit(20)
+    ),
   ]);
 
   // These are secondary stat-tile queries — a failure here shouldn't crash
@@ -183,7 +203,6 @@ export default async function Home({
   return (
     <div
       className={`min-h-screen bg-[#f8fafc] dark:bg-[#090B0F] text-[#0f172a] dark:text-[#F1F3F5] antialiased`}
-      style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       {/* Structured Data for SEO & GEO */}
       <script
@@ -199,6 +218,65 @@ export default async function Home({
           }),
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What is IPO GMP and how is it calculated?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "IPO GMP (Grey Market Premium) is the unofficial premium at which IPO shares trade before listing, expressed in rupees over the issue price. IPOCraft tracks GMP trends alongside price bands to show the implied premium as a percentage.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How is IPO allotment probability estimated?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Allotment odds depend on the subscription multiple in your category (Retail, NII, or QIB) and the number of lots applied for. IPOCraft's Allotment Odds Calculator models this using live subscription data.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "What's the difference between Mainboard and SME IPOs?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Mainboard IPOs list on the NSE/BSE main platform with a minimum post-issue capital requirement and broader retail eligibility. SME IPOs list on the NSE Emerge / BSE SME platforms, typically have smaller issue sizes and higher lot values, and follow separate listing norms.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "What does an IPO subscription multiple mean?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "A subscription multiple (e.g. 12.5x) shows how many times a category was bid for relative to shares reserved for it. Higher multiples generally signal stronger demand and lower allotment odds per applicant.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How often does IPOCraft update GMP and subscription data?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Live issues are refreshed on a rolling cycle throughout the trading day, pulling from exchange bidding data and grey market sources. IPOCraft's Data Methodology page documents exact sourcing and update cadence.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Is GMP a reliable predictor of listing gains?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "GMP is a directional, unregulated indicator, not a guarantee — actual listing price depends on market conditions, overall sentiment, and demand at the time of listing, which can shift sharply between the subscription window and listing day.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
         {/* Compact Hero Header */}
@@ -208,8 +286,7 @@ export default async function Home({
               IPO Research &amp; Analytics
             </p>
             <h1
-              className="text-xl sm:text-2xl lg:text-[1.85rem] font-semibold leading-tight tracking-tight text-[#0f172a] dark:text-[#F1F5F9]"
-              style={{ fontFamily: "var(--font-outfit)" }}
+              className="text-xl sm:text-2xl lg:text-[1.85rem] font-semibold leading-tight tracking-tight text-[#0f172a] dark:text-[#F1F5F9] font-outfit"
             >
               IPOCraft: IPO GMP, Subscription &amp; Timeline Tracker
             </h1>
@@ -366,14 +443,12 @@ export default async function Home({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
             <div>
               <h2
-                className="text-[1.35rem] sm:text-[1.5rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F3F5]"
-                style={{ fontFamily: "var(--font-outfit)" }}
+                className="text-[1.35rem] sm:text-[1.5rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F3F5] font-outfit"
               >
                 Latest IPO Listings
               </h2>
               <p
                 className="mt-1 text-[13px] text-[#64748b] dark:text-[#9AA1AA] leading-relaxed max-w-2xl"
-                style={{ fontFamily: "var(--font-inter)" }}
               >
                 Track offer dates, price bands, lot sizes, subscription trends, and GMP snapshots.
               </p>
@@ -381,7 +456,6 @@ export default async function Home({
             <Link
               href="/ipo"
               className="inline-flex items-center justify-center bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black text-[12.5px] font-semibold px-3.5 py-1.5 rounded-md border border-gray-900 dark:border-white transition-colors shrink-0 shadow-xs"
-              style={{ fontFamily: "var(--font-inter)" }}
             >
               View All IPOs
             </Link>
@@ -441,7 +515,7 @@ export default async function Home({
             </Link>
 
             <Link
-              href="/?type=sme"
+              href="/sme-ipo"
               className="px-3 py-1.5 text-[12px] font-medium bg-white dark:bg-[#171B20] text-gray-700 dark:text-[#9AA1AA] border border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-500 rounded-md transition-colors"
             >
               SME
@@ -577,6 +651,16 @@ export default async function Home({
                       QIB vs HNI vs Retail
                     </Link>
                   </li>
+                  <li>
+                    <Link href="/drhp-vs-rhp-difference" className="text-[12.5px] text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                      DRHP vs RHP: Difference
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/ipo-cut-off-price-meaning" className="text-[12.5px] text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                      IPO Cut-off Price Meaning
+                    </Link>
+                  </li>
                 </ul>
               </div>
 
@@ -590,8 +674,7 @@ export default async function Home({
                 Decision Tools
               </p>
               <h2
-                className="text-[1.25rem] sm:text-[1.4rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
-                style={{ fontFamily: "var(--font-outfit)" }}
+                className="text-[1.25rem] sm:text-[1.4rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] font-outfit"
               >
                 Tools for IPO Bidders
               </h2>
@@ -676,8 +759,7 @@ export default async function Home({
                 Morning Market Brief
               </span>
               <h4
-                className="text-[1.1rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9]"
-                style={{ fontFamily: "var(--font-outfit)" }}
+                className="text-[1.1rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] font-outfit"
               >
                 Daily IPO &amp; GMP Updates at 9:30 AM
               </h4>
@@ -700,8 +782,7 @@ export default async function Home({
               className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-500 rounded-lg p-5 block transition-colors"
             >
               <h3
-                className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2"
-                style={{ fontFamily: "var(--font-outfit)" }}
+                className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2 font-outfit"
               >
                 What is IPO GMP?
               </h3>
@@ -712,14 +793,91 @@ export default async function Home({
 
             <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-5">
               <h3
-                className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2"
-                style={{ fontFamily: "var(--font-outfit)" }}
+                className="text-[15px] font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2 font-outfit"
               >
                 Data Transparency
               </h3>
               <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
                 IPOCraft aggregates offer information from public filings and official disclosures. Always verify details with official offer documents submitted to SEBI and stock exchanges.
               </p>
+            </div>
+          </div>
+
+          {/* ── FAQ: adds substantive on-page content + FAQPage structured
+               data for search & AI-answer surfaces. Answers are grounded in
+               the same guide pages linked from the footer, not filler. ── */}
+          <div className="mt-10 pt-8 border-t border-gray-200 dark:border-[#252A31]">
+            <div className="mb-5">
+              <p className="text-[11px] font-semibold uppercase text-blue-600 dark:text-blue-400 tracking-wider mb-1">
+                Common Questions
+              </p>
+              <h2 className="text-[1.25rem] sm:text-[1.4rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] font-outfit">
+                IPO GMP &amp; Subscription: Frequently Asked Questions
+              </h2>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-4 sm:p-5">
+                <h3 className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-1.5">
+                  What is IPO GMP and how is it calculated?
+                </h3>
+                <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
+                  IPO GMP (Grey Market Premium) is the unofficial premium at which IPO shares trade before listing, expressed in rupees over the issue price. IPOCraft tracks GMP trends alongside price bands to show the implied premium as a percentage.{" "}
+                  <Link href="/what-is-ipo-gmp" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Read the full GMP guide →</Link>
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-4 sm:p-5">
+                <h3 className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-1.5">
+                  How is IPO allotment probability estimated?
+                </h3>
+                <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
+                  Allotment odds depend on the subscription multiple in your category (Retail, NII, or QIB) and the number of lots applied for. Our{" "}
+                  <Link href="/ipo-allotment-probability-calculator" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Allotment Odds Calculator</Link>{" "}
+                  models this using live subscription data.{" "}
+                  <Link href="/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">See how allotment works →</Link>
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-4 sm:p-5">
+                <h3 className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-1.5">
+                  What&apos;s the difference between Mainboard and SME IPOs?
+                </h3>
+                <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
+                  Mainboard IPOs list on the NSE/BSE main platform with a minimum post-issue capital requirement and broader retail eligibility. SME IPOs list on the NSE Emerge / BSE SME platforms, typically have smaller issue sizes and higher lot values, and follow separate listing norms.{" "}
+                  <Link href="/sme-ipo" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Browse current SME IPOs →</Link>
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-4 sm:p-5">
+                <h3 className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-1.5">
+                  What does an IPO subscription multiple mean?
+                </h3>
+                <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
+                  A subscription multiple (e.g. &ldquo;12.5x&rdquo;) shows how many times a category was bid for relative to shares reserved for it. Higher multiples generally signal stronger demand and lower allotment odds per applicant.{" "}
+                  <Link href="/ipo-subscription-meaning" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Full explainer →</Link>
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-4 sm:p-5">
+                <h3 className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-1.5">
+                  How often does IPOCraft update GMP and subscription data?
+                </h3>
+                <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
+                  Live issues are refreshed on a rolling cycle throughout the trading day (see the freshness indicator above the listings), pulling from exchange bidding data and grey market sources. Our{" "}
+                  <Link href="/methodology" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Data Methodology page</Link>{" "}
+                  documents exact sourcing and update cadence.
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-[#111418] border border-[#e2e8f0] dark:border-[#252A31] rounded-lg p-4 sm:p-5">
+                <h3 className="text-[13.5px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] mb-1.5">
+                  Is GMP a reliable predictor of listing gains?
+                </h3>
+                <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
+                  GMP is a directional, unregulated indicator, not a guarantee — actual listing price depends on market conditions, overall sentiment, and demand at the time of listing, which can shift sharply between the subscription window and listing day. Treat GMP as one input among several, not a standalone signal.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -734,14 +892,12 @@ export default async function Home({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
             <div>
               <h2
-                className="text-[1.35rem] sm:text-[1.5rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F5F9]"
-                style={{ fontFamily: "var(--font-outfit)" }}
+                className="text-[1.35rem] sm:text-[1.5rem] font-semibold leading-tight text-[#0f172a] dark:text-[#F1F5F9] font-outfit"
               >
                 Top Brokers
               </h2>
               <p
                 className="mt-1 text-[13px] text-[#64748b] dark:text-[#9AA1AA] leading-relaxed"
-                style={{ fontFamily: "var(--font-inter)" }}
               >
                 Compare core broker charges and quickly access verified account opening links.
               </p>
@@ -749,7 +905,6 @@ export default async function Home({
             <Link
               href="/brokers"
               className="inline-flex items-center justify-center bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black text-[12.5px] font-semibold px-3.5 py-1.5 rounded-md border border-gray-900 dark:border-white transition-colors shrink-0 shadow-xs"
-              style={{ fontFamily: "var(--font-inter)" }}
             >
               View All Brokers
             </Link>
