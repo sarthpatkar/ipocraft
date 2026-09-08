@@ -64,10 +64,11 @@ export default function RootLayout({
         />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-      <link rel="preconnect" href="https://www.googletagmanager.com" />
-      <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-      <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-      <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+      {/* Google Analytics / AdSense preconnects are added dynamically by
+          ConsentScripts once the user actually consents — most first
+          visits never load these origins, so a static preconnect here
+          would sit unused and cost connection setup time for nothing
+          (flagged by Lighthouse as "Unused preconnect"). */}
       {/* PWA */}
       <link rel="manifest" href="/manifest.json" />
       <meta name="theme-color" content="#1C317A" />
@@ -186,6 +187,7 @@ export default function RootLayout({
                     alt="IPOCraft Logo"
                     width={130}
                     height={36}
+                    quality={50}
                     className="h-8 w-auto block dark:hidden object-contain"
                   />
                   <Image
@@ -193,6 +195,7 @@ export default function RootLayout({
                     alt="IPOCraft Logo"
                     width={130}
                     height={36}
+                    quality={50}
                     className="h-8 w-auto hidden dark:block object-contain"
                   />
                 </div>
@@ -206,7 +209,7 @@ export default function RootLayout({
 
                 {/* Quick Links */}
                 <div>
-                  <h4 className="font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2.5 text-[12px] uppercase tracking-wider">Quick Links</h4>
+                  <h3 className="font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2.5 text-[12px] uppercase tracking-wider">Quick Links</h3>
                   <ul className="space-y-1.5">
                     <li><Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</Link></li>
                     <li><Link href="/contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</Link></li>
@@ -230,7 +233,7 @@ export default function RootLayout({
 
                 {/* Learning Guides */}
                 <div>
-                  <h4 className="font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2.5 text-[12px] uppercase tracking-wider">Research Guides</h4>
+                  <h3 className="font-semibold text-[#0f172a] dark:text-[#F1F3F5] mb-2.5 text-[12px] uppercase tracking-wider">Research Guides</h3>
                   <ul className="space-y-1.5">
                     <li><Link href="/what-is-ipo-gmp" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">What is IPO GMP?</Link></li>
                     <li><Link href="/how-ipo-allotment-works" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">How IPO Allotment Works</Link></li>
@@ -330,7 +333,7 @@ export default function RootLayout({
             {/* Legal Disclaimer */}
             <p className="text-[11.5px] text-[#64748b] dark:text-[#94A3B8] leading-relaxed">
               <strong>Disclaimer:</strong> IPOCraft is an informational research platform and is not registered with SEBI as an investment advisor or research analyst. All data including IPO timelines, GMP indications, subscription demand, and financial summaries are referenced from official regulatory filings (DRHP/RHP) and exchange disclosures. Information is provided solely for education and research.{" "}
-              <Link href="/disclaimer" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <Link href="/disclaimer" className="text-blue-600 dark:text-blue-400 underline underline-offset-2">
                 Read full disclaimer
               </Link>
             </p>

@@ -135,7 +135,7 @@ export default function IpoTable({ items, emptyMessage = "No IPO listings found.
                 <td className="py-3 px-3 align-middle whitespace-nowrap font-medium text-[13px]">
                   {gmp != null ? (
                     <span className={`inline-flex items-center gap-1 tabular-nums ${
-                      isPositive ? "text-emerald-600 dark:text-emerald-400" : isNegative ? "text-rose-600 dark:text-rose-400" : "text-[#0f172a] dark:text-[#F1F5F9]"
+                      isPositive ? "text-emerald-700 dark:text-emerald-400" : isNegative ? "text-rose-600 dark:text-rose-400" : "text-[#0f172a] dark:text-[#F1F5F9]"
                     }`}>
                       {isPositive ? "+" : ""}₹{gmp.toLocaleString("en-IN")}
                       {gmpPct && (

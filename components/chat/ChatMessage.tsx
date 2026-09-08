@@ -95,7 +95,7 @@ function renderCellContent(cell: string): React.ReactNode {
   if (/^[+-]?\d+(\.\d+)?%$/.test(cell.trim())) {
     const isPositive = !cell.trim().startsWith("-");
     return (
-      <span className={`font-semibold tabular-nums ${isPositive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+      <span className={`font-semibold tabular-nums ${isPositive ? "text-emerald-700 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
         {cell}
       </span>
     );
@@ -216,8 +216,8 @@ function ChatTable({ headers, rows }: { headers: string[]; rows: string[][] }) {
           >
             {copied ? (
               <>
-                <CheckIcon className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Copied!</span>
+                <CheckIcon className="w-3 h-3 text-emerald-700 dark:text-emerald-400" />
+                <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Copied!</span>
               </>
             ) : (
               <>
@@ -610,8 +610,8 @@ export default function ChatMessage({
               >
                 {copied ? (
                   <>
-                    <CheckIcon className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Copied!</span>
+                    <CheckIcon className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
+                    <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Copied!</span>
                   </>
                 ) : (
                   <>

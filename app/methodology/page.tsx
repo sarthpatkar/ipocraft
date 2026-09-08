@@ -88,7 +88,7 @@ export default function MethodologyPage() {
             {/* Subscription */}
             <section className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-xl p-6">
               <div className="flex items-start gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400">
+                <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center shrink-0 mt-0.5 text-emerald-700 dark:text-emerald-400">
                   <ArrowTrendingUpIcon className="w-4 h-4" />
                 </div>
                 <div>

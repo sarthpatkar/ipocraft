@@ -310,7 +310,7 @@ export default function ProfitCalculator({ ipo }: { ipo: any }) {
             </p>
             <p className={`text-[10px] font-semibold mt-0.5 ${
               isProfitPositive
-                ? "text-emerald-600 dark:text-emerald-400"
+                ? "text-emerald-700 dark:text-emerald-400"
                 : isProfitNegative
                 ? "text-rose-600 dark:text-rose-400"
                 : "text-gray-500 dark:text-[#9AA1AA]"

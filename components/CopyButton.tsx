@@ -29,7 +29,7 @@ export default function CopyButton({
       style={{ backgroundColor: "transparent" }}
     >
       <span>{children}</span>
-      <span className={copied ? "opacity-100 transition-opacity flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400" : "opacity-0 group-hover:opacity-100 transition-opacity"}>
+      <span className={copied ? "opacity-100 transition-opacity flex items-center gap-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400" : "opacity-0 group-hover:opacity-100 transition-opacity"}>
         {copied ? (
           <>
             <CheckIcon className="w-3.5 h-3.5 text-emerald-500" />

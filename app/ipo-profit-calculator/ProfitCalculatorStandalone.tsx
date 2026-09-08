@@ -29,7 +29,7 @@ export default function ProfitCalculatorStandalone() {
 
   const isPositive = (results?.totalProfit ?? 0) > 0;
   const isNegative = (results?.totalProfit ?? 0) < 0;
-  const profitColor = isPositive ? "text-emerald-600 dark:text-emerald-400" : isNegative ? "text-red-600 dark:text-red-400" : "text-[#0f172a] dark:text-[#F1F5F9]";
+  const profitColor = isPositive ? "text-emerald-700 dark:text-emerald-400" : isNegative ? "text-red-600 dark:text-red-400" : "text-[#0f172a] dark:text-[#F1F5F9]";
 
   const fmt = (n: number) => n.toLocaleString("en-IN", { maximumFractionDigits: 0 });
   const fmtPct = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(2)}%`;

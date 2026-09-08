@@ -71,7 +71,7 @@ function getUrgencyBadge(ipo: Pick<IpoRow, "open_date" | "close_date">) {
 
   if (ipo.open_date) {
     if (ipo.open_date === todayStr) {
-      return <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mt-1">Opens Today</span>;
+      return <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block mt-1">Opens Today</span>;
     }
     if (ipo.open_date === tomorrowStr) {
       return <span className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider block mt-1">Opens Tomorrow</span>;
@@ -79,7 +79,7 @@ function getUrgencyBadge(ipo: Pick<IpoRow, "open_date" | "close_date">) {
   }
   const status = getLifecycleStatus(ipo);
   if (status === "open") {
-    return <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mt-1">Open</span>;
+    return <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block mt-1">Open</span>;
   }
   if (status === "closed") {
     return <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block mt-1">Closed</span>;
@@ -466,7 +466,7 @@ export default function GmpTableClient({
                         {ipo.gmp != null && (
                           <div className="flex flex-col">
                             {ipo.price_max && (
-                              <span className={`text-[10px] font-semibold ${ipo.gmp >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                              <span className={`text-[10px] font-semibold ${ipo.gmp >= 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                                 Est. {ipo.gmp > 0 ? "+" : ""}{((ipo.gmp / ipo.price_max) * 100).toFixed(1)}%
                               </span>
                             )}

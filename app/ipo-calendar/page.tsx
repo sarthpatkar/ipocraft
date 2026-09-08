@@ -297,7 +297,7 @@ function Section({
                   </div>
                   <div className="flex justify-between pt-1.5 mt-1 border-t border-gray-100 dark:border-[#252A31]">
                     <span className="text-gray-400 dark:text-[#6B7280]">Indicative GMP</span>
-                    <span className="font-semibold text-emerald-600 dark:text-emerald-400">{ipo.gmp ? `₹${ipo.gmp}` : "-"}</span>
+                    <span className="font-semibold text-emerald-700 dark:text-emerald-400">{ipo.gmp ? `₹${ipo.gmp}` : "-"}</span>
                   </div>
                 </div>
               </Link>

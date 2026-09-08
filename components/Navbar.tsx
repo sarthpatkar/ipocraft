@@ -37,10 +37,17 @@ import {
   DocumentTextIcon as DocumentTextIconSolid,
   ChartBarSquareIcon as ChartBarSquareIconSolid,
 } from "@heroicons/react/24/solid";
+import dynamic from "next/dynamic";
 import ThemeToggle from "@/components/ThemeToggle";
-import SearchCommand from "@/components/SearchCommand";
 import OpenIpoTicker from "@/components/OpenIpoTicker";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+
+// SearchCommand (⌘K palette) is opened by a small fraction of visits — keep
+// it out of every page's initial JS bundle and fetch it only once the user
+// actually triggers it (see the `searchOpen &&` guard below).
+const SearchCommand = dynamic(() => import("@/components/SearchCommand"), {
+  ssr: false,
+});
 
 type LinkItem = {
   href: string;
@@ -104,7 +111,7 @@ const ALL_TOOLS_FLAT = TOOLS_CATEGORIES.flatMap((c) => c.links);
 
 const COLOR_MAP: Record<string, { icon: string; badge: string }> = {
   blue:    { icon: "text-blue-600 dark:text-blue-400",    badge: "bg-blue-50 dark:bg-blue-950/40 border-blue-100 dark:border-blue-900/50" },
-  emerald: { icon: "text-emerald-600 dark:text-emerald-400", badge: "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-100 dark:border-emerald-900/50" },
+  emerald: { icon: "text-emerald-700 dark:text-emerald-400", badge: "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-100 dark:border-emerald-900/50" },
   orange:  { icon: "text-orange-600 dark:text-orange-400",  badge: "bg-orange-50 dark:bg-orange-950/40 border-orange-100 dark:border-orange-900/50" },
   purple:  { icon: "text-purple-600 dark:text-purple-400",  badge: "bg-purple-50 dark:bg-purple-950/40 border-purple-100 dark:border-purple-900/50" },
 };
@@ -171,8 +178,8 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-14 gap-2 sm:gap-3">
             {/* Brand Logo */}
             <Link href="/" className="flex items-center gap-2 shrink-0 focus:outline-none" aria-label="IPOCraft Home">
-              <Image src="/logo-light.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain dark:hidden" />
-              <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} priority className="h-8 w-auto object-contain hidden dark:block" />
+              <Image src="/logo-light.png" alt="IPOCraft Logo" width={120} height={36} quality={50} priority className="h-8 w-auto object-contain dark:hidden" />
+              <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} quality={50} priority className="h-8 w-auto object-contain hidden dark:block" />
             </Link>
 
             {/* Right Action Cluster: Search + Theme + Language + AI Chat */}
@@ -233,7 +240,9 @@ export default function Navbar() {
         <OpenIpoTicker />
       </header>
 
-      <SearchCommand open={searchOpen} onClose={() => setSearchOpen(false)} />
+      {searchOpen && (
+        <SearchCommand open={searchOpen} onClose={() => setSearchOpen(false)} />
+      )}
 
       {/* ══════════════ FLOATING BOTTOM NAV — ALL SCREENS ══════════════ */}
       <div className="fixed bottom-0 inset-x-0 z-50 flex justify-center pb-[max(env(safe-area-inset-bottom),1.25rem)] px-2 sm:px-3 pointer-events-none">

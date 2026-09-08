@@ -388,7 +388,7 @@ export default function FeedbackForm() {
     return (
       <div className="bg-white dark:bg-[#13161C] border border-gray-200 dark:border-[#252A31] rounded-lg p-8 sm:p-12 text-center">
         <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-center mx-auto mb-5">
-          <span className="text-xl text-emerald-600 dark:text-emerald-400 font-bold leading-none">✓</span>
+          <span className="text-xl text-emerald-700 dark:text-emerald-400 font-bold leading-none">✓</span>
         </div>
         <h2
           className="text-[19px] font-semibold text-[#0f172a] dark:text-[#E8ECF0] mb-2"

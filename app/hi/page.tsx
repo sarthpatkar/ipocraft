@@ -147,7 +147,7 @@ export default async function HomeHindiPage({
           <Link href="/hi?status=open" className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 hover:border-gray-300 dark:hover:border-[#374151] transition-colors shadow-xs flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA]">लाइव इश्यू</span>
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 अभी खुला
               </span>
@@ -173,7 +173,7 @@ export default async function HomeHindiPage({
             <Link href={`/ipo/${topGmpIpo.slug}`} className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-3 sm:p-3.5 hover:border-gray-300 dark:hover:border-[#374151] transition-colors shadow-xs flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA]">सबसे ऊँचा GMP</span>
-                <span className="text-[11.5px] font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums">+{((Number(topGmpIpo.gmp) / Number(topGmpIpo.price_max ?? topGmpIpo.price_min)) * 100).toFixed(1)}% अनु.</span>
+                <span className="text-[11.5px] font-semibold text-emerald-700 dark:text-emerald-400 tabular-nums">+{((Number(topGmpIpo.gmp) / Number(topGmpIpo.price_max ?? topGmpIpo.price_min)) * 100).toFixed(1)}% अनु.</span>
               </div>
               <div className="mt-2 flex items-baseline justify-between gap-2 min-w-0">
                 <span className="text-sm font-semibold text-[#0f172a] dark:text-[#F1F5F9] truncate">{topGmpIpo.name}</span>
@@ -266,7 +266,7 @@ export default async function HomeHindiPage({
                       <div className="flex-1 h-1.5 bg-gray-100 dark:bg-[#252A31] rounded-full overflow-hidden">
                         <div className="h-full rounded-full bg-emerald-500" style={{ width: `${topHypeItem.score}%` }} />
                       </div>
-                      <span className="text-[12px] font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">{topHypeItem.score}/100</span>
+                      <span className="text-[12px] font-bold text-emerald-700 dark:text-emerald-400 tabular-nums">{topHypeItem.score}/100</span>
                     </div>
                   </Link>
                 </div>
@@ -319,7 +319,7 @@ export default async function HomeHindiPage({
                   <h4 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">लिस्टिंग प्रॉफिट एस्टिमेटर</h4>
                   <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA] mt-1 leading-relaxed">प्राइस बैंड और लाइव GMP के आधार पर प्रति लॉट अनुमानित मुनाफ़ा कैलकुलेट करें।</p>
                 </div>
-                <span className="text-[12px] font-semibold text-emerald-600 dark:text-emerald-400 mt-3 inline-flex items-center">मुनाफ़ा अनुमानित करें</span>
+                <span className="text-[12px] font-semibold text-emerald-700 dark:text-emerald-400 mt-3 inline-flex items-center">मुनाफ़ा अनुमानित करें</span>
               </Link>
               <Link href="/compare" className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-600 rounded-xl p-4 flex flex-col justify-between transition-colors shadow-xs group">
                 <div>

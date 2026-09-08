@@ -206,7 +206,7 @@ export default function ShareCardModal({ slug, ipoName, onClose }: ShareCardModa
             onClick={handleCopyLink}
             className={`flex items-center gap-2 px-4 py-2.5 border text-[13px] font-semibold rounded-md transition-colors ${
               copied
-                ? "border-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400"
+                ? "border-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400"
                 : "border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#171B20] text-[#0f172a] dark:text-[#F1F5F9] hover:bg-gray-50 dark:hover:bg-[#1E2330]"
             }`}
           >

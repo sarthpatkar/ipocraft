@@ -317,7 +317,7 @@ export default function IpoCompareClient() {
                       const isGainNegative = metric.key === "listing_gain_percent" && (ipo.listing_gain_percent ?? 0) < 0;
                       return (
                         <td key={ipo.slug} className={`py-3 px-4 text-center text-[13px] font-medium ${
-                          isPositive || isGainPositive ? "text-emerald-600 dark:text-emerald-400" :
+                          isPositive || isGainPositive ? "text-emerald-700 dark:text-emerald-400" :
                           isNegative || isGainNegative ? "text-rose-600 dark:text-rose-400" :
                           "text-[#0f172a] dark:text-[#F1F5F9]"
                         }`}>

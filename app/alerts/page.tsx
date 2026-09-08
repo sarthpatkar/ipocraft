@@ -25,7 +25,7 @@ export default function AlertsPage() {
     <main className="min-h-screen bg-[#F8FAFC] dark:bg-[#090B0F] pb-20">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
         <div className="mb-8 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/30 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/30 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-4">
             Free · No Account Required
           </div>
           <h1 className="text-[1.75rem] sm:text-[2rem] font-bold text-[#0f172a] dark:text-[#F1F5F9]" style={{ fontFamily: "var(--font-outfit)" }}>

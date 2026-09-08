@@ -188,7 +188,7 @@ export default async function IpoHistoryHindiPage({
             <p className="text-[11px] font-medium text-[#64748b] dark:text-[#9AA1AA] mb-0.5">औसत लिस्टिंग गेन (पेज)</p>
             <p
               className={`text-[18px] font-semibold ${
-                avgGain == null ? "text-[#0f172a] dark:text-[#F1F5F9]" : avgGain >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
+                avgGain == null ? "text-[#0f172a] dark:text-[#F1F5F9]" : avgGain >= 0 ? "text-emerald-700 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
               }`}
               style={{ fontFamily: "var(--font-outfit)" }}
             >

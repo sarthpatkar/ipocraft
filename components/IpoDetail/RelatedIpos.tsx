@@ -45,7 +45,7 @@ export default async function RelatedIpos({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {ipos.map((ipo: any) => {
           const gmpNum = ipo.gmp != null ? Number(ipo.gmp) : null;
-          const gmpColor = gmpNum != null ? (gmpNum >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400") : "text-gray-400";
+          const gmpColor = gmpNum != null ? (gmpNum >= 0 ? "text-emerald-700 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400") : "text-gray-400";
           return (
             <Link
               key={ipo.id}

@@ -134,12 +134,12 @@ export default function DRHPAnalyzerClient() {
             <div className="bg-white dark:bg-[#111418] border border-emerald-200 dark:border-emerald-800/30 rounded-xl p-5">
               <div className="flex items-center gap-2 mb-3">
                 <ArrowTrendingUpIcon className="w-4 h-4 text-emerald-500" />
-                <h3 className="text-[13px] font-semibold text-emerald-600 dark:text-emerald-400">Growth Opportunities</h3>
+                <h3 className="text-[13px] font-semibold text-emerald-700 dark:text-emerald-400">Growth Opportunities</h3>
               </div>
               <ul className="space-y-2">
                 {result.opportunities.map((opp, i) => (
                   <li key={i} className="flex items-start gap-2 text-[12.5px] text-[#475569] dark:text-[#9AA1AA]">
-                    <span className="w-4 h-4 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">{i + 1}</span>
+                    <span className="w-4 h-4 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">{i + 1}</span>
                     {opp}
                   </li>
                 ))}

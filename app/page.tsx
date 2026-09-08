@@ -24,7 +24,7 @@ const homeUrl = canonicalUrl("/");
 export const metadata: Metadata = {
   title: "IPOCraft — IPO GMP, Subscription & Listing Insights Platform",
   description:
-    "Track IPO GMP, subscription status, allotment dates, and listing performance with IPOCraft. Data-driven IPO insights for smarter investing decisions.",
+    "Track live IPO GMP, subscription status, allotment dates, and listing performance with IPOCraft. Data-driven IPO insights for smarter investing decisions.",
   keywords: [
     "IPO GMP",
     "IPO subscription",
@@ -323,7 +323,7 @@ export default async function Home({
               <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA]">
                 Live Issues
               </span>
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Open Now
               </span>
@@ -371,7 +371,7 @@ export default async function Home({
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9AA1AA]">
                   Top Expected GMP
                 </span>
-                <span className="text-[11.5px] font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                <span className="text-[11.5px] font-semibold text-emerald-700 dark:text-emerald-400 tabular-nums">
                   +{((Number(topGmpIpo.gmp) / Number(topGmpIpo.price_max ?? topGmpIpo.price_min)) * 100).toFixed(1)}% Est.
                 </span>
               </div>
@@ -590,7 +590,7 @@ export default async function Home({
                           style={{ width: `${topHypeItem.score}%` }}
                         />
                       </div>
-                      <span className="text-[12px] font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                      <span className="text-[12px] font-bold text-emerald-700 dark:text-emerald-400 tabular-nums">
                         {topHypeItem.score}/100
                       </span>
                     </div>
@@ -692,9 +692,9 @@ export default async function Home({
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <h4 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     Allotment Odds Calculator
-                  </h4>
+                  </h3>
                   <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA] mt-1 leading-relaxed">
                     Input subscription numbers to see your estimated retail and NII allotment probability.
                   </p>
@@ -710,19 +710,19 @@ export default async function Home({
                 className="bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] hover:border-gray-400 dark:hover:border-gray-600 rounded-xl p-4 flex flex-col justify-between transition-colors shadow-xs group"
               >
                 <div>
-                  <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 flex items-center justify-center mb-3">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h4 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  <h3 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                     Listing Profit Estimator
-                  </h4>
+                  </h3>
                   <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA] mt-1 leading-relaxed">
                     Calculate estimated net gain per lot based on price band and live Grey Market Premiums.
                   </p>
                 </div>
-                <span className="text-[12px] font-semibold text-emerald-600 dark:text-emerald-400 mt-3 inline-flex items-center">
+                <span className="text-[12px] font-semibold text-emerald-700 dark:text-emerald-400 mt-3 inline-flex items-center">
                   Estimate Profit
                 </span>
               </Link>
@@ -738,9 +738,9 @@ export default async function Home({
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                     </svg>
                   </div>
-                  <h4 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                  <h3 className="text-[14px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                     Compare Active IPOs
-                  </h4>
+                  </h3>
                   <p className="text-[12px] text-gray-500 dark:text-[#9AA1AA] mt-1 leading-relaxed">
                     Compare price bands, lot sizes, subscription demand, and timelines across up to 3 issues.
                   </p>
@@ -758,11 +758,11 @@ export default async function Home({
               <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 block mb-1">
                 Morning Market Brief
               </span>
-              <h4
+              <h3
                 className="text-[1.1rem] font-semibold text-[#0f172a] dark:text-[#F1F5F9] font-outfit"
               >
                 Daily IPO &amp; GMP Updates at 9:30 AM
-              </h4>
+              </h3>
               <p className="text-[13px] text-gray-500 dark:text-[#9AA1AA] mt-1">
                 Receive the morning grey market digest and subscription closing notifications via email or Telegram.
               </p>
@@ -823,7 +823,7 @@ export default async function Home({
                 </h3>
                 <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
                   IPO GMP (Grey Market Premium) is the unofficial premium at which IPO shares trade before listing, expressed in rupees over the issue price. IPOCraft tracks GMP trends alongside price bands to show the implied premium as a percentage.{" "}
-                  <Link href="/what-is-ipo-gmp" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Read the full GMP guide →</Link>
+                  <Link href="/what-is-ipo-gmp" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 font-medium">Read the full GMP guide →</Link>
                 </p>
               </div>
 
@@ -833,9 +833,9 @@ export default async function Home({
                 </h3>
                 <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
                   Allotment odds depend on the subscription multiple in your category (Retail, NII, or QIB) and the number of lots applied for. Our{" "}
-                  <Link href="/ipo-allotment-probability-calculator" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Allotment Odds Calculator</Link>{" "}
+                  <Link href="/ipo-allotment-probability-calculator" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 font-medium">Allotment Odds Calculator</Link>{" "}
                   models this using live subscription data.{" "}
-                  <Link href="/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">See how allotment works →</Link>
+                  <Link href="/how-ipo-allotment-works" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 font-medium">See how allotment works →</Link>
                 </p>
               </div>
 
@@ -845,7 +845,7 @@ export default async function Home({
                 </h3>
                 <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
                   Mainboard IPOs list on the NSE/BSE main platform with a minimum post-issue capital requirement and broader retail eligibility. SME IPOs list on the NSE Emerge / BSE SME platforms, typically have smaller issue sizes and higher lot values, and follow separate listing norms.{" "}
-                  <Link href="/sme-ipo" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Browse current SME IPOs →</Link>
+                  <Link href="/sme-ipo" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 font-medium">Browse current SME IPOs →</Link>
                 </p>
               </div>
 
@@ -855,7 +855,7 @@ export default async function Home({
                 </h3>
                 <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
                   A subscription multiple (e.g. &ldquo;12.5x&rdquo;) shows how many times a category was bid for relative to shares reserved for it. Higher multiples generally signal stronger demand and lower allotment odds per applicant.{" "}
-                  <Link href="/ipo-subscription-meaning" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Full explainer →</Link>
+                  <Link href="/ipo-subscription-meaning" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 font-medium">Full explainer →</Link>
                 </p>
               </div>
 
@@ -865,7 +865,7 @@ export default async function Home({
                 </h3>
                 <p className="text-[13px] text-[#475569] dark:text-[#9AA1AA] leading-relaxed">
                   Live issues are refreshed on a rolling cycle throughout the trading day (see the freshness indicator above the listings), pulling from exchange bidding data and grey market sources. Our{" "}
-                  <Link href="/methodology" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Data Methodology page</Link>{" "}
+                  <Link href="/methodology" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 font-medium">Data Methodology page</Link>{" "}
                   documents exact sourcing and update cadence.
                 </p>
               </div>

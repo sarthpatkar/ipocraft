@@ -221,7 +221,7 @@ export default function GmpTable({ ipos, gmpMap = {} }: Props) {
                       <span
                         className={
                           isPositive
-                            ? "text-emerald-600 dark:text-emerald-400"
+                            ? "text-emerald-700 dark:text-emerald-400"
                             : isNegative
                             ? "text-rose-600 dark:text-rose-400"
                             : "text-[#0f172a] dark:text-[#F1F5F9]"

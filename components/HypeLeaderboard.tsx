@@ -63,6 +63,7 @@ export default function HypeLeaderboard({ ipos }: { ipos: IPOListItem[] }) {
             <Link
               key={ipo.slug}
               href={`/ipo/${ipo.slug}`}
+              prefetch={false}
               className="flex items-center gap-3 p-2.5 rounded-md hover:bg-gray-50 dark:hover:bg-[#171B20] transition-colors -mx-1 px-2"
             >
               {/* Rank */}

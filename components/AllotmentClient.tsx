@@ -158,7 +158,7 @@ export default function AllotmentClient({
           className="p-3 sm:p-3.5 rounded-lg border border-gray-200 dark:border-[#252A31] bg-white dark:bg-[#111418] hover:border-gray-300 dark:hover:border-gray-500 transition-colors shadow-xs group flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-md bg-gray-100 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 font-bold text-xs">
+            <div className="w-8 h-8 rounded-md bg-gray-100 dark:bg-[#171B20] border border-gray-200 dark:border-[#252A31] flex items-center justify-center text-emerald-700 dark:text-emerald-400 shrink-0 font-bold text-xs">
               NSE
             </div>
             <div>

@@ -133,7 +133,7 @@ function EventRow({ ev, isLast }: { ev: DayEvent; isLast: boolean }) {
       {/* Right: GMP + icon */}
       <div className="flex items-center gap-2 shrink-0">
         {gmp != null && (
-          <span className={`text-[11px] font-bold tabular-nums ${pos ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+          <span className={`text-[11px] font-bold tabular-nums ${pos ? "text-emerald-700 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
             {pos ? "+" : ""}₹{gmp} GMP
           </span>
         )}
@@ -526,7 +526,7 @@ export default function IpoCalendarGrid({ ipos }: { ipos: CalendarIpo[] }) {
 
                       <div className="flex items-center gap-2 shrink-0">
                         {gmp != null && (
-                          <span className={`text-[11.5px] font-bold tabular-nums ${pos ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                          <span className={`text-[11.5px] font-bold tabular-nums ${pos ? "text-emerald-700 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
                             {pos ? "+" : ""}₹{gmp} GMP
                           </span>
                         )}

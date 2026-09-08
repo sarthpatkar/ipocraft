@@ -111,7 +111,7 @@ export default function HistoricalIpoCard({ ipo }: { ipo: HistoricalIpoItem }) {
               !gainKnown
                 ? "text-[#0f172a] dark:text-[#F1F3F5]"
                 : gainPositive
-                ? "text-emerald-600 dark:text-emerald-400"
+                ? "text-emerald-700 dark:text-emerald-400"
                 : "text-rose-600 dark:text-rose-400"
             }`}
           >

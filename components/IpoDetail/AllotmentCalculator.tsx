@@ -215,7 +215,7 @@ export default function AllotmentCalculator({
             </p>
             <p className="text-[11.5px] text-gray-500 dark:text-[#9AA1AA] mt-1 font-medium">
               {category} demand: <strong className="text-gray-900 dark:text-[#F1F5F9]">{multiple > 0 ? `${multiple.toFixed(2)}x` : "—"}</strong>
-              {isExact && <span className="ml-1.5 text-emerald-600 dark:text-emerald-400">· SEBI exact</span>}
+              {isExact && <span className="ml-1.5 text-emerald-700 dark:text-emerald-400">· SEBI exact</span>}
             </p>
           </div>
 

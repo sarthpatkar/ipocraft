@@ -128,7 +128,7 @@ export default function OpenIpoTicker() {
                 )}
 
                 {gmp != null && gmp > 0 ? (
-                  <span className="inline-flex items-center gap-0.5 text-emerald-600 dark:text-emerald-400 font-medium tabular-nums">
+                  <span className="inline-flex items-center gap-0.5 text-emerald-700 dark:text-emerald-400 font-medium tabular-nums">
                     GMP ₹{gmp} {gmpPct && `(+${gmpPct}%)`}
                   </span>
                 ) : (

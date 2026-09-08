@@ -145,7 +145,7 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
             <span className="text-[11px] uppercase tracking-wider font-semibold text-gray-500 dark:text-[#9AA1AA]">
               Avg Listing Gain
             </span>
-            <span className={`text-lg sm:text-xl font-bold mt-0.5 ${stats.avgGain >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+            <span className={`text-lg sm:text-xl font-bold mt-0.5 ${stats.avgGain >= 0 ? "text-emerald-700 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
               {stats.avgGain >= 0 ? "+" : ""}{stats.avgGain.toFixed(1)}%
             </span>
             <span className="text-[11px] text-gray-400 dark:text-[#6B7280]">
@@ -181,7 +181,7 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
                 <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F5F9] truncate">
                   {stats.topGainer.name}
                 </p>
-                <p className="text-[11.5px] font-medium text-emerald-600 dark:text-emerald-400">
+                <p className="text-[11.5px] font-medium text-emerald-700 dark:text-emerald-400">
                   +{stats.topGainer.calculatedGain?.toFixed(1)}% gain
                 </p>
               </div>
@@ -326,7 +326,7 @@ export default function PerformanceClient({ ipos }: { ipos: PerformanceIpo[] }) 
                     </td>
                     <td className="py-3 px-4 text-[12.5px] font-semibold text-right">
                       {gain != null ? (
-                        <div className={`inline-flex items-center justify-end gap-1 ${isPositive ? "text-emerald-600 dark:text-emerald-400" : isNegative ? "text-rose-600 dark:text-rose-400" : "text-gray-500"}`}>
+                        <div className={`inline-flex items-center justify-end gap-1 ${isPositive ? "text-emerald-700 dark:text-emerald-400" : isNegative ? "text-rose-600 dark:text-rose-400" : "text-gray-500"}`}>
                           {isPositive ? <ArrowTrendingUpIcon className="w-3.5 h-3.5" /> : <ArrowTrendingDownIcon className="w-3.5 h-3.5" />}
                           <span>{isPositive ? "+" : ""}{gain.toFixed(2)}%</span>
                         </div>

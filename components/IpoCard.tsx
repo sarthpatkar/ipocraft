@@ -175,8 +175,12 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
                 e.stopPropagation();
                 toggleWatchlist(ipo.slug);
               }}
-              className="text-gray-400 hover:text-amber-500 dark:text-[#6B7280] dark:hover:text-amber-400 transition-colors flex-shrink-0 mt-0.5"
+              // p-1.5 -m-1.5 pads the tap target out to the ~24px minimum
+              // Lighthouse/WCAG expect for touch controls without shifting
+              // the visible icon or surrounding layout.
+              className="p-1.5 -m-1.5 text-gray-400 hover:text-amber-500 dark:text-[#6B7280] dark:hover:text-amber-400 transition-colors flex-shrink-0"
               title={isStarred ? "Remove from watchlist" : "Add to watchlist"}
+              aria-label={isStarred ? "Remove from watchlist" : "Add to watchlist"}
             >
               {isStarred ? (
                 <StarSolid className="w-4 h-4 text-amber-400" />
@@ -246,7 +250,7 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
           </p>
           <p className={`text-[13px] font-semibold leading-tight flex items-center gap-1.5 ${
             ipo.gmp != null
-              ? ipo.gmp >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
+              ? ipo.gmp >= 0 ? "text-emerald-700 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
               : "text-[#0f172a] dark:text-[#F1F3F5]"
           }`}>
             {ipo.gmp != null ? `₹${ipo.gmp.toLocaleString("en-IN")}` : "-"}

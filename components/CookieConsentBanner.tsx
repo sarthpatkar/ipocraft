@@ -122,7 +122,7 @@ export default function CookieConsentBanner() {
                 <p className="text-[13px] font-semibold text-[#0f172a] dark:text-[#F1F3F5]">Essential</p>
                 <p className="text-[11.5px] text-[#64748b] dark:text-[#9AA1AA]">Required for site functionality (theme, chat sessions)</p>
               </div>
-              <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full">Always On</span>
+              <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full">Always On</span>
             </div>
 
             {/* Analytics toggle */}

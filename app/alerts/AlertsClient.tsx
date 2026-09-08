@@ -50,7 +50,7 @@ export default function AlertsClient() {
         </div>
 
         {submitted ? (
-          <div className="flex items-center gap-2 py-3 text-emerald-600 dark:text-emerald-400">
+          <div className="flex items-center gap-2 py-3 text-emerald-700 dark:text-emerald-400">
             <CheckCircleIcon className="w-5 h-5" />
             <span className="text-[13.5px] font-medium">You're subscribed! Check your inbox.</span>
           </div>

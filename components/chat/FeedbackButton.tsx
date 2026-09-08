@@ -44,7 +44,7 @@ export default function FeedbackButton({ messageId, intentType, snippet }: Feedb
         aria-label="Mark response as helpful"
         className={`p-1 rounded-md transition-colors ${
           voted === 1
-            ? "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40"
+            ? "text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40"
             : "text-gray-400 dark:text-[#9AA1AA] hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-[#1E242C]"
         } disabled:cursor-default`}
       >

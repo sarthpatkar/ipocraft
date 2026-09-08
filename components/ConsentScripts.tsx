@@ -54,6 +54,9 @@ export default function ConsentScripts() {
     <>
       {consent.analytics && (
         <>
+          {/* Preconnect only once GA is actually going to load — avoids the
+              "Unused preconnect" penalty for visitors who haven't consented. */}
+          <link rel="preconnect" href="https://www.googletagmanager.com" />
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-V2DGFHC1DY"
             strategy="afterInteractive"
@@ -69,12 +72,15 @@ export default function ConsentScripts() {
         </>
       )}
       {adsenseEnabled && consent.advertising && (
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4829097668877345"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-          id="google-adsense"
-        />
+        <>
+          <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+          <Script
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4829097668877345"
+            strategy="afterInteractive"
+            crossOrigin="anonymous"
+            id="google-adsense"
+          />
+        </>
       )}
     </>
   );

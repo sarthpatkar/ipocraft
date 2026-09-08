@@ -83,7 +83,7 @@ const FEATURE_PAGES: FeaturePage[] = [
 const CATEGORY_COLORS: Record<string, string> = {
   Pages:       "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40",
   Research:    "text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40",
-  Calculators: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40",
+  Calculators: "text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40",
   Alerts:      "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/40",
   Guides:      "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40",
   IPO:         "text-[#1C317A] dark:text-[#93B4FF] bg-[#1C317A]/10 dark:bg-[#1C317A]/20",
@@ -446,7 +446,7 @@ export default function SearchCommand({ open, onClose }: { open: boolean; onClos
                         <div className="flex items-center gap-2.5 shrink-0">
                           {gmp != null ? (
                             <div className="text-right">
-                              <span className={`text-[12.5px] font-bold tabular-nums block ${isPositive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                              <span className={`text-[12.5px] font-bold tabular-nums block ${isPositive ? "text-emerald-700 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
                                 {isPositive ? "+" : ""}₹{gmp}
                               </span>
                               {gmpPct && (
