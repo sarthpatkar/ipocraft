@@ -23,6 +23,17 @@ function cleanStringForMatching(str?: string | null): string {
   return str.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
+function isDifferentNumber(a: number | null | undefined, b: number | string | null | undefined): boolean {
+  if (a == null && b == null) return false;
+  if (a == null || b == null) return true;
+  return Number(a) !== Number(b);
+}
+
+function isDifferentString(a: string | null | undefined, b: string | null | undefined): boolean {
+  if (!a && !b) return false;
+  return (a ?? "") !== (b ?? "");
+}
+
 interface ExistingDbIpo {
   id: number;
   name: string;
@@ -31,6 +42,17 @@ interface ExistingDbIpo {
   status: string | null;
   gmp: number | null;
   sub_total: number | string | null;
+  sub_qib?: number | string | null;
+  sub_nii?: number | string | null;
+  sub_rii?: number | string | null;
+  open_date?: string | null;
+  close_date?: string | null;
+  listing_date?: string | null;
+  allotment_date?: string | null;
+  refund_date?: string | null;
+  price_min?: number | null;
+  price_max?: number | null;
+  lot_size?: number | null;
   about_company: string | null;
   company_strengths: string | null;
   company_risks: string | null;
@@ -66,7 +88,7 @@ export async function syncFinApiIpos(
     // 2. Fetch existing IPOs in DB
     const { data: dbIpos, error: fetchDbError } = await supabase
       .from("ipos")
-      .select("id, name, slug, symbol, status, gmp, sub_total, about_company, company_strengths, company_risks, objectives, rhp_link, drhp_link, logo_url");
+      .select("id, name, slug, symbol, status, gmp, sub_total, sub_qib, sub_nii, sub_rii, open_date, close_date, listing_date, allotment_date, refund_date, price_min, price_max, lot_size, about_company, company_strengths, company_risks, objectives, rhp_link, drhp_link, logo_url");
 
     if (fetchDbError) {
       throw new Error(`Failed to load existing IPOs from DB: ${fetchDbError.message}`);
@@ -109,32 +131,72 @@ export async function syncFinApiIpos(
         const nowIso = new Date().toISOString();
 
         if (matched) {
-          // --- UPDATE EXISTING IPO ---
-          const updatePayload: Record<string, any> = {
-            updated_at: nowIso,
-          };
+          // --- UPDATE EXISTING IPO (with dirty checking to prevent unnecessary writes) ---
+          const updatePayload: Record<string, any> = {};
 
-          // Update dynamic fields
-          if (item.status) updatePayload.status = item.status;
-          if (item.gmp !== null) updatePayload.gmp = item.gmp;
-          if (item.sub_total !== null) updatePayload.sub_total = item.sub_total;
-          if (item.sub_qib !== null) updatePayload.sub_qib = item.sub_qib;
-          if (item.sub_nii !== null) updatePayload.sub_nii = item.sub_nii;
-          if (item.sub_rii !== null) updatePayload.sub_rii = item.sub_rii;
-          const hasSubData = item.sub_total !== null || item.sub_rii !== null;
-          if (hasSubData) {
-            updatePayload.subscription_updated_at = nowIso;
+          // Update dynamic fields only if genuinely changed
+          if (item.status && item.status !== matched.status) {
+            updatePayload.status = item.status;
+          }
+          if (item.gmp !== null && isDifferentNumber(item.gmp, matched.gmp)) {
+            updatePayload.gmp = item.gmp;
+          }
+          if (item.sub_total !== null && isDifferentNumber(item.sub_total, matched.sub_total)) {
+            updatePayload.sub_total = item.sub_total;
+          }
+          if (item.sub_qib !== null && isDifferentNumber(item.sub_qib, matched.sub_qib)) {
+            updatePayload.sub_qib = item.sub_qib;
+          }
+          if (item.sub_nii !== null && isDifferentNumber(item.sub_nii, matched.sub_nii)) {
+            updatePayload.sub_nii = item.sub_nii;
+          }
+          if (item.sub_rii !== null && isDifferentNumber(item.sub_rii, matched.sub_rii)) {
+            updatePayload.sub_rii = item.sub_rii;
           }
 
-          if (item.open_date) updatePayload.open_date = item.open_date;
-          if (item.close_date) updatePayload.close_date = item.close_date;
-          if (item.listing_date) updatePayload.listing_date = item.listing_date;
-          if (item.allotment_date) updatePayload.allotment_date = item.allotment_date;
-          if (item.refund_date) updatePayload.refund_date = item.refund_date;
+          if (item.open_date && isDifferentString(item.open_date, matched.open_date)) {
+            updatePayload.open_date = item.open_date;
+          }
+          if (item.close_date && isDifferentString(item.close_date, matched.close_date)) {
+            updatePayload.close_date = item.close_date;
+          }
+          if (item.listing_date && isDifferentString(item.listing_date, matched.listing_date)) {
+            updatePayload.listing_date = item.listing_date;
+          }
+          if (item.allotment_date && isDifferentString(item.allotment_date, matched.allotment_date)) {
+            updatePayload.allotment_date = item.allotment_date;
+          }
+          if (item.refund_date && isDifferentString(item.refund_date, matched.refund_date)) {
+            updatePayload.refund_date = item.refund_date;
+          }
 
-          if (item.price_min !== null) updatePayload.price_min = item.price_min;
-          if (item.price_max !== null) updatePayload.price_max = item.price_max;
-          if (item.lot_size !== null) updatePayload.lot_size = item.lot_size;
+          const priceOrLotChanged =
+            (item.price_min !== null && isDifferentNumber(item.price_min, matched.price_min)) ||
+            (item.price_max !== null && isDifferentNumber(item.price_max, matched.price_max)) ||
+            (item.lot_size !== null && isDifferentNumber(item.lot_size, matched.lot_size));
+
+          if (priceOrLotChanged) {
+            if (item.price_min !== null) updatePayload.price_min = item.price_min;
+            if (item.price_max !== null) updatePayload.price_max = item.price_max;
+            if (item.lot_size !== null) updatePayload.lot_size = item.lot_size;
+
+            if (item.retail_min_lots !== null) updatePayload.retail_min_lots = item.retail_min_lots;
+            if (item.retail_min_shares !== null) updatePayload.retail_min_shares = item.retail_min_shares;
+            if (item.retail_min_amount !== null) updatePayload.retail_min_amount = item.retail_min_amount;
+            if (item.retail_max_lots !== null) updatePayload.retail_max_lots = item.retail_max_lots;
+            if (item.retail_max_shares !== null) updatePayload.retail_max_shares = item.retail_max_shares;
+            if (item.retail_max_amount !== null) updatePayload.retail_max_amount = item.retail_max_amount;
+            if (item.shni_min_lots !== null) updatePayload.shni_min_lots = item.shni_min_lots;
+            if (item.shni_min_shares !== null) updatePayload.shni_min_shares = item.shni_min_shares;
+            if (item.shni_min_amount !== null) updatePayload.shni_min_amount = item.shni_min_amount;
+            if (item.shni_max_lots !== null) updatePayload.shni_max_lots = item.shni_max_lots;
+            if (item.shni_max_shares !== null) updatePayload.shni_max_shares = item.shni_max_shares;
+            if (item.shni_max_amount !== null) updatePayload.shni_max_amount = item.shni_max_amount;
+            if (item.bhni_min_lots !== null) updatePayload.bhni_min_lots = item.bhni_min_lots;
+            if (item.bhni_min_shares !== null) updatePayload.bhni_min_shares = item.bhni_min_shares;
+            if (item.bhni_min_amount !== null) updatePayload.bhni_min_amount = item.bhni_min_amount;
+          }
+
           if (item.symbol && !matched.symbol) updatePayload.symbol = item.symbol;
 
           // Fill in empty/missing narrative or structural fields without overwriting existing content
@@ -146,50 +208,48 @@ export async function syncFinApiIpos(
           if (!matched.drhp_link && item.drhp_link) updatePayload.drhp_link = item.drhp_link;
           if (!matched.logo_url && item.logo_url) updatePayload.logo_url = item.logo_url;
 
-          // Lots calculations if missing
-          if (item.retail_min_lots !== null) updatePayload.retail_min_lots = item.retail_min_lots;
-          if (item.retail_min_shares !== null) updatePayload.retail_min_shares = item.retail_min_shares;
-          if (item.retail_min_amount !== null) updatePayload.retail_min_amount = item.retail_min_amount;
-          if (item.retail_max_lots !== null) updatePayload.retail_max_lots = item.retail_max_lots;
-          if (item.retail_max_shares !== null) updatePayload.retail_max_shares = item.retail_max_shares;
-          if (item.retail_max_amount !== null) updatePayload.retail_max_amount = item.retail_max_amount;
-          if (item.shni_min_lots !== null) updatePayload.shni_min_lots = item.shni_min_lots;
-          if (item.shni_min_shares !== null) updatePayload.shni_min_shares = item.shni_min_shares;
-          if (item.shni_min_amount !== null) updatePayload.shni_min_amount = item.shni_min_amount;
-          if (item.shni_max_lots !== null) updatePayload.shni_max_lots = item.shni_max_lots;
-          if (item.shni_max_shares !== null) updatePayload.shni_max_shares = item.shni_max_shares;
-          if (item.shni_max_amount !== null) updatePayload.shni_max_amount = item.shni_max_amount;
-          if (item.bhni_min_lots !== null) updatePayload.bhni_min_lots = item.bhni_min_lots;
-          if (item.bhni_min_shares !== null) updatePayload.bhni_min_shares = item.bhni_min_shares;
-          if (item.bhni_min_amount !== null) updatePayload.bhni_min_amount = item.bhni_min_amount;
+          const hasSubData = item.sub_total !== null || item.sub_rii !== null;
+          const subChanged =
+            (item.sub_total !== null && isDifferentNumber(item.sub_total, matched.sub_total)) ||
+            (item.sub_rii !== null && isDifferentNumber(item.sub_rii, matched.sub_rii));
 
-          const { error: updateError } = await supabase
-            .from("ipos")
-            .update(updatePayload)
-            .eq("id", matched.id);
+          const hasChanges = Object.keys(updatePayload).length > 0;
 
-          if (updateError) {
-            errors.push(`Error updating ${item.name} (${matched.id}): ${updateError.message}`);
-          } else {
-            updatedCount++;
-
-            // ── Subscription History Snapshot ──────────────────────────────
-            // Write a day-wise snapshot row so the detail page table is populated.
-            // Uses upsert on (ipo_id, day) — safe to run multiple times per day.
-            if (hasSubData) {
-              const today = nowIso.slice(0, 10); // YYYY-MM-DD
-              await supabase.from("subscription_history").upsert(
-                {
-                  ipo_id: matched.id,
-                  day: today,
-                  qib: item.sub_qib,
-                  nii: item.sub_nii,
-                  rii: item.sub_rii,
-                  total: item.sub_total,
-                },
-                { onConflict: "ipo_id,day" }
-              );
+          // Only issue database UPDATE if fields actually changed
+          if (hasChanges) {
+            updatePayload.updated_at = nowIso;
+            if (hasSubData && subChanged) {
+              updatePayload.subscription_updated_at = nowIso;
             }
+
+            const { error: updateError } = await supabase
+              .from("ipos")
+              .update(updatePayload)
+              .eq("id", matched.id);
+
+            if (updateError) {
+              errors.push(`Error updating ${item.name} (${matched.id}): ${updateError.message}`);
+            } else {
+              updatedCount++;
+            }
+          }
+
+          // ── Subscription History Snapshot ──────────────────────────────
+          // Only write if subscription data has genuinely changed or was updated
+          if (hasSubData && (subChanged || hasChanges)) {
+            const today = nowIso.slice(0, 10); // YYYY-MM-DD
+            await supabase.from("subscription_history").upsert(
+              {
+                ipo_id: matched.id,
+                day: today,
+                qib: item.sub_qib,
+                nii: item.sub_nii,
+                rii: item.sub_rii,
+                total: item.sub_total,
+              },
+              { onConflict: "ipo_id,day" }
+            );
+          }
 
             // ── GMP History ────────────────────────────────────────────────
             // Sync GMP Trends into gmp_history
@@ -243,7 +303,6 @@ export async function syncFinApiIpos(
                 gmpPointsCount++;
               }
             }
-          }
         } else {
           // --- INSERT NEW IPO ---
           let uniqueSlug = item.slug;
