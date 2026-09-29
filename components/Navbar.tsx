@@ -179,7 +179,7 @@ export default function Navbar() {
             {/* Brand Logo */}
             <Link href="/" className="flex items-center gap-2 shrink-0 focus:outline-none" aria-label="IPOCraft Home">
               <Image src="/logo-light.png" alt="IPOCraft Logo" width={120} height={36} quality={50} priority className="h-8 w-auto object-contain dark:hidden" />
-              <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} quality={50} priority className="h-8 w-auto object-contain hidden dark:block" />
+              <Image src="/logo-dark.png" alt="IPOCraft Logo" width={120} height={36} quality={50} className="h-8 w-auto object-contain hidden dark:block" />
             </Link>
 
             {/* Right Action Cluster: Search + Theme + Language + AI Chat */}

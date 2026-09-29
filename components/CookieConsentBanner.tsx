@@ -12,15 +12,20 @@ interface CookiePrefs {
   advertising: boolean;
 }
 
+// Visibility is driven by html[data-cookie-consent="pending"] (set by the
+// inline <head> script in app/layout.tsx) so the banner is in the SSR HTML
+// and paints immediately; `dismissed` only removes it after a choice is made.
+function clearPendingFlag() {
+  document.documentElement.removeAttribute("data-cookie-consent");
+}
+
 export default function CookieConsentBanner() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
   const [prefs, setPrefs] = useState<CookiePrefs>({ analytics: true, advertising: true });
 
   useEffect(() => {
     try {
-      const accepted = localStorage.getItem(COOKIE_KEY);
-      if (!accepted) setIsVisible(true);
       const savedPrefs = localStorage.getItem(PREFS_KEY);
       if (savedPrefs) setPrefs(JSON.parse(savedPrefs));
     } catch {}
@@ -32,7 +37,8 @@ export default function CookieConsentBanner() {
       localStorage.setItem(PREFS_KEY, JSON.stringify({ analytics: true, advertising: true }));
     } catch {}
     window.dispatchEvent(new Event(CONSENT_UPDATED_EVENT));
-    setIsVisible(false);
+    clearPendingFlag();
+    setDismissed(true);
   };
 
   const savePreferences = () => {
@@ -42,10 +48,11 @@ export default function CookieConsentBanner() {
     } catch {}
     window.dispatchEvent(new Event(CONSENT_UPDATED_EVENT));
     setShowPrefs(false);
-    setIsVisible(false);
+    clearPendingFlag();
+    setDismissed(true);
   };
 
-  if (!isVisible) return null;
+  if (dismissed) return null;
 
   return (
     <>
@@ -55,7 +62,7 @@ export default function CookieConsentBanner() {
           than at bottom-0, which would cover the nav and block navigation
           for anyone who hasn't dismissed the banner yet. */}
       <div
-        className="fixed inset-x-0 z-[60] bg-white dark:bg-[#111418] border-t border-gray-200 dark:border-[#252A31] shadow-[0_-4px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.3)]"
+        className="cookie-banner fixed inset-x-0 z-[60] bg-white dark:bg-[#111418] border-t border-gray-200 dark:border-[#252A31] shadow-[0_-4px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.3)]"
         style={{ bottom: "calc(env(safe-area-inset-bottom) + 68px)" }}
         role="alertdialog"
         aria-label="Cookie consent"

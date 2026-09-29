@@ -47,7 +47,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Anti-FOUC: run synchronously before React hydrates */}
+        {/* Anti-FOUC (theme + cookie banner): run synchronously before React hydrates */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){
@@ -57,6 +57,9 @@ export default function RootLayout({
     if (isDark) {
       document.documentElement.setAttribute('data-theme', 'dark');
       document.documentElement.style.colorScheme = 'dark';
+    }
+    if (!localStorage.getItem('ipocraft_cookies_accepted')) {
+      document.documentElement.setAttribute('data-cookie-consent', 'pending');
     }
   } catch(e){}
 })();`,

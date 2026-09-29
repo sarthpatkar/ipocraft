@@ -184,6 +184,18 @@ html {
   padding-bottom: max(calc(env(safe-area-inset-bottom) + var(--nav-bottom-clearance)), var(--nav-bottom-clearance));
 }
 
+/* ─── Cookie Consent Banner ──────────────────────────────────────────────────
+   Server-rendered but hidden; the inline <head> script in app/layout.tsx sets
+   data-cookie-consent="pending" for visitors who haven't accepted yet, so the
+   banner paints with the first frame instead of popping in after hydration
+   (it was the mobile LCP element, delayed ~3s waiting on JS). */
+.cookie-banner {
+  display: none;
+}
+html[data-cookie-consent="pending"] .cookie-banner {
+  display: block;
+}
+
 /* ─── Smooth Fade In ──────────────────────────────────────────────────────── */
 @keyframes fade-in-up {
   from {
