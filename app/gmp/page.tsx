@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { getMarketDataFreshness } from "@/lib/marketDataFreshness";
 import GmpTableClient from "@/components/GmpTableClient";
 import PushOptIn from "@/components/PushOptIn";
 import DataFreshnessBar from "@/components/DataFreshnessBar";
@@ -98,15 +99,9 @@ export default async function GMPPage({
 
   const ipos = sortIposByNewestOpenDate(iposData || []);
 
-  // Freshness signal for the "IPO GMP today" head term — same pattern as
-  // the homepage's DataFreshnessBar, scoped to whichever row moved last.
-  const { data: freshRecord, error: freshError } = await supabase
-    .from("ipos")
-    .select("updated_at")
-    .not("updated_at", "is", null)
-    .order("updated_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+  // Freshness signal for the "IPO GMP today" head term — when GMP last
+  // actually moved (see lib/marketDataFreshness.ts).
+  const { data: freshRecord, error: freshError } = await getMarketDataFreshness(supabase, "gmp");
   if (freshError) console.error("[gmp] last-updated query failed:", freshError.message);
   const lastUpdatedAt = freshRecord?.updated_at ?? null;
 

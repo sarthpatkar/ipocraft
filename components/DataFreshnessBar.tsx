@@ -16,7 +16,16 @@ function timeAgo(dateStr: string | null): { text: string; isStale: boolean } {
   if (mins < 1) return { text: "Just now", isStale: false };
   if (mins < 60) return { text: `${mins}m ago`, isStale: mins > 45 };
   const hrs = Math.floor(mins / 60);
-  return { text: `${hrs}h ago`, isStale: true };
+  if (hrs < 24) return { text: `${hrs}h ago`, isStale: true };
+  const days = Math.floor(hrs / 24);
+  return { text: days === 1 ? "1 day ago" : `${days} days ago`, isStale: true };
+}
+
+// More than two missed sync cycles means the feed isn't refreshing on its
+// schedule, so "Next refresh in any moment" would be a false promise.
+function isOverdue(dateStr: string | null, intervalMinutes: number): boolean {
+  if (!dateStr) return true;
+  return Date.now() - new Date(dateStr).getTime() > 2 * intervalMinutes * 60_000;
 }
 
 function nextRefreshIn(dateStr: string | null, intervalMinutes: number): string {
@@ -45,6 +54,7 @@ export default function DataFreshnessBar({
 
   const { text: agoText, isStale } = timeAgo(lastUpdatedAt);
   const nextRefresh = nextRefreshIn(lastUpdatedAt, syncIntervalMinutes);
+  const overdue = isOverdue(lastUpdatedAt, syncIntervalMinutes);
 
   return (
     <div
@@ -66,19 +76,23 @@ export default function DataFreshnessBar({
 
       {/* Last updated */}
       <span>
-        {label} updated <strong>{agoText}</strong>
+        {label} {overdue ? "last updated" : "updated"} <strong>{agoText}</strong>
       </span>
 
-      <span className="text-current opacity-40">·</span>
+      {!overdue && (
+        <>
+          <span className="text-current opacity-40 hidden sm:inline">·</span>
 
-      {/* Next refresh */}
-      <span className="hidden sm:inline">
-        Next refresh in <strong>{nextRefresh}</strong>
-      </span>
+          {/* Next refresh */}
+          <span className="hidden sm:inline">
+            Next refresh in <strong>{nextRefresh}</strong>
+          </span>
 
-      {/* Refresh frequency label */}
-      <span className="text-current opacity-40 hidden md:inline">·</span>
-      <span className="hidden md:inline opacity-70">Refreshes every {syncIntervalMinutes} min</span>
+          {/* Refresh frequency label */}
+          <span className="text-current opacity-40 hidden md:inline">·</span>
+          <span className="hidden md:inline opacity-70">Refreshes every {syncIntervalMinutes} min</span>
+        </>
+      )}
     </div>
   );
 }

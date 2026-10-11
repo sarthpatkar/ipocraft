@@ -5,6 +5,7 @@ import { useWatchlist } from "@/lib/hooks/useWatchlist";
 import GlossaryTooltip from "./GlossaryTooltip";
 import { calculateHypeScore, getHypeScoreColor } from "@/lib/hypeScore";
 import { formatDisplayDate, formatShortDate, formatSubscriptionTimes } from "@/lib/formatters";
+import { getIpoLifecycleStatus, getISTDateString } from "@/lib/ipoStatus";
 
 export type IPOListItem = {
   id: number;
@@ -43,29 +44,10 @@ const STATUS_STYLES: Record<string, string> = {
   Closed: "bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/60",
 };
 
-function calculateStatus(
-  openDate: string | null,
-  closeDate: string | null
-): string {
-  if (!openDate || !closeDate) return "Upcoming";
-  const today = new Date();
-  const open = new Date(openDate);
-  const close = new Date(closeDate);
-  if (today < open) return "Upcoming";
-  if (today >= open && today <= close) return "Open";
-  if (today > close) return "Closed";
-  return "Upcoming";
-}
-
-function getLocalDateStr(date = new Date()): string {
-  const ist = new Date(date.getTime() + 5.5 * 60 * 60 * 1000);
-  return ist.toISOString().slice(0, 10);
-}
-
 function getUrgencyText(ipo: IPOListItem): string | null {
-  const todayIST = getLocalDateStr();
-  const tomorrowIST = getLocalDateStr(new Date(Date.now() + 24 * 60 * 60 * 1000));
-  const in2Days = getLocalDateStr(new Date(Date.now() + 2 * 24 * 60 * 60 * 1000));
+  const todayIST = getISTDateString();
+  const tomorrowIST = getISTDateString(new Date(Date.now() + 24 * 60 * 60 * 1000));
+  const in2Days = getISTDateString(new Date(Date.now() + 2 * 24 * 60 * 60 * 1000));
 
   if (ipo.close_date === todayIST) return "Closes today";
   if (ipo.close_date === tomorrowIST) return "Closes tomorrow";
@@ -73,19 +55,6 @@ function getUrgencyText(ipo: IPOListItem): string | null {
   if (ipo.open_date === tomorrowIST) return "Opens tomorrow";
   if (ipo.open_date === in2Days) return "Opens in 2 days";
   return null;
-}
-
-function isListed4pmIST(listingDate: string | null | undefined): boolean {
-  if (!listingDate) return false;
-  const cutoffUTC = new Date(`${listingDate}T10:30:00Z`);
-  return !isNaN(cutoffUTC.getTime()) && Date.now() >= cutoffUTC.getTime();
-}
-
-function getFinalStatus(ipo: IPOListItem) {
-  if (isListed4pmIST(ipo.listing_date)) {
-    return "Listed";
-  }
-  return calculateStatus(ipo.open_date, ipo.close_date);
 }
 
 function formatPriceBand(priceMin: number | null, priceMax: number | null) {
@@ -124,7 +93,7 @@ function CompanyAvatar({ name }: { name: string }) {
 export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
   const isStarred = isInWatchlist(ipo.slug);
-  const displayStatus = getFinalStatus(ipo);
+  const displayStatus = getIpoLifecycleStatus(ipo.open_date, ipo.close_date, ipo.listing_date);
   const statusStyle = STATUS_STYLES[displayStatus] ?? STATUS_STYLES.Listed;
   const urgency = getUrgencyText(ipo);
 
@@ -141,9 +110,10 @@ export default function IpoCard({ ipo }: { ipo: IPOListItem }) {
     issueSize: ipo.issue_size != null ? Number(ipo.issue_size) : null,
   });
 
-  // Clean segment tag: "NSE SME" or "Mainboard"
-  const segmentText = ipo.ipo_type?.toLowerCase() === "sme" 
-    ? (ipo.exchange ? `${ipo.exchange} SME` : "SME")
+  // Clean segment tag: "NSE SME" or "Mainboard" (exchange is often already
+  // stored as "NSE SME"/"BSE SME" — don't append a second "SME").
+  const segmentText = ipo.ipo_type?.toLowerCase() === "sme"
+    ? (ipo.exchange ? (/\bsme\b/i.test(ipo.exchange) ? ipo.exchange : `${ipo.exchange} SME`) : "SME")
     : (ipo.exchange ?? "Mainboard");
 
   return (

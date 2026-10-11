@@ -6,10 +6,13 @@ import DataFreshnessBar from "@/components/DataFreshnessBar";
 import HypeLeaderboard from "@/components/HypeLeaderboard";
 import AnimatedCount from "@/components/AnimatedCount";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { getMarketDataFreshness } from "@/lib/marketDataFreshness";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { canonicalUrl } from "@/lib/site-url";
 import { calculateHypeScore } from "@/lib/hypeScore";
 import { withShortCache } from "@/lib/simpleCache";
+import { formatDisplayDate } from "@/lib/formatters";
+import { getISTDateString } from "@/lib/ipoStatus";
 
 // Same short-TTL rationale as lib/ipoFeed.ts — these stat tiles don't need
 // per-request freshness, and caching them collapses duplicate DB round
@@ -81,7 +84,7 @@ export default async function Home({
   const params = await searchParams;
   const supabase = await createSupabaseServerClient();
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getISTDateString();
 
   // All data fetches run in parallel. The 4 stat-tile queries are wrapped
   // in a short in-memory cache (see lib/simpleCache.ts) — they're identical
@@ -102,13 +105,7 @@ export default async function Home({
       q: params?.search,
     }),
     withShortCache(`home:last-updated:${today}`, STAT_CACHE_TTL_MS, () =>
-      supabase
-        .from("ipos")
-        .select("updated_at")
-        .not("updated_at", "is", null)
-        .order("updated_at", { ascending: false })
-        .limit(1)
-        .maybeSingle()
+      getMarketDataFreshness(supabase, "gmp+subscription")
     ),
     // Count open IPOs
     withShortCache(`home:open-count:${today}`, STAT_CACHE_TTL_MS, () =>
@@ -195,7 +192,8 @@ export default async function Home({
     )[0] ?? null;
 
   const closingSoonItem = [...feedItems]
-    .filter((ipo) => ipo.close_date != null)
+    // Already-closed issues aren't "closing soon".
+    .filter((ipo) => ipo.close_date != null && ipo.close_date >= today)
     .sort((a, b) =>
       (a.close_date ?? "").localeCompare(b.close_date ?? "")
     )[0] ?? null;
@@ -625,7 +623,7 @@ export default async function Home({
                     <p className="text-[12px] text-[#475569] dark:text-[#9AA1AA] mt-1">
                       Closes{" "}
                       <span className="font-semibold text-rose-600 dark:text-rose-400">
-                        {closingSoonItem.close_date}
+                        {formatDisplayDate(closingSoonItem.close_date)}
                       </span>
                     </p>
                   </Link>

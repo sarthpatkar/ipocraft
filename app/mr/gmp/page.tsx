@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { getMarketDataFreshness } from "@/lib/marketDataFreshness";
 import GmpTableClient from "@/components/GmpTableClient";
 import DataFreshnessBar from "@/components/DataFreshnessBar";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
@@ -36,13 +37,7 @@ export default async function GMPMarathiPage({
           `id, name, slug, gmp, sub_total, price_min, price_max, lot_size, issue_size,
            open_date, close_date, allotment_date, listing_date, created_at, ipo_type`
         ),
-      supabase
-        .from("ipos")
-        .select("updated_at")
-        .not("updated_at", "is", null)
-        .order("updated_at", { ascending: false })
-        .limit(1)
-        .maybeSingle(),
+      getMarketDataFreshness(supabase, "gmp"),
     ]);
 
   if (iposError) console.error("[mr/gmp] IPOS QUERY ERROR:", iposError);

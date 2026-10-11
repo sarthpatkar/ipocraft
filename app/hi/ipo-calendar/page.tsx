@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getIpoLifecycleStatus } from "@/lib/ipoStatus";
 import { sortIposByNewestOpenDate } from "@/lib/ipoSort";
 import { canonicalUrl } from "@/lib/site-url";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
@@ -40,15 +41,10 @@ type CalendarIpo = {
   gmp: number | string | null;
 };
 
+// Compares IST calendar dates — `new Date("YYYY-MM-DD")` is midnight UTC
+// (5:30 AM IST), which flipped IPOs to "Closed" on their last bidding day.
 function getStatus(openDate?: string | null, closeDate?: string | null) {
-  if (!openDate || !closeDate) return "Upcoming";
-  const today = new Date();
-  const open = new Date(openDate);
-  const close = new Date(closeDate);
-  if (today < open) return "Upcoming";
-  if (today >= open && today <= close) return "Open";
-  if (today > close) return "Closed";
-  return "Upcoming";
+  return getIpoLifecycleStatus(openDate, closeDate);
 }
 
 function getBadge(status: string) {

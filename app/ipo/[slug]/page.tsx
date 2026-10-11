@@ -23,6 +23,7 @@ import RelatedIpos from "@/components/IpoDetail/RelatedIpos";
 import BrokerAffiliateCta from "@/components/BrokerAffiliateCta";
 import AdSlot from "@/components/AdSlot";
 import { formatDisplayDate, formatTimeAgo, formatSubscriptionDayHeader, formatSubscriptionTimes } from "@/lib/formatters";
+import { getIpoLifecycleStatus } from "@/lib/ipoStatus";
 import { cache } from "react";
 
 // ISR: revalidate every 30 minutes
@@ -184,7 +185,14 @@ export default async function IPODetail({
     .eq("ipo_id", ipo.id)
     .order("created_at", { ascending: true });
 
-  const status = ipo.status as StatusType;
+  // Dates are the source of truth once we have them — the stored status is
+  // only as fresh as the last sync (e.g. SS Retail read "Closed" days after
+  // listing). Fall back to it for undated entries.
+  const status = (
+    ipo.open_date && ipo.close_date
+      ? getIpoLifecycleStatus(ipo.open_date, ipo.close_date, ipo.listing_date)
+      : ipo.status
+  ) as StatusType;
   const statusStyle = STATUS_STYLES[status] ?? STATUS_STYLES["Listed"];
 
   const priceBand =
@@ -244,11 +252,13 @@ export default async function IPODetail({
       ? new Date(ipo.updated_at)
       : null;
 
-  const subscriptionLastUpdated = ipo.subscription_updated_at
-    ? new Date(ipo.subscription_updated_at)
-    : ipo.updated_at
-      ? new Date(ipo.updated_at)
-      : null;
+  // "Updated X ago" notes only describe the figure they sit under — the
+  // ipos.updated_at fallbacks above get bumped by unrelated syncs (dates,
+  // allotment), which made empty GMP/subscription cards read "Live · 6 hrs ago".
+  const gmpNoteTime =
+    latestGmp != null && latestHistoryPoint ? new Date(latestHistoryPoint.created_at) : null;
+  const subscriptionNoteTime =
+    ipo.sub_total != null && ipo.subscription_updated_at ? new Date(ipo.subscription_updated_at) : null;
 
   const hasGmpHistory = gmpSeries.length > 0;
 
@@ -263,7 +273,7 @@ export default async function IPODetail({
 
   // Listed detection (status OR date)
   const isListed =
-    ipo.status === "Listed" ||
+    status === "Listed" ||
     (listingDateObj && listingDateObj <= today);
 
   // Allotment day reached
@@ -573,7 +583,7 @@ export default async function IPODetail({
       </div>
 
       {/* ── Hero Header ── */}
-      <HeroSection ipo={ipo} statusStyle={statusStyle} allotmentBadge={allotmentBadge} shareButton={
+      <HeroSection ipo={{ ...ipo, status }} statusStyle={statusStyle} allotmentBadge={allotmentBadge} shareButton={
         <ShareButton
           title={`${ipo.name} IPO`}
           url={detailUrl}
@@ -592,16 +602,16 @@ export default async function IPODetail({
                 label: "GMP (Indicative)",
                 value: gmpDisplay,
                 isCopyable: true,
-                note: lastUpdated ? formatTimeAgo(lastUpdated, "Live · ") : "Unofficial · not guaranteed",
+                note: gmpNoteTime ? formatTimeAgo(gmpNoteTime, "Updated ") : "Unofficial · not guaranteed",
               },
               { label: "Lot Size", value: ipo.lot_size ? `${ipo.lot_size} shares` : "-" },
-              { label: "Status", value: ipo.status ?? "-" },
+              { label: "Status", value: status ?? "-" },
               { label: "Open Date", value: formatDisplayDate(ipo.open_date) },
               { label: "Close Date", value: formatDisplayDate(ipo.close_date) },
               {
                 label: "Subscription",
                 value: ipo.sub_total != null ? `${ipo.sub_total}x` : "-",
-                note: subscriptionLastUpdated ? formatTimeAgo(subscriptionLastUpdated, "Live • ") : undefined,
+                note: subscriptionNoteTime ? formatTimeAgo(subscriptionNoteTime, "Updated ") : undefined,
               },
               { label: "Min. Investment", value: minInvestment },
             ].map((card) => (
@@ -732,9 +742,9 @@ export default async function IPODetail({
                     Live Subscription Details
                   </h2>
                 </div>
-                {subscriptionLastUpdated && (
+                {subscriptionNoteTime && (
                   <span className="text-[11px] font-medium text-gray-500 dark:text-[#9AA1AA]">
-                    {formatTimeAgo(subscriptionLastUpdated, "Updated ")}
+                    {formatTimeAgo(subscriptionNoteTime, "Updated ")}
                   </span>
                 )}
               </div>
@@ -896,9 +906,9 @@ export default async function IPODetail({
                     GMP Overview
                   </h2>
                 </div>
-                {lastUpdated && (
+                {gmpNoteTime && (
                   <span className="text-[11px] font-medium text-gray-500 dark:text-[#9AA1AA]">
-                    Recorded {timeAgo(lastUpdated)}
+                    {timeAgo(gmpNoteTime)}
                   </span>
                 )}
               </div>
@@ -1359,7 +1369,7 @@ export default async function IPODetail({
             })()}
 
             {/* Listing Performance */}
-            {ipo.status === "Listed" && (
+            {status === "Listed" && (
               <section id="performance" className="scroll-mt-[120px] bg-white dark:bg-[#111418] border border-gray-200 dark:border-[#252A31] rounded-lg p-5 sm:p-6 space-y-3 mb-6">
                 <div className="pb-3 border-b border-gray-100 dark:border-[#252A31]">
                   <Eyebrow>Performance</Eyebrow>

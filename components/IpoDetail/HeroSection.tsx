@@ -139,6 +139,8 @@ export default function HeroSection({
           <div className="shrink-0 flex flex-col sm:items-end gap-3 pt-1">
             {/* Share button */}
             {shareButton && <div>{shareButton}</div>}
+            {/* Nothing left to apply for once bidding has closed. */}
+            {(ipo.status === "Open" || ipo.status === "Upcoming") && (
             <a
               href="#how-to-apply"
               className="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black border border-gray-900 dark:border-white text-[13px] font-medium px-5 py-2 rounded-md transition-colors shadow-xs"
@@ -149,6 +151,7 @@ export default function HeroSection({
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
+            )}
             {/* Prominent Allotment CTA */}
             {allotmentBadge === "Allotment Out" && ipo.allotment_link && (
               <a

@@ -6,9 +6,11 @@ import DataFreshnessBar from "@/components/DataFreshnessBar";
 import HypeLeaderboard from "@/components/HypeLeaderboard";
 import AnimatedCount from "@/components/AnimatedCount";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { getMarketDataFreshness } from "@/lib/marketDataFreshness";
 import { getIpoFeedPage } from "@/lib/ipoFeed";
 import { canonicalUrl } from "@/lib/site-url";
 import { calculateHypeScore } from "@/lib/hypeScore";
+import { getISTDateString } from "@/lib/ipoStatus";
 
 const mrHomeUrl = canonicalUrl("/mr");
 const enHomeUrl = canonicalUrl("/");
@@ -51,14 +53,16 @@ export default async function HomeMarathiPage({
 }) {
   const params = await searchParams;
   const supabase = await createSupabaseServerClient();
+  // IST calendar date — UTC flips open/upcoming counts after 5:30 PM IST.
+  const today = getISTDateString();
 
   const [ipoFeedResult, freshRecordResult, openCountResult, upcomingCountResult, topGmpResult] =
     await Promise.all([
       getIpoFeedPage({ supabase, limit: 6, status: params?.status, type: params?.type, q: params?.search }),
-      supabase.from("ipos").select("updated_at").not("updated_at", "is", null).order("updated_at", { ascending: false }).limit(1).maybeSingle(),
-      supabase.from("ipos").select("id", { count: "exact", head: true }).lte("open_date", new Date().toISOString().slice(0, 10)).gte("close_date", new Date().toISOString().slice(0, 10)),
-      supabase.from("ipos").select("id", { count: "exact", head: true }).gt("open_date", new Date().toISOString().slice(0, 10)),
-      supabase.from("ipos").select("name, slug, gmp, price_max, price_min").not("gmp", "is", null).gt("gmp", 0).gte("close_date", new Date().toISOString().slice(0, 10)).limit(20),
+      getMarketDataFreshness(supabase, "gmp+subscription"),
+      supabase.from("ipos").select("id", { count: "exact", head: true }).lte("open_date", today).gte("close_date", today),
+      supabase.from("ipos").select("id", { count: "exact", head: true }).gt("open_date", today),
+      supabase.from("ipos").select("name, slug, gmp, price_max, price_min").not("gmp", "is", null).gt("gmp", 0).gte("close_date", today).limit(20),
     ]);
 
   if (freshRecordResult.error) console.error("[mr/home] last-updated query failed:", freshRecordResult.error.message);
